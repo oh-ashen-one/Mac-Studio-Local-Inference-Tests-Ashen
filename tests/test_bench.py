@@ -99,3 +99,30 @@ def test_comparison_cli_pairs_results_and_reports_failure(tmp_path):
     assert result.returncode!=0
     assert json.loads(out.read_text())['excluded_pairs']
     assert not out.with_suffix('.csv').exists()
+
+
+@pytest.mark.parametrize('script,args',[
+    ('bench.py',['--machine','studio-old','--output','work/guard-test.jsonl']),
+    ('serve.py',['qwen-27b']),
+    ('quality_smoke.py',['--model','qwen-27b','--output','work/guard-test.jsonl'])
+])
+def test_inference_requires_explicit_start_flag(script,args):
+    import subprocess
+    run=subprocess.run([sys.executable,str(ROOT/'scripts'/script),*args],capture_output=True,text=True)
+    assert run.returncode==2
+    assert 'Preparation-only mode' in run.stderr
+
+
+def test_preview_serves_only_saved_data_without_gpu(tmp_path):
+    from preview import ThreadingHTTPServer,handler_for
+    import threading,urllib.request,urllib.error
+    server=ThreadingHTTPServer(('127.0.0.1',0),handler_for(tmp_path/'absent.json'))
+    thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    try:
+        base='http://127.0.0.1:'+str(server.server_address[1])
+        with urllib.request.urlopen(base+'/api/state') as response:payload=json.load(response)
+        assert len(payload['models'])==3
+        assert payload['comparison'] is None
+        with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
+        with pytest.raises(urllib.error.HTTPError):urllib.request.urlopen(base+'/../README.md')
+    finally:server.shutdown();server.server_close();thread.join()

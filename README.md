@@ -1,8 +1,24 @@
 # Mac Studio Local Inference Tests Ashen
 
+## Start here — preparation only
+
+**The owner is using the GPU for other work. Do not load any model or start inference.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+
+On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
+
+```sh
+git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
+cd Mac-Studio-Local-Inference-Tests-Ashen
+bash scripts/prepare.sh
+```
+
+This installs the pinned runtime, downloads the three exact artifacts, verifies every file, writes a `work/READY.json` receipt, and **stops without loading models**. Apple's command-line developer tools must be installed; if macOS needs its one-time installer dialog, complete that and rerun. Model transfers from the old Studio can replace downloading; see [the arrival guide](docs/ARRIVAL.md).
+
+For this already-prepared Studio, return to this chat and say **“start the tests”** when the GPU is available. Results will be reviewed on **localhost before any website publication**. [Current preparation status](docs/SETUP-STATUS.md).
+
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: arrival-day tools and model staging are being prepared; no controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: preparation-only handoff; no controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
@@ -114,7 +130,7 @@ Review the JSON before committing. The collector excludes serial numbers, UUIDs,
 
 Project-owned code and documentation are **MIT licensed**. Model weights and benchmark datasets keep their original licenses; open weights do not automatically mean unrestricted open source. We distribute model references and hashes, not weights or private datasets.
 
-Please include machine specs, exact revisions, full settings, raw measurements and all failure records when contributing. Community submissions are separate from the two-machine personal comparison. Work on a branch, push it, and open a PR. Merging into `main` requires the owner's approval. The initial repository uses `codex/benchmark-plan` as its default branch so the initial public plan does not require a merge into `main`.
+Please include machine specs, exact revisions, full settings, raw measurements and all failure records when contributing. Community submissions are separate from the two-machine personal comparison. Work on a branch, push it, and open a PR. Merging into `main` requires the owner's approval. The published preparation branch is `codex/setup-20260930`. No merge into `main` is required to read or use this kit; future work must use its own branch.
 
 Before publishing, remove credentials, personal filesystem paths, IP addresses, private prompts, serial numbers and UUIDs. Keep needed sanitized evidence in Git or a named release; discard task-owned temporary captures/builds after verification and publication. Never remove shared model caches or another session's work.
 

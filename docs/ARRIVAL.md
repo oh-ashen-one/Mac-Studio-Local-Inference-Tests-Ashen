@@ -32,62 +32,53 @@ References: [Qwen artifact](https://huggingface.co/mlx-community/Qwen3.8-27B-8bi
 
 The full published quality suites, HTTP concurrency/load tests, power-meter integration, two-hour soaks and distributed cluster adapter are still later campaign stages. The preparation does not claim these are implemented or already measured.
 
-## First setup on the new Mac
+## First setup on the new Mac — no inference
 
-1. Complete macOS first-run setup and connect Ethernet. Confirm the delivered specifications. Match the old Mac's macOS build if supported; otherwise keep results in a hardware-plus-OS cohort until matched. Do not upgrade or reboot a shared machine without scheduling it.
-2. Enable **System Settings → General → Sharing → Remote Login** for the intended user, and note the new Mac's address. Pair its SSH host key through the normal verified first-connection flow. Keep credentials and IP addresses out of the public repo. No public port forwarding is needed.
-3. From the old Mac, verify `ssh USER@NEW_MAC`. Use an existing authorized public key or add a dedicated public key through the owner-controlled setup. Never copy private keys to the new Mac. No SSH alias or network configuration has been changed by this preparation.
-4. On the new Mac, clone this repo and explicitly select the preparation branch:
+The current owner instruction is **do not load local models**. Reading this guide, running preparation, or completing a download never authorizes a smoke test or benchmark.
+
+1. Complete macOS first-run setup, connect Ethernet/internet and confirm the delivered specs. If needed, complete Apple's command-line developer tools installer (`xcode-select --install`).
+2. Clone and prepare:
 
 ```sh
 git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
 cd Mac-Studio-Local-Inference-Tests-Ashen
-bash scripts/bootstrap.sh
-.venv/bin/python scripts/build_native.py
+bash scripts/prepare.sh
 ```
 
-The bootstrap needs `uv` and Apple's command-line developer tools (`xcode-select --install` if missing). It installs a pinned Python environment inside the repo and builds the exact native dependency; it does not change system Python or another local-model app.
+The preparation script installs a pinned local copy of uv if needed, installs Python 3.12.13 and exact packages, builds the pinned native engine, downloads the exact locked model files, verifies SHA256, and writes `work/READY.json`. It never imports a model or initializes a GPU inference workload. It ends in **prepared_not_loaded** state. Do not run GPU validation until the owner starts the test session.
 
-5. Either download directly using pinned revisions:
-
-```sh
-.venv/bin/python scripts/models.py download
-```
-
-or copy the existing `models/` directory from the old Mac over the local network into the new checkout. For a normal username/host and a no-space destination path:
+3. For SSH control, enable **System Settings → General → Sharing → Remote Login** for the intended user. Verify the new SSH host key and use `ssh USER@NEW_MAC` from the old Studio. Use an existing authorized public key or add a dedicated public key through owner-controlled setup. Never copy a private key or publish passwords/IPs in the repo. No SSH or system network settings were changed by this preparation.
+4. To avoid a second internet download, copy `models/` into the new checkout first. For an ordinary username/host and a no-space destination path:
 
 ```sh
 rsync -avP models/ USER@NEW_MAC:/ABSOLUTE/PATH/TO/REPO/models/
+bash scripts/prepare.sh
 ```
 
-Use a resumable LAN/Thunderbolt transfer, not a new model search. The expected payload is about 228 GB. Both transfer methods end with:
+The payload is about 228 GB. Files are still hash-verified after transfer. You can inspect readiness without inference:
 
 ```sh
-.venv/bin/python scripts/models.py verify
 .venv/bin/python scripts/doctor.py
 .venv/bin/python scripts/collect_inventory.py --machine-id studio-new > hardware/incoming-device.json
 .venv/bin/python -m pytest -q
-.venv/bin/python scripts/bench.py --machine studio-new --suite smoke --output work/new-smoke.jsonl
 ```
 
-For a short timing-path check before the full campaign, add `--suite pilot` with the same runner; pilot rows are excluded from the comparer.
+The owner-confirmed order and actual incoming-device inventory are separate records. Record macOS versions/builds; match them where supported before a controlled comparison. Do not upgrade or reboot shared machines silently.
 
-An “ok” download is insufficient: every artifact must pass hash verification, and each model must generate a valid reply on the new device. The live device inventory is separate from the owner-confirmed order.
+## Launch tests only after the owner explicitly says start
 
-## Launch the first measured comparison
-
-Reserve an idle window on both machines. Close other GPU/model workloads with their owners; never terminate another session to clear the bench. The core runner rejects detected EXO/LM Studio/Ollama services and known serving processes. This is a conservative check, not a complete guarantee that no background work exists. Record background state and displays. Use the same configuration on each machine.
+All inference commands below are **deferred**. First obtain the owner's explicit start instruction and reserve an idle window on both machines. Close other GPU/model workloads with their owners; never terminate another session to clear the bench. The core runner rejects detected EXO/LM Studio/Ollama services and known serving processes. This is a conservative check, not a complete guarantee that no background work exists. Record background state and displays. Use the same configuration on each machine.
 
 Old Mac:
 
 ```sh
-.venv/bin/python scripts/bench.py --machine studio-old --suite core --output work/old-core.jsonl
+.venv/bin/python scripts/bench.py --allow-inference --machine studio-old --suite core --output work/old-core.jsonl
 ```
 
 New Mac:
 
 ```sh
-.venv/bin/python scripts/bench.py --machine studio-new --suite core --output work/new-core.jsonl
+.venv/bin/python scripts/bench.py --allow-inference --machine studio-new --suite core --output work/new-core.jsonl
 ```
 
 The arrival subset contains **15 cells per machine** (three models × five input/output cells), ten measured repeats each plus warmups, spread across three sessions. Both machines together give 300 measured runs. This is a practical first slice of the broader README plan, not the original two-backend Cartesian matrix. Expect a multi-hour job; use pilot runtimes to schedule it. Failures are retained, and no failed model is automatically retried.
@@ -102,21 +93,31 @@ It writes JSON plus CSV with matched sample counts, median ratios and a determin
 
 MLX mode records token-level TTFT and steady decode rate. It does not pretend input-tokens/TTFT is pure prefill throughput. DwarfStar mode preserves the native prefill/steady-decode CSV and does not call its post-prefill first-generation time TTFT. DwarfStar core cells start fresh processes; MLX cells reuse a loaded model within each session. Compare each engine/model setup across machines, not engine internals as if they had identical cache/load semantics. Native first-run compilation/caching effects must be examined in pilot data before headline reporting.
 
-## Chat and diagnostic commands
+## Deferred chat and diagnostic commands
 
 Start one server (in a headless task-owned process if running unattended), for example:
 
 ```sh
-.venv/bin/python scripts/serve.py qwen-27b --port 18181
+.venv/bin/python scripts/serve.py --allow-inference qwen-27b --port 18181
 ```
 
 Valid IDs: `qwen-27b`, `gemma-31b`, `deepseek-v4-flash`. The endpoint binds to `127.0.0.1`; use an SSH tunnel for remote testing. Run the diagnostic from another process:
 
 ```sh
-.venv/bin/python scripts/quality_smoke.py --model qwen-27b --port 18181 --output work/qwen-quality-smoke.jsonl
+.venv/bin/python scripts/quality_smoke.py --allow-inference --model qwen-27b --port 18181 --output work/qwen-quality-smoke.jsonl
 ```
 
 Repeat for the other models one at a time. The test records the expected pinned model revision, chip, complete request, response, actual token usage if returned, wall time and failures. MLX requests select the already-loaded `default_model` with Hub access disabled, preventing implicit downloads or a switch to an unpinned model. Thinking is disabled explicitly where the backend supports the selected request control; verify the returned behavior before drawing quality conclusions. Reasoning-on quality trials need a separate documented budget.
+
+## Localhost review before website publication
+
+After actual comparison data exist, launch the read-only viewer:
+
+```sh
+.venv/bin/python scripts/preview.py --port 18765 --comparison work/comparison.json
+```
+
+Open `http://127.0.0.1:18765` when requested. The viewer reads saved JSON, shows model readiness and matched-result tables, and has no model-loading controls. If no comparison exists, it honestly shows an empty-results state. It is not started automatically. Review the results with the owner locally before updating the personal website; website merge/deployment still requires the owner's authorization.
 
 ## Retention and cleanup
 

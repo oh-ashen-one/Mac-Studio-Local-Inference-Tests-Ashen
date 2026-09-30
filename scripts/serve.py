@@ -11,7 +11,9 @@ sys.path.insert(0,str(ROOT/'scripts'))
 from models import verify
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('model');p.add_argument('--port',type=int,default=18181)
+p.add_argument('--allow-inference',action='store_true')
 a=p.parse_args()
+if not a.allow_inference:p.error('Preparation-only mode. Explicit owner start required before --allow-inference.')
 models=json.loads((ROOT/'config/models.lock.json').read_text())['models']
 m=next((x for x in models if x['id']==a.model),None)
 if m is None:p.error('Unknown model')

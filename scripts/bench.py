@@ -187,8 +187,11 @@ def main():
     parser.add_argument('--model', default='all')
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--session',type=int,choices=[0,1,2],default=0)
+    parser.add_argument('--allow-inference', action='store_true', help='Use only after the owner explicitly starts GPU testing')
     parser.add_argument('--worker',action='store_true',help=argparse.SUPPRESS)
     args=parser.parse_args()
+    if not args.allow_inference:
+        parser.error('Preparation-only mode: no models will load. Ask the owner to start testing before using --allow-inference.')
     specs=json.loads((ROOT/'config/models.lock.json').read_text())['models']
     selected=[m for m in specs if args.model in ('all',m['id'])]
     if not selected: parser.error('Unknown model ID')
@@ -207,7 +210,7 @@ def main():
         for session in sessions:
             for model in selected:
                 cmd=[sys.executable,str(Path(__file__).resolve()),'--worker','--machine',args.machine,
-                     '--suite',args.suite,'--model',model['id'],'--session',str(session),'--output',str(args.output)]
+                     '--allow-inference','--suite',args.suite,'--model',model['id'],'--session',str(session),'--output',str(args.output)]
                 try:
                     # A parent watchdog also catches GPU stalls before the first token.
                     p=subprocess.Popen(cmd,cwd=ROOT,start_new_session=True)

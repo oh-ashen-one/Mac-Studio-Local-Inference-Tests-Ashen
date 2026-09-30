@@ -23,7 +23,9 @@ def final_json(text):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model',required=True);p.add_argument('--port',type=int,default=18181)
-    p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--allow-inference',action='store_true');a=p.parse_args()
+    if not a.allow_inference:p.error('Preparation-only mode. Explicit owner start required before --allow-inference.')
     specs=json.loads((ROOT/'config/models.lock.json').read_text())['models']
     spec=next((m for m in specs if m['id']==a.model),None)
     if not spec:p.error('Unknown model')

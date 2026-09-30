@@ -8,5 +8,5 @@ command -v uv >/dev/null || { echo 'Install uv from https://docs.astral.sh/uv/ge
 uv python install 3.12.13
 uv venv --python 3.12.13 .venv
 uv pip sync --python .venv/bin/python requirements-macos-arm64.lock
-.venv/bin/python -c 'import mlx.core as mx; assert mx.metal.is_available(); print("MLX Metal ready")'
+.venv/bin/python -c 'import importlib.metadata; print("Installed MLX", importlib.metadata.version("mlx"), "— no GPU initialization performed")'
 echo 'Next: .venv/bin/python scripts/models.py download'
