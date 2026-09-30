@@ -97,3 +97,4 @@ def test_comparison_cli_pairs_results_and_reports_failure(tmp_path):
     result=subprocess.run([sys.executable,str(ROOT/'scripts/compare.py'),str(old),str(new),'--output',str(out)],capture_output=True)
     assert result.returncode!=0
     assert json.loads(out.read_text())['excluded_pairs']
+    assert not out.with_suffix('.csv').exists()

@@ -64,6 +64,8 @@ def main():
     if rows:
         with args.output.with_suffix('.csv').open('w') as f:
             writer=csv.DictWriter(f,fieldnames=rows[0].keys());writer.writeheader();writer.writerows(rows)
+    elif args.output.with_suffix('.csv').exists():
+        args.output.with_suffix('.csv').unlink()
     print('Matched comparison groups:',len(rows),'Excluded pairs:',len(excluded))
     if not rows:raise SystemExit('No comparable measured rows; smoke checks are intentionally excluded.')
 
