@@ -1,8 +1,24 @@
 # Mac Studio Local Inference Tests Ashen
 
+## Start here — preparation only
+
+**The owner is using the GPU for other work. Do not load any model or start inference.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+
+On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
+
+```sh
+git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
+cd Mac-Studio-Local-Inference-Tests-Ashen
+bash scripts/prepare.sh
+```
+
+This installs the pinned runtime, downloads the three exact artifacts, verifies every file, writes a `work/READY.json` receipt, and **stops without loading models**. Apple's command-line developer tools must be installed; if macOS needs its one-time installer dialog, complete that and rerun. Model transfers from the old Studio can replace downloading; see [the arrival guide](docs/ARRIVAL.md).
+
+For this already-prepared Studio, return to this chat and say **“start the tests”** when the GPU is available. Results will be reviewed on **localhost before any website publication**. [Current preparation status](docs/SETUP-STATUS.md).
+
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: benchmark protocol published; no inference results yet.** The existing machine was inspected directly on September 29, 2026. The incoming machine is expected September 30 and must be inspected before its identity is treated as confirmed. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: all three models downloaded and SHA256 verified on the existing M3 Ultra; preparation only, no inference running from this task. No controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
@@ -17,13 +33,13 @@ The results will be linked from **[Ashen Benchmark](https://ashenoneport.com/ben
 
 ## The machines
 
-| Field | Existing Studio: directly observed | Incoming Studio: provisional |
+| Field | Existing Studio: directly observed | Incoming Studio: owner-confirmed order |
 |---|---|---|
-| Chip | Apple M3 Ultra | Expected Apple M5 Ultra; inspect on arrival |
-| CPU | 32 cores: 24 performance + 8 efficiency | Expected top-chip 36-core configuration |
-| GPU | 80 cores | Expected 80 cores |
-| Unified memory | 256 GB; `hw.memsize` = 274,877,906,944 bytes | 256 GB, owner-reported |
-| SSD | 2.0 TB; 2,001,111,162,880 bytes | 2 TB, owner-reported |
+| Chip | Apple M3 Ultra | Apple M5 Ultra; device inspection pending |
+| CPU | 32 cores: 24 performance + 8 efficiency | 36 cores |
+| GPU | 80 cores | 80 cores |
+| Unified memory | 256 GB; `hw.memsize` = 274,877,906,944 bytes | 256 GB, owner-confirmed |
+| SSD | 2.0 TB; 2,001,111,162,880 bytes | 2 TB, owner-confirmed |
 | Model identifier | Mac15,14 | Pending |
 | OS at inventory | macOS 27.0, build 26A428 | Pending; match OS/build for controlled tests where supported |
 | Memory bandwidth | 819 GB/s, Apple specification | 1.2 TB/s, current Apple top-chip specification; pending machine confirmation |
@@ -31,7 +47,7 @@ The results will be linked from **[Ashen Benchmark](https://ashenoneport.com/ben
 
 **The 80-core number is the GPU, not the CPU. Both machines have 256 GB memory.** More RAM is therefore not the proposed upgrade's advantage; chip architecture, memory bandwidth, supported kernels and practical workload performance are what we need to measure. GPU core counts alone cannot predict speed.
 
-The incoming chip is inferred from the owner's description and [Apple's current specifications](https://www.apple.com/mac-studio/specs/), checked September 29, 2026. This is not an inspected order confirmation. “Top-chip, 256 GB / 2 TB” is more precise than “fully maxed out”: Apple's current specifications also list larger memory and storage configurations. Historical M3 figures come from [Apple's 2025 specifications](https://support.apple.com/en-us/122211).
+The incoming configuration is now explicitly confirmed by the owner and matches [Apple's current specifications](https://www.apple.com/mac-studio/specs/). Direct inventory of the delivered unit remains pending. “Top-chip, 256 GB / 2 TB” is more precise than “fully maxed out”: Apple's current specifications also list larger memory and storage configurations. Historical M3 figures come from [Apple's 2025 specifications](https://support.apple.com/en-us/122211).
 
 A theoretical bandwidth ratio is not a tokens-per-second prediction. We will publish measured ratios only after matched runs.
 
@@ -60,23 +76,17 @@ Faster hardware does not inherently make the same weights more intelligent. It m
 
 For every suite, failures, unsupported configurations, timeouts and out-of-memory outcomes are published. No cherry-picked best runs.
 
-## Starting model roster
+## Selected arrival-day models
 
-This is a **candidate roster, not a claim that every architecture already works on every backend**. Freeze compatible artifact revisions before execution. Refresh the roster once when the new machine arrives, then lock it for the release.
+The initial three are **Qwen 3.8 27B (8-bit MLX), Gemma 4 31B IT (8-bit MLX), and DeepSeek V4 Flash 0731 (calibrated mixed Q4, DwarfStar/Metal)**. They are standard checkpoints/conversions, not abliterated variants. Mistral and the initially considered R1 distill are excluded.
 
-- Small dense anchor: Qwen3.5-9B or another verified 8–9B open-weight model.
-- Everyday dense anchor: **Qwen3.8-27B**, including text/code tasks; add vision only as a separately timed extension.
-- Coding MoE anchor: **Qwen3-Coder-30B-A3B-Instruct**.
-- Larger dense control: one verified 70–72B model with a compatible license and supported kernels.
-- Recent larger MoE: **Qwen3.8-Flash-Next**, if both runtimes support its complete architecture and offloaded tables; report all memory, not just active parameters.
-- Large-model candidates: **Qwen3.5-397B-A17B** and **Qwen3-Coder-480B-A35B-Instruct**.
-- Cluster stretch goal: **DeepSeek-V3.2 (671B)** at a supported quantization, only after a measured per-node memory fit and correctness check.
+The exact files total about 228 GB. Immutable revisions and SHA256 hashes live in [the model lock](config/models.lock.json); downloaded weights remain outside Git. Hugging Face popularity was checked live, but downloads/likes are not intelligence scores. Each model is run one at a time and compared against the identical model/engine on the other Mac.
 
-Keep at least three model families in the quality release if compatible artifacts are available. Qwen is the initial speed anchor because it also connects to the existing local-game workflow; it must not silently become the entire quality leaderboard. Candidate links and selection rules are in [the model plan](docs/MODELS.md).
+**[Arrival-day setup and test commands](docs/ARRIVAL.md)** explain the selection, pinned software, transfer/SSH preparation, resource gates, and the implemented first campaign. Larger models and distributed capacity tests remain later stages in [the broader model plan](docs/MODELS.md).
 
 ## Runtime strategy
 
-Use **MLX / MLX-LM** as the primary Apple-silicon path and **llama.cpp / Metal** as an independent baseline. Match model and settings *within* each backend first. MLX 4-bit and GGUF Q4 variants are not numerically identical formats; do not attribute their difference to hardware alone.
+The implemented arrival cohort uses **MLX / MLX-LM** for Qwen/Gemma and **DwarfStar / Metal** for DeepSeek V4 Flash. **llama.cpp / Metal** remains a planned independent baseline. Match model and settings *within* each backend first. MLX 4-bit and GGUF Q4 variants are not numerically identical formats; do not attribute their difference to hardware alone.
 
 LM Studio and Ollama can be added as user-experience tracks after the underlying engines are measured; record the actual bundled backend and loaded model. Test speculative decoding, prompt caching, quantized KV cache, batching and new-chip-specific acceleration as separate ablations. Keep these off in the basic comparison where possible. New hardware features count only when the selected runtime actually uses them.
 
@@ -106,7 +116,7 @@ Planning allowance after both machines are ready: roughly 1 day of setup/pilots,
 - [Result record template](results/run-template.json)
 - [Reproducible, allowlisted hardware collector](scripts/collect_inventory.py)
 
-Only the inventory collector is implemented in this initial release. The inference harness, evaluation adapters, statistical reports and website charts remain planned. Nothing in `results/` is a measured inference result yet.
+The arrival preparation implements pinned downloads, an inventory collector, smoke checks, fixed-token speed runners, a matched-results comparer and local diagnostic tools. Standardized quality suites, concurrency/power/cluster automation and website charts remain later work. See [ARRIVAL.md](docs/ARRIVAL.md) and [the setup status](docs/SETUP-STATUS.md) for exactly what has been validated. Setup smoke checks are not controlled benchmark results.
 
 To collect a privacy-conscious inventory without running a benchmark:
 
@@ -120,7 +130,7 @@ Review the JSON before committing. The collector excludes serial numbers, UUIDs,
 
 Project-owned code and documentation are **MIT licensed**. Model weights and benchmark datasets keep their original licenses; open weights do not automatically mean unrestricted open source. We distribute model references and hashes, not weights or private datasets.
 
-Please include machine specs, exact revisions, full settings, raw measurements and all failure records when contributing. Community submissions are separate from the two-machine personal comparison. Work on a branch, push it, and open a PR. Merging into `main` requires the owner's approval. The initial repository uses `codex/benchmark-plan` as its default branch so the initial public plan does not require a merge into `main`.
+Please include machine specs, exact revisions, full settings, raw measurements and all failure records when contributing. Community submissions are separate from the two-machine personal comparison. Work on a branch, push it, and open a PR. Merging into `main` requires the owner's approval. The published preparation branch is `codex/setup-20260930`. No merge into `main` is required to read or use this kit; future work must use its own branch.
 
 Before publishing, remove credentials, personal filesystem paths, IP addresses, private prompts, serial numbers and UUIDs. Keep needed sanitized evidence in Git or a named release; discard task-owned temporary captures/builds after verification and publication. Never remove shared model caches or another session's work.
 
