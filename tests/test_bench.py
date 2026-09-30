@@ -79,3 +79,21 @@ def test_bootstrap_lock_includes_runtime_dependencies():
 def test_gemma_channel_diagnostic_parsing():
     from quality_smoke import final_json
     assert final_json('<|channel>thought\nCompute.\n<channel|>{"answer": 3}')=={'answer':3}
+
+
+def test_comparison_cli_pairs_results_and_reports_failure(tmp_path):
+    import subprocess
+    base={'kind':'hardware_microbenchmark','model_id':'fixture','session':0,'model_revision':'test',
+          'cell':{'id':'small','repeat':0,'warmup':False},'status':'ok','decode_tok_s':10}
+    old=tmp_path/'old.jsonl';new=tmp_path/'new.jsonl';out=tmp_path/'comparison.json'
+    old.write_text(json.dumps({**base,'machine_id':'studio-old'})+'\n')
+    new.write_text(json.dumps({**base,'machine_id':'studio-new','decode_tok_s':20})+'\n')
+    subprocess.run([sys.executable,str(ROOT/'scripts/compare.py'),str(old),str(new),'--output',str(out)],check=True,capture_output=True)
+    report=json.loads(out.read_text())
+    assert report['rows'][0]['median_paired_speedup']==2
+    assert report['rows'][0]['matched_pairs']==1
+    assert out.with_suffix('.csv').exists()
+    new.write_text(json.dumps({**base,'machine_id':'studio-new','status':'error'})+'\n')
+    result=subprocess.run([sys.executable,str(ROOT/'scripts/compare.py'),str(old),str(new),'--output',str(out)],capture_output=True)
+    assert result.returncode!=0
+    assert json.loads(out.read_text())['excluded_pairs']

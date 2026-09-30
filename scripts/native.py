@@ -1,5 +1,6 @@
 """Pinned DwarfStar adapter; retains engine CSV instead of guessing token timing."""
 import csv
+import datetime
 import io
 import json
 import os
@@ -40,8 +41,9 @@ def run_native(args, model_spec, output):
     for case in cases:
         record={'schema_version':1,'kind':'setup_smoke' if args.suite=='smoke' else ('setup_pilot' if args.suite=='pilot' else 'hardware_microbenchmark'),
                 'machine_id':args.machine,'model_id':model_spec['id'],'model_revision':model_spec['revision'],
-                'backend':'dwarfstar-metal','runtime_commit':actual,'runtime_lock_sha256':digest(ROOT/'config/dwarfstar.lock.json'),
+                'backend':'dwarfstar-metal','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runtime_commit':actual,'runtime_lock_sha256':digest(ROOT/'config/dwarfstar.lock.json'),
                 'model_lock_sha256':digest(ROOT/'config/models.lock.json'),'campaign_sha256':digest(ROOT/'config/campaign.json'),
+                'compiler':subprocess.check_output(['xcrun','clang','--version'],text=True).splitlines()[0],
                 'harness_sha256':digest(Path(__file__)),'session':args.session,'cell':case,'preflight':state,
                 'os_build':subprocess.check_output(['sw_vers','-buildVersion'],text=True).strip(),
                 'settings':{'resident':True,'speculation':False,'power':100,'prefill_chunk':2048}}

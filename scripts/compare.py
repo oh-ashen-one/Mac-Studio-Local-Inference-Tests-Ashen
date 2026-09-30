@@ -22,7 +22,7 @@ def records(path):
 
 
 def compatible(a,b):
-    for field in ['model_revision','model_lock_sha256','runtime_lock_sha256','campaign_sha256','runtime_versions','runtime_commit','os_build','settings','input_token_ids_sha256','source_prompt_sha256','input_tokens','output_tokens']:
+    for field in ['model_revision','model_lock_sha256','runtime_lock_sha256','campaign_sha256','runtime_versions','runtime_commit','compiler','os_build','settings','input_token_ids_sha256','source_prompt_sha256','input_tokens','output_tokens']:
         if a.get(field)!=b.get(field):raise ValueError('Cannot compare mismatched '+field)
     if a.get('harness_source_sha256')!=b.get('harness_source_sha256') or a.get('harness_sha256')!=b.get('harness_sha256'):
         raise ValueError('Cannot compare different harness source')
