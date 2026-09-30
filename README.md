@@ -18,7 +18,7 @@ For this already-prepared Studio, return to this chat and say **“start the tes
 
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: preparation-only handoff; no controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: all three models downloaded and SHA256 verified on the existing M3 Ultra; preparation only, no inference running from this task. No controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
