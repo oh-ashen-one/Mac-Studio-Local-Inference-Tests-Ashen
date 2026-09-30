@@ -29,6 +29,8 @@ def compatible(a,b):
 
 
 def interval(ratios):
+    if len(ratios) < 5:
+        return None, None
     rng=random.Random(1729)
     samples=sorted(statistics.median(rng.choices(ratios,k=len(ratios))) for _ in range(10000))
     return samples[249],samples[9749]

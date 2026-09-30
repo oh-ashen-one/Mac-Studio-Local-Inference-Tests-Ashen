@@ -92,6 +92,7 @@ def test_comparison_cli_pairs_results_and_reports_failure(tmp_path):
     report=json.loads(out.read_text())
     assert report['rows'][0]['median_paired_speedup']==2
     assert report['rows'][0]['matched_pairs']==1
+    assert report['rows'][0]['bootstrap_95_low'] is None
     assert out.with_suffix('.csv').exists()
     new.write_text(json.dumps({**base,'machine_id':'studio-new','status':'error'})+'\n')
     result=subprocess.run([sys.executable,str(ROOT/'scripts/compare.py'),str(old),str(new),'--output',str(out)],capture_output=True)
