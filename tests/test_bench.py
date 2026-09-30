@@ -74,3 +74,8 @@ def test_bootstrap_lock_includes_runtime_dependencies():
     assert 'mlx==0.32.3' in lock
     assert 'mlx-lm==0.31.3' in lock
     assert 'transformers==5.17.0' in lock
+
+
+def test_gemma_channel_diagnostic_parsing():
+    from quality_smoke import final_json
+    assert final_json('<|channel>thought\nCompute.\n<channel|>{"answer": 3}')=={'answer':3}

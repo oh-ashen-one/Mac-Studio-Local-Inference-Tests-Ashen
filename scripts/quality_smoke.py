@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import time
 import urllib.request
 ROOT=Path(__file__).resolve().parents[1]
@@ -13,6 +14,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def final_json(text):
     text=text.split('</think>')[-1].strip()
+    if '<|channel>thought' in text and '<channel|>' in text:
+        text=text.rsplit('<channel|>',1)[-1].strip()
     text=re.sub(r'^```(?:json)?\s*|\s*```$','',text).strip()
     return json.loads(text)
 
@@ -27,12 +30,14 @@ def main():
     path=ROOT/'config/quality-smoke.json';pack=json.loads(path.read_text())
     a.output.parent.mkdir(parents=True,exist_ok=True)
     for case in pack['cases']:
-        payload={'model':spec['repo'],'messages':[{'role':'user','content':case['prompt']}],
+        payload={'model':'default_model' if spec['backend']=='mlx' else spec['repo'],'messages':[{'role':'user','content':case['prompt']}],
                  'temperature':0,'max_tokens':2048,'stream':False}
-        if a.model=='qwen-27b':payload['chat_template_kwargs']={'enable_thinking':False}
+        if spec['backend']=='mlx':payload['chat_template_kwargs']={'enable_thinking':False}
         if spec['backend']=='dwarfstar':payload['thinking']={'type':'disabled'}
         row={'kind':'quality_diagnostic','model_id':a.model,'task_id':case['id'],
-             'suite_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'request':payload,
+             'model_revision':spec['revision'],'model_lock_sha256':hashlib.sha256((ROOT/'config/models.lock.json').read_bytes()).hexdigest(),
+             'chip':subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),
+             'backend':spec['backend'],'suite_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'request':payload,
              'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
         start=time.perf_counter()
         try:

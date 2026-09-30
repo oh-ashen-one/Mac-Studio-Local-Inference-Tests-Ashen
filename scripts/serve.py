@@ -17,6 +17,8 @@ m=next((x for x in models if x['id']==a.model),None)
 if m is None:p.error('Unknown model')
 verify(m,ROOT/'models'/m['id'])
 if m['backend']=='mlx':
+    os.environ['HF_HUB_OFFLINE']='1'
+    os.environ['TRANSFORMERS_OFFLINE']='1'
     cmd=[sys.executable,'-m','mlx_lm.server','--model',str(ROOT/'models'/m['id']),'--host','127.0.0.1','--port',str(a.port)]
 else:
     vendor=ROOT/'vendor/dwarfstar'

@@ -70,6 +70,8 @@ Use a resumable LAN/Thunderbolt transfer, not a new model search. The expected p
 .venv/bin/python scripts/bench.py --machine studio-new --suite smoke --output work/new-smoke.jsonl
 ```
 
+For a short timing-path check before the full campaign, add `--suite pilot` with the same runner; pilot rows are excluded from the comparer.
+
 An “ok” download is insufficient: every artifact must pass hash verification, and each model must generate a valid reply on the new device. The live device inventory is separate from the owner-confirmed order.
 
 ## Launch the first measured comparison
@@ -114,7 +116,7 @@ Valid IDs: `qwen-27b`, `gemma-31b`, `deepseek-v4-flash`. The endpoint binds to `
 .venv/bin/python scripts/quality_smoke.py --model qwen-27b --port 18181 --output work/qwen-quality-smoke.jsonl
 ```
 
-Repeat for the other models one at a time. The test records the complete request, response, actual token usage if returned, wall time and failures. Thinking is disabled explicitly where the backend supports the selected request control; verify the returned behavior before drawing quality conclusions. Reasoning-on quality trials need a separate documented budget.
+Repeat for the other models one at a time. The test records the expected pinned model revision, chip, complete request, response, actual token usage if returned, wall time and failures. MLX requests select the already-loaded `default_model` with Hub access disabled, preventing implicit downloads or a switch to an unpinned model. Thinking is disabled explicitly where the backend supports the selected request control; verify the returned behavior before drawing quality conclusions. Reasoning-on quality trials need a separate documented budget.
 
 ## Retention and cleanup
 
