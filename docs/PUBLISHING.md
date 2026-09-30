@@ -2,6 +2,8 @@
 
 ## Website
 
+Initial integration prepared in [Ashen-Port-Site PR #2](https://github.com/oh-ashen-one/Ashen-Port-Site/pull/2). The branch is pushed; the PR is open and has not been merged or deployed. TSX parsing/transpilation passed for all three edited files; full application build and browser visual review remain pending.
+
 Destination: the existing Ashen Benchmark route at `/benchmark` in `oh-ashen-one/Ashen-Port-Site`. Preserve its existing design and model-grouped game results. Introduce a distinct hardware/local-inference study with status **Planned — results pending**, linked to this public repository. Do not label this a completed game build or invent a winner.
 
 Initial copy: “Mac Studio Local Inference Tests Ashen — my existing M3 Ultra (32-core CPU, 80-core GPU, 256 GB) versus my incoming 256 GB / 2 TB Studio. Matched-model speed, answer quality, long context, power use and two-Mac clustering. Incoming hardware will be verified on arrival; results pending.”
