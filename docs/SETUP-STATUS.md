@@ -1,0 +1,22 @@
+# Setup status — existing M3 Ultra
+
+This is preparation evidence, not the M3-versus-M5 benchmark report. The M5 order is owner-confirmed; that computer has not been inventoried or measured yet.
+
+| Component | State |
+|---|---|
+| Python / MLX environment | Installed; exact dependency versions locked |
+| DwarfStar Metal runtime | Built from pinned commit with fixed CPU target |
+| Qwen 3.8 27B 8-bit | Downloaded and SHA256 verified; local generation, serving and token-timing pilot passed |
+| Gemma 4 31B 8-bit | Downloaded and SHA256 verified; local generation, serving and token-timing pilot passed |
+| DeepSeek V4 Flash 0731 Q4 | Download/verification and final local generation validation in progress |
+| Harness unit/integration tests | 11 passed |
+| Comparison and report tool | Exercised with test fixtures; rejects mismatches, excludes smoke/warmup data |
+| Standardized intelligence suites | Planned; not run |
+| Controlled hardware performance comparison | Pending new Mac and quiet windows |
+| SSH to new Mac | Pending physical setup / Remote Login on the new machine |
+
+The eight original diagnostic tasks are deliberately small smoke checks, not a validated intelligence benchmark. Qwen passed 7/8; its incorrect state/arithmetic answer was retained. Gemma passed 8/8. These trials used greedy decoding and the requested no-thinking controls where supported. They do not establish a model ranking or a quantization quality guarantee.
+
+Both MLX token-timing pilots produced exactly 512 input tokens and 32 output tokens. Pilot runs took place on a shared active machine, so their speeds are excluded from the comparison tool. Native generation and timing-path validation will be recorded after the large artifact completes.
+
+See [ARRIVAL.md](ARRIVAL.md) for the exact models, methods, commands and remaining campaign stages. The setup branch is `codex/setup-20260930`; [preparation PR #1](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/1) is unmerged.

@@ -100,7 +100,7 @@ Planning allowance after both machines are ready: roughly 1 day of setup/pilots,
 - [Result record template](results/run-template.json)
 - [Reproducible, allowlisted hardware collector](scripts/collect_inventory.py)
 
-The arrival preparation implements pinned downloads, an inventory collector, smoke checks, fixed-token speed runners, a matched-results comparer and local diagnostic tools. Standardized quality suites, concurrency/power/cluster automation and website charts remain later work. See [ARRIVAL.md](docs/ARRIVAL.md) and the setup status for exactly what has been validated. Setup smoke checks are not controlled benchmark results.
+The arrival preparation implements pinned downloads, an inventory collector, smoke checks, fixed-token speed runners, a matched-results comparer and local diagnostic tools. Standardized quality suites, concurrency/power/cluster automation and website charts remain later work. See [ARRIVAL.md](docs/ARRIVAL.md) and [the setup status](docs/SETUP-STATUS.md) for exactly what has been validated. Setup smoke checks are not controlled benchmark results.
 
 To collect a privacy-conscious inventory without running a benchmark:
 
