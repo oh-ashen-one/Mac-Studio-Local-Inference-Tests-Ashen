@@ -23,7 +23,7 @@ def packet(tokenizer):
     def messages(n):return [{'role':'system','content':SYSTEM},{'role':'user','content':'Repository snapshot (partial; use read for other files):\n'+tokenizer.decode(source[:n])+'\n\nTASK:\n'+TASK['problem_statement']}]
     n=199000
     for _ in range(8):
-        m=messages(n);count=len(tokenizer.apply_chat_template(m,tokenize=True,add_generation_prompt=True,enable_thinking=False))
+        m=messages(n);count=len(tokenizer.apply_chat_template(m,tokenize=True,return_dict=False,add_generation_prompt=True,enable_thinking=False))
         if 200000<=count<=200032:return m,count
         n+=200000-count
     raise RuntimeError('Could not build the declared 200K input range')
