@@ -15,6 +15,6 @@ The main view includes:
 
 A published-run gap is a **configuration comparison**, not an isolated hardware effect. Different model conversions, runtimes, software versions, sampling, cache state and workloads can change the result. The default Qwen reference is a **60-GPU-core** M3 Ultra, not the owner's 80-GPU-core original Studio. Tuned results can outperform the current M5 baseline and are shown. No claim to cover all hardware or the global fastest configuration is made.
 
-The owner's own M3/M5 percentage remains pending until matched runs exist. Historical Gemma April results retain their date and older runtime. For absent/different context lengths, the UI says no fair percentage is available. Raw prompts and methodology are collapsed. Original sources are accessible by selecting a graph row.
+The owner's own M3/M5 percentage remains pending until matched runs exist. Historical Gemma April results retain their date and older runtime. For absent/different context lengths, the UI names the missing context and shows the raw tok/s gap without a hardware percentage. DeepSeek explicitly shows 38.20 vs 36.01 tok/s, a 2.19 tok/s reported gap, with the reference context marked unknown. Raw prompts and methodology are collapsed. Original sources are accessible by selecting a graph row.
 
 Assets are local HTML/CSS/JavaScript with SVG charts; no external font, chart service or analytics dependency. Model files, caches and private paths are not served. Narrow layouts keep the wide comparison graph in its own horizontal scroll area.
