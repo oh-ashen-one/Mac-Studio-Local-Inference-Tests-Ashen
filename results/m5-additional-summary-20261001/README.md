@@ -37,6 +37,7 @@ Saved evidence:
 
 Replay cells (serving only, not tasks solved):
 
+- [agentperf-default-v1](../../results/m5-aa-qwen36-full-recorded-20261001/run.json) — complete; 168/168 turns served; 10 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 - [aa-mini-v1](../../results/m5-aa-qwen36-mini-recorded-20261001/run.json) — complete; 6/6 turns served; 3 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 
 ## Runtime and interpretation
