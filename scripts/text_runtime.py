@@ -17,7 +17,7 @@ def load_text(folder,backend='mlx-lm'):
     if backend!='mlx-vlm':raise ValueError('Unknown independent runtime')
     import mlx.nn as nn
     from mlx_vlm.utils import load_model
-    from transformers import AutoTokenizer
+    from mlx_lm.utils import load_tokenizer
     # Use the upstream architecture-specific sanitizer, including its MTP and
     # MXFP4 handling. Retain only the language backbone for this text-only test.
     full=load_model(folder,lazy=False,strict=True,trust_remote_code=False,local_files_only=True)
@@ -30,5 +30,5 @@ def load_text(folder,backend='mlx-lm'):
         def layers(self):return self.inner.layers
         def make_cache(self):return self.inner.make_cache()
     model=TextBackbone(full.language_model)
-    tokenizer=AutoTokenizer.from_pretrained(folder,local_files_only=True,trust_remote_code=False)
+    tokenizer=load_tokenizer(folder,tokenizer_config_extra={'local_files_only':True,'trust_remote_code':False},eos_token_ids=config.get('eos_token_id'))
     return model,tokenizer,config
