@@ -121,7 +121,8 @@ def test_preview_serves_only_saved_data_without_gpu(tmp_path):
     try:
         base='http://127.0.0.1:'+str(server.server_address[1])
         with urllib.request.urlopen(base+'/api/state') as response:payload=json.load(response)
-        assert len(payload['models'])==3
+        assert len([m for m in payload['models'] if not m.get('additional')])==3
+        assert {m['id'] for m in payload['models'] if m.get('additional')}=={m['id'] for m in json.loads((ROOT/'config/additional-models.lock.json').read_text())['models']}
         assert payload['comparison'] is None
         with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
         for asset,mime in [('/style.css','text/css'),('/app.js','text/javascript')]:

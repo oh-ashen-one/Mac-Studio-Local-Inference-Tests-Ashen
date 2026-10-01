@@ -14,6 +14,10 @@ def state(comparison):
     for m in specs:
         present=all((ROOT/'models'/m['id']/f['path']).is_file() and (ROOT/'models'/m['id']/f['path']).stat().st_size==f['bytes'] for f in m['files'])
         models.append({'id':m['id'],'quantization':m['quantization'],'total_bytes':m['total_bytes'],'present':present})
+    additions=ROOT/'config/additional-models.lock.json'
+    if additions.exists():
+        for m in json.loads(additions.read_text())['models']:
+            models.append({'id':m['id'],'display_name':m['display_name'],'quantization':m['quantization'],'total_bytes':m['total_bytes'],'additional':True})
     long_runs=[]
     for result_file in (ROOT/'results').glob('*200k*/result.json'):
         try:
@@ -36,8 +40,9 @@ def state(comparison):
     aa_live_path=ROOT/'work/agentperf-live.json'
     aa_live=json.loads(aa_live_path.read_text()) if aa_live_path.exists() else None
     repo_runs=[]
-    for result_file in (ROOT/'results').glob('*repo-qwen*/result.json'):
+    for result_file in (ROOT/'results').glob('*repo-*/result.json'):
         result=json.loads(result_file.read_text())
+        if result.get('kind')!='repo_task':continue
         repo_runs.append({k:result.get(k) for k in ['status','attempt','model_id','task_id','initial_chat_tokens','human_rescues','passed','wall_s','started_at_utc','error']})
     repo_live_path=ROOT/'work/repo-task-live.json'
     repo_live=json.loads(repo_live_path.read_text()) if repo_live_path.exists() else None
@@ -45,7 +50,7 @@ def state(comparison):
         repo_live={k:repo_live.get(k) for k in ['status','attempt','model_id','task_id','initial_chat_tokens','human_rescues','passed','wall_s','error']}
     peers=ROOT/'research/external-benchmarks.json';campaign=ROOT/'research/campaign-status.json'
     downloads=ROOT/'research/additional-models.json'
-    return {'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
+    return {'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
