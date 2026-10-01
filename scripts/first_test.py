@@ -184,6 +184,7 @@ def main():
     process=None
     try:
         with shared_gpu_slot() as slot:
+            live['harness_commit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip();live['driver_sha256']=digest(Path(__file__))
             live['slot']=slot;live['preflight']=safety();live['model_lock_sha256']=digest(ROOT/'config/models.lock.json')
             for spec in specs:
                 live['active']=spec['id'];live['status']='speed_test';live['models'][spec['id']]={'status':'running','quantization':spec['quantization'],'revision':spec['revision'],'backend':spec['backend']};update()
@@ -209,6 +210,7 @@ def main():
                 if summary['measured_repeats']!=3:raise RuntimeError('Expected three valid measured repeats')
                 live['models'][spec['id']].update(summary)
                 live['models'][spec['id']]['peak_process_rss_bytes']=max((x['rss_bytes'] for x in t.rows),default=None)
+                live['models'][spec['id']]['observed_system_memory_delta_bytes']=max(0,t.rows[0]['available_bytes']-min(x['available_bytes'] for x in t.rows)) if t.rows else None
                 prefill=[r.get('prefill_tok_s') for r in rows if not r.get('cell',{}).get('warmup') and r.get('prefill_tok_s')]
                 live['models'][spec['id']]['prefill_tok_s']=statistics.median(prefill) if prefill else None
                 live['status']='real_transaction';update()

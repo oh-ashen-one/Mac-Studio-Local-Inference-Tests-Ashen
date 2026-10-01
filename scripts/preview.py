@@ -4,6 +4,7 @@ import argparse
 import json
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -20,6 +21,7 @@ def state(comparison):
 def handler_for(comparison):
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
+            self.path=urlsplit(self.path).path
             if self.path=='/':body=(ROOT/'viewer/index.html').read_bytes();mime='text/html; charset=utf-8'
             elif self.path=='/api/state':body=json.dumps(state(comparison)).encode();mime='application/json'
             else:self.send_error(404);return
