@@ -87,12 +87,12 @@ def attempt(index,out,spec):
     finally:stop(process)
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--attempts',type=int,default=1);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--attempts',type=int,default=1);p.add_argument('--start-at',type=int,default=1);a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization and --allow-inference required')
-    if not 1<=a.attempts<=5:p.error('One to five attempts per invocation')
+    if not (1<=a.attempts<=5 and 1<=a.start_at<=5 and a.start_at+a.attempts<=6):p.error('Attempt indices must stay within the predeclared five attempts')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     safety();spec=next(m for m in json.loads((ROOT/'config/models.lock.json').read_text())['models'] if m['id']=='qwen-27b');verify(spec,ROOT/'models/qwen-27b')
     with shared_gpu_slot():
-        for index in range(1,a.attempts+1):
+        for index in range(a.start_at,a.start_at+a.attempts):
             out=ROOT/'results'/f'{a.run_id}-{index}';out.mkdir(exist_ok=False);attempt(index,out,spec)
 if __name__=='__main__':main()
