@@ -14,4 +14,7 @@ def resolve_model(identifier,lock_path=None):
         directory=Path.home()/relative
         if not directory.is_relative_to(Path.home()/'.cache/huggingface/hub'):raise ValueError('Model path outside declared cache')
     else:directory=ROOT/'models'/identifier
+    if (directory/'config.json').exists():
+        config=json.loads((directory/'config.json').read_text())
+        if config.get('model_file'):raise ValueError('Custom model code requires separate review; refusing automatic execution')
     return spec,directory,lock_path
