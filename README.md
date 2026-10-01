@@ -1,17 +1,29 @@
 # Mac Studio Local Inference Tests Ashen
 
-## First M5 results — October 1, 2026
+## Start with the 200K results — October 1, 2026
 
-The first sequential M5 run is complete: **Qwen 32.05 tok/s, Gemma 27.63 tok/s, DeepSeek 63.83 tok/s** at the fastest measured decode repeat in the pinned configurations. These are initial M5-only numbers, not an M3 comparison or a universal speed claim. Read the [full results, real responses and limitations](results/m5-firstlook-20261001/README.md).
+All three models completed **200,000 actual input tokens plus 256 output tokens** on the new M5 Studio:
+
+| Pinned configuration | Empty-cache context fill | Input tok/s | Output tok/s after 200K |
+|---|---:|---:|---:|
+| Qwen 3.8 27B, 8-bit MLX | 3m 34s | 933.63 | **21.44** |
+| Gemma 4 31B, 8-bit MLX | 5m 15s | 635.74 | **15.41** |
+| DeepSeek V4 Flash 0731, mixed Q4 | 5m 02s | 662.81 | **38.20** |
+
+One measured long-context run per model; no swap growth. These are throughput stress tests, not quality scores. Cache definitions, runtime differences and raw records are in the [campaign report](docs/LONG-CONTEXT-CAMPAIGN.md). The earlier [short-context setup checks](results/m5-firstlook-20261001/README.md) remain available but are not the headline result.
+
+**The original M3 GPU is busy with the owner's other sessions. No matched M3/M5 percentage is claimed.** The [live handoff](HANDOFF.md) tracks the official AA replay, Blender condition, [repository diagnostic](docs/REPO-DIAGNOSTIC.md) and [Darkbloom installation last](docs/DARKBLOOM.md). Changes and results are being reviewed in [PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3).
+
+The read-only visual dashboard is `http://127.0.0.1:18765` **on the new Studio**. To show saved records elsewhere, run `.venv/bin/python scripts/preview.py`. It cannot launch inference. Prompts/responses are collapsed; context-fill timelines, generation speeds, memory and source-linked external configurations are prominent.
 
 ## Start here — preparation only
 
-**The initial owner-authorized test is complete. Do not start another model or inference run merely from reading this README.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+**Do not start a model or inference run merely from reading this README.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
 
 On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
 
 ```sh
-git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
+git clone --branch codex/long-context-dashboard-20261001 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
 cd Mac-Studio-Local-Inference-Tests-Ashen
 bash scripts/prepare.sh
 ```
@@ -22,7 +34,7 @@ For this already-prepared Studio, return to this chat and say **“start the tes
 
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: both Studios are prepared with the same three model artifacts and matched runtime versions. All 34 selected model files are SHA256 verified on the M5. No inference is running from this task; no controlled comparison results yet. [Paired setup receipt](docs/M5-READY.md).** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS have now been inspected; see the paired setup receipt. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: both Studios are prepared with the same three model artifacts and matched runtime versions. All 34 selected model files are SHA256 verified on the M5. See HANDOFF.md for active M5 campaign work; no controlled M3/M5 comparison results yet. [Paired setup receipt](docs/M5-READY.md).** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS have now been inspected; see the paired setup receipt. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
