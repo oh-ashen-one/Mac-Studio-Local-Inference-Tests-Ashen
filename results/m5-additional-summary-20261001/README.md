@@ -20,7 +20,7 @@ Saved evidence:
 
 ## Qwen 3.6 35B A3B
 
-Repository diagnostic: **1/1 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
+Repository diagnostic: **2/2 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
 
 Saved evidence:
 
@@ -30,6 +30,7 @@ Saved evidence:
 - [m5-qwen36-pilot-20261001](../../results/m5-qwen36-pilot-20261001/result.json) — runtime_validation, complete, did not pass.
 - [m5-qwen36-pilot-vlm-20261001](../../results/m5-qwen36-pilot-vlm-20261001/result.json) — runtime_validation, complete, passed.
 - [m5-repo-qwen36-20261001-1](../../results/m5-repo-qwen36-20261001-1/result.json) — repo_task, complete, passed.
+- [m5-repo-qwen36-20261001-2](../../results/m5-repo-qwen36-20261001-2/result.json) — repo_task, complete, passed.
 
 ## Runtime and interpretation
 
