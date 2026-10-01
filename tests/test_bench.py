@@ -126,3 +126,18 @@ def test_preview_serves_only_saved_data_without_gpu(tmp_path):
         with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
         with pytest.raises(urllib.error.HTTPError):urllib.request.urlopen(base+'/../README.md')
     finally:server.shutdown();server.server_close();thread.join()
+
+
+def test_ready_receipt_rejects_missing_native_runtime(tmp_path):
+    from finish_prepare import verify_runtime
+    (tmp_path/'requirements-macos-arm64.lock').write_text('')
+    with pytest.raises(RuntimeError,match='Missing native runtime binary'):
+        verify_runtime(tmp_path)
+
+
+def test_ready_receipt_rejects_dependency_drift(tmp_path,monkeypatch):
+    import finish_prepare
+    (tmp_path/'requirements-macos-arm64.lock').write_text('mlx==0.32.3\n')
+    monkeypatch.setattr(finish_prepare.importlib.metadata,'version',lambda _: 'different')
+    with pytest.raises(RuntimeError,match='Runtime version mismatch'):
+        finish_prepare.verify_runtime(tmp_path)
