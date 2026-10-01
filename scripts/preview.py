@@ -14,7 +14,7 @@ def state(comparison):
         present=all((ROOT/'models'/m['id']/f['path']).is_file() and (ROOT/'models'/m['id']/f['path']).stat().st_size==f['bytes'] for f in m['files'])
         models.append({'id':m['id'],'quantization':m['quantization'],'total_bytes':m['total_bytes'],'present':present})
     return {'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
-            'models':models,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
+            'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
 def handler_for(comparison):
@@ -23,6 +23,7 @@ def handler_for(comparison):
             if self.path=='/':body=(ROOT/'viewer/index.html').read_bytes();mime='text/html; charset=utf-8'
             elif self.path=='/api/state':body=json.dumps(state(comparison)).encode();mime='application/json'
             else:self.send_error(404);return
+            if self.path=='/':print(json.dumps({'event':'page_open','user_agent':self.headers.get('User-Agent','')}),flush=True)
             self.send_response(200);self.send_header('Content-Type',mime)
             self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(body)))
             self.end_headers();self.wfile.write(body)

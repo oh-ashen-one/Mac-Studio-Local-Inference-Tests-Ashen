@@ -141,3 +141,10 @@ def test_ready_receipt_rejects_dependency_drift(tmp_path,monkeypatch):
     monkeypatch.setattr(finish_prepare.importlib.metadata,'version',lambda _: 'different')
     with pytest.raises(RuntimeError,match='Runtime version mismatch'):
         finish_prepare.verify_runtime(tmp_path)
+
+
+def test_firstlook_summary_excludes_warmup_and_failed_runs():
+    from first_test import summarize
+    def row(rate,warmup=False,status='ok'):return {'kind':'initial_speed_test','cell':{'warmup':warmup},'status':status,'decode_tok_s':rate}
+    s=summarize([row(999,True),row(20),row(30),row(25),row(1000,status='error')])
+    assert s=={'measured_repeats':3,'fastest_decode_tok_s':30,'median_decode_tok_s':25}
