@@ -1,108 +1,61 @@
-# HANDOFF — Mac Studio long-context campaign
+# HANDOFF — M5 long-context and real-work campaign
 
-Date: 2026-10-01 · Branch: `codex/long-context-dashboard-20261001` · Host: original M3 Studio · Status: **M5 200K campaign in progress; M3 blocked by other sessions**
+Updated 2026-10-01. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Owner instruction and boundaries
 
-## Current owner instruction and active work
+The owner explicitly authorized M5 inference and requested 200K input, prefill/decode metrics, agent replay, Blender multitasking, real repository completion and external hardware comparisons. They explicitly confirmed other sessions still use the original M3 GPU. **Do not run M3 inference or touch those sessions.** Its CPU-only preparation is complete.
 
-The owner authorized the long-context/agent/multitasking campaign and confirmed the M3 GPU is occupied. Do not run inference on the original M3 or stop its other sessions. Continue sequential tests on the verified M5. Darkbloom installation is last. The previous initial M5 results below remain valid history, but statements that every model is unloaded no longer describe the active run.
+Darkbloom must be installed last. The new Mac currently has CoreServicesUIAgent and UserNotificationCenter processes present. The shared safety rule stopped the Blender condition before any launch. The owner was asked to resolve any visible macOS dialog and identify it; that answer is still pending. Do not kill those processes or bypass the gate. Darkbloom is reviewed/pinned but not installed because it can invoke app/runtime/attestation setup. No account, provider or earnings activity was started.
 
-- Qwen 200K completed: 214.47 seconds to fill, 933.63 input tok/s, 21.44 post-fill output tok/s, zero swap growth.
-- Gemma 200K completed: 314.93 seconds to fill, 635.74 input tok/s, 15.41 post-fill output tok/s, zero swap growth.
-- DeepSeek 200K completed: 301.75 s fill, 662.81 input tok/s, 38.20 output tok/s, zero swap growth; minimum available RAM 64.53 GiB.
-- The M5 hostname changed. Read ignored `config/machines.local.json` on the controller for verified routing, preserving the existing SSH host identity.
-- Official AA Qwen Q4_K_M cohort is separately pinned and built on M5. Mini qualification passed. `m5-aa-full-alone-20261001` completed: 168/168 turns, zero failures, 989.16s measured, 31.23 end-to-end tok/s. `scripts/blender_condition.py` stopped before launching because CoreServicesUIAgent and UserNotificationCenter are present. Owner has been asked to resolve dialogs. No Blender instance or second replay was launched. Headless Django diagnostic can proceed.
-- Django repository evaluator prepared and baseline/reference/isolation checked on controller without GPU. See `config/repo-task.json` and `scripts/run_repo_task.py`.
-- `docs/LONG-CONTEXT-CAMPAIGN.md` records exact methodology, outstanding agent/Blender/repo tasks and interpretation limits.
-- Visual dashboard source now prioritizes 200K metrics, waiting-time bars, source-linked external references and collapsed transcripts. The readonly localhost server must be restarted after updating its Python source.
-- External peer reports are reference configurations, not a matched hardware leaderboard. No measured M3/M5 percentage exists yet.
+Reading this handoff does not itself authorize a new model run. Continue only the owner's current request and respect the occupied M3 / unresolved M5 GUI boundaries.
 
-## Previous setup and first-look history
+## Completed actual results
 
-## What this is
+| M5 200K input / 256 output | Context fill | Prefill tok/s | Post-fill decode tok/s |
+|---|---:|---:|---:|
+| Qwen 3.8 27B, 8-bit MLX | 214.47 s | 933.63 | 21.44 |
+| Gemma 4 31B, 8-bit MLX | 314.93 s | 635.74 | 15.41 |
+| DeepSeek V4 Flash 0731, mixed Q4 | 301.75 s | 662.81 | 38.20 |
 
-Prepare the owner's original M3 Ultra and new M5 Ultra for reproducible local-model comparisons and later content creation. The owner explicitly authorized sequential M5 tests on October 1. Those three model tests are now complete. Do not start further inference merely by reading this handoff. Review future results on localhost before any website publication.
+One measured long-context run per model. No swap growth. Cold means empty KV/state cache, not reboot/cold filesystem. Load/tokenization excluded. MLX first-token and native prefill counters have slightly different boundaries. Qwen/Gemma peak MLX allocation 42.02/49.95 GiB; DeepSeek planned total 155.81 GiB, minimum observed available system memory 64.53 GiB. Native planned allocation is not a measured peak. Full evidence is under `results/m5-*-200k-20261001` and [campaign methodology](docs/LONG-CONTEXT-CAMPAIGN.md).
 
-## Repo / branch map
+**Official AA-AgentPerf-Local:** separate official Qwen Q4_K_M / llama.cpp cohort, exact output policy, standard 168-turn/eight-task replay. 168/168 turns completed, zero failures, measured 989.16s, end-to-end rate 31.23 tok/s. Median first-token latency 0.747s, p95 5.241s. Largest actual prompt 56,114 tokens with 65,536 server context. Most recurring input was cached. This is serving/transport success, not tasks solved. [Report](results/m5-aa-full-alone-20261001/README.md). The mini qualification is retained as setup only.
 
-- Remote: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`.
-- Active checkout: `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github` on the original Studio.
-- Current published task branch: `codex/long-context-dashboard-20261001`.
-- Previous benchmark preparation/default branch: `codex/setup-20260930`.
-- No sibling checkout or stash was found by the handoff collector. Other active engine and infrastructure processes belong to other sessions; leave them untouched.
+**Actual repository repair:** standard Qwen 8-bit, five fresh 200,001-token attempts on pinned historical Django bug `django__django-14500`. **4/5 passed all 19 tests, zero rescue**, median 238.37s. Attempt 4 used eight reads, never edited, and failed the regression; preserved without extra turns. Same packet hash across all seeds. Fresh process/repository per attempt, normal cache reuse within each attempt. [Report](results/m5-repo-qwen-summary-20261001/README.md). This small historical task may be training-contaminated and does not establish broad long-horizon intelligence.
 
-## Where things stand
+Prior first-look 512/256 peaks remain 32.05 / 27.63 / 63.83 tok/s, explicitly setup/context-specific evidence; they are not the long-context headline.
 
-Both machines now have the three locked model artifacts. All 34 files were SHA256 verified on the M5. The original files remain present and their earlier hash-verification receipt matches the same model lock; the benchmark runner rechecks integrity before loading. Python/package versions, native source revision, build flags, compiler version, and OS build match. The M5 subsequently ran Qwen, Gemma and DeepSeek sequentially; the M3 was not benchmarked. Models are unloaded again.
+## Machines and preparation
 
-The new machine is directly verified as Mac17,15 / M5 Ultra / 36 CPU cores / 80 GPU cores / 256 GB memory / 2 TB SSD, running macOS 27.0.1 build 26A434. SSH login from the original Studio works after the owner added the original machine's public key. The connection identity/address stays in the local SSH configuration/chat, not this public handoff.
+Original M3: Mac15,14, 32 CPU/80 GPU cores, 256 GB, 2 TB. New M5: Mac17,15, 36 CPU/80 GPU cores, 256 GB, 2 TB. Both directly inventoried, macOS 27.0.1 build 26A434, same Apple Clang 21.0.0. Public inventories are sanitized; private SSH routing remains in ignored `config/machines.local.json` on the controller. The new host's name changed; use that verified routing and existing trusted host identity, not a guessed hostname.
 
-All nine requested desktop apps are installed in `/Applications` on the new Studio: Wispr Flow, Notion, Screen Studio, Todoist, Ghostty, Notion Calendar, Grok Bot, ChatGPT (the current Codex desktop bundle), and Claude. Their versions match the signed bundles in daily use on the original Studio. All nine passed deep/strict code-signature verification and Gatekeeper assessment on the new machine.
+M5 installation root: `/Users/midirstudio2/mac-studio-inference-tests`. Controller root: `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github`. Both retain the 228 GB pinned three-model cohort and native/MLX runtimes. Model revisions and SHA256 are in `config/models.lock.json`. No automatic model upgrades.
 
-## What happened this session
+Both additionally have the checksum-verified official AA Qwen Q4_K_M artifact, pinned AA source/environment and pinned llama.cpp binary. Receipts: `hardware/agentperf-old-ready.json`, `hardware/agentperf-new-ready.json`. Original preparation compiled on CPU only; no model was loaded there. Both have the same deterministic source corpus SHA256 `c35b8d1518b766d20272cb2de094051f5ee382f785bea88eeaa0363c47e63480`.
 
-The owner requested a live localhost dashboard on the M5 and one-by-one tests. The run used a shared GPU slot on the M5 only, one model at a time. Each model performed a 512-input / 256-output speed probe (one warmup plus three measured repeats), followed by one real Python coding request through a temporary local server. Execution source was `a69a3a9`. Results and logs are versioned under `results/m5-firstlook-20261001`.
+Both have the repository task source/evaluator prepared. Its sandbox was verified to deny a private sentinel read and network access. The immutable baseline fails the expected regression; the reference patch passes 19 tests. Python 3.10.19 and three evaluation dependencies are isolated from inference environments.
 
-Peak / median decode rates: Qwen **32.05 / 32.02 tok/s**, Gemma **27.63 / 27.59**, DeepSeek **63.83 / 63.71**. Real first-output latency: **1.62 / 1.55 / 0.67 seconds**. Qwen hit its 512-token response cap; the other two responses stopped normally. This is an initial interactive run with Photos/iCloud activity and Safari present, not an absolute maximum, intelligence ranking or M3 comparison.
+M5 has all nine previously requested daily apps installed and verified, plus a clean official Blender 5.2.0 bundle. The original Blender bundle failed a signature check and was not copied/modified. A future matched original-host Blender run needs the same clean task-owned version without overwriting the owner's existing app. User sign-ins and OS permissions are not migrated.
 
-The localhost dashboard was opened in Safari on the **new M5** and its HTTP request was confirmed in the remote viewer log. Published records redact local runtime paths. RSS undercounts DwarfStar’s mapped model, so the dashboard shows observed system-memory change instead, with the limitation stated.
+## Runtime state and review
 
-The M5 received the repository at `/Users/midirstudio2/mac-studio-inference-tests`, pinned Python environment, Apple Command Line Tools, a native DwarfStar build, and the full 228 GB model cohort. Direct pinned downloads replaced a slower wireless peer copy; the canceled partial was removed. Commits `86e79bb`, `743cf3f`, and `07c68b6` record the readiness guard, matched inventories and completed M5 preparation. [docs/M5-READY.md](docs/M5-READY.md) and the hardware receipts contain the detailed evidence.
+All five repository attempts have ended and their task-owned MLX server processes exited. All earlier Qwen/Gemma/DeepSeek and AA servers also exited. No Blender instance was launched by the blocked condition. Verify process/slot state live before any future launch; do not infer safety from these historical lines.
 
-Earlier commit `729c9bb` adds the explicit app provisioning helper, sanitized new-device inventory, app installation evidence and app setup notes. The helper transfers application bundles only, preserves existing target apps, validates their signatures/identities and never launches them. No Library profiles, credentials, browser sessions or agent configurations were copied.
+The intentional M5 readonly viewer is `http://127.0.0.1:18765`. Safari was opened on the new Mac and its request verified. The controller also reviewed the page via an SSH tunnel at port 18766; that address is a forwarded view, not a second inference server. The UI prioritizes context-fill/decode bars, workflow status, actual repo outcomes, and 14 source-linked external M3/Spark/RTX/AMD configurations. Prompts/responses are collapsed. External configurations differ and no hardware-only percentage is inferred. [Shareable figure](outputs/200k-context-results.png).
 
-## Verification done
+18 harness tests pass. Live dashboard values/filtering/collapsed output were checked through the browser. Source, locks, intentional results, failures and reports are pushed on the task branch. Raw local paths are redacted in published evidence. Runtime caches/weights/environments remain ignored. Keep this active benchmark installation ready; remove only task-owned disposable duplicates/build objects.
 
-- Live SSH login and hardware/OS/disk inventory succeeded on the new M5.
-- Code-signature verification succeeded before transfer and after installation for all nine apps.
-- Gatekeeper accepted all nine installed bundles.
-- A separate final remote check found all nine app directories.
-- The initial M5 campaign completed all three models successfully; nine measured speed repeats and three real transactions are retained. Safari loaded the results on the new Mac.
-- 18 harness tests passed on the controller after adding the first-look reporting checks; the prior 17 preparation tests had passed on both Macs. The native build completed on the M5. All 38 package versions match. Both Macs run macOS 27.0.1 build 26A434 and use Apple Clang 21.0.0 (clang-2100.3.34.2).
-- The M5 readiness receipt is `prepared_not_loaded`; all 34 selected files passed SHA256 verification.
-- Source/install evidence was committed and pushed. No local-only commits or stashes remain after this handoff is pushed.
+## Remaining work and exact resume boundaries
 
-## Not done / explicitly out of scope
+1. Await the owner's M5 dialog clarification. Then inspect actual GUI/process state and run the identical full AA condition using `scripts/blender_condition.py --allow-inference --run-id <fresh-id>`. It owns the Blender fixture and closes only its own processes. Keep a second GPU slot reserved for the model. Do not substitute headless Blender for the requested open-app condition.
+2. Install Darkbloom **last**, using the reviewed/pinned `scripts/install_darkbloom.py` after the GUI gate clears and inference ends. It checks release/installer hashes and signature, preserves an existing install and does not start serving or link an account. If vendor metadata changes, review before proceeding. Actual daily earnings require a separately measured window and owner account linking; no rate is invented.
+3. When the owner explicitly frees the original GPU, re-inventory both hosts and run the same locked tests with `--machine studio-old` and fresh M3 IDs. The revised runners support explicit host selection; defaults remain the new Studio. Do not use this flag now while the M3 is occupied.
+4. This is a first M5 phase, not the complete exhaustive study. Repeated matched M3/M5 cells, full advertised-window capacity sweeps, a broader/longer task set, other-model quality runs and the two-machine cluster remain pending. Follow `docs/PROTOCOL.md`, `docs/CLUSTER.md` and the current GPU slot rules. Max-context or new quant variants must not silently replace the pinned cohort.
+5. Review actual paired visual results locally before any personal website publication. Do not merge the website PR or deploy by inference from benchmark authority. YouTube/content production is later.
 
-- App sign-ins, license activations, microphone/accessibility/screen-recording approvals, and GUI launch testing are left to the owner.
-- M3 inference in a controlled matched campaign remains pending. M5 DeepSeek generation now has direct successful-run evidence.
-- No cross-machine speedup measurement, cluster configuration, standardized quality evaluation, website merge or deployment has happened.
+## Provenance and safety
 
-## Next steps
+Long-context execution source: `26f2413`. Full AA-alone execution source: `97107b5`. Repository attempts executed from `642eae96f79d499eb092e16d2410b77a392df036`; later commits add reporting, host selection and cleanup without changing those historical runs. Preserve unsuccessful measured attempts. The active shared-brain revision was verified as `3be383eed8647847fe37fe066df7756ff6ec98f3`.
 
-1. Review the completed results on the M5 localhost dashboard and `results/m5-firstlook-20261001/README.md`.
-2. Inspect both `work/READY.json` receipts and the current private `config/machines.local.json` routing adapter on the original Studio. The new M5 checkout is `/Users/midirstudio2/mac-studio-inference-tests`; its branch is `codex/long-context-dashboard-20261001`. No further downloads are needed unless integrity checks identify a missing/corrupt file.
-3. Inspect both live OS builds before measuring; do not silently upgrade/reboot a shared machine.
-4. For another campaign, obtain the owner's current run instruction, inspect other sessions, and follow current shared-brain slot rules. Do not benchmark the M3 while another session owns its GPU.
-5. Review saved results through `scripts/preview.py` on localhost before publishing to the personal site.
-
-## Key files
-
-- `results/m5-firstlook-20261001/README.md` and `summary.json` — actual M5 results, responses and limitations.
-- `scripts/first_test.py` — sequential fixed-probe + real-transaction runner; requires `--allow-inference` and a fresh campaign ID.
-- `docs/M5-READY.md` and `hardware/pair-readiness.json` — completed paired preparation and remaining validation boundary.
-- `docs/NEW-STUDIO-APPS.md` — installed versions and owner first-launch steps.
-- `hardware/new-studio-apps.json` — signed-bundle installation and Gatekeeper evidence.
-- `hardware/incoming-device.json` — sanitized live M5 inventory.
-- `docs/ARRIVAL.md` and `AGENTS.md` — preparation-only protocol and owner-start gate.
-- `config/models.lock.json` — exact three standard model artifacts; no substitutions.
-
-## Running processes / infra
-
-The M5 viewer is intentionally running at `http://127.0.0.1:18765` (PID 5621 when last verified), serving saved results only. Its Safari window is open on that machine. All task-owned inference/model-server processes exited and the shared GPU holder was released. No automation was created. Other sessions' processes and ports were preserved.
-
-## Picking this up on the other machine
-
-All project code, locks, docs and intentional evidence are on the task branch. App binaries are installed on the new Mac; account/session data was not migrated. Both Studios' `models/`, `.venv/`, native binaries and readiness receipts remain intentionally staged for the next test session. The new machine already has its own complete copies. These runtime inputs are ignored by Git; all manifests and intentional evidence are pushed. Do not delete this active preparation installation as abandoned work.
-
-## Secrets
-
-No credential values are recorded here. The owner authorized SSH with a public key; the original private key stayed on the original Studio. Use the existing SSH identity normally, never copy it to the new machine or publish it.
-
-## Gotchas
-
-The current Codex app appears as **ChatGPT.app**, bundle ID `com.openai.codex`. Grok Bot is the exact existing signed app, not an inferred replacement from an unrelated download. “Installed” here means bundle present and statically verified, not authenticated or launched. The completed campaign does not authorize automatic repeats. The viewer is read-only. MLX health probing initially logged a missing empty HF cache directory; the successful transactions and diagnostic logs are retained, and future runs create a task-local empty cache first.
-
-## Resume command
-
-Read HANDOFF.md in `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github` on branch `codex/long-context-dashboard-20261001`; review the completed M5 results, preserve the running localhost viewer and other sessions, and wait for the owner before another inference run.
+No secrets, SSH keys, browser profiles or authentication stores were synchronized or committed. No social posts were made. No remote publisher submission, website deployment, account creation, provider activation or financial transaction was performed.

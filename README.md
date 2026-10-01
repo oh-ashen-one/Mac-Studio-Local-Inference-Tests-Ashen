@@ -16,6 +16,8 @@ One measured long-context run per model; no swap growth. These are throughput st
 
 **The original M3 GPU is busy with the owner's other sessions. No matched M3/M5 percentage is claimed.** The [live handoff](HANDOFF.md) tracks the official AA replay, Blender condition, [repository diagnostic](docs/REPO-DIAGNOSTIC.md) and [Darkbloom installation last](docs/DARKBLOOM.md). Changes and results are being reviewed in [PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3).
 
+**Also completed on M5:** the official AA replay served 168/168 turns with zero failures in 16m 29s ([report](results/m5-aa-full-alone-20261001/README.md)); the separate large-context Django diagnostic passed **4/5 fresh attempts with zero rescue**, including one retained failure ([report](results/m5-repo-qwen-summary-20261001/README.md)).
+
 The read-only visual dashboard is `http://127.0.0.1:18765` **on the new Studio**. To show saved records elsewhere, run `.venv/bin/python scripts/preview.py`. It cannot launch inference. Prompts/responses are collapsed; context-fill timelines, generation speeds, memory and source-linked external configurations are prominent.
 
 ## Start here — preparation only
