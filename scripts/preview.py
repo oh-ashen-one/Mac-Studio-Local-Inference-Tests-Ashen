@@ -14,7 +14,17 @@ def state(comparison):
     for m in specs:
         present=all((ROOT/'models'/m['id']/f['path']).is_file() and (ROOT/'models'/m['id']/f['path']).stat().st_size==f['bytes'] for f in m['files'])
         models.append({'id':m['id'],'quantization':m['quantization'],'total_bytes':m['total_bytes'],'present':present})
-    return {'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
+    long_runs=[]
+    for result_file in (ROOT/'results').glob('*200k*/result.json'):
+        try:
+            result=json.loads(result_file.read_text());result.pop('output_text',None);result.pop('output_token_ids',None);long_runs.append(result)
+        except (OSError,ValueError):pass
+    progress=ROOT/'work/long-context-live.json'
+    long_live=json.loads(progress.read_text()) if progress.exists() else None
+    if long_live:
+        long_live.pop('output_text',None);long_live.pop('output_token_ids',None)
+    peers=ROOT/'research/external-benchmarks.json';campaign=ROOT/'research/campaign-status.json'
+    return {'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 

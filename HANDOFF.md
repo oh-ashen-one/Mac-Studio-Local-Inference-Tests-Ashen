@@ -1,6 +1,21 @@
-# HANDOFF — Mac Studio comparison — initial M5 results
+# HANDOFF — Mac Studio long-context campaign
 
-Date: 2026-10-01 · Branch: `codex/m5-first-tests-20261001` · Host: original M3 Studio · Status: **Initial M5 tests complete; localhost viewer running**
+Date: 2026-10-01 · Branch: `codex/long-context-dashboard-20261001` · Host: original M3 Studio · Status: **M5 200K campaign in progress; M3 blocked by other sessions**
+
+
+## Current owner instruction and active work
+
+The owner authorized the long-context/agent/multitasking campaign and confirmed the M3 GPU is occupied. Do not run inference on the original M3 or stop its other sessions. Continue sequential tests on the verified M5. Darkbloom installation is last. The previous initial M5 results below remain valid history, but statements that every model is unloaded no longer describe the active run.
+
+- Qwen 200K completed: 214.47 seconds to fill, 933.63 input tok/s, 21.44 post-fill output tok/s, zero swap growth.
+- Gemma 200K completed: 314.93 seconds to fill, 635.74 input tok/s, 15.41 post-fill output tok/s, zero swap growth.
+- DeepSeek 200K is running on the M5, owned driver `scripts/long_context.py`, run ID `m5-deepseek-200k-20261001`. Check the live JSON/process before doing anything; do not restart blindly.
+- The M5 hostname changed. Read ignored `config/machines.local.json` on the controller for verified routing, preserving the existing SSH host identity.
+- `docs/LONG-CONTEXT-CAMPAIGN.md` records exact methodology, outstanding agent/Blender/repo tasks and interpretation limits.
+- Visual dashboard source now prioritizes 200K metrics, waiting-time bars, source-linked external references and collapsed transcripts. The readonly localhost server must be restarted after updating its Python source.
+- External peer reports are reference configurations, not a matched hardware leaderboard. No measured M3/M5 percentage exists yet.
+
+## Previous setup and first-look history
 
 ## What this is
 
@@ -10,7 +25,7 @@ Prepare the owner's original M3 Ultra and new M5 Ultra for reproducible local-mo
 
 - Remote: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`.
 - Active checkout: `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github` on the original Studio.
-- Current published task branch: `codex/m5-first-tests-20261001`.
+- Current published task branch: `codex/long-context-dashboard-20261001`.
 - Previous benchmark preparation/default branch: `codex/setup-20260930`.
 - No sibling checkout or stash was found by the handoff collector. Other active engine and infrastructure processes belong to other sessions; leave them untouched.
 
@@ -54,7 +69,7 @@ Earlier commit `729c9bb` adds the explicit app provisioning helper, sanitized ne
 ## Next steps
 
 1. Review the completed results on the M5 localhost dashboard and `results/m5-firstlook-20261001/README.md`.
-2. Inspect both `work/READY.json` receipts and the current private `config/machines.local.json` routing adapter on the original Studio. The new M5 checkout is `/Users/midirstudio2/mac-studio-inference-tests`; its branch is `codex/m5-first-tests-20261001`. No further downloads are needed unless integrity checks identify a missing/corrupt file.
+2. Inspect both `work/READY.json` receipts and the current private `config/machines.local.json` routing adapter on the original Studio. The new M5 checkout is `/Users/midirstudio2/mac-studio-inference-tests`; its branch is `codex/long-context-dashboard-20261001`. No further downloads are needed unless integrity checks identify a missing/corrupt file.
 3. Inspect both live OS builds before measuring; do not silently upgrade/reboot a shared machine.
 4. For another campaign, obtain the owner's current run instruction, inspect other sessions, and follow current shared-brain slot rules. Do not benchmark the M3 while another session owns its GPU.
 5. Review saved results through `scripts/preview.py` on localhost before publishing to the personal site.
@@ -88,4 +103,4 @@ The current Codex app appears as **ChatGPT.app**, bundle ID `com.openai.codex`. 
 
 ## Resume command
 
-Read HANDOFF.md in `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github` on branch `codex/m5-first-tests-20261001`; review the completed M5 results, preserve the running localhost viewer and other sessions, and wait for the owner before another inference run.
+Read HANDOFF.md in `/Users/midir/Documents/Codex/2026-09-29/hey-buddy-make-a-new-github` on branch `codex/long-context-dashboard-20261001`; review the completed M5 results, preserve the running localhost viewer and other sessions, and wait for the owner before another inference run.
