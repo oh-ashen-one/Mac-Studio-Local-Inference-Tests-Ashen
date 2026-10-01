@@ -36,6 +36,7 @@ def stop(process):
         try:children=psutil.Process(process.pid).children(recursive=True)
         except psutil.Error:children=[]
         # Stop the driver first, then only its own descendants. Allow graceful GPU shutdown.
+        shutdown_started=time.monotonic()
         process.terminate()
         for child in children:
             try:child.terminate()
@@ -44,7 +45,7 @@ def stop(process):
         for child in alive:
             try:child.kill()
             except psutil.Error:pass
-        try:process.wait(timeout=1)
+        try:process.wait(timeout=max(0,60-(time.monotonic()-shutdown_started)))
         except subprocess.TimeoutExpired:process.kill();process.wait()
 
 
