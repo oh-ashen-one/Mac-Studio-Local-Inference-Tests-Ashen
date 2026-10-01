@@ -7,20 +7,20 @@ from first_test import shared_gpu_slot,write_json,stop,Telemetry,safety
 from models import digest
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--condition',choices=['alone','blender-open'],default='alone');p.add_argument('--mini',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--condition',choices=['alone','blender-open'],default='alone');p.add_argument('--mini',action='store_true');p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     lock=json.loads((ROOT/'config/agentperf.lock.json').read_text());ready=json.loads((ROOT/'work/AGENTPERF_READY.json').read_text())
     if ready['lock_sha256']!=digest(ROOT/'config/agentperf.lock.json'):raise RuntimeError('AA preparation lock changed')
     out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
-    result={'kind':'aa-agentperf','condition':a.condition,'cohort':lock['cohort'],'replay':'aa-mini-v1' if a.mini else lock['replay'],'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'lock_sha256':ready['lock_sha256'],'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'model_revision':lock['model_revision'],'artifact_sha256':lock['sha256'],'agentperf_commit':lock['agentperf_commit'],'llama_commit':lock['llama_commit'],'quality_note':'Recorded trajectory replay measures serving speed, not autonomous task success.'}
+    result={'kind':'aa-agentperf','machine_id':a.machine,'condition':a.condition,'cohort':lock['cohort'],'replay':'aa-mini-v1' if a.mini else lock['replay'],'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'lock_sha256':ready['lock_sha256'],'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'model_revision':lock['model_revision'],'artifact_sha256':lock['sha256'],'agentperf_commit':lock['agentperf_commit'],'llama_commit':lock['llama_commit'],'quality_note':'Recorded trajectory replay measures serving speed, not autonomous task success.'}
     def update():write_json(out/'run.json',result);write_json(ROOT/'work/agentperf-live.json',result)
     update();process=None
     try:
-        if a.condition=='alone':result['preflight']=safety()
+        if a.condition=='alone':result['preflight']=safety(a.machine)
         else:
             from bench import preflight
-            result['preflight']=preflight('studio-new',True)
+            result['preflight']=preflight(a.machine,True)
             receipt=json.loads((ROOT/'work/blender-condition.json').read_text())
             import psutil
             proc=psutil.Process(receipt['pid'])

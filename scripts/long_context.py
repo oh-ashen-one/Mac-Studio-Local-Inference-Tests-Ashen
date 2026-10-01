@@ -5,24 +5,24 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from models import digest,verify
 from bench import canonical_hash,timing_summary,preflight
-from first_test import shared_gpu_slot,write_json,Telemetry,stop
+from first_test import shared_gpu_slot,write_json,Telemetry,stop,safety
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True)
     p.add_argument('--tokens',type=int,default=200000);p.add_argument('--output-tokens',type=int,default=256)
-    p.add_argument('--run-id',required=True);a=p.parse_args()
+    p.add_argument('--run-id',required=True);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Explicit owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     spec=next(m for m in json.loads((ROOT/'config/models.lock.json').read_text())['models'] if m['id']==a.model)
     out=ROOT/'results'/a.run_id;out.mkdir(parents=True,exist_ok=False)
-    result={'kind':'long_context','model_id':a.model,'machine_id':'studio-new','requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(ROOT/'config/models.lock.json'),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
+    result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(ROOT/'config/models.lock.json'),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
     def update():write_json(ROOT/'work/long-context-live.json',result);write_json(out/'result.json',result)
     update();process=None
     try:
         with shared_gpu_slot() as slot:
-            result['gpu_slot']=slot;result['preflight']=preflight('studio-new',True)
+            result['gpu_slot']=slot;result['preflight']=safety(a.machine)
             result['status']='verifying_files';update();verify(spec,ROOT/'models'/a.model)
             corpus=ROOT/'work/context-corpus.txt';result['corpus_sha256']=digest(corpus)
             if spec['backend']=='dwarfstar':

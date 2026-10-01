@@ -28,11 +28,11 @@ def packet(tokenizer):
         n+=200000-count
     raise RuntimeError('Could not build the declared 200K input range')
 
-def attempt(index,out,spec):
+def attempt(index,out,spec,machine):
     from transformers import AutoTokenizer
     tokenizer=AutoTokenizer.from_pretrained(ROOT/'models/qwen-27b',local_files_only=True,trust_remote_code=False)
     messages,input_count=packet(tokenizer);candidate=ROOT/'work'/f'{out.name}-candidate';fresh(candidate)
-    result={'kind':'repo_task','status':'starting','attempt':index,'model_id':'qwen-27b','model_revision':spec['revision'],'task_id':TASK['instance_id'],'base_commit':TASK['base_commit'],'initial_chat_tokens':input_count,'initial_packet_sha256':__import__('hashlib').sha256(json.dumps(messages,sort_keys=True).encode()).hexdigest(),'human_rescues':0,'seed':1000+index,'temperature':.2,'turns':[],'passed':False,'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'limitation':'One public historical bug; possible training contamination. Large context is not evidence of a long-horizon general success rate.'}
+    result={'kind':'repo_task','machine_id':machine,'status':'starting','attempt':index,'model_id':'qwen-27b','model_revision':spec['revision'],'task_id':TASK['instance_id'],'base_commit':TASK['base_commit'],'initial_chat_tokens':input_count,'initial_packet_sha256':__import__('hashlib').sha256(json.dumps(messages,sort_keys=True).encode()).hexdigest(),'human_rescues':0,'seed':1000+index,'temperature':.2,'turns':[],'passed':False,'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'limitation':'One public historical bug; possible training contamination. Large context is not evidence of a long-horizon general success rate.'}
     def update():write_json(out/'result.json',result);write_json(ROOT/'work/repo-task-live.json',result)
     process=None;update();port=18185
     try:
@@ -87,12 +87,12 @@ def attempt(index,out,spec):
     finally:stop(process)
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--attempts',type=int,default=1);p.add_argument('--start-at',type=int,default=1);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--attempts',type=int,default=1);p.add_argument('--start-at',type=int,default=1);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization and --allow-inference required')
     if not (1<=a.attempts<=5 and 1<=a.start_at<=5 and a.start_at+a.attempts<=6):p.error('Attempt indices must stay within the predeclared five attempts')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    safety();spec=next(m for m in json.loads((ROOT/'config/models.lock.json').read_text())['models'] if m['id']=='qwen-27b');verify(spec,ROOT/'models/qwen-27b')
+    safety(a.machine);spec=next(m for m in json.loads((ROOT/'config/models.lock.json').read_text())['models'] if m['id']=='qwen-27b');verify(spec,ROOT/'models/qwen-27b')
     with shared_gpu_slot():
         for index in range(a.start_at,a.start_at+a.attempts):
-            out=ROOT/'results'/f'{a.run_id}-{index}';out.mkdir(exist_ok=False);attempt(index,out,spec)
+            out=ROOT/'results'/f'{a.run_id}-{index}';out.mkdir(exist_ok=False);attempt(index,out,spec,a.machine)
 if __name__=='__main__':main()

@@ -6,10 +6,10 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import shared_gpu_slot,stop,write_json,safety
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    safety();app=Path('/Applications/Blender.app');subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
+    safety(a.machine);app=Path('/Applications/Blender.app');subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
     dialogs=subprocess.run(['pgrep','-fl','UserNotificationCenter|CoreServicesUIAgent'],capture_output=True,text=True)
     if dialogs.returncode==0:raise RuntimeError('A system dialog process is present; resolve it before launching another GUI tool')
     blender=runner=None
@@ -27,7 +27,7 @@ def main():
                 else:raise TimeoutError('Blender fixture did not initialize')
                 receipt=json.loads((ROOT/'work/blender-condition.json').read_text());receipt['slot']=slot;write_json(ROOT/'work/blender-condition.json',receipt)
                 time.sleep(10)
-                runner=subprocess.Popen([sys.executable,str(ROOT/'scripts/run_agentperf.py'),'--allow-inference','--condition','blender-open','--run-id',a.run_id],cwd=ROOT,start_new_session=True)
+                runner=subprocess.Popen([sys.executable,str(ROOT/'scripts/run_agentperf.py'),'--allow-inference','--condition','blender-open','--run-id',a.run_id,'--machine',a.machine],cwd=ROOT,start_new_session=True)
                 while runner.poll() is None:
                     if blender.poll() is not None:raise RuntimeError('Blender exited during the condition; paired run invalid')
                     time.sleep(2)

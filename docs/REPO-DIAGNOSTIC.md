@@ -16,7 +16,7 @@ After the owner reserves the M5 GPU, inspect the active task processes and use a
 .venv/bin/python scripts/run_repo_task.py --allow-inference --run-id m5-repo-qwen-YYYYMMDD --attempts 5
 ```
 
-Do not run this on the original M3 while other sessions use its GPU. The runner is currently explicitly limited to the standard Qwen 8-bit MLX model on the verified new Studio. Other-model and matched-M3 extensions must preserve the task/scaffold and record their configurations.
+Do not run this on the original M3 while other sessions use its GPU. The runner uses the standard Qwen 8-bit MLX model and defaults to the new Studio. After the owner explicitly releases the original GPU, pass `--machine studio-old`; hardware checks and the shared slot guard still apply. Other-model extensions must preserve the task/scaffold and record their configurations.
 
 The initial request contains 200,000–200,032 chat tokens from the pinned repository source plus the bug statement. Actual tokenizer count, packet hash, server usage, output and tool feedback are retained. Each attempt gets a new process/cache and repository; later turns may use the server's normal prompt cache. Report initial cold fill separately from warm turns. Eight model turns, 2,048 output tokens per turn, temperature 0.2 and recorded seeds bound the attempt. JSON format errors receive mechanical feedback and consume a turn. The controller supplies no suggested fix. Human rescues are counted separately from ordinary test feedback.
 

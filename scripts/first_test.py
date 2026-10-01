@@ -49,8 +49,8 @@ def stop(process):
         except subprocess.TimeoutExpired:process.kill();process.wait()
 
 
-def safety():
-    state=preflight('studio-new',True)
+def safety(machine='studio-new'):
+    state=preflight(machine,True)
     console=subprocess.check_output(['stat','-f','%Su','/dev/console'],text=True).strip()
     if console in ('root','loginwindow',''):raise RuntimeError('Desktop session is not active')
     for line in subprocess.check_output(['ps','-axo','stat=,comm='],text=True).splitlines():

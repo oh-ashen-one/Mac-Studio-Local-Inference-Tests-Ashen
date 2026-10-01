@@ -26,6 +26,8 @@ def state(comparison):
     aa_runs=[]
     for run_file in (ROOT/'results').glob('*aa*/run.json'):
         run=json.loads(run_file.read_text())
+        if 'machine_id' not in run:
+            run['machine_id']={'Apple M5 Ultra':'studio-new','Apple M3 Ultra':'studio-old'}.get(run.get('preflight',{}).get('chip'))
         summary=run_file.parent/'raw/summary.json'
         if summary.exists():
             record=json.loads(summary.read_text())
