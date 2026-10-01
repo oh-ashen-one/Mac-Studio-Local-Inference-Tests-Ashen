@@ -7,6 +7,8 @@ from first_test import safety,shared_gpu_slot,write_json
 
 def main():
     safety()
+    dialogs=subprocess.run(["pgrep","-fl","UserNotificationCenter|CoreServicesUIAgent"],capture_output=True,text=True)
+    if dialogs.returncode==0:raise RuntimeError("Resolve existing macOS dialogs before installing this new app")
     if int(subprocess.check_output(['sw_vers','-productVersion'],text=True).split('.')[0])<27:raise RuntimeError('Do not enroll in legacy MDM; this installer plan requires macOS 27+')
     if (Path.home()/'.darkbloom/Darkbloom.app').exists():raise RuntimeError('Existing installation preserved; inspect it instead of overwriting')
     lock=json.loads((ROOT/'config/darkbloom-install.lock.json').read_text())
