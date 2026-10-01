@@ -36,6 +36,8 @@ def state(comparison):
         if summary.exists():
             record=json.loads(summary.read_text())
             run['summary']={k:record.get(k) for k in ['totals','success','failed_turn_ids','output_tokens_per_second','end_to_end_output_tokens_per_second','latency_distributions_ms','measured_duration_ms','comparability','tasks']}
+            run['summary']['context_evidence']=record.get('config',{}).get('context')
+            run['summary']['output_policy']=record.get('config',{}).get('output_tokens',{}).get('policy')
         aa_runs.append(run)
     aa_live_path=ROOT/'work/agentperf-live.json'
     aa_live=json.loads(aa_live_path.read_text()) if aa_live_path.exists() else None

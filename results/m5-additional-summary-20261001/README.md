@@ -20,7 +20,7 @@ Saved evidence:
 
 ## Qwen 3.6 35B A3B
 
-Repository diagnostic: **3/4 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
+Repository diagnostic: **4/5 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
 
 Saved evidence:
 
@@ -33,6 +33,11 @@ Saved evidence:
 - [m5-repo-qwen36-20261001-2](../../results/m5-repo-qwen36-20261001-2/result.json) — repo_task, complete, passed.
 - [m5-repo-qwen36-20261001-3](../../results/m5-repo-qwen36-20261001-3/result.json) — repo_task, complete, passed.
 - [m5-repo-qwen36-20261001-4](../../results/m5-repo-qwen36-20261001-4/result.json) — repo_task, complete, did not pass.
+- [m5-repo-qwen36-20261001-5](../../results/m5-repo-qwen36-20261001-5/result.json) — repo_task, complete, passed.
+
+Replay cells (serving only, not tasks solved):
+
+- [aa-mini-v1](../../results/m5-aa-qwen36-mini-recorded-20261001/run.json) — complete; 6/6 turns served; 3 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 
 ## Runtime and interpretation
 
