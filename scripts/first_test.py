@@ -114,6 +114,7 @@ def transaction(spec,out,live,update):
     with socket.socket() as check:
         if check.connect_ex(('127.0.0.1',port))==0:raise RuntimeError('Test server port is already occupied; will not take it over')
     environment=os.environ.copy();environment.update(HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
+    cache=ROOT/'.cache/huggingface/hub';cache.mkdir(parents=True,exist_ok=True);environment['HF_HUB_CACHE']=str(cache)
     if spec['backend']=='mlx':
         cmd=[sys.executable,'-m','mlx_lm.server','--model',str(ROOT/'models'/spec['id']),'--host','127.0.0.1','--port',str(port),'--prompt-cache-size','0','--prompt-concurrency','1']
         cwd=ROOT

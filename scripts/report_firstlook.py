@@ -25,6 +25,8 @@ def main():
         '- The Qwen transaction reached the 512-token cap (finish_reason=length), truncating the end of its explanation. Gemma and DeepSeek stopped normally. All actual outputs are preserved; completion of a request is not a correctness grade.',
         '- Memory is the drop from initial system-available RAM to its lowest sampled value during speed probes. It includes background changes and is not an exact per-model allocation. Samples were taken about once per second. Process RSS is retained separately.',
         '- DwarfStar reported a planned 153.41 GiB allocation for the short probe, including its mapped 153.32 GiB model. Its ordinary process RSS is small because it does not represent these mapped GPU weights; do not report DeepSeek as a sub-GB model.',
+        '- Initial MLX /v1/models readiness probes logged a missing empty Hugging Face cache directory before later readiness succeeded. The actual POST transactions completed successfully; the diagnostics are preserved. Future runs create an empty task-local cache before launching the server.',
+        '- server_ready_s is HTTP readiness, not a validated cold model-load measurement.',
         '- No swap increase was observed in the probe telemetry. Power/energy were not measured.',
         '- Photos/iCloud work and the live Safari dashboard were present. This is an initial interactive test, not a quiet-system absolute maximum. The task used a shared GPU capture slot and ran one model at a time.',
         '', '## Provenance','',
