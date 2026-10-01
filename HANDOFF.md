@@ -9,8 +9,10 @@ The owner authorized the long-context/agent/multitasking campaign and confirmed 
 
 - Qwen 200K completed: 214.47 seconds to fill, 933.63 input tok/s, 21.44 post-fill output tok/s, zero swap growth.
 - Gemma 200K completed: 314.93 seconds to fill, 635.74 input tok/s, 15.41 post-fill output tok/s, zero swap growth.
-- DeepSeek 200K is running on the M5, owned driver `scripts/long_context.py`, run ID `m5-deepseek-200k-20261001`. Check the live JSON/process before doing anything; do not restart blindly.
+- DeepSeek 200K completed: 301.75 s fill, 662.81 input tok/s, 38.20 output tok/s, zero swap growth; minimum available RAM 64.53 GiB.
 - The M5 hostname changed. Read ignored `config/machines.local.json` on the controller for verified routing, preserving the existing SSH host identity.
+- Official AA Qwen Q4_K_M cohort is separately pinned and built on M5. Mini qualification passed. `m5-aa-full-alone-20261001` is running under `scripts/run_agentperf.py`; inspect before launching another model. Blender 5.2.0 official bundle installed and signature-verified on M5; not launched yet.
+- Django repository evaluator prepared and baseline/reference/isolation checked on controller without GPU. See `config/repo-task.json` and `scripts/run_repo_task.py`.
 - `docs/LONG-CONTEXT-CAMPAIGN.md` records exact methodology, outstanding agent/Blender/repo tasks and interpretation limits.
 - Visual dashboard source now prioritizes 200K metrics, waiting-time bars, source-linked external references and collapsed transcripts. The readonly localhost server must be restarted after updating its Python source.
 - External peer reports are reference configurations, not a matched hardware leaderboard. No measured M3/M5 percentage exists yet.

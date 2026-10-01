@@ -32,3 +32,9 @@ No speculation, no quantized KV cache for the MLX runs, prefill chunks 2048. Bac
 The visual dashboard defaults to 200K reports. Tuned speculative runs and aggregate multi-user throughput are labeled and filterable. No hardware-only percent is computed across those heterogeneous sources. Raw prompts/responses are collapsed.
 
 Sources: [official AA repository](https://github.com/ArtificialAnalysis/aa-agentperf-local), [Darkbloom installation](https://docs.darkbloom.dev/provider/install), [Darkbloom earnings](https://docs.darkbloom.dev/provider/earnings). Exact peer URLs are attached to every JSON row and dashboard row.
+
+## Repository diagnostic implementation
+
+The first task is historical SWE-bench `django__django-14500` at commit `8c3bd0b708b488a1f6e8bd8cc6b96569904605be`. The scaffold supports bounded read/replace/test/finish actions, with no model shell access. Initial input is 200,000–200,032 actual chat tokens, followed by up to eight turns of 2,048 output tokens. Only migration implementation modules can be edited. Each evaluation restores immutable tests into a fresh copy and runs 19 regression tests in a filesystem/network sandbox with CPU/time limits. Baseline fails the expected new test; the published reference fix passes all 19. Sentinel-read and network denial were verified.
+
+This is a large-context repository diagnostic, not yet a broad long-horizon benchmark. It uses a known public bug and may be contaminated by training data. Five attempts at temperature 0.2 with recorded seeds are planned; report raw successes/attempts and zero-rescue behavior, not a general intelligence score. Each attempt gets a fresh model server/cache and repository. Failures are retained.
