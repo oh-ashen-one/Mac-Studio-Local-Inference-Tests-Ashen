@@ -33,3 +33,16 @@ DeepSeek's existing valid measurement needs no repeat merely because its referen
 Qwen failed with baseline MLX-LM 0.31.3 due to an MTP/RMSNorm conversion mismatch, before any performance score was accepted. The failed raw replies are retained. Official MLX-VLM at `d73f4b1ad90194d53e37beac6e9eef76976aadc5` drops MTP weights before detecting norm-shift convention and passes the same qualification. Its independent MiMo implementation supports the V2.6 fused QKV and MXFP4 expert tensors. This environment is separately pinned and never changes the original cohort runtime. Text-only tests do not establish vision/audio performance.
 
 The MLX-LM HTTP server does not implement the AA exact-output `ignore_eos` policy. An attached independent-server replay may use the official **recorded** cap policy as a separate exploratory cell, with this difference disclosed; it is not a comparable replacement for the original exact-length Q4_K_M managed run. No result is submitted to AA.
+
+## Reproduce the additional runtime and resume
+
+The exact extra environment is independent of the original `.venv`:
+
+```sh
+.tools/uv venv --python 3.12.13 vendor/vlm-runtime/.venv
+.tools/uv pip install --python vendor/vlm-runtime/.venv/bin/python -r config/requirements-mlx-vlm.lock
+```
+
+This only prepares packages. Inference still requires owner authorization and a verified M5 window. With that authorization, `scripts/additional_campaign.py --allow-inference` runs the finite sequential matrix. Inspect `work/additional-campaign.json` and its live PID before invoking it: never start a second driver. It resumes only completed cells, refuses existing failed/incomplete cells pending review, and has per-job deadlines and memory/download/GPU-holder guards.
+
+[Current saved results and all failure links](../results/m5-additional-summary-20261001/README.md). Summaries are regenerated from raw saved artifacts with `python3 scripts/report_additional.py`.

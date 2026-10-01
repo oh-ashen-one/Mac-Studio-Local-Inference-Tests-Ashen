@@ -45,8 +45,11 @@ def main():
                         if result['elapsed_s']>14400:raise TimeoutError('Four-hour replay budget reached')
                         time.sleep(2)
                 write_json(out/'telemetry.json',telemetry.rows)
-            result.update(status='complete' if client.returncode==0 else 'failed',exit_code=client.returncode,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat());update()
-            if client.returncode:raise RuntimeError('Replay failed; inspect preserved evidence')
+            summary_file=out/'raw/summary.json'
+            summary=json.loads(summary_file.read_text()) if summary_file.exists() else {}
+            serving_success=client.returncode==0 and summary.get('success') is True and summary.get('totals',{}).get('failed_turns')==0
+            result.update(status='complete' if serving_success else 'failed',exit_code=client.returncode,serving_success=serving_success,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat());update()
+            if not serving_success:raise RuntimeError('Replay failed qualification; inspect preserved evidence')
     except BaseException as exc:result.update(status='failed',error=str(exc).replace(str(ROOT),'<repo>').replace(str(folder),'<model>'));update();raise
     finally:stop(client);stop(server)
 
