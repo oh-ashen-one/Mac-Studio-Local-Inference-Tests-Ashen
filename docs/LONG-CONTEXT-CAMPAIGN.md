@@ -8,7 +8,7 @@ Owner request, 2026-10-01: start with 200,000 actual input tokens, record prefil
 |---|---:|---:|---:|---:|---:|
 | Qwen 3.8 27B, 8-bit MLX | 214.47 s | 933.63 | 21.44 | 42.02 GiB | 0 |
 | Gemma 4 31B, 8-bit MLX | 314.93 s | 635.74 | 15.41 | 49.95 GiB | 0 |
-| DeepSeek V4 Flash 0731, mixed Q4 | Run in progress | — | — | Native backend; different memory accounting | — |
+| DeepSeek V4 Flash 0731, mixed Q4 | 301.75 s | 662.81 | 38.20 | 155.81 GiB planned total, not measured peak | 0 |
 
 These are single runs, not a statistically established maximum or intelligence ranking. The source corpus is pinned CPython 3.12.13; the script takes exactly 200,000 tokens according to each model's own tokenizer. Source-file ordering and hashes are in `config/context-corpus.lock.json`; actual token hashes and output are in each result record. Different tokenizers consume different source prefixes. Generation continues through EOS to perform the fixed 256-token workload, so the continuation is not a quality evaluation.
 
