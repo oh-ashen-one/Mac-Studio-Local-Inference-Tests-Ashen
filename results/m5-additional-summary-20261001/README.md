@@ -6,7 +6,7 @@ No original M3 inference; no matched chip-only percentage.
 
 | Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |
 |---|---:|---:|---:|---:|---:|---:|
-| Xiaomi: MiMo-V2.6-Flash · mxfp4 catalog; 4-bit config default | 1/3 | 638.94 s | 316.12 tok/s | **0.30** (0.30–0.30) | 210.36 GiB | 0 bytes |
+| Xiaomi: MiMo-V2.6-Flash · mxfp4 catalog; 4-bit config default | 2/3 | 591.05 s | 343.78 tok/s | **0.35** (0.30–0.40) | 210.36 GiB | 0 bytes |
 | Qwen 3.6 35B A3B · fp4 catalog; 4-bit config default | 3/3 | 66.69 s | 3001.24 tok/s | **79.78** (79.64–79.96) | 23.98 GiB | 0 bytes |
 
 ## Xiaomi: MiMo-V2.6-Flash
@@ -16,11 +16,13 @@ Repository diagnostic: **0/0 completed attempts passed**, of five planned. Infra
 Saved evidence:
 
 - [m5-mimo-200k-20261001-1](../../results/m5-mimo-200k-20261001-1/result.json) — long_context, complete, complete.
+- [m5-mimo-200k-20261001-2](../../results/m5-mimo-200k-20261001-2/result.json) — long_context, complete, complete.
 - [m5-mimo-pilot-vlm-20261001](../../results/m5-mimo-pilot-vlm-20261001/result.json) — runtime_validation, failed, failed.
 - [m5-mimo-pilot-vlm-base-20261001](../../results/m5-mimo-pilot-vlm-base-20261001/result.json) — runtime_validation, complete, did not pass.
 
 Whole-job system swap observations (including loading; distinct from timed-phase swap above):
 
+- m5-mimo-200k-20261001-2: 1,835,008 bytes increase. System-wide observation, not process attribution.
 - m5-mimo-200k-20261001-1: 133,890,048 bytes increase. System-wide observation, not process attribution.
 
 ## Qwen 3.6 35B A3B
