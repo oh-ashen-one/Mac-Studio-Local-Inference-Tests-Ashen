@@ -10,6 +10,8 @@ All three models completed **200,000 actual input tokens plus 256 output tokens*
 | Gemma 4 31B, 8-bit MLX | 5m 15s | 635.74 | **15.41** |
 | DeepSeek V4 Flash 0731, mixed Q4 | 5m 02s | 662.81 | **38.20** |
 
+![200K context fill and generation speeds](outputs/200k-context-results.png)
+
 One measured long-context run per model; no swap growth. These are throughput stress tests, not quality scores. Cache definitions, runtime differences and raw records are in the [campaign report](docs/LONG-CONTEXT-CAMPAIGN.md). The earlier [short-context setup checks](results/m5-firstlook-20261001/README.md) remain available but are not the headline result.
 
 **The original M3 GPU is busy with the owner's other sessions. No matched M3/M5 percentage is claimed.** The [live handoff](HANDOFF.md) tracks the official AA replay, Blender condition, [repository diagnostic](docs/REPO-DIAGNOSTIC.md) and [Darkbloom installation last](docs/DARKBLOOM.md). Changes and results are being reviewed in [PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3).
