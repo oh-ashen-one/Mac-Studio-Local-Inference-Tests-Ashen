@@ -18,7 +18,7 @@ For this already-prepared Studio, return to this chat and say **“start the tes
 
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: all three models downloaded and SHA256 verified on the existing M3 Ultra; preparation only, no inference running from this task. No controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: both Studios are prepared with the same three model artifacts and matched runtime versions. All 34 selected model files are SHA256 verified on the M5. No inference is running from this task; no controlled comparison results yet. [Paired setup receipt](docs/M5-READY.md).** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS have now been inspected; see the paired setup receipt. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
@@ -35,19 +35,19 @@ The results will be linked from **[Ashen Benchmark](https://ashenoneport.com/ben
 
 | Field | Existing Studio: directly observed | Incoming Studio: owner-confirmed order |
 |---|---|---|
-| Chip | Apple M3 Ultra | Apple M5 Ultra; device inspection pending |
+| Chip | Apple M3 Ultra | Apple M5 Ultra, directly observed |
 | CPU | 32 cores: 24 performance + 8 efficiency | 36 cores |
 | GPU | 80 cores | 80 cores |
 | Unified memory | 256 GB; `hw.memsize` = 274,877,906,944 bytes | 256 GB, owner-confirmed |
 | SSD | 2.0 TB; 2,001,111,162,880 bytes | 2 TB, owner-confirmed |
-| Model identifier | Mac15,14 | Pending |
-| OS at inventory | macOS 27.0, build 26A428 | Pending; match OS/build for controlled tests where supported |
+| Model identifier | Mac15,14 | Mac17,15 |
+| OS at latest inventory | macOS 27.0.1, build 26A434 | macOS 27.0.1, build 26A434 |
 | Memory bandwidth | 819 GB/s, Apple specification | 1.2 TB/s, current Apple top-chip specification; pending machine confirmation |
 | Interconnect | Thunderbolt 5 and 10Gb Ethernet per Apple specification | Thunderbolt 5 and 10Gb Ethernet per current Apple specification; pending inspection |
 
 **The 80-core number is the GPU, not the CPU. Both machines have 256 GB memory.** More RAM is therefore not the proposed upgrade's advantage; chip architecture, memory bandwidth, supported kernels and practical workload performance are what we need to measure. GPU core counts alone cannot predict speed.
 
-The incoming configuration is now explicitly confirmed by the owner and matches [Apple's current specifications](https://www.apple.com/mac-studio/specs/). Direct inventory of the delivered unit remains pending. “Top-chip, 256 GB / 2 TB” is more precise than “fully maxed out”: Apple's current specifications also list larger memory and storage configurations. Historical M3 figures come from [Apple's 2025 specifications](https://support.apple.com/en-us/122211).
+The incoming configuration is now explicitly confirmed by the owner and matches [Apple's current specifications](https://www.apple.com/mac-studio/specs/). Direct inventory now confirms the delivered chip, CPU/GPU core counts, memory and storage. “Top-chip, 256 GB / 2 TB” is more precise than “fully maxed out”: Apple's current specifications also list larger memory and storage configurations. Historical M3 figures come from [Apple's 2025 specifications](https://support.apple.com/en-us/122211).
 
 A theoretical bandwidth ratio is not a tokens-per-second prediction. We will publish measured ratios only after matched runs.
 

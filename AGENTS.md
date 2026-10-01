@@ -16,8 +16,8 @@ First inspect both device inventories and confirm identical files/runtime revisi
 
 ## Repository and model scope
 
-The GitHub remote is authoritative. Work on your own branch, push all project changes in the session, and do not merge into `main` without explicit owner permission. The prepared branch is `codex/setup-20260930`. Do not reset/rebase/overwrite collaborators' work.
+The GitHub remote is authoritative. Work on your own branch, push all project changes in the session, and do not merge into `main` without explicit owner permission. The paired preparation branch is `codex/m5-model-setup-20261001`. Both devices are inventoried and staged; read HANDOFF.md and docs/M5-READY.md for the current state. Do not reset/rebase/overwrite collaborators' work.
 
 Exactly three standard model configurations are selected in `config/models.lock.json`: Qwen 3.8 27B 8-bit MLX, Gemma 4 31B 8-bit MLX, and DeepSeek V4 Flash 0731 mixed Q4 through DwarfStar/Metal. No Mistral, no abliterated models, no automatic model upgrades. Any variant/version change creates a new cohort on **both** machines.
 
-Weights, caches and virtual environments stay out of Git. Model and runtime revisions, file hashes, preparation tools, sanitized inventories and intentional result releases are versioned. The incoming order is owner-confirmed: M5 Ultra, 36 CPU cores, 80 GPU cores, 32 Neural Engine cores, 256 GB, 2 TB. Physical inventory still needs verification after arrival.
+Weights, caches and virtual environments stay out of Git. Model and runtime revisions, file hashes, preparation tools, sanitized inventories and intentional result releases are versioned. The incoming order is owner-confirmed: M5 Ultra, 36 CPU cores, 80 GPU cores, 32 Neural Engine cores, 256 GB, 2 TB. The delivered hardware was directly inventoried on October 1, 2026.
