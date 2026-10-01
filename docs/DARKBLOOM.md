@@ -1,6 +1,6 @@
 # Darkbloom — context only; owner hold
 
-**Current instruction, October 1:** the owner reports downloading Darkbloom themselves and explicitly says to do nothing with it yet. Do not install, launch, inspect account state, log in, configure, start serving, or run its CLI. The reviewed installer below is historical preparation, not permission to execute it.
+**Current instruction, October 1:** the owner authorizes testing the local model files downloaded for Darkbloom once the download batch completes, using an independent local runtime. Reading those model files and provenance/completion metadata is allowed. Do not turn on Darkbloom/provider serving, launch its app or CLI, install/reinstall it, change accounts/settings, or interfere with existing downloads. No provider/account action is needed to benchmark the files independently.
 
 Darkbloom is a network connecting inference customers with participating Apple Silicon Macs. Its coordinator routes requests to providers; claimed privacy mechanisms include encrypted routing and hardware attestation. Provider earnings come from actual billed work and depend on demand and availability. This session reviewed public documentation only and made no change to the downloaded application.
 
