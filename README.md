@@ -1,8 +1,12 @@
 # Mac Studio Local Inference Tests Ashen
 
+## First M5 results — October 1, 2026
+
+The first sequential M5 run is complete: **Qwen 32.05 tok/s, Gemma 27.63 tok/s, DeepSeek 63.83 tok/s** at the fastest measured decode repeat in the pinned configurations. These are initial M5-only numbers, not an M3 comparison or a universal speed claim. Read the [full results, real responses and limitations](results/m5-firstlook-20261001/README.md).
+
 ## Start here — preparation only
 
-**The owner is using the GPU for other work. Do not load any model or start inference.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+**The initial owner-authorized test is complete. Do not start another model or inference run merely from reading this README.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
 
 On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
 

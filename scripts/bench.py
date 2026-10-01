@@ -111,12 +111,14 @@ def worker(args, model_spec, output):
         grouped = [cases[i:i+counts[args.session]+2] for i in range(0, len(cases), counts[args.session]+2)]
         random.Random(702+args.session).shuffle(grouped)
         cases = [c for group in grouped for c in group]
+    elif args.suite == 'firstlook':
+        cases = [{'id':'decode-512-256','input_tokens':512,'output_tokens':256,'repeat':i,'warmup':i<0,'prompt_seed':1729+i+1} for i in [-1,0,1,2]]
     elif args.suite == 'pilot':
         cases = [{'id':'setup-speed','input_tokens':512,'output_tokens':32,'repeat':0,'warmup':False,'prompt_seed':1729}]
     else:
         cases = [{'id':'setup-reply','input_tokens':None,'output_tokens':128,'repeat':0,'warmup':False,'prompt_seed':1729}]
     for case in cases:
-        if args.suite in ('core', 'pilot'):
+        if args.suite in ('core', 'pilot', 'firstlook'):
             ids = synthetic_prompt(tokenizer, case['input_tokens'], case['prompt_seed'])
         else:
             ids = tokenizer.apply_chat_template(
@@ -127,7 +129,7 @@ def worker(args, model_spec, output):
         mx.random.seed(case['prompt_seed'])
         mx.clear_cache()
         mx.reset_peak_memory()
-        record = {'schema_version':1,'kind':'hardware_microbenchmark' if args.suite=='core' else ('setup_pilot' if args.suite=='pilot' else 'setup_smoke'),
+        record = {'schema_version':1,'kind':'hardware_microbenchmark' if args.suite=='core' else ('initial_speed_test' if args.suite=='firstlook' else ('setup_pilot' if args.suite=='pilot' else 'setup_smoke')),
                   'run_id':str(uuid.uuid4()),'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
                   'machine_id':args.machine,'model_id':model_spec['id'],'model_revision':model_spec['revision'],
                   'model_lock_sha256':digest(ROOT/'config/models.lock.json'),
@@ -138,7 +140,7 @@ def worker(args, model_spec, output):
                   'runtime_versions':versions,'os_build':subprocess.check_output(['sw_vers','-buildVersion'],text=True).strip(),
                   'session':args.session,'cell':case,'input_tokens':len(ids),'input_token_ids_sha256':canonical_hash(ids),
                   'load_s':load_s,'preflight':before,'settings':{'temperature':0,'kv_quantization':None,'prefix_reuse':False,
-                    'speculation':False,'prefill_step_size':2048,'fixed_token_mode':args.suite in ('core','pilot'),
+                    'speculation':False,'prefill_step_size':2048,'fixed_token_mode':args.suite in ('core','pilot','firstlook'),
                     'chat_template_kwargs':model_spec['chat_template_kwargs'] if args.suite=='smoke' else None}}
         swap_before = psutil.swap_memory().used
         token_times, tokens = [], []
@@ -183,7 +185,7 @@ def worker(args, model_spec, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--machine', choices=['studio-old','studio-new'], required=True)
-    parser.add_argument('--suite', choices=['smoke','pilot','core'], default='smoke')
+    parser.add_argument('--suite', choices=['smoke','pilot','firstlook','core'], default='smoke')
     parser.add_argument('--model', default='all')
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--session',type=int,choices=[0,1,2],default=0)
