@@ -1,5 +1,7 @@
 # Visual comparison dashboard
 
+![Actual dashboard served by the M5](../outputs/dashboard-overview.jpg)
+
 The localhost viewer is read-only: it renders saved data, performs no model inference and has no test-start endpoint. On the M5 it runs at `http://127.0.0.1:18765`; controller review uses its own loopback SSH forward.
 
 The main view includes:
