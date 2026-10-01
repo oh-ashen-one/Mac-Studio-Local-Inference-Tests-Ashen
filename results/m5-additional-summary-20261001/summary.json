@@ -1,11 +1,11 @@
 {
-  "updated_at_utc": "2026-10-01T22:54:31.697291+00:00",
+  "updated_at_utc": "2026-10-01T23:22:39.736779+00:00",
   "models": [
     {
       "model_id": "mimo-v2.6-flash-mopd",
       "revision": "2026-09-28-r1",
       "quantization": "mxfp4 catalog; 4-bit config default",
-      "sample_count": 0,
+      "sample_count": 1,
       "planned_speed_samples": 3,
       "planned_repo_attempts": 5,
       "completed_repo_attempts": 0,
@@ -14,10 +14,27 @@
       "human_rescues": 0,
       "evidence": [
         "results/m5-mimo-pilot-vlm-base-20261001/result.json",
-        "results/m5-mimo-pilot-vlm-20261001/result.json"
+        "results/m5-mimo-pilot-vlm-20261001/result.json",
+        "results/m5-mimo-200k-20261001-1/result.json"
       ],
       "repo_median_wall_s": null,
-      "replays": []
+      "replays": [],
+      "whole_job_swap_observations": [
+        {
+          "run": "m5-mimo-200k-20261001-1",
+          "system_swap_growth_bytes": 133890048,
+          "scope": "Whole job including loading; system-wide, not process attribution"
+        }
+      ],
+      "context_fill_s_median": 638.9383417499994,
+      "prefill_tok_s_median": 316.12365403729297,
+      "decode_tok_s_median": 0.30330783224978813,
+      "decode_range": [
+        0.30330783224978813,
+        0.30330783224978813
+      ],
+      "peak_metal_gib": 210.3618535157293,
+      "max_swap_growth_bytes": 0
     },
     {
       "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
@@ -179,6 +196,18 @@
           "evidence": "results/m5-aa-qwen36-mini-recorded-20261001/run.json"
         }
       ],
+      "whole_job_swap_observations": [
+        {
+          "run": "m5-qwen36-200k-20261001-3",
+          "system_swap_growth_bytes": 0,
+          "scope": "Whole job including loading; system-wide, not process attribution"
+        },
+        {
+          "run": "m5-qwen36-200k-20261001-2",
+          "system_swap_growth_bytes": 0,
+          "scope": "Whole job including loading; system-wide, not process attribution"
+        }
+      ],
       "context_fill_s_median": 66.68799399999989,
       "prefill_tok_s_median": 3001.235511640144,
       "decode_tok_s_median": 79.77563649719919,
@@ -191,6 +220,6 @@
     }
   ],
   "hardware_comparison": "No original M3 inference; no matched chip-only percentage.",
-  "speed_definition": "Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded.",
+  "speed_definition": "Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.",
   "original_cohort": "Unchanged; original three speed cells remain n=1."
 }

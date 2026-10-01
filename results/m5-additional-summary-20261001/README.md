@@ -1,12 +1,12 @@
 # Additional M5 model results
 
-Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded.
+Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.
 
 No original M3 inference; no matched chip-only percentage.
 
 | Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |
 |---|---:|---:|---:|---:|---:|---:|
-| Xiaomi: MiMo-V2.6-Flash · mxfp4 catalog; 4-bit config default | 0/3 | Pending | Pending | Pending | Pending | Pending |
+| Xiaomi: MiMo-V2.6-Flash · mxfp4 catalog; 4-bit config default | 1/3 | 638.94 s | 316.12 tok/s | **0.30** (0.30–0.30) | 210.36 GiB | 0 bytes |
 | Qwen 3.6 35B A3B · fp4 catalog; 4-bit config default | 3/3 | 66.69 s | 3001.24 tok/s | **79.78** (79.64–79.96) | 23.98 GiB | 0 bytes |
 
 ## Xiaomi: MiMo-V2.6-Flash
@@ -15,8 +15,13 @@ Repository diagnostic: **0/0 completed attempts passed**, of five planned. Infra
 
 Saved evidence:
 
+- [m5-mimo-200k-20261001-1](../../results/m5-mimo-200k-20261001-1/result.json) — long_context, complete, complete.
 - [m5-mimo-pilot-vlm-20261001](../../results/m5-mimo-pilot-vlm-20261001/result.json) — runtime_validation, failed, failed.
 - [m5-mimo-pilot-vlm-base-20261001](../../results/m5-mimo-pilot-vlm-base-20261001/result.json) — runtime_validation, complete, did not pass.
+
+Whole-job system swap observations (including loading; distinct from timed-phase swap above):
+
+- m5-mimo-200k-20261001-1: 133,890,048 bytes increase. System-wide observation, not process attribution.
 
 ## Qwen 3.6 35B A3B
 
@@ -34,6 +39,11 @@ Saved evidence:
 - [m5-repo-qwen36-20261001-3](../../results/m5-repo-qwen36-20261001-3/result.json) — repo_task, complete, passed.
 - [m5-repo-qwen36-20261001-4](../../results/m5-repo-qwen36-20261001-4/result.json) — repo_task, complete, did not pass.
 - [m5-repo-qwen36-20261001-5](../../results/m5-repo-qwen36-20261001-5/result.json) — repo_task, complete, passed.
+
+Whole-job system swap observations (including loading; distinct from timed-phase swap above):
+
+- m5-qwen36-200k-20261001-3: 0 bytes increase. System-wide observation, not process attribution.
+- m5-qwen36-200k-20261001-2: 0 bytes increase. System-wide observation, not process attribution.
 
 Replay cells (serving only, not tasks solved):
 

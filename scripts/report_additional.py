@@ -18,7 +18,7 @@ def main():
             r['serving_summary']={k:saved.get(k) for k in ['success','totals','measured_duration_ms','end_to_end_output_tokens_per_second']}
             r['context_evidence']=saved.get('config',{}).get('context')
         r['evidence']=str(path.relative_to(ROOT));replays.append(r)
-    report={'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'models':[],'hardware_comparison':'No original M3 inference; no matched chip-only percentage.','speed_definition':'Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded.','original_cohort':'Unchanged; original three speed cells remain n=1.'}
+    report={'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'models':[],'hardware_comparison':'No original M3 inference; no matched chip-only percentage.','speed_definition':'Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.','original_cohort':'Unchanged; original three speed cells remain n=1.'}
     lines=['# Additional M5 model results','',report['speed_definition'],'',report['hardware_comparison'],'','| Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |','|---|---:|---:|---:|---:|---:|---:|']
     detail=[]
     for m in lock['models']:
@@ -31,6 +31,12 @@ def main():
         summary={'model_id':m['id'],'revision':m['revision'],'quantization':m['quantization'],'sample_count':len(runs),'planned_speed_samples':3,'planned_repo_attempts':5,'completed_repo_attempts':len(measured),'repo_passed':sum(r.get('passed',False) for r in measured),'repo_infrastructure_failures':sum(r.get('status')=='failed' for r in trials),'human_rescues':sum(r.get('human_rescues',0) for r in trials),'evidence':[r['evidence'] for r in own]}
         summary['repo_median_wall_s']=statistics.median(r['wall_s'] for r in measured) if measured else None
         summary['replays']=[r for r in replays if r['model_id']==m['id']]
+        summary['whole_job_swap_observations']=[]
+        for r in runs:
+            path=(ROOT/r['evidence']).parent/'campaign-telemetry.json'
+            if path.exists():
+                telemetry=json.loads(path.read_text())
+                if telemetry:summary['whole_job_swap_observations'].append({'run':Path(r['evidence']).parent.name,'system_swap_growth_bytes':max(x['swap_bytes'] for x in telemetry)-telemetry[0]['swap_bytes'],'scope':'Whole job including loading; system-wide, not process attribution'})
         if runs:
             for k in ['context_fill_s','prefill_tok_s','decode_tok_s']:summary[k+'_median']=statistics.median(r[k] for r in runs)
             summary['decode_range']=[min(r['decode_tok_s'] for r in runs),max(r['decode_tok_s'] for r in runs)]
@@ -42,6 +48,10 @@ def main():
         for r in sorted(own,key=lambda r:r['evidence']):
             outcome='passed' if r.get('passed') else ('did not pass' if 'passed' in r else r.get('status'))
             detail.append(f"- [{r['evidence'].split('/')[1]}](../../{r['evidence']}) — {r.get('kind')}, {r.get('status')}, {outcome}.")
+        if summary['whole_job_swap_observations']:
+            detail+=['','Whole-job system swap observations (including loading; distinct from timed-phase swap above):','']
+            for row in summary['whole_job_swap_observations']:
+                detail.append(f"- {row['run']}: {row['system_swap_growth_bytes']:,} bytes increase. System-wide observation, not process attribution.")
         if summary['replays']:
             detail+=['','Replay cells (serving only, not tasks solved):','']
             for r in summary['replays']:
