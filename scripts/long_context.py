@@ -4,31 +4,32 @@ import argparse,datetime,json,os,signal,subprocess,sys,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from models import digest,verify
+from model_registry import resolve_model
 from bench import canonical_hash,timing_summary,preflight
 from first_test import shared_gpu_slot,write_json,Telemetry,stop,safety
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True)
+    p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--lock',type=Path)
     p.add_argument('--tokens',type=int,default=200000);p.add_argument('--output-tokens',type=int,default=256)
     p.add_argument('--run-id',required=True);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Explicit owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    spec=next(m for m in json.loads((ROOT/'config/models.lock.json').read_text())['models'] if m['id']==a.model)
+    spec,model_dir,model_lock=resolve_model(a.model,a.lock)
     out=ROOT/'results'/a.run_id;out.mkdir(parents=True,exist_ok=False)
-    result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(ROOT/'config/models.lock.json'),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
+    result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(model_lock),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
     def update():write_json(ROOT/'work/long-context-live.json',result);write_json(out/'result.json',result)
     update();process=None
     try:
         with shared_gpu_slot() as slot:
             result['gpu_slot']=slot;result['preflight']=safety(a.machine)
-            result['status']='verifying_files';update();verify(spec,ROOT/'models'/a.model)
+            result['status']='verifying_files';update();verify(spec,model_dir)
             corpus=ROOT/'work/context-corpus.txt';result['corpus_sha256']=digest(corpus)
             if spec['backend']=='dwarfstar':
                 import csv,io
                 result['status']='filling_context';update();started=time.perf_counter()
-                cmd=[str(ROOT/'vendor/dwarfstar/ds4-bench'),'-m',str(ROOT/'models'/a.model/spec['files'][0]['path']),'--metal','--prompt-file',str(corpus),'--ctx-start',str(a.tokens),'--ctx-max',str(a.tokens),'--gen-tokens',str(a.output_tokens),'--prefill-chunk','2048']
+                cmd=[str(ROOT/'vendor/dwarfstar/ds4-bench'),'-m',str(model_dir/spec['files'][0]['path']),'--metal','--prompt-file',str(corpus),'--ctx-start',str(a.tokens),'--ctx-max',str(a.tokens),'--gen-tokens',str(a.output_tokens),'--prefill-chunk','2048']
                 with (out/'native.stdout').open('w') as stdout,(out/'native.stderr').open('w') as stderr:
                     process=subprocess.Popen(cmd,cwd=ROOT/'vendor/dwarfstar',stdout=stdout,stderr=stderr,start_new_session=True)
                     with Telemetry(process.pid) as telemetry:
@@ -50,7 +51,7 @@ def main():
                 from mlx_lm import load
                 from mlx_lm.generate import generate_step
                 result['status']='loading_model';update();start=time.perf_counter()
-                model,tokenizer,config=load(str(ROOT/'models'/a.model),return_config=True);mx.synchronize()
+                model,tokenizer,config=load(str(model_dir),return_config=True);mx.synchronize()
                 result['model_load_s']=time.perf_counter()-start
                 maximum=(config.get('text_config') or config).get('max_position_embeddings')
                 if maximum and a.tokens+a.output_tokens>maximum:raise RuntimeError('Requested total exceeds declared model context')
