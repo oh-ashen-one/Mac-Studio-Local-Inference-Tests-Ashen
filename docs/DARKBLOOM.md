@@ -1,6 +1,10 @@
-# Darkbloom — final installation stage
+# Darkbloom — context only; owner hold
 
-The owner requested Darkbloom last. Its homepage redirects from darkbloom.dev to darkbloom.ai. On October 1 the official release endpoint reports **0.9.14, native mlx-swift**; some prose documentation still describes a Python-based installer. The reviewed current installer is authoritative for the actual package behavior.
+**Current instruction, October 1:** the owner reports downloading Darkbloom themselves and explicitly says to do nothing with it yet. Do not install, launch, inspect account state, log in, configure, start serving, or run its CLI. The reviewed installer below is historical preparation, not permission to execute it.
+
+Darkbloom is a network connecting inference customers with participating Apple Silicon Macs. Its coordinator routes requests to providers; claimed privacy mechanisms include encrypted routing and hardware attestation. Provider earnings come from actual billed work and depend on demand and availability. This session reviewed public documentation only and made no change to the downloaded application.
+
+The owner previously requested Darkbloom last. Its homepage redirects from darkbloom.dev to darkbloom.ai. On October 1 the official release endpoint reports **0.9.14, native mlx-swift**; some prose documentation still describes a Python-based installer. The reviewed current installer is authoritative for the actual package behavior.
 
 `config/darkbloom-install.lock.json` pins the installer SHA256 and advertised package/binary/Metal hashes. `scripts/install_darkbloom.py` refuses changed metadata or a changed installer, requires macOS 27+, preserves an existing installation and takes a GPU slot for the vendor runtime verification. The official installer validates the package and Apple signature. This stage must follow model tests and close the task's Blender instance first.
 

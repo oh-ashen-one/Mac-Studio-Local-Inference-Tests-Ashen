@@ -44,7 +44,8 @@ def state(comparison):
     if repo_live:
         repo_live={k:repo_live.get(k) for k in ['status','attempt','model_id','task_id','initial_chat_tokens','human_rescues','passed','wall_s','error']}
     peers=ROOT/'research/external-benchmarks.json';campaign=ROOT/'research/campaign-status.json'
-    return {'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
+    downloads=ROOT/'research/additional-models.json'
+    return {'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
@@ -53,6 +54,8 @@ def handler_for(comparison):
         def do_GET(self):
             self.path=urlsplit(self.path).path
             if self.path=='/':body=(ROOT/'viewer/index.html').read_bytes();mime='text/html; charset=utf-8'
+            elif self.path=='/style.css':body=(ROOT/'viewer/style.css').read_bytes();mime='text/css; charset=utf-8'
+            elif self.path=='/app.js':body=(ROOT/'viewer/app.js').read_bytes();mime='text/javascript; charset=utf-8'
             elif self.path=='/api/state':body=json.dumps(state(comparison)).encode();mime='application/json'
             else:self.send_error(404);return
             if self.path=='/':print(json.dumps({'event':'page_open','user_agent':self.headers.get('User-Agent','')}),flush=True)

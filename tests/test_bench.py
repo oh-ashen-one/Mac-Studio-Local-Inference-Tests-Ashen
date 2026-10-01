@@ -124,6 +124,10 @@ def test_preview_serves_only_saved_data_without_gpu(tmp_path):
         assert len(payload['models'])==3
         assert payload['comparison'] is None
         with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
+        for asset,mime in [('/style.css','text/css'),('/app.js','text/javascript')]:
+            with urllib.request.urlopen(base+asset) as response:
+                assert response.status==200 and response.headers['Content-Type'].startswith(mime)
+                assert len(response.read())>100
         with pytest.raises(urllib.error.HTTPError):urllib.request.urlopen(base+'/../README.md')
     finally:server.shutdown();server.server_close();thread.join()
 
