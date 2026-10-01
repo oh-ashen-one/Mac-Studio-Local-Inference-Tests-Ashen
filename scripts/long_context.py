@@ -7,18 +7,21 @@ from models import digest,verify
 from model_registry import resolve_model
 from bench import canonical_hash,timing_summary,preflight
 from first_test import shared_gpu_slot,write_json,Telemetry,stop,safety
+from text_runtime import load_text,runtime_lock
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--lock',type=Path)
     p.add_argument('--tokens',type=int,default=200000);p.add_argument('--output-tokens',type=int,default=256)
+    p.add_argument('--backend',choices=['mlx-lm','mlx-vlm'],default='mlx-lm')
     p.add_argument('--run-id',required=True);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Explicit owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     spec,model_dir,model_lock=resolve_model(a.model,a.lock)
     out=ROOT/'results'/a.run_id;out.mkdir(parents=True,exist_ok=False)
     result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(model_lock),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
+    result.update(backend=spec['backend'] if spec['backend']=='dwarfstar' else a.backend,runtime_lock_sha256=digest(runtime_lock(a.backend)))
     def update():write_json(ROOT/'work/long-context-live.json',result);write_json(out/'result.json',result)
     update();process=None
     try:
@@ -48,10 +51,10 @@ def main():
                 row=rows[0];result.update({'status':'complete','input_tokens':a.tokens,'output_tokens':int(row['gen_tokens']),'prefill_tok_s':float(row['prefill_tps']),'context_fill_s':a.tokens/float(row['prefill_tps']),'context_fill_definition':'Derived from native full-prefill token/time counters; excludes model load','decode_tok_s':float(row['gen_steady_tps']),'native_row':row,'native_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT/'vendor/dwarfstar',text=True).strip()})
             else:
                 import mlx.core as mx,psutil
-                from mlx_lm import load
                 from mlx_lm.generate import generate_step
                 result['status']='loading_model';update();start=time.perf_counter()
-                model,tokenizer,config=load(str(model_dir),return_config=True);mx.synchronize()
+                mx.set_memory_limit(int(psutil.virtual_memory().total*.82))
+                model,tokenizer,config=load_text(model_dir,a.backend);mx.synchronize()
                 result['model_load_s']=time.perf_counter()-start
                 maximum=(config.get('text_config') or config).get('max_position_embeddings')
                 if maximum and a.tokens+a.output_tokens>maximum:raise RuntimeError('Requested total exceeds declared model context')
