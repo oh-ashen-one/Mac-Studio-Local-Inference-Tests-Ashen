@@ -153,3 +153,12 @@ def test_firstlook_summary_excludes_warmup_and_failed_runs():
     def row(rate,warmup=False,status='ok'):return {'kind':'initial_speed_test','cell':{'warmup':warmup},'status':status,'decode_tok_s':rate}
     s=summarize([row(999,True),row(20),row(30),row(25),row(1000,status='error')])
     assert s=={'measured_repeats':3,'fastest_decode_tok_s':30,'median_decode_tok_s':25}
+
+
+def test_mimo_base_loader_excludes_only_the_declared_draft():
+    from text_runtime import exclude_mimo_draft
+    weights={f'model.mtp.layers.{i//14}.tensor{i}':i for i in range(42)}
+    weights.update({'model.layers.0.weight':'keep','model.mtp_like.weight':'keep too'})
+    assert exclude_mimo_draft(weights)=={'model.layers.0.weight':'keep','model.mtp_like.weight':'keep too'}
+    weights.pop('model.mtp.layers.0.tensor0')
+    with pytest.raises(ValueError,match='exactly 42'):exclude_mimo_draft(weights)
