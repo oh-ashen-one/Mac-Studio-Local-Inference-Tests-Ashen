@@ -50,7 +50,10 @@ def state(comparison):
         repo_live={k:repo_live.get(k) for k in ['status','attempt','model_id','task_id','initial_chat_tokens','human_rescues','passed','wall_s','error']}
     peers=ROOT/'research/external-benchmarks.json';campaign=ROOT/'research/campaign-status.json'
     downloads=ROOT/'research/additional-models.json'
-    return {'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
+    additional_live_path=ROOT/'work/additional-campaign.json'
+    additional_live=json.loads(additional_live_path.read_text()) if additional_live_path.exists() else None
+    if additional_live:additional_live.pop('pid',None)
+    return {'additional_live':additional_live,'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
