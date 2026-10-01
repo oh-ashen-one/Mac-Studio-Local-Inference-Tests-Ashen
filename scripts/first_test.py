@@ -32,10 +32,20 @@ def write_json(path,value):
 
 def stop(process):
     if process and process.poll() is None:
-        os.killpg(process.pid,signal.SIGTERM)
-        try:process.wait(timeout=60)
-        except subprocess.TimeoutExpired:
-            os.killpg(process.pid,signal.SIGKILL);process.wait()
+        import psutil
+        try:children=psutil.Process(process.pid).children(recursive=True)
+        except psutil.Error:children=[]
+        # Stop the driver first, then only its own descendants. Allow graceful GPU shutdown.
+        process.terminate()
+        for child in children:
+            try:child.terminate()
+            except psutil.Error:pass
+        _,alive=psutil.wait_procs(children,timeout=60)
+        for child in alive:
+            try:child.kill()
+            except psutil.Error:pass
+        try:process.wait(timeout=1)
+        except subprocess.TimeoutExpired:process.kill();process.wait()
 
 
 def safety():
@@ -99,6 +109,7 @@ def summarize(rows):
 
 
 def transaction(spec,out,live,update):
+    safety()
     port=18183
     with socket.socket() as check:
         if check.connect_ex(('127.0.0.1',port))==0:raise RuntimeError('Test server port is already occupied; will not take it over')
@@ -161,6 +172,7 @@ def transaction(spec,out,live,update):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--campaign',required=True);a=p.parse_args()
+    signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     if not a.allow_inference:p.error('Owner authorization and --allow-inference are required')
     if not re.fullmatch(r'[a-z0-9-]+',a.campaign):p.error('Use a simple campaign identifier')
     out=ROOT/'results'/a.campaign
@@ -187,6 +199,8 @@ def main():
                             if raw.exists():
                                 rows=[json.loads(l) for l in raw.read_text().splitlines() if l.strip()]
                                 live['models'][spec['id']].update(summarize(rows));update()
+                            if t.rows and (t.rows[-1]['available_bytes']<8*1024**3 or t.rows[-1]['swap_bytes']-t.rows[0]['swap_bytes']>2*1024**3):
+                                raise RuntimeError('Memory pressure guard stopped this test')
                             time.sleep(2)
                     write_json(out/(spec['id']+'-speed-telemetry.json'),t.rows)
                 if process.returncode:raise RuntimeError('Speed worker failed for '+spec['id']+'; no automatic retry')
@@ -203,7 +217,7 @@ def main():
                 live.pop('stream',None);update()
                 print(spec['id']+' completed',flush=True)
             live['status']='complete';live['active']=None;live['finished_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();update()
-    except Exception as e:
+    except BaseException as e:
         live['status']='failed';live['error']=str(e).replace(str(ROOT),'<repo>');update();raise
     finally:
         stop(process);write_json(out/'summary.json',live)
