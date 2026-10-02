@@ -1,6 +1,6 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **7/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **9/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
 
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
@@ -8,10 +8,10 @@ Coverage: **7/234 cells completed**. Status: running. No overall deadline. A com
 |---|---:|---:|---:|---:|---:|---:|
 | Qwen 3.8 27B · 8-bit | 0/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
 | Gemma 4 31B · 8-bit | 4/39 | 15.443 tok/s | 1/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
-| DeepSeek V4 Flash · mixed Q4 | 3/39 | 37.520 tok/s | 1/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
+| DeepSeek V4 Flash · mixed Q4 | 4/39 | 37.520 tok/s | 1/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 | MiMo V2.6 Flash · MXFP4 | 0/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
 | Qwen 3.6 35B A3B · FP4 | 0/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
-| Qwen 3.8 27B · Q4_K_M | 0/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
+| Qwen 3.8 27B · Q4_K_M | 1/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
 
 Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.
 
