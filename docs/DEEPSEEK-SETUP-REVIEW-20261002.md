@@ -15,3 +15,5 @@ The replacement setup/run ID is `u20261002-deepseek-repo8-r1-pretoken-v2`. The f
 All native metadata-only calibration for DeepSeek repository, retrieval and serving packets now finishes **before** loading the server. The wrapper refuses to invoke that tokenizer while its DwarfStar server is active. Model bytes, native runtime binary, quantization, tokenizer, packet-building algorithm, 200K input target, seed, task, evaluator and request/turn budgets remain unchanged. Packet calibration was already outside the measured repository interval; its scheduling change is recorded explicitly. No successful or unsuccessful measured trial is retried or extended.
 
 The revised setup must pass actual server-token-count checks and the same memory guards. If it fails, preserve the new evidence and investigate; do not relax the guards or rerun automatically.
+
+At 05:29 UTC the reviewed continuation reached native server prefill at 200,001 actual prompt tokens with approximately 85.6 GiB available. This verifies the revised setup reached inference; it is not yet a passed repository trial or proof of the exact underlying OS cause.
