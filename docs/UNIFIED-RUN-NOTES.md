@@ -342,3 +342,10 @@ Median first output was **306.673s**; median response time **307.039s**, range *
 Qwen 3.8 27B Q4_K_M's second repository attempt passed **19/19 tests** in **587.698s (9m48s)**, four turns and zero rescues. It began at **200008 tokens**; later requests reused **200023, 203683 and 207432** cached tokens. The patch and immutable test outputs are preserved in [attempt two](../results/u20261002-qwen38q4-repo8-r2/result.json). Whole-child swap growth was zero and minimum available memory **178.90 GiB** (server interval **178.86 GiB**). Its series is **2/5 complete**, both observed attempts passing; the third is active.
 
 Overall coverage is **153/234 groups complete**. Completed speed/initial quality coverage does not finish either model's full matrix.
+
+
+## October 2, 17:48 UTC — third Qwen Q4 repository attempt complete
+
+Qwen 3.8 Q4_K_M attempt three passed **19/19 tests** in **617.157s**, using seven of the eight allowed turns and zero human rescues. Starting input was **200008 tokens**; the final request contained 211743 tokens with 211717 cached. Intermediate actions/evaluations and the final patch remain preserved. Whole-child swap growth was zero, minimum available system memory **177.47 GiB** (server interval **177.39 GiB**).
+
+The series is **3/5 complete**, with three observed passes and attempt four active; no final five-trial rate is inferred yet. Full campaign coverage is **154/234 groups**.
