@@ -461,3 +461,14 @@ Full stage time was **1267.688s (21m08s)**; summed request time **1246.605s**, m
 Whole-child swap growth was zero and minimum system available memory **181.08 GiB**; independently sampled server minimum was **181.17 GiB**. All **825 published artifact hashes** were verified. [All case outcomes](../results/u20261002-qwen38q8-humaneval/result.json) remain a reproducible restricted-evaluator diagnostic, not an official leaderboard submission.
 
 The full campaign is **165/234 groups complete**, and Qwen 8-bit's nine 200K retrieval cases are active. The verified login LaunchAgent continues to hold the owner-requested display-awake assertion.
+
+
+## October 2, 21:39 UTC — Qwen 8-bit retrieval complete
+
+Qwen 3.8 27B 8-bit MLX passed **9/9 exact-key retrieval cases**, with **200001–200005 actual input tokens** and **zero reported cached input** for every request. Responses contained **27–32 tokens**. Median first output was **210.457s**; median full response **211.817s (3m32s)**, range **211.615–211.867s**. Total suite time including preparation was **2051.951s (34m12s)**. Positions cover three keys each near 10%/50%/90% of document characters; exact positions and prompts remain in the raw records.
+
+The nine request message payloads were verified identical to their Qwen Q4 counterparts, and actual input counts match case by case. Both configurations passed all nine. Q4's total was 81m34s and median response 536.738s, compared with 34m12s and 211.817s here. The configurations differ in precision and runtime, and returned output lengths/cache behavior also differ (Q4 reused 28 prefix tokens after the first case). These are observed end-to-end configuration results on one M5, not an isolated quantization effect or a cross-hardware speedup.
+
+Whole-child swap growth was zero and minimum system available memory **156.03 GiB**; independently sampled server minimum was **156.34 GiB**. All published artifact hashes were verified. [Exact cases and outcomes](../results/u20261002-qwen38q8-retrieval/result.json) remain a narrow exact-key diagnostic, not proof of broad long-context reasoning.
+
+Coverage is **166/234 groups complete**. Qwen 8-bit, Qwen Q4, Gemma and DeepSeek each have 30/39 groups complete. The driver is executing Qwen 3.6's remaining eight-turn repository trials; all later sustained-output, extended-task and load conditions remain required.
