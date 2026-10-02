@@ -1,5 +1,7 @@
 # Mac Studio Local Inference Tests Ashen
 
+**Active: unified overnight campaign across all six downloaded configurations.** There is no overall cutoff. [Frozen 234-cell plan](config/unified-campaign.json) · [methods, sources and controls](docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Earlier results remain historical; the old two-model completion is not completion of this expanded study.
+
 **The identified additional-model phase is complete.** [Final report and complete cell ledger](results/m5-additional-summary-20261001/README.md). All task-owned inference workers have exited and the scheduled follow-up is paused; model files and the readonly dashboard remain ready for later work. Matched M3 testing and website publication are still pending.
 
 ## Start with the 200K results — October 1, 2026
