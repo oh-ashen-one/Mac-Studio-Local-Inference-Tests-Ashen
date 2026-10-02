@@ -448,3 +448,16 @@ Whole-child and server telemetry both observed zero swap growth and **168.69 GiB
 Following Midir's owner-authorized request, a standard per-user LaunchAgent was installed with a unique task label, `com.ashen.benchmark.display-awake`, executing Apple's `/usr/bin/caffeinate -d`. Plist validation and GUI-domain bootstrap succeeded. Initial raw process-argument inspection was denied; it was stopped without retry or elevation. Supported `launchctl print` independently confirmed the service's program/running PID, and `pmset -g assertions` confirmed that PID's display assertion. Only after this verification was the old manual display PID 67253 retired. One task-owned display assertion remains, PID 68047, alongside system-awake PID 50803.
 
 The LaunchAgent loads **at this user's GUI login after reboot**, not before login. Reboot persistence was not tested by rebooting the benchmark machine. Stored AC display timeout remains 10 minutes; no root power setting, autologin, lock/password or security setting changed. Benchmark driver and current workers remained active during replacement. [Exact reversible configuration and verification/removal instructions](M5-DISPLAY-AWAKE.md) are published. The benchmark heartbeat keeps its existing cadence and ACTIVE state.
+
+
+## October 2, 21:09 UTC — Qwen 8-bit HumanEval complete
+
+Qwen 3.8 27B 8-bit MLX passed **158/164 cases (96.34%)** under the same declared one-sample greedy chat adaptation and restricted evaluator. The six functional failures were **HumanEval/83, /115, /127, /130, /140 and /145**. Five failed assertions; /130 raised `IndexError`. There were no restricted-import rejections or retries. All original code, requests/responses and evaluator traces are preserved.
+
+The total matches the Qwen Q4 run, but the outcomes are not identical: five failures overlap; the 8-bit configuration passed /62 and failed /115, while Q4 had the opposite outcomes on those two cases. Equal aggregate scores on this public, potentially contaminated suite do not establish broad equivalence or isolate quantization effects from the different runtimes.
+
+Full stage time was **1267.688s (21m08s)**; summed request time **1246.605s**, median request **5.902s**. Actual inputs ranged **109–473 tokens**, totaling **34,112 input tokens**, with zero reported cached input. Generated output totaled **38,302 tokens**. These are short coding tasks, separate from long-context throughput tests; actual output lengths differ between configurations.
+
+Whole-child swap growth was zero and minimum system available memory **181.08 GiB**; independently sampled server minimum was **181.17 GiB**. All **825 published artifact hashes** were verified. [All case outcomes](../results/u20261002-qwen38q8-humaneval/result.json) remain a reproducible restricted-evaluator diagnostic, not an official leaderboard submission.
+
+The full campaign is **165/234 groups complete**, and Qwen 8-bit's nine 200K retrieval cases are active. The verified login LaunchAgent continues to hold the owner-requested display-awake assertion.
