@@ -156,3 +156,18 @@ Every table entry is a **five-sample median**. All 20 8-bit runs have exact coun
 Within the 8-bit MLX configuration, generation at 200K is **29.9% slower** than at 8192 tokens, and context fill takes **42.9 times as long**. This does not establish an intelligence ranking or the completed repository success rates; those repeated useful-work suites remain outstanding.
 
 Four configurations now have complete repeated speed grids. The runner is continuing with Qwen 3.6, followed by the remaining MiMo measurements and all unfinished work/quality/load suites. Its newly published second 200K sample is **78.7654 tok/s** with **66.737s** fill.
+
+## October 2, 10:20 UTC — Qwen 3.6's complete context-speed grid
+
+Qwen 3.6 35B A3B FP4 completed all **20** fresh-process speed runs, five repetitions per input length and 256 generated tokens each:
+
+| Actual input tokens | Decode median | Context-fill median | Repetitions |
+|---:|---:|---:|---:|
+| 8192 | 145.8938 tok/s | 0.928s | 5 |
+| 32768 | 131.9741 tok/s | 4.526s | 5 |
+| 131072 | 96.8335 tok/s | 33.092s | 5 |
+| 200000 | 78.7654 tok/s | 66.722s | 5 |
+
+Generation at 200K is **46.0% slower** than at 8192 tokens; context fill takes **71.9 times as long**. Exact counters, unchanged model/runtime/residency/corpus identities, identical input/output token sequences within every length, and zero observed timed/whole-child swap growth were verified across all 20 runs. The 200K generation range is **78.4142–80.3715 tok/s**, with all observations retained.
+
+This is throughput performance for the disclosed FP4/MLX-VLM profile, not an intelligence or task-success conclusion. Its first bounded repository attempt failed within eight turns; that evidence remains unchanged, with four further attempts plus the separate twenty-turn condition still required. The runner has advanced to MiMo's repeated speed measurements. Five configurations have complete speed grids, but the full 234-group study remains unfinished.
