@@ -307,3 +307,10 @@ All five DeepSeek attempts passed **19/19 tests**, three turns per attempt and *
 This is five samples of the same pinned historical issue, not five different problems or a general correctness score. The first successful attempt is explicitly named `pretoken-v2`; the original zero-turn setup failure remains excluded from these five measured attempts and preserved as a separate failure. No successful sample replaced an unsuccessful measured solution.
 
 The driver has advanced to DeepSeek's full recorded-policy agent replay. The campaign is **149/234 groups complete**. Other suites and configurations remain queued.
+
+
+## October 2, 16:04 UTC — preserve native log bytes during publication
+
+A read-only monitor encountered invalid UTF-8 bytes in the active DeepSeek native log. The benchmark and replay client remained healthy and continued advancing. Monitoring can decode a display-only tail with replacement characters; original files remain unchanged.
+
+The publication helper previously returned undecodable files unchanged, which could also skip private-path redaction. It now replaces only the known private path/host byte sequences directly, preserving every other byte, including incomplete UTF-8 and NULs. Original and published SHA256s remain recorded separately. Regression checks cover invalid UTF-8 surrounding private values and byte-identical preservation of unrelated text/binary fragments. This is an evidence-publication correction, with no model, inference runtime, request policy or measurement change.

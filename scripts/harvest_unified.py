@@ -41,10 +41,8 @@ def remote(code):
 
 
 def sanitize(data):
-    try:
-        text = data.decode('utf-8')
-    except UnicodeDecodeError:
-        return data
+    # Native logs may contain incomplete UTF-8 token fragments. Redact known
+    # private byte sequences without dropping or replacing unrelated raw bytes.
     m, _ = connection()
     for value, label in [(m['repository'], '<M5_REPO>'),
                          (str(Path(m['repository']).parent), '<M5_HOME>'),
@@ -52,8 +50,8 @@ def sanitize(data):
                          (str(Path.home()), '<CONTROLLER_HOME>'),
                          (m['target'], '<M5_SSH_TARGET>'),
                          (m['target'].split('@')[-1], '<M5_PRIVATE_HOST>')]:
-        text = text.replace(value, label)
-    return text.encode('utf-8')
+        data = data.replace(value.encode('utf-8'), label.encode('utf-8'))
+    return data
 
 
 def harvest():
@@ -128,7 +126,7 @@ subprocess.run(['git','merge-base','--is-ancestor','HEAD',target],check=True)
 state=json.loads(pathlib.Path('work/unified-campaign.json').read_text())
 changes=git('diff','--name-only','HEAD..'+target).decode().splitlines()
 if state['status']=='running':
- allowed={'scripts/harvest_unified.py','scripts/unified_report.py','scripts/report_additional.py','scripts/report_unified_speed.py','config/requirements-plotting.lock','scripts/preview.py','HANDOFF.md','README.md'}
+ allowed={'tests/test_publication.py','scripts/harvest_unified.py','scripts/unified_report.py','scripts/report_additional.py','scripts/report_unified_speed.py','config/requirements-plotting.lock','scripts/preview.py','HANDOFF.md','README.md'}
  assert all(p in allowed or p.startswith(('results/','viewer/','docs/','outputs/','hardware/')) for p in changes),'Refusing to change executing runtime code'
 conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitlines()) & set(git('ls-tree','-r','--name-only',target).decode().splitlines())
 runs={p.split('/')[1] for p in conflicts if p.startswith('results/u20261002-')}
