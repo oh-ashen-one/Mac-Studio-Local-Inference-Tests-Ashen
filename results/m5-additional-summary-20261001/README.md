@@ -11,7 +11,7 @@ No original M3 inference; no matched chip-only percentage.
 
 ## Xiaomi: MiMo-V2.6-Flash
 
-Repository diagnostic: **0/0 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
+Repository diagnostic: **0/1 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
 
 Saved evidence:
 
@@ -20,6 +20,7 @@ Saved evidence:
 - [m5-mimo-200k-20261001-3](../../results/m5-mimo-200k-20261001-3/result.json) — long_context, complete, complete.
 - [m5-mimo-pilot-vlm-20261001](../../results/m5-mimo-pilot-vlm-20261001/result.json) — runtime_validation, failed, failed.
 - [m5-mimo-pilot-vlm-base-20261001](../../results/m5-mimo-pilot-vlm-base-20261001/result.json) — runtime_validation, complete, did not pass.
+- [m5-repo-mimo-20261001-1](../../results/m5-repo-mimo-20261001-1/result.json) — repo_task, complete, did not pass.
 
 Whole-job system swap observations (including loading; distinct from timed-phase swap above):
 
