@@ -516,3 +516,12 @@ Median first output was **66.796s**; median response **67.130s (1m07s)**, range 
 Whole-child system swap growth was zero and minimum available memory **180.15 GiB**; independent server interval minimum **180.29 GiB**. All **23 published artifact hashes** were verified. [All nine outcomes](../results/u20261002-qwen36-retrieval/result.json) and exact requests/responses retain the evidence.
 
 Coverage is **173/234 groups complete**. Five configurations have completed their first 30 groups; all still require their nine sustained-output, twenty-turn and serving-load groups. MiMo's remaining eight-turn repository trials are now active, followed by its full replay, coding and retrieval diagnostics. Existing memory guards and one-model-at-a-time rules remain in force.
+
+
+## October 2, 22:39 UTC — MiMo second repository attempt complete
+
+MiMo's second attempt passed **19/19 tests** in **575.874s (9m36s)**, using all eight allowed turns and zero human rescues. It read six files, edited the replacement-migration state handling on turn seven, and requested successful evaluation on turn eight. Starting context was **200008 actual tokens**; final request **218495 input tokens**, including **218474 cached**. The patch and every action/evaluation are retained in [the raw trial](../results/u20261002-mimo-repo8-r2/result.json).
+
+Whole-child and server intervals both observed **319.625 MiB of system-wide swap growth**. Minimum available system memory was **16.55 GiB** across the whole child and **16.17 GiB** in the independently sampled server interval. These remain above the 12 GiB available-memory guard and below the 2 GiB swap-growth limit, which were unchanged. The swap observation includes setup/loading and is not attributed solely to timed inference or to this process. Do not describe this trial as zero-swap.
+
+This current series has **one pass among two completed attempts, of five planned**. The first unsuccessful attempt is preserved, and no trial was retried or given extra turns. Attempt three is active; full campaign coverage is **174/234 groups complete**.
