@@ -505,3 +505,14 @@ Server totals: **2,563,686 input tokens**, including **398,534 cached**, and **2
 HumanEval passed **158/164 (96.34%)** under the unchanged one-sample greedy chat adaptation and restricted evaluator. Six assertion failures were **HumanEval/62, /99, /113, /116, /134 and /145**, with no import-policy rejection or sample retry. Stage time was **355.766s (5m56s)**, summed requests **336.658s**, median request **1.629s**. Actual input was **109–473 tokens** per problem, 34,112 total; output totaled **46,850 tokens**, reported cached input zero. Different actual output lengths/runtime/tokenization must remain visible in comparisons. This public coding suite may be training-contaminated and is not an official leaderboard submission. [All 164 coding outcomes](../results/u20261002-qwen36-humaneval/result.json) and all 825 published artifact hashes were verified.
 
 Whole-child swap growth was zero for both stages. Minimum system available memory was **147.97 GiB** for replay and **188.24 GiB** for coding; independent server interval minima **148.30 GiB** and **188.28 GiB**. Coverage is **172/234 groups complete**, with Qwen 3.6's nine 200K retrieval cases active.
+
+
+## October 2, 22:24 UTC — Qwen 3.6 retrieval complete
+
+Qwen 3.6 35B A3B FP4 passed **9/9 exact-key retrieval cases** with **200001–200005 actual input tokens** and **zero reported cached input** in every request. Each of three deterministic keys was recovered near the 10%/50%/90% document-character positions. Responses contained **22–26 output tokens**.
+
+Median first output was **66.796s**; median response **67.130s (1m07s)**, range **67.054–67.228s**. The entire suite, including preparation, took **746.394s (12m26s)**. This measures exact-key retrieval in the declared corpus, not broad long-context reasoning or an isolated hardware effect.
+
+Whole-child system swap growth was zero and minimum available memory **180.15 GiB**; independent server interval minimum **180.29 GiB**. All **23 published artifact hashes** were verified. [All nine outcomes](../results/u20261002-qwen36-retrieval/result.json) and exact requests/responses retain the evidence.
+
+Coverage is **173/234 groups complete**. Five configurations have completed their first 30 groups; all still require their nine sustained-output, twenty-turn and serving-load groups. MiMo's remaining eight-turn repository trials are now active, followed by its full replay, coding and retrieval diagnostics. Existing memory guards and one-model-at-a-time rules remain in force.
