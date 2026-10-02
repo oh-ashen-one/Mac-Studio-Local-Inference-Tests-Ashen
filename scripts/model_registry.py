@@ -10,9 +10,12 @@ def resolve_model(identifier,lock_path=None):
     storage=spec.get('storage')
     if storage:
         relative=Path(storage['relative_path'])
-        if storage['kind']!='huggingface_cache' or relative.is_absolute() or '..' in relative.parts:raise ValueError('Unsupported model storage')
-        directory=Path.home()/relative
-        if not directory.is_relative_to(Path.home()/'.cache/huggingface/hub'):raise ValueError('Model path outside declared cache')
+        if relative.is_absolute() or '..' in relative.parts:raise ValueError('Unsupported model storage')
+        if storage['kind']=='huggingface_cache':
+            directory=Path.home()/relative
+            if not directory.is_relative_to(Path.home()/'.cache/huggingface/hub'):raise ValueError('Model path outside declared cache')
+        elif storage['kind']=='repository_models':directory=ROOT/'models'/relative
+        else:raise ValueError('Unsupported model storage')
     else:directory=ROOT/'models'/identifier
     if (directory/'config.json').exists():
         config=json.loads((directory/'config.json').read_text())

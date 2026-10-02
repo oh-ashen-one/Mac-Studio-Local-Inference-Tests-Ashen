@@ -10,7 +10,7 @@ const context=v=>v==null?'context not stated':v>=1000?`${fmt(v/1000,v%1000?1:0)}
 function el(tag,text,cls,parent){const node=document.createElement(tag);if(text!=null)node.textContent=text;if(cls)node.className=cls;if(parent)parent.append(node);return node}
 function sv(tag,attrs={},text){const node=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))node.setAttribute(k,String(v));if(text!=null)node.textContent=text;return node}
 const median=values=>{const a=values.filter(finite).sort((a,b)=>a-b),n=a.length;return n?n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2:null};
-function samples(id){return(data.long_runs||[]).filter(r=>r.machine_id==='studio-new'&&r.model_id===id&&r.status==='complete'&&r.input_tokens===200000&&r.condition==='alone')}
+function samples(id){return(data.long_runs||[]).filter(r=>!r.campaign_id&&r.machine_id==='studio-new'&&r.model_id===id&&r.status==='complete'&&r.input_tokens===200000&&r.condition==='alone')}
 function measurement(id){const rows=samples(id);if(!rows.length)return null;const r={...rows[rows.length-1],sample_count:rows.length};for(const k of ['decode_tok_s','context_fill_s','prefill_tok_s','generation_wall_s'])r[k]=median(rows.map(x=>x[k]));r.range=rows.map(x=>x.decode_tok_s);return r}
 function mine(){return measurement(selected)}
 function peers(){return families[selected]?(data.peers?.rows||[]).filter(r=>r.model.startsWith(families[selected])&&r.concurrency===1):[]}

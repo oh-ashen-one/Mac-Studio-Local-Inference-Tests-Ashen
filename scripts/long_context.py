@@ -15,6 +15,8 @@ def main():
     p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--lock',type=Path)
     p.add_argument('--tokens',type=int,default=200000);p.add_argument('--output-tokens',type=int,default=256)
     p.add_argument('--backend',choices=['mlx-lm','mlx-vlm'],default='mlx-lm')
+    p.add_argument('--wired-policy',choices=['unchanged','recommended'],default='unchanged')
+    p.add_argument('--campaign-id')
     p.add_argument('--run-id',required=True);p.add_argument('--machine',choices=['studio-old','studio-new'],default='studio-new');a=p.parse_args()
     if not a.allow_inference:p.error('Explicit owner authorization and --allow-inference required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
@@ -22,8 +24,10 @@ def main():
     out=ROOT/'results'/a.run_id;out.mkdir(parents=True,exist_ok=False)
     result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(model_lock),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
     result.update(backend=spec['backend'] if spec['backend']=='dwarfstar' else a.backend,runtime_lock_sha256=digest(runtime_lock(a.backend)))
+    if a.campaign_id:result['campaign_id']=a.campaign_id
+    result['wired_policy']=a.wired_policy
     def update():write_json(ROOT/'work/long-context-live.json',result);write_json(out/'result.json',result)
-    update();process=None
+    update();process=None;old_wired=None
     try:
         with shared_gpu_slot() as slot:
             result['gpu_slot']=slot;result['preflight']=safety(a.machine)
@@ -63,6 +67,11 @@ def main():
                 if len(ids)<a.tokens:raise RuntimeError('Corpus does not contain enough tokens')
                 ids=ids[:a.tokens];result['tokenization_s']=time.perf_counter()-start;result['input_token_ids_sha256']=canonical_hash(ids)
                 mx.clear_cache();mx.reset_peak_memory();mx.set_memory_limit(int(psutil.virtual_memory().total*.82))
+                if a.wired_policy=='recommended':
+                    recommended=mx.device_info()['max_recommended_working_set_size']
+                    old_wired=mx.set_wired_limit(recommended)
+                    result.update(wired_limit_bytes=recommended,previous_wired_limit_bytes=old_wired,profile='mlx-recommended-residency-v1')
+                    mx.synchronize()
                 before=psutil.virtual_memory().available;swap=psutil.swap_memory().used
                 samples=[];prefix_done_s=None;start=time.perf_counter()
                 def progress(done,total):
@@ -78,6 +87,8 @@ def main():
                     for token,_ in generator:
                         now=time.perf_counter();tokens.append(int(token));times.append(now)
                         if len(tokens)==1:result.update({'status':'decoding','context_fill_s':now-start,'filled_tokens':a.tokens});update()
+                        if len(tokens)%16==0:
+                            result['generated_tokens']=len(tokens);result['decode_elapsed_s']=now-times[0];update()
                     mx.synchronize()
                 finally:generator.close()
                 result.update(timing_summary(start,times,time.perf_counter()))
@@ -86,7 +97,10 @@ def main():
             result['finished_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();update()
     except BaseException as exc:
         result['status']='failed';result['error']=str(exc).replace(str(ROOT),'<repo>');update();raise
-    finally:stop(process)
+    finally:
+        stop(process)
+        if old_wired is not None:
+            mx.synchronize();mx.set_wired_limit(old_wired)
 
 
 if __name__=='__main__':main()
