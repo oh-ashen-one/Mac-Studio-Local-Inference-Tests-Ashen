@@ -2,6 +2,8 @@
 
 **Active: unified overnight campaign across all six downloaded configurations.** There is no overall cutoff. [Frozen 234-cell plan](config/unified-campaign.json) · [methods, sources and controls](docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Earlier results remain historical; the old two-model completion is not completion of this expanded study.
 
+**The 120-run standard speed phase is complete.** [Consolidated speed report, raw-run manifest and exportable figures](results/unified-speed-summary-20261002/README.md). Every configuration has five measurements at each of four input lengths. The remaining task, quality, sustained-output and serving-load study is still running.
+
 **The expanded campaign is running.** [Current coverage and results](results/unified-overnight-20261002/README.md) · [research notes](docs/UNIFIED-RUN-NOTES.md). The earlier 22-cell additional-model phase is archived; its completion and paused-monitor receipt describe that earlier checkpoint, not the current runner. Matched M3 testing and personal-site publication remain pending.
 
 **MiMo measurement correction:** the historical 0.30–0.41 tok/s direct-generation results came from a harness that omitted normal MLX process memory wiring. They do not represent normal resident inference. The completed five-run resident-profile group reached **37.68 tok/s median** after 200K input (**n=5**, range 37.22–37.75). Its input and output token IDs match the historical run. The separate **37.57 tok/s** setup probe remains excluded from the measured repetitions. [Current protocol and evidence boundaries](docs/UNIFIED-OVERNIGHT-PROTOCOL.md).

@@ -190,3 +190,22 @@ Every configuration now has five measured 200K repetitions:
 | Qwen 3.8 27B · Q4_K_M | 24.5246 tok/s | 531.977s | 5 |
 
 Timing boundaries and tokenizers differ across model families/runtimes, as declared in the protocol. This table describes configurations on the same M5, not hardware-only effects or general intelligence. MiMo's shorter-context grid remains in progress, followed by all unfinished useful-work, sustained-output and serving suites. Completing this common 200K group does not complete the 234-group study.
+
+## October 2, 11:35 UTC — standard speed phase complete
+
+All **120 predeclared standard speed runs** are complete: six configurations, four input lengths, five repetitions, 256 outputs each. A strict export audit checked every result's completion status, actual input/output count, model/campaign identity and published-result SHA256 receipt. The consolidated statistics independently match the readonly dashboard for all configurations and contexts. Historical runs, the excluded resident setup probe and unrun 2048-output conditions are not included.
+
+[Consolidated report and 120-run manifest](../results/unified-speed-summary-20261002/README.md) · [PNG figure](../outputs/unified-speed-phase.png) · [Editable SVG](../outputs/unified-speed-phase.svg).
+
+MiMo's completed grid:
+
+| Actual input tokens | Decode median | Context-fill median | Repetitions |
+|---:|---:|---:|---:|
+| 8192 | 65.7032 tok/s | 8.418s | 5 |
+| 32768 | 59.4253 tok/s | 27.930s | 5 |
+| 131072 | 44.4855 tok/s | 178.426s | 5 |
+| 200000 | 37.6764 tok/s | 392.706s | 5 |
+
+The report retains per-group variability, distinct timing definitions, whole-job system-memory/swap observations, MLX-only allocation metrics, source links and hashes. The figure uses standard Matplotlib with the CPU-only Agg backend in a separate plotting environment; inference environments and model files were not changed. The exported layout was visually inspected.
+
+The driver has advanced to the remaining repository trials. Speed-phase completion is not completion of the overall 234-group study, a general intelligence ranking, a paired M3 hardware result or permission to deploy the personal site. All remaining task, quality, sustained-output and serving-load groups still require completion or an evidenced unsupported disposition.
