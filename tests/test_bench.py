@@ -162,3 +162,17 @@ def test_mimo_base_loader_excludes_only_the_declared_draft():
     assert exclude_mimo_draft(weights)=={'model.layers.0.weight':'keep','model.mtp_like.weight':'keep too'}
     weights.pop('model.mtp.layers.0.tensor0')
     with pytest.raises(ValueError,match='exactly 42'):exclude_mimo_draft(weights)
+
+
+def test_explicit_mimo_xml_parser_keeps_files_unchanged_and_rejects_other_grammars(tmp_path):
+    from text_runtime import tokenizer_options
+    template=tmp_path/'chat_template.jinja'
+    text="{{ '<tool_call><function=' ~ tool_call.name }}<parameter=command>"
+    template.write_text(text)
+    config={'model_type':'mimo_v2'}
+    assert 'tool_parser_type' not in tokenizer_options(tmp_path,config)
+    assert tokenizer_options(tmp_path,config,True)['tool_parser_type']=='qwen3_coder'
+    assert template.read_text()==text
+    with pytest.raises(ValueError):tokenizer_options(tmp_path,{'model_type':'qwen3_5'},True)
+    template.write_text('{{ tool_call | tojson }}')
+    with pytest.raises(ValueError):tokenizer_options(tmp_path,config,True)

@@ -13,11 +13,21 @@ def exclude_mimo_draft(weights):
     if len(draft)!=42:raise ValueError('Unexpected MiMo draft layout; expected exactly 42 MTP tensors')
     return {k:v for k,v in weights.items() if k not in draft}
 
-def load_text(folder,backend='mlx-lm'):
+def tokenizer_options(folder,config,mimo_xml_tools=False):
+    options={'local_files_only':True,'trust_remote_code':False}
+    if mimo_xml_tools:
+        template=(Path(folder)/'chat_template.jinja').read_text()
+        if config.get('model_type')!='mimo_v2' or '<tool_call><function=' not in template or '<parameter=' not in template:
+            raise ValueError('Reviewed XML override applies only to the declared MiMo grammar')
+        options['tool_parser_type']='qwen3_coder'
+    return options
+
+def load_text(folder,backend='mlx-lm',mimo_xml_tools=False):
     folder=Path(folder)
     config=json.loads((folder/'config.json').read_text())
     if config.get('model_file'):
         raise ValueError('Custom model code is not permitted')
+    options=tokenizer_options(folder,config,mimo_xml_tools)
     if backend=='mlx-lm':
         from mlx_lm import load
         return load(str(folder),return_config=True)
@@ -46,5 +56,5 @@ def load_text(folder,backend='mlx-lm'):
         def layers(self):return self.inner.layers
         def make_cache(self):return self.inner.make_cache()
     model=TextBackbone(full.language_model)
-    tokenizer=load_tokenizer(folder,tokenizer_config_extra={'local_files_only':True,'trust_remote_code':False},eos_token_ids=config.get('eos_token_id'))
+    tokenizer=load_tokenizer(folder,tokenizer_config_extra=options,eos_token_ids=config.get('eos_token_id'))
     return model,tokenizer,config

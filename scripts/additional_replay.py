@@ -13,11 +13,14 @@ from model_registry import resolve_model
 from text_runtime import runtime_lock
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--lock',type=Path,required=True);p.add_argument('--run-id',required=True);p.add_argument('--mini',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--lock',type=Path,required=True);p.add_argument('--run-id',required=True);p.add_argument('--mini',action='store_true');p.add_argument('--mimo-xml-tools',action='store_true');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     spec,folder,lock=resolve_model(a.model,a.lock);out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
     result={'kind':'aa-agentperf','machine_id':'studio-new','condition':'alone','cohort':'additional-independent-mlx-vlm-recorded','model_id':a.model,'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'runtime_lock_sha256':digest(runtime_lock('mlx-vlm')),'replay':'aa-mini-v1' if a.mini else 'agentperf-default-v1','output_token_policy':'recorded','exact_policy_status':'unsupported: MLX HTTP does not implement ignore_eos','comparable_to_standard_exact_cohort':False,'quality_note':'Official recorded trajectory; measures serving, not task solving. Different output policy from the standard managed run.','source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'agentperf_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT/'vendor/aa-agentperf-local',text=True).strip(),'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'starting'}
+    if a.mimo_xml_tools:
+        if a.model!='mimo-v2.6-flash-mopd':raise ValueError('XML parser profile is MiMo-only')
+        result.update(cohort='additional-independent-mlx-vlm-mimo-xml-v2-recorded',tool_parser='explicit upstream qwen3_coder XML parser',prior_failed_qualification='m5-aa-mimo-mini-recorded-20261001',change_scope='Response parsing only; model/template/sampling/output budgets unchanged')
     def update():write_json(out/'run.json',result);write_json(ROOT/'work/agentperf-live.json',result)
     server=client=None;update();port=18184
     try:
@@ -27,7 +30,7 @@ def main():
                 if sock.connect_ex(('127.0.0.1',port))==0:raise RuntimeError('Replay port is occupied; preserve existing service')
             env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1');env.pop('AGENTPERF_SUBMIT_TOKEN',None)
             with (out/'server.log').open('w') as slog,(out/'agentperf.log').open('w') as clog:
-                server=subprocess.Popen([sys.executable,str(ROOT/'scripts/vlm_text_server.py'),'--model',str(folder),'--host','127.0.0.1','--port',str(port),'--prompt-cache-size','1','--prompt-concurrency','1'],cwd=ROOT,env=env,stdout=slog,stderr=slog,start_new_session=True)
+                server=subprocess.Popen([sys.executable,str(ROOT/'scripts/vlm_text_server.py'),'--model',str(folder),'--host','127.0.0.1','--port',str(port),'--prompt-cache-size','1','--prompt-concurrency','1']+(['--mimo-xml-tools'] if a.mimo_xml_tools else []),cwd=ROOT,env=env,stdout=slog,stderr=slog,start_new_session=True)
                 with Telemetry(server.pid) as telemetry:
                     for _ in range(300):
                         if server.poll() is not None:raise RuntimeError('Independent server failed during startup')
