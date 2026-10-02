@@ -57,3 +57,11 @@ MiMo's first repository attempt **did not solve the bug**: it used all eight tur
 All six configurations now have an initial measured 200K speed sample and an initial bounded repository outcome. Repetition, long generation, longer-horizon repair, full replay, retrieval, HumanEval and load-test coverage remain outstanding. No final model ranking is established by this milestone.
 
 At the end of this checkpoint, MiMo mini replay qualified **6/6** serving turns with **6 short-output warnings**. The initial structured / 200K speed / repository / mini-replay pass is complete for all six configurations (**24/234 required groups**). The runner has advanced to Gemma’s second fresh 200K speed repetition. This is a progress milestone, not study completion.
+
+## October 2, 07:05 UTC — Gemma's full five-sample 200K group
+
+Gemma completed all five fresh-process **200000 input / 256 output** repetitions. Decode median is **15.2549 tok/s**, mean **15.2779**, sample standard deviation **0.1505**, observed range **15.1111–15.4434**. Context-fill median is **311.842s**, mean **314.023s**, sample standard deviation **5.479s**, observed range **310.775–323.786s**. Prefill median is **641.684 tok/s** under the declared separate prefix-timing boundary.
+
+The fifth fill was slower at 323.786s; it remains included without a retry or outlier exclusion. All five input hashes and 256-token output sequences match, as do model/runtime locks and the process residency setting. All five observed zero swap growth over their whole-child interval. Timed swap sometimes decreased; this does not mean the host's total existing swap was zero. These statistics describe five observations under this configuration, not a universal hardware maximum or confidence interval for all workloads.
+
+The runner has proceeded to the 131072-token group. Its first sample measured **19.2105 tok/s** and **169.046s fill**; remaining repetitions and smaller-context groups remain in progress. The 200K group is complete, not the full Gemma or six-configuration study.
