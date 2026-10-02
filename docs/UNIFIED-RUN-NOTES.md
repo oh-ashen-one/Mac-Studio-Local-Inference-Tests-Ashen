@@ -111,3 +111,18 @@ Qwen 3.8 Q4_K_M completed all five fresh-server **200000 input / 256 output** re
 All five confirm the exact workload, identical input token hashes, model lock, runtime commit and executable hash, with no observed swap growth in either server-only or whole-child telemetry. The slower fifth repetition is retained without replacement. Fixed output work ignores EOS; ordinary chat/agent workloads remain separate diagnostics.
 
 The first 131072-token sample measured **29.4906 tok/s** with **265.160s** HTTP fill. Remaining repetitions at that length and the shorter contexts are in progress. The complete Q4 context-speed grid and its remaining task/quality/load suites are not yet finished; the earlier one-run Q4-versus-8-bit comparison is not promoted into a final cross-configuration result before both repeated profiles are complete.
+
+## October 2, 09:35 UTC — Qwen Q4's complete context-speed grid
+
+All **20** Qwen 3.8 Q4_K_M / llama.cpp speed runs are complete, five fresh servers per input length and 256 generated tokens each:
+
+| Actual input tokens | Decode median | HTTP context-fill median | Repetitions |
+|---:|---:|---:|---:|
+| 8192 | 44.7961 tok/s | 6.738 s | 5 |
+| 32768 | 41.0698 tok/s | 34.279 s | 5 |
+| 131072 | 29.4163 tok/s | 265.209 s | 5 |
+| 200000 | 24.5246 tok/s | 531.977 s | 5 |
+
+Within this configuration, median generation at 200K is **45.3% slower** than at 8192 tokens, while context fill takes **79.0 times as long**. Exact input/output counters, input-token hashes within each length, model/runtime/executable identities and zero observed swap growth were verified across all 20 runs. Native timing fields and HTTP first-output latency remain separately recorded. No repetition was replaced or omitted.
+
+The runtime is now measuring the repeated 8-bit MLX profile. Its second 200K sample completed at **21.0825 tok/s** with **217.512s** fill. The final repeated Q4-versus-8-bit comparison remains pending the rest of the 8-bit grid. Q4's task, quality and load suites are not implied complete by finishing its speed grid.
