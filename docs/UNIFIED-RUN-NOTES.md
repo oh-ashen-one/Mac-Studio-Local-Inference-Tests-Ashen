@@ -298,3 +298,12 @@ The full campaign is **146/234 groups complete** at this checkpoint. All configu
 DeepSeek attempts three and four passed all **19/19 tests** in **327.558s** and **326.777s**, respectively. Both took three turns with zero human rescue and began with **200001 actual input tokens**. Both second turns reused 200019 cached tokens; their third turns reused 204151 and 204128 tokens. Each preserved patch adds the missing unapply record for the replacement migration. Passing this fixed historical test suite is not a general patch-correctness guarantee.
 
 Whole-child system swap growth was zero for both. Minimum available memory was **69.09 GiB** (r3) and **69.43 GiB** (r4); independently sampled server-interval minima were **69.09 GiB** and **69.54 GiB**. Original raw evidence and hashes are published. The series is **4/5 complete**, all four observed attempts passing, with attempt five active. The full study is **148/234 groups complete** at this checkpoint.
+
+
+## October 2, 15:40 UTC — DeepSeek five-trial repository series complete
+
+All five DeepSeek attempts passed **19/19 tests**, three turns per attempt and **zero human rescues**. Median task time was **327.558s (5m28s)**, range **325.762–334.153s**. The fifth took **325.762s**, began with **200001 actual input tokens**, and reused 200019 then 204151 cached tokens on subsequent requests. Whole-child system swap growth was zero in all five; the fifth observed **70.21 GiB** minimum available memory. All exact patches, evaluations and hashes are retained.
+
+This is five samples of the same pinned historical issue, not five different problems or a general correctness score. The first successful attempt is explicitly named `pretoken-v2`; the original zero-turn setup failure remains excluded from these five measured attempts and preserved as a separate failure. No successful sample replaced an unsuccessful measured solution.
+
+The driver has advanced to DeepSeek's full recorded-policy agent replay. The campaign is **149/234 groups complete**. Other suites and configurations remain queued.
