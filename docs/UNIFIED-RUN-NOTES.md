@@ -65,3 +65,18 @@ Gemma completed all five fresh-process **200000 input / 256 output** repetitions
 The fifth fill was slower at 323.786s; it remains included without a retry or outlier exclusion. All five input hashes and 256-token output sequences match, as do model/runtime locks and the process residency setting. All five observed zero swap growth over their whole-child interval. Timed swap sometimes decreased; this does not mean the host's total existing swap was zero. These statistics describe five observations under this configuration, not a universal hardware maximum or confidence interval for all workloads.
 
 The runner has proceeded to the 131072-token group. Its first sample measured **19.2105 tok/s** and **169.046s fill**; remaining repetitions and smaller-context groups remain in progress. The 200K group is complete, not the full Gemma or six-configuration study.
+
+## October 2, 07:27 UTC — Gemma's complete context-speed grid
+
+All **20** Gemma speed runs are complete, five fresh processes per length, 256 generated tokens each:
+
+| Actual input tokens | Decode median | Context-fill median | Repetitions |
+|---:|---:|---:|---:|
+| 8192 | 25.8484 tok/s | 6.359 s | 5 |
+| 32768 | 24.1650 tok/s | 28.510 s | 5 |
+| 131072 | 19.1474 tok/s | 165.833 s | 5 |
+| 200000 | 15.2549 tok/s | 311.842 s | 5 |
+
+Within this pinned model/runtime configuration, generation at 200K was **41.0% slower** than at 8192 tokens; the median context fill took **49.0 times as long**. The input length itself is about 24.4 times larger. This is a context-scaling observation, not a cross-hardware claim. Each length keeps its own token hashes and fixed output work; generated continuations are not required to match across different input lengths. All raw repetitions, ranges, means and standard deviations remain available.
+
+The localhost viewer now plots generation and fill time against actual context length, with a configuration selector. Lines connect adjacent measured lengths only; whiskers represent observed ranges, not confidence intervals, and missing lengths stay visibly queued. The 8K-to-200K headline is shown only after both groups reach five samples. The repeated speed phase has moved on to DeepSeek; Gemma's other required suites remain outstanding.
