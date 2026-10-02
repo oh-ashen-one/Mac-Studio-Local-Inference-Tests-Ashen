@@ -139,3 +139,20 @@ Qwen 3.8 8-bit MLX completed all five **200000 input / 256 output** repetitions.
 The two five-sample groups confirm **14.5% higher generation rate for Q4**, but **60.0% less context-fill time for 8-bit MLX**. Inputs have identical token-ID hashes and both use fixed 256-token output work without prefix reuse. This compares coupled precision/runtime configurations on the same M5; it does not isolate quantization or hardware. MLX measures its direct input-to-first-token interval; llama.cpp retains native timings and HTTP first-output latency separately. Repository timing remains a separate metric, and its five-attempt outcome comparison is not yet complete.
 
 The 8-bit grid's other input lengths remain in progress. Earlier one-sample observations stay preserved as dated observations rather than being treated as extra repetitions in this group.
+
+## October 2, 10:05 UTC — both Qwen 3.8 context-speed grids complete
+
+Qwen 3.8 8-bit MLX completed all **20** runs, five repetitions at every length with 256 generated tokens:
+
+| Actual input tokens | 8-bit MLX decode | Q4 llama.cpp decode | 8-bit MLX fill | Q4 llama.cpp fill |
+|---:|---:|---:|---:|---:|
+| 8192 | 30.5813 tok/s | 44.7961 tok/s | 4.961s | 6.738s |
+| 32768 | 28.9279 tok/s | 41.0698 tok/s | 21.437s | 34.279s |
+| 131072 | 24.4479 tok/s | 29.4163 tok/s | 115.589s | 265.209s |
+| 200000 | 21.4262 tok/s | 24.5246 tok/s | 212.930s | 531.977s |
+
+Every table entry is a **five-sample median**. All 20 8-bit runs have exact counters, unchanged model/runtime/residency identities, identical input/output sequences within each length and zero observed whole-child swap growth. The Q4 and 8-bit input-token hashes match at each input length. Q4 generates faster at every measured length; 8-bit MLX fills context faster at every length. Both precision and runtime differ, so the table cannot isolate either factor. Native timing fields, HTTP first-output timing and direct MLX timing retain their documented boundaries.
+
+Within the 8-bit MLX configuration, generation at 200K is **29.9% slower** than at 8192 tokens, and context fill takes **42.9 times as long**. This does not establish an intelligence ranking or the completed repository success rates; those repeated useful-work suites remain outstanding.
+
+Four configurations now have complete repeated speed grids. The runner is continuing with Qwen 3.6, followed by the remaining MiMo measurements and all unfinished work/quality/load suites. Its newly published second 200K sample is **78.7654 tok/s** with **66.737s** fill.
