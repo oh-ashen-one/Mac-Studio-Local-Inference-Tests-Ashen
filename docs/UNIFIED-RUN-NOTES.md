@@ -534,3 +534,10 @@ MiMo attempt three completed unsuccessfully in **505.360s**, using the original 
 Attempt four completed unsuccessfully in **536.083s**, with eight reads, no edits and an empty patch. Final evaluation remained **18/19**, target regression failed. Zero rescue. Last request: **221781 input / 214941 cached tokens**. Whole-child and server intervals observed **24 MiB system swap growth**; minimum available memory **16.17 GiB** and **15.87 GiB**, respectively. Neither trial hit the unchanged memory/swap guards. Both began at **200008 tokens**.
 
 [Third trial](../results/u20261002-mimo-repo8-r3/result.json) and [fourth trial](../results/u20261002-mimo-repo8-r4/result.json) are published without retry, replacement or budget extension. This series currently has **one pass among four completed of five planned attempts**. The fifth is active, and campaign coverage is **176/234 groups complete**.
+
+
+## October 2, 23:09 UTC — MiMo repository series complete; remaining-time assessment
+
+MiMo attempt five completed unsuccessfully in **496.500s**, eight turns, zero human rescues and **200008 starting tokens**. It made five edits, with final evaluation reporting **five failures and two errors across 19 tests**. Its patch and full evaluator output are preserved. Whole-child swap growth was zero and minimum available system memory **20.06 GiB**. The current five-trial series therefore finishes **1/5 passed**, median attempt duration **536.083s**, with all four unsuccessful attempts retained.
+
+The driver advanced to MiMo's full replay, with **177/234 groups complete**. In response to the owner's timing question, a read-only assessment confirmed **1.890 hours** of sustained timed-inference extrapolation, approximately **2.036 hours** after observed setup overhead. The remaining long-task and serving phases are much more uncertain. [Remaining-work estimate and elapsed-time accounting](REMAINING-TIME-ESTIMATE-20261002.md) documents a rough **8–18-hour execution planning range**, separate from safety deadlines and final report packaging. No additional benchmark/profiling job, runtime change or acceleration was introduced.
