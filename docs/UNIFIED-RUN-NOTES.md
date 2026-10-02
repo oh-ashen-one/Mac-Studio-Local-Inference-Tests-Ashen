@@ -103,3 +103,11 @@ All **20** DeepSeek native speed runs are complete, five fresh processes per inp
 Within this configuration, median generation at 200K is **32.1% slower** than at 8192 tokens, and native context fill takes **36.4 times as long**. The input count is about 24.4 times larger. These are native-counter timings under the documented boundary, not HTTP TTFT. Every run has verified exact input/output counters, the same model/runtime/executable/corpus identities and zero observed whole-child swap growth. All repetitions, including the slower 8K observation at 54.19 tok/s, remain included.
 
 Gemma and DeepSeek now both have complete repeated context-speed grids. The runner has moved to Qwen 3.8 Q4_K_M repetitions; other model profiles and all unfinished task, replay, retrieval, HumanEval and serving-load groups remain required. The dashboard's model selector exposes the completed DeepSeek curve with sample counts and observed ranges.
+
+## October 2, 09:05 UTC — Qwen Q4's full five-sample 200K group
+
+Qwen 3.8 Q4_K_M completed all five fresh-server **200000 input / 256 output** repetitions through the pinned llama.cpp native endpoint. Decode median is **24.5246 tok/s**, mean **24.4321**, sample standard deviation **0.1820**, observed range **24.1187–24.5473**. HTTP context-fill median is **531.977s**, mean **532.759s**, sample standard deviation **4.235s**, observed range **528.876–539.975s**. Native prefill median is **375.967 input tok/s**; native timing fields and HTTP latency remain separately recorded.
+
+All five confirm the exact workload, identical input token hashes, model lock, runtime commit and executable hash, with no observed swap growth in either server-only or whole-child telemetry. The slower fifth repetition is retained without replacement. Fixed output work ignores EOS; ordinary chat/agent workloads remain separate diagnostics.
+
+The first 131072-token sample measured **29.4906 tok/s** with **265.160s** HTTP fill. Remaining repetitions at that length and the shorter contexts are in progress. The complete Q4 context-speed grid and its remaining task/quality/load suites are not yet finished; the earlier one-run Q4-versus-8-bit comparison is not promoted into a final cross-configuration result before both repeated profiles are complete.

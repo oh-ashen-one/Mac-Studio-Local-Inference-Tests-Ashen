@@ -1,6 +1,6 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **65/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **67/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
 
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
@@ -11,7 +11,7 @@ Coverage: **65/234 cells completed**. Status: running. No overall deadline. A co
 | DeepSeek V4 Flash · mixed Q4 | 23/39 | 37.610 tok/s | 5/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 | MiMo V2.6 Flash · MXFP4 | 4/39 | 37.748 tok/s | 1/5 | 0/1 completed | 0/0 completed | 0/0 scored of 164 |
 | Qwen 3.6 35B A3B · FP4 | 4/39 | 80.372 tok/s | 1/5 | 0/1 completed | 0/0 completed | 0/0 scored of 164 |
-| Qwen 3.8 27B · Q4_K_M | 7/39 | 24.534 tok/s | 4/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
+| Qwen 3.8 27B · Q4_K_M | 9/39 | 24.525 tok/s | 5/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 
 Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.
 
