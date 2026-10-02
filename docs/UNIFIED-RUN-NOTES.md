@@ -291,3 +291,10 @@ Whole-child telemetry observed zero swap growth and **161.19 GiB** minimum syste
 DeepSeek's second eight-turn-budget repository attempt also passed **19/19 tests** in **327.726s**, three turns and zero rescues. Its initial input was **200001 tokens**; later requests reported **200019** and **204128** cached tokens. Native tokenization was completed before server loading, as required by the disclosed setup amendment. The unchanged patch and all evaluations remain in [attempt two](../results/u20261002-deepseek-repo8-r2/result.json). Whole-child swap growth was zero and minimum available memory **68.90 GiB**. This is **2/5 planned attempts complete**, both passing, not a final five-trial rate. Attempt three is active.
 
 The full campaign is **146/234 groups complete** at this checkpoint. All configurations continue sequentially; no model is declared finished merely because its speed or initial quality stages are complete.
+
+
+## October 2, 15:33 UTC — fourth DeepSeek repository attempt complete
+
+DeepSeek attempts three and four passed all **19/19 tests** in **327.558s** and **326.777s**, respectively. Both took three turns with zero human rescue and began with **200001 actual input tokens**. Both second turns reused 200019 cached tokens; their third turns reused 204151 and 204128 tokens. Each preserved patch adds the missing unapply record for the replacement migration. Passing this fixed historical test suite is not a general patch-correctness guarantee.
+
+Whole-child system swap growth was zero for both. Minimum available memory was **69.09 GiB** (r3) and **69.43 GiB** (r4); independently sampled server-interval minima were **69.09 GiB** and **69.54 GiB**. Original raw evidence and hashes are published. The series is **4/5 complete**, all four observed attempts passing, with attempt five active. The full study is **148/234 groups complete** at this checkpoint.
