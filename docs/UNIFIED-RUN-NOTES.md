@@ -368,3 +368,18 @@ Median task time is **587.698s (9m48s)**, mean **589.889s**, sample standard dev
 This is five attempts at one historical issue, not five independent tasks or a general coding-success score. The separate Qwen 8-bit series still needs its remaining trials. [Fourth trial](../results/u20261002-qwen38q4-repo8-r4/result.json) and [fifth trial](../results/u20261002-qwen38q4-repo8-r5/result.json) complete the raw series.
 
 Coverage is **156/234 groups complete**. Qwen Q4's full recorded-policy replay is running; its broader coding/retrieval diagnostics and later sustained, extended-repair and serving-load groups remain required.
+
+
+## October 2, 18:18 UTC — Qwen Q4 full recorded replay complete
+
+The official replay served **168/168 requests**, zero failed turns, in **627.299s (10m27s)** measured time. End-to-end output rate was **27.9161 tok/s**; the separate generation-only metric was **44.2474 tok/s**. Median first-token wait was **0.743s**, p95 **4.401s**; median request latency **2.829s**, p95 **9.532s**. These are 168 turns within one replay, not independent repeated replay runs.
+
+The server counted **2,577,822 input tokens**, of which **2,399,938 (~93.1%) were cached**, with **166 requests** reporting cached input. Uncached input totaled 177,884 tokens. Maximum request input was **56,114 tokens**, separate from the 200K speed condition. It produced **17,506 server output tokens**, versus 15,136 local-counted tokens and 30,883 recorded targets. The **five short-output warnings** and **144 length-finished turns** remain in the official summary. Output lengths were not forced to match the historical exact-output cohort.
+
+Unlike the MLX and DwarfStar attached endpoints in this campaign, this llama.cpp endpoint reported its configured **262144-token context**; AA recorded `observed_reason: reported` and `reduced: false` for its requested 65536-token replay condition. That context-discovery result does not make natural recorded-cap output identical to managed exact-length output, prove effective retrieval at the advertised limit, or establish task solving.
+
+The high observed prefix reuse and low first-token waits are a useful property of this specific model/runtime/recorded-trajectory combination. Other configurations have different input tokenization, returned output lengths and cache behavior; no hardware-only percentage is inferred from the replay durations.
+
+Whole-child system swap growth was zero and minimum available memory **165.15 GiB**; the server interval minimum was **165.11 GiB**. All 12 published artifact hashes were verified. [Official summary](../results/u20261002-qwen38q4-aa-full/raw/summary.json), [per-turn counters](../results/u20261002-qwen38q4-aa-full/raw/turns.jsonl), settings and logs are retained.
+
+The campaign is **157/234 groups complete**. Qwen Q4's HumanEval diagnostic is active; its score remains partial until all 164 cases finish.
