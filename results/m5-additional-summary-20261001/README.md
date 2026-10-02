@@ -36,6 +36,7 @@ Replay cells (serving only, not tasks solved):
 
 - [aa-mini-v1](../../results/m5-aa-mimo-mini-recorded-20261001/run.json) — failed; 1/6 turns served; 6 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 - [agentperf-default-v1](../../results/m5-aa-mimo-full-recorded-20261001/run.json) — unsupported; 0/0 turns served; 0 short-output warnings; output policy recorded. Context evidence: not recorded, observed limit None. Not directly comparable to the original managed exact-output cohort.
+- [aa-mini-v1](../../results/m5-aa-mimo-mini-xml-v2-recorded-20261001/run.json) — complete; 6/6 turns served; 6 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 
 ## Qwen 3.6 35B A3B
 
