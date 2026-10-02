@@ -407,3 +407,22 @@ Qwen 3.8 8-bit MLX attempts two and three passed **19/19 tests** in **237.594s /
 **Attempt four failed the bounded task**, completing in **257.260s** after all eight allowed turns. It made seven read requests (including one nonexistent file) and one test request, never edited code, and left an empty patch. Final evaluation was **18/19 passed**, with the intended replacement-migration regression still failing. Starting input was **200020 tokens**; the final request had 216427 input and 216160 cached tokens. Zero rescue, zero whole-child swap growth, minimum available memory **139.45 GiB** (server interval **137.11 GiB**). [The failure and all actions](../results/u20261002-qwen38q8-repo8-r4/result.json) remain immutable. It was not retried or given extra turns.
 
 The Qwen 8-bit series has **three passes among four completed trials, of five planned**. Its separately predeclared fifth seed is running. Overall coverage is **162/234 groups complete**, including the unsuccessful completed attempt.
+
+
+## October 2, 20:09 UTC — Qwen 8-bit repository series complete
+
+The fifth predeclared Qwen 3.8 8-bit trial passed all **19/19 tests** in **229.898s**, three turns and zero human rescue. It reused 200036 then 203845 cached tokens after its first request. Whole-child swap growth was zero and minimum available memory **148.12 GiB**. This completes the current five-trial series at **4/5 passed**, preserving the fourth trial's empty patch and failed target regression.
+
+| Attempt | Outcome | Attempt duration | Turns |
+|---:|---|---:|---:|
+| 1 | Passed 19/19 | 230.510s | 3 |
+| 2 | Passed 19/19 | 237.594s | 4 |
+| 3 | Passed 19/19 | 243.138s | 3 |
+| 4 | Failed target regression; 18/19 | 257.260s | 8 |
+| 5 | Passed 19/19 | 229.898s | 3 |
+
+Median **attempt duration across all five, including the failure**, is **237.594s (3m58s)**, mean **239.680s**, sample standard deviation **11.237s**, range **229.898–257.260s**. The five initial packet hashes match and all start at **200020 actual tokens**. These are repeated attempts at one historical issue, not broad task coverage. No failed attempt was replaced or extended. [Fifth raw trial](../results/u20261002-qwen38q8-repo8-r5/result.json) is published alongside the failed fourth.
+
+The controller briefly received an SSH reachability error during publication. The existing sync completed, and a bounded read-only recheck reached the same verified M5 and original driver PID with no campaign error. The benchmark had advanced to the full Qwen 8-bit replay. No test was restarted or endpoint rerouted. This was a monitoring interruption, not recorded as a model failure.
+
+Coverage is **163/234 groups complete**, and the full recorded-policy Qwen 8-bit replay is active.
