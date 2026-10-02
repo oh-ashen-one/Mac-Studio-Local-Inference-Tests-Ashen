@@ -525,3 +525,12 @@ MiMo's second attempt passed **19/19 tests** in **575.874s (9m36s)**, using all 
 Whole-child and server intervals both observed **319.625 MiB of system-wide swap growth**. Minimum available system memory was **16.55 GiB** across the whole child and **16.17 GiB** in the independently sampled server interval. These remain above the 12 GiB available-memory guard and below the 2 GiB swap-growth limit, which were unchanged. The swap observation includes setup/loading and is not attributed solely to timed inference or to this process. Do not describe this trial as zero-swap.
 
 This current series has **one pass among two completed attempts, of five planned**. The first unsuccessful attempt is preserved, and no trial was retried or given extra turns. Attempt three is active; full campaign coverage is **174/234 groups complete**.
+
+
+## October 2, 22:54 UTC — MiMo third and fourth attempts preserved
+
+MiMo attempt three completed unsuccessfully in **505.360s**, using the original eight-turn budget and zero rescues. It read two files, made four edits and requested two evaluations; the target regression still failed, with final **18/19 tests passed**. Its changed patch and intermediate failures are preserved. Last request: **209935 input / 209914 cached tokens**. Whole-child swap growth was zero, minimum available memory **19.09 GiB**; server interval minimum **19.08 GiB**.
+
+Attempt four completed unsuccessfully in **536.083s**, with eight reads, no edits and an empty patch. Final evaluation remained **18/19**, target regression failed. Zero rescue. Last request: **221781 input / 214941 cached tokens**. Whole-child and server intervals observed **24 MiB system swap growth**; minimum available memory **16.17 GiB** and **15.87 GiB**, respectively. Neither trial hit the unchanged memory/swap guards. Both began at **200008 tokens**.
+
+[Third trial](../results/u20261002-mimo-repo8-r3/result.json) and [fourth trial](../results/u20261002-mimo-repo8-r4/result.json) are published without retry, replacement or budget extension. This series currently has **one pass among four completed of five planned attempts**. The fifth is active, and campaign coverage is **176/234 groups complete**.
