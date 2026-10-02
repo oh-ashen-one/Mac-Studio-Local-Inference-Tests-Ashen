@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """CPU-only positive/negative controls before evaluating model-generated code."""
-import gzip,json,subprocess,sys,os
+import gzip,json,subprocess,sys,os,datetime
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from unified_quality import evaluate_code
 from repo_task import profile,VENV
 
 def main():
-    out=ROOT/'work/unified-evaluator-validation';out.mkdir(exist_ok=False)
+    out=ROOT/'work'/('unified-evaluator-validation-'+datetime.datetime.now().strftime('%Y%m%dT%H%M%S'));out.mkdir(exist_ok=False)
     cases=[json.loads(x) for x in gzip.decompress((ROOT/'config/humaneval/HumanEval.jsonl.gz').read_bytes()).decode().splitlines()]
     rows=[]
     for case in cases:

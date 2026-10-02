@@ -51,7 +51,7 @@ def evaluate_code(problem,text,out):
     env={'PATH':'/usr/bin:/bin','HOME':str(out),'TMPDIR':str(out),'PYTHONDONTWRITEBYTECODE':'1','LANG':'en_US.UTF-8'}
     policy=profile(out).replace('(allow process-fork)','(deny process-fork)')
     def limits():
-        resource.setrlimit(resource.RLIMIT_CPU,(3,4));resource.setrlimit(resource.RLIMIT_FSIZE,(1024*1024,1024*1024));resource.setrlimit(resource.RLIMIT_NOFILE,(64,64));resource.setrlimit(resource.RLIMIT_DATA,(512*2**20,512*2**20))
+        resource.setrlimit(resource.RLIMIT_CPU,(3,4));resource.setrlimit(resource.RLIMIT_FSIZE,(1024*1024,1024*1024));resource.setrlimit(resource.RLIMIT_NOFILE,(64,64))
     proc=None;timed_out=False;memory_exceeded=False;peak_rss=0;start=time.perf_counter()
     with (out/'execution.log').open('w') as log:
         try:
@@ -65,7 +65,7 @@ def evaluate_code(problem,text,out):
                 time.sleep(.02)
         finally:stop(proc)
     output=(out/'execution.log').read_text(errors='replace');passed=not timed_out and not memory_exceeded and proc.returncode==0 and marker in output.splitlines()
-    return {'passed':passed,'status':'passed' if passed else 'memory_limit' if memory_exceeded else 'timeout' if timed_out else 'failed_tests','exit_code':proc.returncode,'evaluation_wall_s':time.perf_counter()-start,'peak_evaluator_rss_bytes':peak_rss,'sandbox':'macOS deny-default; no network, no process fork, no private-home reads; CPU/file-size/wall/data limits and 512 MiB RSS watchdog','stdout_tail':output[-4000:].replace(str(ROOT),'<repo>')}
+    return {'passed':passed,'status':'passed' if passed else 'memory_limit' if memory_exceeded else 'timeout' if timed_out else 'failed_tests','exit_code':proc.returncode,'evaluation_wall_s':time.perf_counter()-start,'peak_evaluator_rss_bytes':peak_rss,'sandbox':'macOS deny-default; no network, no process fork, no private-home reads; CPU/file-size/wall limits and 512 MiB RSS watchdog. RLIMIT_DATA unsupported on this host.','stdout_tail':output[-4000:].replace(str(ROOT),'<repo>')}
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--suite',choices=['structured','retrieval','humaneval'],required=True);a=p.parse_args()
@@ -76,6 +76,9 @@ def main():
     def update():write_json(out/'result.json',r);write_json(ROOT/'work/unified-job-live.json',r)
     update()
     try:
+        if a.suite=='humaneval':
+            qualification=json.loads((ROOT/'hardware/unified-evaluator-validation.json').read_text())
+            if qualification.get('canonical_passed')!=164 or not qualification.get('sandbox_negative_controls_passed'):raise RuntimeError('Evaluator must pass all canonical and negative controls before model scoring')
         with shared_gpu_slot():
             r['preflight']=safety('studio-new');verify(spec,folder)
             with server(spec,folder,out,cache_sequences=0) as (port,telemetry):
