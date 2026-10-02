@@ -1,6 +1,6 @@
 # Mac Studio Local Inference Tests Ashen
 
-**The identified additional-model phase is complete.** [Final report and complete cell ledger](results/m5-additional-summary-20261001/README.md). All task-owned inference workers have exited; model files and the readonly dashboard remain ready for later work. Matched M3 testing and website publication are still pending.
+**The identified additional-model phase is complete.** [Final report and complete cell ledger](results/m5-additional-summary-20261001/README.md). All task-owned inference workers have exited and the scheduled follow-up is paused; model files and the readonly dashboard remain ready for later work. Matched M3 testing and website publication are still pending.
 
 ## Start with the 200K results — October 1, 2026
 
