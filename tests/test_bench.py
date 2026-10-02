@@ -176,3 +176,37 @@ def test_explicit_mimo_xml_parser_keeps_files_unchanged_and_rejects_other_gramma
     with pytest.raises(ValueError):tokenizer_options(tmp_path,{'model_type':'qwen3_5'},True)
     template.write_text('{{ tool_call | tojson }}')
     with pytest.raises(ValueError):tokenizer_options(tmp_path,config,True)
+
+
+def test_unified_exact_context_builder_never_returns_a_short_prompt(tmp_path,monkeypatch):
+    import unified_server
+    monkeypatch.setattr(unified_server,'count_chat',lambda spec,folder,messages,port:len(messages[1]['content'])//2+20)
+    messages,count=unified_server.fill_to_tokens({},tmp_path,'system','prefix','x'*10000,'suffix',1000)
+    assert 1000<=count<=1032
+    with pytest.raises(RuntimeError,match='exact declared input range'):
+        unified_server.fill_to_tokens({},tmp_path,'system','','x'*20,'',1000)
+
+
+def test_unified_evaluator_restricts_escape_routes_but_accepts_math():
+    from unified_quality import check_code,ARITHMETIC_EVAL
+    check_code('import hashlib\ndef f(x):\n return hashlib.md5(x.encode()).hexdigest()')
+    for code in ['import os','import random\nx=random._os','from random import _os','x=open("/tmp/x")','import operator\nx=operator.attrgetter("__globals__")']:
+        with pytest.raises(ValueError):check_code(code)
+    namespace={};exec(ARITHMETIC_EVAL,namespace)
+    assert namespace['eval']('2+3*4-5')==9
+    with pytest.raises(ValueError):namespace['eval']('__import__("os")')
+
+
+def test_unified_matrix_covers_each_downloaded_configuration_equally():
+    plan=json.loads((ROOT/'config/unified-campaign.json').read_text())
+    assert plan['overall_deadline'] is None
+    counts=[]
+    for model in plan['models']:
+        jobs=[j for j in plan['jobs'] if j['model_id']==model]
+        for size in [8192,32768,131072,200000]:
+            assert len([j for j in jobs if j['kind']=='speed' and j['tokens']==size and j['output_tokens']==256])==5
+        assert len([j for j in jobs if j['kind']=='repo' and j['max_turns']==8])==5
+        assert len([j for j in jobs if j['kind']=='repo' and j['max_turns']==20])==3
+        assert {j['suite'] for j in jobs if j['kind']=='quality'}=={'structured','retrieval','humaneval'}
+        counts.append(len(jobs))
+    assert len(plan['models'])==6 and len(set(counts))==1

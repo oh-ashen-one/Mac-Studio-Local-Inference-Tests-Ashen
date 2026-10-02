@@ -23,7 +23,7 @@ def main():
     spec,model_dir,model_lock=resolve_model(a.model,a.lock)
     out=ROOT/'results'/a.run_id;out.mkdir(parents=True,exist_ok=False)
     result={'kind':'long_context','model_id':a.model,'machine_id':a.machine,'requested_input_tokens':a.tokens,'requested_output_tokens':a.output_tokens,'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'model_revision':spec['revision'],'model_lock_sha256':digest(model_lock),'runtime_lock_sha256':digest(ROOT/'requirements-macos-arm64.lock'),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'prefix_cache':'fresh; no reused context','cold_definition':'Empty KV/state cache, not a cold filesystem or reboot. Model load and tokenization excluded from context-fill time.','condition':'alone','sample_count':1}
-    result.update(backend=spec['backend'] if spec['backend']=='dwarfstar' else a.backend,runtime_lock_sha256=digest(runtime_lock(a.backend)))
+    result.update(backend=spec['backend'] if spec['backend']=='dwarfstar' else a.backend,runtime_lock_sha256=digest(ROOT/'config/dwarfstar.lock.json' if spec['backend']=='dwarfstar' else runtime_lock(a.backend)))
     if a.campaign_id:result['campaign_id']=a.campaign_id
     result['wired_policy']=a.wired_policy
     def update():write_json(ROOT/'work/long-context-live.json',result);write_json(out/'result.json',result)
@@ -35,6 +35,9 @@ def main():
             corpus=ROOT/'work/context-corpus.txt';result['corpus_sha256']=digest(corpus)
             if spec['backend']=='dwarfstar':
                 import csv,io
+                native_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT/'vendor/dwarfstar',text=True).strip()
+                if native_commit!=json.loads((ROOT/'config/dwarfstar.lock.json').read_text())['commit']:raise RuntimeError('Pinned DwarfStar source revision changed')
+                result['native_binary_sha256']=digest(ROOT/'vendor/dwarfstar/ds4-bench')
                 result['status']='filling_context';update();started=time.perf_counter()
                 cmd=[str(ROOT/'vendor/dwarfstar/ds4-bench'),'-m',str(model_dir/spec['files'][0]['path']),'--metal','--prompt-file',str(corpus),'--ctx-start',str(a.tokens),'--ctx-max',str(a.tokens),'--gen-tokens',str(a.output_tokens),'--prefill-chunk','2048']
                 with (out/'native.stdout').open('w') as stdout,(out/'native.stderr').open('w') as stderr:
@@ -94,6 +97,7 @@ def main():
                 result.update(timing_summary(start,times,time.perf_counter()))
                 result.update({'status':'complete','input_tokens':a.tokens,'context_fill_s':times[0]-start,'context_fill_definition':'Full uncached input to first generated token, including the first-token step; excludes load/tokenization','prefix_prefill_s':prefix_done_s,'prefill_tok_s':(a.tokens-1)/prefix_done_s if prefix_done_s else None,'prefill_tokens_timed':a.tokens-1,'output_text':tokenizer.decode(tokens),'output_token_ids':tokens,'peak_metal_bytes':mx.get_peak_memory(),'observed_system_memory_delta_bytes':max(0,before-min(x['available_bytes'] for x in samples)),'swap_increase_bytes':psutil.swap_memory().used-swap,'kv_quantization':None,'prefill_chunk':2048,'speculation':False,'settings':'Fixed-token decode continues through EOS for comparable work; this is not a correctness score.'})
                 write_json(out/'prefill-timeline.json',samples)
+                write_json(out/'token-timeline.json',[{'token_index':i,'elapsed_s':t-start} for i,t in enumerate(times)])
             result['finished_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();update()
     except BaseException as exc:
         result['status']='failed';result['error']=str(exc).replace(str(ROOT),'<repo>');update();raise
