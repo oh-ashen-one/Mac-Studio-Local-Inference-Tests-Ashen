@@ -541,3 +541,20 @@ Attempt four completed unsuccessfully in **536.083s**, with eight reads, no edit
 MiMo attempt five completed unsuccessfully in **496.500s**, eight turns, zero human rescues and **200008 starting tokens**. It made five edits, with final evaluation reporting **five failures and two errors across 19 tests**. Its patch and full evaluator output are preserved. Whole-child swap growth was zero and minimum available system memory **20.06 GiB**. The current five-trial series therefore finishes **1/5 passed**, median attempt duration **536.083s**, with all four unsuccessful attempts retained.
 
 The driver advanced to MiMo's full replay, with **177/234 groups complete**. In response to the owner's timing question, a read-only assessment confirmed **1.890 hours** of sustained timed-inference extrapolation, approximately **2.036 hours** after observed setup overhead. The remaining long-task and serving phases are much more uncertain. [Remaining-work estimate and elapsed-time accounting](REMAINING-TIME-ESTIMATE-20261002.md) documents a rough **8–18-hour execution planning range**, separate from safety deadlines and final report packaging. No additional benchmark/profiling job, runtime change or acceleration was introduced.
+
+
+## October 2, 23:46 UTC — MiMo full replay and coding complete
+
+MiMo's official recorded-policy replay served **168/168 requests**, zero failed turns, in **1747.914s (29m08s)** measured time. End-to-end rate was **8.8282 tok/s**; separate generation-only metric **72.0169 tok/s**. Median first-token wait **6.632s**, p95 **28.720s**; median request latency **8.412s**, p95 **29.916s**. These distributions contain 168 turns from one replay, not repeated independent runs.
+
+Server totals were **2,458,654 input tokens**, **360,272 cached tokens**, and **15,430 output tokens**. 163 requests reported cached input; maximum request input **55,628 tokens**. Local output count was 12,531, recorded target 30,883. Preserve **ten short-output warnings**, **119 length-finished turns**, **59 runtime tool-parser warnings**, and the unverified-context flag (`model-not-listed`, observed null, `reduced: true`). Serving success does not establish task solving or tool correctness. [Official summary](../results/u20261002-mimo-aa-full/raw/summary.json) and all 12 artifact hashes were verified.
+
+HumanEval passed **154/164 cases (93.90%)** under the frozen one-sample greedy chat adaptation and restricted evaluator:
+
+- Eight functional assertion failures: **/10, /101, /120, /127, /129, /132, /145, /163**.
+- **/39** was rejected for importing `sympy`, outside the declared allowed subset; its functional correctness was not established.
+- **/130** hit the fixed output cap (`finish_reason: length`), leaving an unclosed code fence and incomplete output that the frozen extractor/evaluator rejected as invalid syntax. No extra output tokens, parser relaxation or retry were provided.
+
+Stage duration was **592.946s (9m53s)**, summed request time **523.037s**, median request **2.556s**. Actual inputs **101–454 tokens** per problem, 32,345 total; generated output **32,062 tokens**, reported cached input zero. All 821 published coding artifact hashes were verified. [All outcomes](../results/u20261002-mimo-humaneval/result.json) retain the distinct failure categories. This remains a public, potentially contaminated, chat-adapted diagnostic rather than an official leaderboard score.
+
+Whole-child swap growth was zero in both stages. Minimum available memory was **60.52 GiB** for replay and **77.15 GiB** for coding; independently sampled server minima **60.56 GiB** and **78.29 GiB**. All six full replay suites and six 164-case coding suites are now complete. Coverage is **179/234 groups**, with MiMo's nine 200K retrieval cases active before the 54 declared sustained-output, extended-repair and serving-load groups.
