@@ -394,3 +394,16 @@ Full stage elapsed time was **938.101s (15m38s)** including preparation/evaluati
 Whole-child system swap growth was zero and minimum available memory **168.71 GiB**; independently sampled server minimum was **168.68 GiB**. All **825 published artifact hashes** were checked. [All 164 case outcomes](../results/u20261002-qwen38q4-humaneval/result.json) retain the evidence and failure categories.
 
 Campaign coverage is **158/234 groups complete**. Qwen Q4's nine 200K retrieval cases are active, with all remaining configurations and later stress/load conditions still required.
+
+
+## October 2, 20:04 UTC — Qwen Q4 retrieval complete; Qwen 8-bit trials continue
+
+Qwen 3.8 Q4_K_M passed **9/9 exact-key retrieval cases** with **200001–200005 actual input tokens** per request. The first case reported zero cached tokens; each later case reported **28 cached prefix tokens**, which remain disclosed rather than calling the whole series zero-cache. Responses contained **17–32 tokens**. The three deterministic keys at each approximate 10%/50%/90% document-character position were recovered; exact request metadata records each actual position and count.
+
+Median first output was **536.025s**; median response **536.738s (8m57s)**, range **530.202–552.059s**. Full stage time was **4893.615s (81m34s)** including preparation. Whole-child system swap growth was zero; minimum available memory **176.96 GiB** (server interval **176.92 GiB**). [All nine outcomes](../results/u20261002-qwen38q4-retrieval/result.json) are published. This is exact-key retrieval in the specified corpus, not general long-context reasoning. Qwen Q4 now has **30/39 groups complete**.
+
+Qwen 3.8 8-bit MLX attempts two and three passed **19/19 tests** in **237.594s / four turns** and **243.138s / three turns**. Both began at **200020 tokens**, reused prefix cache in later turns, and had zero human rescues or whole-child swap growth. Whole-child minimum available memory was **144.37 GiB** and **145.60 GiB**, respectively; server interval minima were **144.37 GiB** and **144.59 GiB**.
+
+**Attempt four failed the bounded task**, completing in **257.260s** after all eight allowed turns. It made seven read requests (including one nonexistent file) and one test request, never edited code, and left an empty patch. Final evaluation was **18/19 passed**, with the intended replacement-migration regression still failing. Starting input was **200020 tokens**; the final request had 216427 input and 216160 cached tokens. Zero rescue, zero whole-child swap growth, minimum available memory **139.45 GiB** (server interval **137.11 GiB**). [The failure and all actions](../results/u20261002-qwen38q8-repo8-r4/result.json) remain immutable. It was not retried or given extra turns.
+
+The Qwen 8-bit series has **three passes among four completed trials, of five planned**. Its separately predeclared fifth seed is running. Overall coverage is **162/234 groups complete**, including the unsuccessful completed attempt.
