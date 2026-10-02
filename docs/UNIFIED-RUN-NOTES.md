@@ -278,3 +278,16 @@ The import rejection remains a non-pass under this declared protocol. Its unchan
 Whole-child telemetry observed zero system swap growth and **192.29 GiB** minimum available memory; the independently sampled server interval minimum was **195.42 GiB**. [All case outcomes](../results/u20261002-gemma-humaneval/result.json), exact requests/responses, code and evaluator traces are preserved by the publication hash manifest.
 
 The campaign is **144/234 groups complete**. The next active group is Gemma's nine actual 200K-token retrieval cases. All remaining configurations and suites continue under their original budgets.
+
+
+## October 2, 15:18 UTC — Gemma long-context retrieval complete
+
+Gemma correctly returned the exact key in **9/9 retrieval cases**: three deterministic keys at each of approximately 10%, 50% and 90% of the included document. Actual positions were **10.0074%, 50.0054% and 90.0035% of document characters**, not exact token depths. Server input counts were **200022–200026 actual tokens** with **zero cached tokens in every case**. Each request and its preflight count are retained; no context was silently shortened.
+
+Median time to first output was **315.889s**; median full response time was **317.449s**, range **313.310–321.925s**. Responses contained **22–27 generated tokens**, so these times are not interchangeable with the fixed 256-output speed condition. Full stage elapsed time including preparation was **3085.991s (51m26s)**. This small exact-key diagnostic demonstrates retrieval in the specified source corpus; it does not establish broad 200K reasoning or multi-hop reliability.
+
+Whole-child telemetry observed zero swap growth and **161.19 GiB** minimum system available memory (server interval: **161.54 GiB**). [Nine case outcomes](../results/u20261002-gemma-retrieval/result.json) and each exact request/response are published. Gemma now has **30/39 groups complete**, with sustained generation, twenty-turn repair and serving-load tests still queued in the later phase.
+
+DeepSeek's second eight-turn-budget repository attempt also passed **19/19 tests** in **327.726s**, three turns and zero rescues. Its initial input was **200001 tokens**; later requests reported **200019** and **204128** cached tokens. Native tokenization was completed before server loading, as required by the disclosed setup amendment. The unchanged patch and all evaluations remain in [attempt two](../results/u20261002-deepseek-repo8-r2/result.json). Whole-child swap growth was zero and minimum available memory **68.90 GiB**. This is **2/5 planned attempts complete**, both passing, not a final five-trial rate. Attempt three is active.
+
+The full campaign is **146/234 groups complete** at this checkpoint. All configurations continue sequentially; no model is declared finished merely because its speed or initial quality stages are complete.
