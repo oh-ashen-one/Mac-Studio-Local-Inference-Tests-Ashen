@@ -59,9 +59,13 @@ def sanitize(data):
 def harvest():
     # The remote ledger's completion is set only after the child exits and its
     # telemetry is saved. Active/incomplete directories are never transferred.
-    audit = json.loads(remote('''import json,pathlib
+    audit = json.loads(remote('''import json,pathlib,psutil
 s=json.loads(pathlib.Path('work/unified-campaign.json').read_text())
 ids=[j['id'] for j in s['jobs'] if j['status']=='complete' and j['id']!=s.get('active') and pathlib.Path('results',j['id'],'campaign-telemetry.json').exists()]
+if s['status']=='stopped' and not psutil.pid_exists(s['pid']):
+ for j in s['jobs']:
+  p=pathlib.Path('results',j['id']);f=p/('run.json' if j['kind']=='replay' else 'result.json')
+  if f.exists() and json.loads(f.read_text()).get('status')=='failed' and (p/'completion-audit.json').exists():ids.append(j['id'])
 print(json.dumps({'ids':ids,'state':s}))
 '''))
     copied = []
@@ -72,13 +76,16 @@ print(json.dumps({'ids':ids,'state':s}))
             continue
         if destination.exists():
             raise RuntimeError('Unreviewed local result already exists: ' + run)
-        archive = remote('''import io,json,pathlib,sys,tarfile
+        archive = remote('''import io,json,pathlib,sys,tarfile,psutil
 run=''' + repr(run) + '''
 s=json.loads(pathlib.Path('work/unified-campaign.json').read_text())
-assert s.get('active')!=run
-assert next(j for j in s['jobs'] if j['id']==run)['status']=='complete'
+j=next(j for j in s['jobs'] if j['id']==run)
 p=pathlib.Path('results')/run
-assert (p/'campaign-telemetry.json').exists()
+if j['status']=='complete':
+ assert s.get('active')!=run and (p/'campaign-telemetry.json').exists()
+else:
+ assert s['status']=='stopped' and not psutil.pid_exists(s['pid']) and (p/'completion-audit.json').exists()
+ assert json.loads((p/('run.json' if j['kind']=='replay' else 'result.json')).read_text())['status']=='failed'
 with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
  for f in sorted(p.rglob('*')):
   assert not f.is_symlink()
@@ -86,7 +93,7 @@ with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
 ''')
         stage = ROOT / 'work/publication/unified' / run
         stage.mkdir(parents=True, exist_ok=True)
-        receipt = {'run_id': run, 'scope': 'Completed child only; original M5 bytes retained', 'files': {}}
+        receipt = {'run_id': run, 'scope': 'Exited child only, including explicitly audited failures; original M5 bytes retained', 'files': {}}
         with tarfile.open(fileobj=io.BytesIO(archive), mode='r:') as t:
             for member in t.getmembers():
                 relative = Path(member.name)
@@ -127,8 +134,12 @@ conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitline
 runs={p.split('/')[1] for p in conflicts if p.startswith('results/u20261002-')}
 assert all(p.startswith('results/u20261002-') for p in conflicts),'Unrelated untracked conflict'
 for run in sorted(runs):
- assert run!=state.get('active')
- assert next(j for j in state['jobs'] if j['id']==run)['status']=='complete'
+ j=next(j for j in state['jobs'] if j['id']==run)
+ if j['status']=='complete':assert run!=state.get('active')
+ else:
+  import psutil
+  assert state['status']=='stopped' and not psutil.pid_exists(state['pid'])
+  assert pathlib.Path('results',run,'completion-audit.json').exists()
  receipt=json.loads(git('show',target+':results/'+run+'/publication.json'))
  source=pathlib.Path('results')/run
  for f in source.rglob('*'):

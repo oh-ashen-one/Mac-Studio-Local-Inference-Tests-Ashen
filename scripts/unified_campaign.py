@@ -47,13 +47,16 @@ def main():
             with (ROOT/'work'/f'{j["id"]}.log').open('w') as log:
                 process=subprocess.Popen(command,cwd=ROOT,env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1'),stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
                 start=time.monotonic()
-                with Telemetry(process.pid) as telemetry:
-                    while process.poll() is None:
-                        state['elapsed_s']=time.monotonic()-start;save()
-                        if telemetry.rows and (telemetry.rows[-1]['available_bytes']<12*2**30 or telemetry.rows[-1]['swap_bytes']-telemetry.rows[0]['swap_bytes']>2*2**30):raise RuntimeError('Memory guard reached; no automatic retry')
-                        if state['elapsed_s']>budget:raise TimeoutError('Declared individual-job budget reached; overall campaign has no cutoff')
-                        time.sleep(3)
-                if out.exists():write_json(out/'campaign-telemetry.json',telemetry.rows)
+                try:
+                    with Telemetry(process.pid) as telemetry:
+                        while process.poll() is None:
+                            state['elapsed_s']=time.monotonic()-start;save()
+                            if telemetry.rows and (telemetry.rows[-1]['available_bytes']<12*2**30 or telemetry.rows[-1]['swap_bytes']-telemetry.rows[0]['swap_bytes']>2*2**30):
+                                state['guard_sample']=telemetry.rows[-1];raise RuntimeError('Memory guard reached; no automatic retry')
+                            if state['elapsed_s']>budget:raise TimeoutError('Declared individual-job budget reached; overall campaign has no cutoff')
+                            time.sleep(3)
+                finally:
+                    if out.exists():write_json(out/'campaign-telemetry.json',telemetry.rows)
             if process.returncode:
                 j['status']='needs_review';raise RuntimeError('Cell failed and was preserved: '+j['id'])
             j['status']='complete';save();process=None

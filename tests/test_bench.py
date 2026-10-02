@@ -210,3 +210,10 @@ def test_unified_matrix_covers_each_downloaded_configuration_equally():
         assert {j['suite'] for j in jobs if j['kind']=='quality'}=={'structured','retrieval','humaneval'}
         counts.append(len(jobs))
     assert len(plan['models'])==6 and len(set(counts))==1
+
+
+def test_native_metadata_counter_refuses_overlapping_loaded_server(tmp_path,monkeypatch):
+    import unified_server
+    monkeypatch.setattr(unified_server,'_native_server_active',True)
+    with pytest.raises(RuntimeError,match='before loading'):
+        unified_server.count_chat({'runtime':'dwarfstar'},tmp_path,[])

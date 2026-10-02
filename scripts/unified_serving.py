@@ -22,11 +22,16 @@ def main():
     try:
         with shared_gpu_slot():
             r['preflight']=safety('studio-new');verify(spec,folder)
-            with server(spec,folder,out,context=16384,cache_sequences=0,slots=a.concurrency) as (port,telemetry):
+            def prepare_payloads(port=None):
                 body=(ROOT/'work/context-corpus.txt').read_text();payloads=[]
                 for i in range(a.requests+2):
                     messages,count=fill_to_tokens(spec,folder,'Write a useful, detailed technical summary of the supplied code.','Independent request '+str(i)+'\n',body,'\nSummarize the code and identify its main responsibilities. Aim for a thorough response.',8192,port)
                     payload=chat_payload(spec,messages,256,0);payload.pop('seed',None);payload['cache_prompt']=False;payloads.append(payload)
+                return payloads
+            prepared=prepare_payloads() if spec['runtime']=='dwarfstar' else None
+            r['tokenizer_schedule']='before-server-v1' if prepared else 'resident-server'
+            with server(spec,folder,out,context=16384,cache_sequences=0,slots=a.concurrency) as (port,telemetry):
+                payloads=prepared or prepare_payloads(port)
                 write_json(out/'requests.json',payloads)
                 warm=[chat(port,payload,900) for payload in payloads[:2]];write_json(out/'warmup.json',warm)
                 r['status']='measuring';update();start=time.perf_counter()

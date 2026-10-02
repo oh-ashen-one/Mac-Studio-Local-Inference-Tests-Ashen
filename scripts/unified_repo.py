@@ -27,8 +27,11 @@ def main():
                 corpus+='\nFILE '+str(file.relative_to(BASE))+'\n'+file.read_text(errors='replace')
                 if len(corpus)>1800000:break
             system=SYSTEM.replace('You have eight turns',f'You have {a.max_turns} turns')
+            packet_args=(spec,folder,system,'Repository snapshot (partial; use read for other files):\n',corpus,'\n\nTASK:\n'+TASK['problem_statement'],a.context)
+            prepared=fill_to_tokens(*packet_args) if spec['runtime']=='dwarfstar' else None
+            result['tokenizer_schedule']='before-server-v1' if prepared else 'resident-server'
             with server(spec,folder,out) as (port,telemetry):
-                messages,count=fill_to_tokens(spec,folder,system,'Repository snapshot (partial; use read for other files):\n',corpus,'\n\nTASK:\n'+TASK['problem_statement'],a.context,port)
+                messages,count=prepared or fill_to_tokens(*packet_args,port)
                 result.update(status='working',initial_chat_tokens=count,initial_packet_sha256=__import__('hashlib').sha256(json.dumps(messages,sort_keys=True).encode()).hexdigest());write_json(out/'initial-packet.json',messages);update();started=time.perf_counter()
                 for turn in range(a.max_turns):
                     if telemetry.rows and (telemetry.rows[-1]['available_bytes']<12*2**30 or telemetry.rows[-1]['swap_bytes']-telemetry.rows[0]['swap_bytes']>2*2**30):raise RuntimeError('Memory guard reached')
@@ -45,7 +48,7 @@ def main():
                     if time.perf_counter()-started>3600*(2 if a.max_turns==20 else 1):raise TimeoutError('Declared attempt wall-time budget exhausted')
                 final=evaluate(candidate,out/'final-evaluation');result.update(status='complete',passed=final['passed'],final_evaluation=final,wall_s=time.perf_counter()-started)
     except BaseException as exc:
-        result.update(status='failed',error=str(exc).replace(str(ROOT),'<repo>').replace(str(folder),'<model>'),wall_s=time.perf_counter()-started if started else None)
+        result.update(status='failed',error=(str(exc) or type(exc).__name__).replace(str(ROOT),'<repo>').replace(str(folder),'<model>'),wall_s=time.perf_counter()-started if started else None)
         raise
     finally:
         if candidate.exists():

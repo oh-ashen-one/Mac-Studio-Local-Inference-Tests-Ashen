@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import stop,Telemetry
+_native_server_active = False
 
 def post(port,path,payload,timeout=60):
     request=urllib.request.Request(f'http://127.0.0.1:{port}{path}',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json'})
@@ -41,6 +42,7 @@ def chat(port,payload,timeout=900):
 
 @contextlib.contextmanager
 def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
+    global _native_server_active
     with socket.socket() as sock:
         if sock.connect_ex(('127.0.0.1',port))==0:raise RuntimeError('Owned benchmark port is occupied; preserve existing process')
     env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
@@ -73,9 +75,11 @@ def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
                             if response.status==200:break
                     except Exception:time.sleep(1)
                 else:raise TimeoutError('Server did not become ready within ten minutes')
+                _native_server_active = spec['runtime']=='dwarfstar'
                 yield port,telemetry
             (out/'server-telemetry.json').write_text(json.dumps(telemetry.rows,indent=2)+'\n')
         finally:
+            _native_server_active = False
             if telemetry is not None:(out/'server-telemetry.json').write_text(json.dumps(telemetry.rows,indent=2)+'\n')
             stop(process)
 
@@ -84,6 +88,7 @@ def count_chat(spec,folder,messages,port=None):
         rendered=post(port,'/apply-template',{'messages':messages,'add_generation_prompt':True,'chat_template_kwargs':{'enable_thinking':False}})['prompt']
         return len(post(port,'/tokenize',{'content':rendered,'add_special':False,'parse_special':True})['tokens'])
     if spec['runtime']=='dwarfstar':
+        if _native_server_active:raise RuntimeError('Native metadata tokenization must finish before loading the DwarfStar server')
         if len(messages)!=2 or [m['role'] for m in messages]!=['system','user']:raise ValueError('Native exact counter currently supports the initial system/user packet only')
         prompt=ROOT/'work/deepseek-tokenizer-input.txt';prompt.write_text(messages[1]['content'])
         result=subprocess.run([str(ROOT/'vendor/dwarfstar/ds4'),'-m',str(folder/spec['files'][0]['path']),'--dump-tokens','--nothink','--ctx','262144','--system',messages[0]['content'],'--prompt-file',str(prompt)],capture_output=True,text=True,timeout=120)

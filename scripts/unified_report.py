@@ -42,7 +42,7 @@ def collect():
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_p95_s','latency_p95_s','completed_requests']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
-    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 
 def write():
     r=collect();out=ROOT/'results/unified-overnight-20261002';out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
@@ -51,6 +51,8 @@ def write():
         speed=m['speed']['200000']['decode'];q=m['quality']['humaneval'];rate=f"{speed['median']:.3f} tok/s" if speed['n'] else 'Pending'
         lines.append(f"| {m['name']} | {m['completed_jobs']}/{m['planned_jobs']} | {rate} | {speed['n']}/5 | {m['repo']['8']['passed']}/{m['repo']['8']['completed']} completed | {m['repo']['20']['passed']}/{m['repo']['20']['completed']} completed | {q['passed']}/{q['completed']} scored of 164 |")
     lines+=['','Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.','']
+    for amendment in r['amendments']:
+        lines += [f"Preserved setup failure: `{amendment['preserved_failed_run']}`. Separately labeled replacement: `{amendment['replacement_run']}`. [Review and unchanged measurement limits](../../{amendment['review']}).",'']
     (out/'README.md').write_text('\n'.join(lines))
 
 if __name__=='__main__':write()
