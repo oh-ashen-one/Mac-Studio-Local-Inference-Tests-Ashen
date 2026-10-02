@@ -349,3 +349,22 @@ Overall coverage is **153/234 groups complete**. Completed speed/initial quality
 Qwen 3.8 Q4_K_M attempt three passed **19/19 tests** in **617.157s**, using seven of the eight allowed turns and zero human rescues. Starting input was **200008 tokens**; the final request contained 211743 tokens with 211717 cached. Intermediate actions/evaluations and the final patch remain preserved. Whole-child swap growth was zero, minimum available system memory **177.47 GiB** (server interval **177.39 GiB**).
 
 The series is **3/5 complete**, with three observed passes and attempt four active; no final five-trial rate is inferred yet. Full campaign coverage is **154/234 groups**.
+
+
+## October 2, 18:03 UTC — Qwen Q4 five-trial repository series complete
+
+Qwen 3.8 27B Q4_K_M passed all **five fresh attempts**, each passing **19/19 immutable tests** within the original eight-turn budget, with **zero human rescues**. Starting input was **200008 tokens** for every attempt; packet hashes and server configurations match across the series.
+
+| Attempt | Task time | Turns | Final tests | Whole-child swap growth | Minimum available memory |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 559.862s | 3 | 19/19 | 0 MiB | 200.28 GiB |
+| 2 | 587.698s | 4 | 19/19 | 0 MiB | 178.90 GiB |
+| 3 | 617.157s | 7 | 19/19 | 0 MiB | 177.47 GiB |
+| 4 | 620.150s | 7 | 19/19 | 0 MiB | 176.51 GiB |
+| 5 | 564.575s | 3 | 19/19 | 0 MiB | 177.95 GiB |
+
+Median task time is **587.698s (9m48s)**, mean **589.889s**, sample standard deviation **28.313s**, range **559.862–620.150s**. Server-reported prefix caching was reused after the first turn. Intermediate actions and evaluations remain preserved, including the longer seven-turn trials. System available memory is not a per-process allocation measurement.
+
+This is five attempts at one historical issue, not five independent tasks or a general coding-success score. The separate Qwen 8-bit series still needs its remaining trials. [Fourth trial](../results/u20261002-qwen38q4-repo8-r4/result.json) and [fifth trial](../results/u20261002-qwen38q4-repo8-r5/result.json) complete the raw series.
+
+Coverage is **156/234 groups complete**. Qwen Q4's full recorded-policy replay is running; its broader coding/retrieval diagnostics and later sustained, extended-repair and serving-load groups remain required.
