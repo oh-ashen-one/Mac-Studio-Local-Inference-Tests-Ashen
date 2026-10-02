@@ -225,3 +225,22 @@ The full campaign is **140/234 groups complete** at this checkpoint. The standar
 Attempt four passed **19/19 tests** in **1042.159s**, three turns and zero human rescues. It began at **200009 input tokens** and reported zero cached tokens across all turns. Its read/edit/evaluate sequence and exact patch remain in the raw record; passing this fixed regression suite is not a claim of general patch correctness. Whole-child telemetry recorded zero swap growth and **149.92 GiB** minimum available system memory (server interval: **149.86 GiB**, independently sampled).
 
 The series now has four observed passes with **4/5 required attempts complete**; attempt five is active. The campaign is **141/234 groups complete**, with all non-speed groups still required under their original budgets.
+
+
+## October 2, 13:18 UTC — Gemma five-trial repository series complete
+
+All five fresh attempts passed **19/19 immutable tests** within the original eight-turn limit, with **zero human rescues**. Each used the same 200009-token initial packet, model lock and runtime configuration; all **20 total turns reported zero cached tokens**.
+
+| Attempt | Elapsed time | Turns | Final tests | Whole-child swap growth | Minimum available memory |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1002.606s | 3 | 19/19 | 0 MiB | 144.70 GiB |
+| 2 | 1762.435s | 5 | 19/19 | 0 MiB | 146.91 GiB |
+| 3 | 1013.277s | 3 | 19/19 | 0 MiB | 148.09 GiB |
+| 4 | 1042.159s | 3 | 19/19 | 0 MiB | 149.92 GiB |
+| 5 | 2082.353s | 6 | 19/19 | 0 MiB | 147.32 GiB |
+
+Median completion time is **1042.159s (17m22s)**, mean **1380.566s**, sample standard deviation **507.593s**, range **1002.606–2082.353s**. These are end-to-end task times under the declared harness, not token-generation rates. Zero reported cache reuse means every request processed the long history again. Memory/swap values are system-wide observations sampled across each whole child, not process-attributed allocations.
+
+The fifth attempt's first evaluated edit failed on turn three. The model then made two more edits and passed evaluation on turn six, inside its original budget. Both intermediate evaluations and the final patch remain preserved in [attempt five](../results/u20261002-gemma-repo8-r5/result.json). This is autonomous correction within a trial, not a rescued or rerun failed trial.
+
+**5/5 is the observed outcome on one pinned historical Django issue**, not five different tasks, a general intelligence score or proof that every patch is correct outside the fixed suite. Other configurations' five-trial series are not complete yet, so no comparative success ranking is inferred. The current aggregate and visual dashboard show full sample counts. The driver advanced to Gemma's official full recorded-policy replay; **142/234 campaign groups** are complete. Replay serving success will remain separate from solving tasks.
