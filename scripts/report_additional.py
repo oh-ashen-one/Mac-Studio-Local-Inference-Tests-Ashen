@@ -19,7 +19,10 @@ def main():
             r['context_evidence']=saved.get('config',{}).get('context')
         r['evidence']=str(path.relative_to(ROOT));replays.append(r)
     report={'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'models':[],'hardware_comparison':'No original M3 inference; no matched chip-only percentage.','speed_definition':'Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.','original_cohort':'Unchanged; original three speed cells remain n=1.'}
+    matrix=ROOT/'results/m5-additional-summary-20261001/campaign.json'
+    if matrix.exists():report['campaign']=json.loads(matrix.read_text())
     lines=['# Additional M5 model results','',report['speed_definition'],'',report['hardware_comparison'],'','| Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |','|---|---:|---:|---:|---:|---:|---:|']
+    if report.get('campaign',{}).get('status')=='complete':lines[2:2]=['**Identified additional cohort complete.** All 22 tracked cells are handled, including the preserved failed MiMo qualification and its unrun unsupported original full profile. Complete means accounted for, not every task passed. The final completion check found no task-owned inference processes; see the saved completion receipt.','']
     detail=[]
     for m in lock['models']:
         own=[r for r in records if r.get('model_id')==m['id']]

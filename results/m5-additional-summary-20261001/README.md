@@ -1,5 +1,7 @@
 # Additional M5 model results
 
+**Identified additional cohort complete.** All 22 tracked cells are handled, including the preserved failed MiMo qualification and its unrun unsupported original full profile. Complete means accounted for, not every task passed. The final completion check found no task-owned inference processes; see the saved completion receipt.
+
 Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.
 
 No original M3 inference; no matched chip-only percentage.
@@ -35,6 +37,7 @@ Whole-job system swap observations (including loading; distinct from timed-phase
 Replay cells (serving only, not tasks solved):
 
 - [aa-mini-v1](../../results/m5-aa-mimo-mini-recorded-20261001/run.json) — failed; 1/6 turns served; 6 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
+- [agentperf-default-v1](../../results/m5-aa-mimo-full-xml-v2-recorded-20261001/run.json) — complete; 168/168 turns served; 11 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 - [agentperf-default-v1](../../results/m5-aa-mimo-full-recorded-20261001/run.json) — unsupported; 0/0 turns served; 0 short-output warnings; output policy recorded. Context evidence: not recorded, observed limit None. Not directly comparable to the original managed exact-output cohort.
 - [aa-mini-v1](../../results/m5-aa-mimo-mini-xml-v2-recorded-20261001/run.json) — complete; 6/6 turns served; 6 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 

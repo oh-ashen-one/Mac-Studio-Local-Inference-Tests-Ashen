@@ -53,6 +53,7 @@ def state(comparison):
     peers=ROOT/'research/external-benchmarks.json';campaign=ROOT/'research/campaign-status.json'
     downloads=ROOT/'research/additional-models.json'
     additional_live_path=ROOT/'work/additional-campaign.json'
+    if not additional_live_path.exists():additional_live_path=ROOT/'results/m5-additional-summary-20261001/campaign.json'
     additional_live=json.loads(additional_live_path.read_text()) if additional_live_path.exists() else None
     if additional_live:additional_live.pop('pid',None)
     return {'additional_live':additional_live,'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
