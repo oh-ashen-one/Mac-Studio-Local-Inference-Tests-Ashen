@@ -1,6 +1,6 @@
 # HANDOFF — M5 long-context and real-work campaign
 
-Updated 2026-10-01. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
+Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
 ## ACTIVE: unified overnight campaign, October 2, 2026
 
@@ -12,7 +12,7 @@ Authoritative new scope: `config/unified-models.lock.json` (six configurations, 
 
 New runners: `unified_campaign.py`, `unified_server.py`, `unified_repo.py`, `unified_replay.py`, `unified_quality.py`, `unified_serving.py`, and `llama_context.py`; direct MLX/native speed tests use `long_context.py` with explicit campaign/residency flags. The HumanEval evaluator passed all 164 canonical solutions and file/network/fork negative controls; receipt `hardware/unified-evaluator-validation.json`. Model scoring is gated on that qualification. No implicit model-generated shell execution is allowed.
 
-Inspect `work/unified-campaign.json`, the actual PID/children and GPU holders before any launch or resume. The prior driver and the setup probe have exited. Start the new finite runner with `.venv/bin/python -u scripts/unified_campaign.py --allow-inference`; never duplicate it. It preserves failures and stops for review on concrete infrastructure errors, while model task failures count as completed unsuccessful trials. Fix harness compatibility transparently with separate evidence/IDs; do not silently retry or relax budgets. Keep monitoring and publishing until all six have the required coverage or a specific evidenced unsupported cell. Do not pause simply because the earlier 22-cell phase finished.
+Inspect `work/unified-campaign.json`, the actual PID/children and GPU holders before any launch or resume. The prior driver and setup probe have exited. The unified runner is ACTIVE, launched as PID 51259; readonly viewer PID 52588. The existing 15-minute follow-up is ACTIVE as “M5 unified overnight benchmarks” with no overall cutoff. Verify actual processes before acting. Only if a reviewed resume is necessary, invoke `.venv/bin/python -u scripts/unified_campaign.py --allow-inference`; never duplicate it. It preserves failures and stops for review on concrete infrastructure errors, while model task failures count as completed unsuccessful trials. Fix harness compatibility transparently with separate evidence/IDs; do not silently retry or relax budgets. Keep monitoring and publishing until all six have the required coverage or a specific evidenced unsupported cell. Do not pause simply because the earlier 22-cell phase finished.
 
 **Historical identified additional-model phase complete.** Both added checkpoints have three 200K speed runs, five bounded repository trials and qualified full recorded-policy replays. All 22 tracked cells are accounted for, including the original failed MiMo parser qualification and its unrun unsupported full profile. The completed driver and all owned inference workers have exited. Final evidence is published and the scheduled follow-up is paused; do not start inference merely from this handoff.
 
@@ -87,6 +87,10 @@ Long-context execution source: `26f2413`. Full AA-alone execution source: `97107
 No secrets, SSH keys, browser profiles or authentication stores were synchronized or committed. No social posts were made. No remote publisher submission, website deployment, account creation, provider activation or financial transaction was performed.
 
 ## Evidence synchronization during the active driver
+
+For the unified campaign, run `python3 scripts/harvest_unified.py` on the controller. It transfers only completed, exited children with final campaign telemetry, redacts private paths into a separate public copy and records original/published hashes. It also saves the current aggregate. Review, commit and push explicit result directories, then run `python3 scripts/harvest_unified.py --sync-target` to preserve the M5 originals under ignored backups and fast-forward. The helper refuses executing-runtime changes while the driver runs. Never copy or track active primary result files.
+
+The following paragraphs describe the historical phase; the ACTIVE section above governs current supervision.
 
 The controller publishes completed run directories; never overwrite a still-running result. Copy complete/failed records with logs, patches and evaluation outputs, redact private absolute paths/endpoints in a public copy, then run `python3 scripts/report_additional.py`. Push on this task branch. When a remote-generated untracked result conflicts with pulling its newly published tracked counterpart, compare exact bytes (or preserve the original sanitized-different version), move only that task-owned original to ignored `work/published-backup/`, then fast-forward. Never reset or discard another process's files. Original remote logs remain available. No pull should change currently executing runtime code; dashboard/report-only updates are safe.
 
