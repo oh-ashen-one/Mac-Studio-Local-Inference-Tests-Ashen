@@ -88,3 +88,18 @@ DeepSeek completed all five fresh-process **200000 input / 256 output** repetiti
 All five retain the same model lock, runtime revision, executable SHA256 and corpus hash. Native counters confirm exact input/output work; no repetition was discarded or retried. Every whole-child interval observed zero system-swap growth. The prior historical first result of 38.20 tok/s lies within this new five-sample range; it remains a separate historical sample rather than a sixth observation. The published 36.01 tok/s reference still has different quantization and unstated input length, so these repetitions do not establish a matched hardware percentage against it.
 
 The runner has advanced to DeepSeek's 131072-token group. Its full context-speed grid and remaining useful-work suites are not yet complete.
+
+## October 2, 08:25 UTC — DeepSeek's complete context-speed grid
+
+All **20** DeepSeek native speed runs are complete, five fresh processes per input length and 256 generated tokens each:
+
+| Actual input tokens | Decode median | Native context-fill median | Repetitions |
+|---:|---:|---:|---:|
+| 8192 | 55.35 tok/s | 8.342 s | 5 |
+| 32768 | 51.82 tok/s | 35.631 s | 5 |
+| 131072 | 41.57 tok/s | 175.570 s | 5 |
+| 200000 | 37.61 tok/s | 303.859 s | 5 |
+
+Within this configuration, median generation at 200K is **32.1% slower** than at 8192 tokens, and native context fill takes **36.4 times as long**. The input count is about 24.4 times larger. These are native-counter timings under the documented boundary, not HTTP TTFT. Every run has verified exact input/output counters, the same model/runtime/executable/corpus identities and zero observed whole-child swap growth. All repetitions, including the slower 8K observation at 54.19 tok/s, remain included.
+
+Gemma and DeepSeek now both have complete repeated context-speed grids. The runner has moved to Qwen 3.8 Q4_K_M repetitions; other model profiles and all unfinished task, replay, retrieval, HumanEval and serving-load groups remain required. The dashboard's model selector exposes the completed DeepSeek curve with sample counts and observed ranges.
