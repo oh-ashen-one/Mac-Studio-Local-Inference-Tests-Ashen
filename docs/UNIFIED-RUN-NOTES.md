@@ -80,3 +80,11 @@ All **20** Gemma speed runs are complete, five fresh processes per length, 256 g
 Within this pinned model/runtime configuration, generation at 200K was **41.0% slower** than at 8192 tokens; the median context fill took **49.0 times as long**. The input length itself is about 24.4 times larger. This is a context-scaling observation, not a cross-hardware claim. Each length keeps its own token hashes and fixed output work; generated continuations are not required to match across different input lengths. All raw repetitions, ranges, means and standard deviations remain available.
 
 The localhost viewer now plots generation and fill time against actual context length, with a configuration selector. Lines connect adjacent measured lengths only; whiskers represent observed ranges, not confidence intervals, and missing lengths stay visibly queued. The 8K-to-200K headline is shown only after both groups reach five samples. The repeated speed phase has moved on to DeepSeek; Gemma's other required suites remain outstanding.
+
+## October 2, 07:50 UTC — DeepSeek's full five-sample 200K group
+
+DeepSeek completed all five fresh-process **200000 input / 256 output** repetitions through the pinned native runtime. Decode median is **37.61 tok/s**, mean **37.804**, sample standard deviation **0.359**, observed range **37.50–38.20**. Native context-fill median is **303.859s**, mean **303.997s**, sample standard deviation **2.177s**, observed range **301.019–306.387s**. Prefill median is **658.20 tok/s**. Context-fill values follow the declared native-counter timing boundary; they are not HTTP first-token latency.
+
+All five retain the same model lock, runtime revision, executable SHA256 and corpus hash. Native counters confirm exact input/output work; no repetition was discarded or retried. Every whole-child interval observed zero system-swap growth. The prior historical first result of 38.20 tok/s lies within this new five-sample range; it remains a separate historical sample rather than a sixth observation. The published 36.01 tok/s reference still has different quantization and unstated input length, so these repetitions do not establish a matched hardware percentage against it.
+
+The runner has advanced to DeepSeek's 131072-token group. Its full context-speed grid and remaining useful-work suites are not yet complete.
