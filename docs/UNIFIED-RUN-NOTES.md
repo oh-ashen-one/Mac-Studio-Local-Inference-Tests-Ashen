@@ -209,3 +209,12 @@ MiMo's completed grid:
 The report retains per-group variability, distinct timing definitions, whole-job system-memory/swap observations, MLX-only allocation metrics, source links and hashes. The figure uses standard Matplotlib with the CPU-only Agg backend in a separate plotting environment; inference environments and model files were not changed. The exported layout was visually inspected.
 
 The driver has advanced to the remaining repository trials. Speed-phase completion is not completion of the overall 234-group study, a general intelligence ranking, a paired M3 hardware result or permission to deploy the personal site. All remaining task, quality, sustained-output and serving-load groups still require completion or an evidenced unsupported disposition.
+
+
+## October 2, 12:17 UTC — three of five Gemma repository attempts complete
+
+Gemma's second and third fresh eight-turn-budget attempts both passed the immutable **19/19** Django tests, with zero human rescue. Attempt two took **1762.435s** and five turns; attempt three took **1013.277s** and three turns. Alongside the first successful attempt, this is **3/3 observed passes with only 3/5 planned attempts complete**, not a final success rate. Attempt four is running.
+
+Attempt three began with **200009 actual input tokens**; subsequent requests contained 204305 and 204854 tokens. All three requests reported zero cached tokens. The sequence read the executor, edited the squash-migration unapply handling and requested evaluation. The accepted patch, raw outputs and immutable final test log are preserved. Whole-child telemetry observed no swap growth and a minimum **148.09 GiB** available system memory; the narrower server interval minimum was **150.11 GiB**. System-wide memory observations are not per-process attribution.
+
+The full campaign is **140/234 groups complete** at this checkpoint. The standard speed phase remains complete; other useful-work, quality, sustained-output and load cells remain pending.
