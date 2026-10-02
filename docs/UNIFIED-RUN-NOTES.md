@@ -477,3 +477,20 @@ Coverage is **166/234 groups complete**. Qwen 8-bit, Qwen Q4, Gemma and DeepSeek
 ### Subsequent checkpoint — Qwen 3.6 attempt two
 
 Qwen 3.6 35B A3B FP4's second repository attempt passed **19/19 tests** in **214.739s**, three turns and zero human rescues, starting at **200020 actual input tokens**. Whole-child swap growth was zero, with **174.78 GiB** minimum available memory. The unsuccessful first attempt remains intact; this is **one pass among two completed of five planned attempts**, not a final success rate. [Second raw trial](../results/u20261002-qwen36-repo8-r2/result.json) is published. Coverage reached **167/234 groups**, with attempt three active.
+
+
+## October 2, 21:54 UTC — Qwen 3.6 repository series complete
+
+Qwen 3.6 35B A3B FP4 completed all five fresh repository trials at the frozen eight-turn budget: **4/5 passed**, zero human rescues. The first unsuccessful attempt remains immutable; attempts two through five each passed all **19/19 tests** in three turns. All initial packet hashes match, with **200020 actual starting tokens**. The runtime reported zero cached tokens throughout the series.
+
+| Attempt | Outcome | Duration | Turns | Minimum available memory, whole child |
+|---:|---|---:|---:|---:|
+| 1 | Target regression failed, 18/19 | 592.190s | 8 | 195.60 GiB |
+| 2 | Passed 19/19 | 214.739s | 3 | 174.78 GiB |
+| 3 | Passed 19/19 | 215.214s | 3 | 175.02 GiB |
+| 4 | Passed 19/19 | 214.640s | 3 | 171.37 GiB |
+| 5 | Passed 19/19 | 214.567s | 3 | 174.86 GiB |
+
+Median **attempt duration including the unsuccessful attempt** was **214.739s (3m35s)**, mean **290.270s**, sample standard deviation **168.779s**, range **214.567–592.190s**. Whole-child system swap growth was zero for all five. Successful final patches reconcile the replacement migration's recorded state; passing this fixed historical regression suite is not a general correctness guarantee. No failed attempt was replaced, retried or extended.
+
+[Third trial](../results/u20261002-qwen36-repo8-r3/result.json), [fourth trial](../results/u20261002-qwen36-repo8-r4/result.json), and [fifth trial](../results/u20261002-qwen36-repo8-r5/result.json) complete the published raw series. The campaign is **170/234 groups complete**. Qwen 3.6's full recorded-policy replay is active; its coding/retrieval diagnostics and the later sustained/extended/load suites remain required.
