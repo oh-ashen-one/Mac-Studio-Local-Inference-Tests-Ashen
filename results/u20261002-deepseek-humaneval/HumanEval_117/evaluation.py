@@ -1,0 +1,57 @@
+import ast as _bench_ast
+import operator as _bench_operator
+def _bench_arithmetic_node(n):
+    if isinstance(n, _bench_ast.Constant) and type(n.value) in (int, float): return n.value
+    if isinstance(n, _bench_ast.UnaryOp) and isinstance(n.op, (_bench_ast.UAdd, _bench_ast.USub)):
+        v = _bench_arithmetic_node(n.operand)
+        return v if isinstance(n.op, _bench_ast.UAdd) else -v
+    ops = {_bench_ast.Add: _bench_operator.add, _bench_ast.Sub: _bench_operator.sub, _bench_ast.Mult: _bench_operator.mul, _bench_ast.Div: _bench_operator.truediv, _bench_ast.FloorDiv: _bench_operator.floordiv, _bench_ast.Mod: _bench_operator.mod, _bench_ast.Pow: _bench_operator.pow}
+    if isinstance(n, _bench_ast.BinOp) and type(n.op) in ops:
+        return ops[type(n.op)](_bench_arithmetic_node(n.left), _bench_arithmetic_node(n.right))
+    raise ValueError('Only numeric arithmetic is permitted by benchmark eval')
+def eval(expression):
+    return _bench_arithmetic_node(_bench_ast.parse(expression, mode='eval').body)
+
+
+def select_words(s, n):
+    """Given a string s and a natural number n, you have been tasked to implement 
+    a function that returns a list of all words from string s that contain exactly 
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    select_words("Mary had a little lamb", 4) ==> ["little"]
+    select_words("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    select_words("simple white space", 2) ==> []
+    select_words("Hello world", 4) ==> ["world"]
+    select_words("Uncle sam", 3) ==> ["Uncle"]
+    """
+
+def select_words(s, n):
+    if not s:
+        return []
+    vowels = set("aeiouAEIOU")
+    result = []
+    for word in s.split():
+        consonant_count = sum(1 for ch in word if ch not in vowels)
+        if consonant_count == n:
+            result.append(word)
+    return result
+
+def check(candidate):
+
+    # Check some simple cases
+    assert candidate("Mary had a little lamb", 4) == ["little"], "First test error: " + str(candidate("Mary had a little lamb", 4))      
+    assert candidate("Mary had a little lamb", 3) == ["Mary", "lamb"], "Second test error: " + str(candidate("Mary had a little lamb", 3))  
+    assert candidate("simple white space", 2) == [], "Third test error: " + str(candidate("simple white space", 2))      
+    assert candidate("Hello world", 4) == ["world"], "Fourth test error: " + str(candidate("Hello world", 4))  
+    assert candidate("Uncle sam", 3) == ["Uncle"], "Fifth test error: " + str(candidate("Uncle sam", 3))
+
+
+    # Check some edge cases that are easy to work out by hand.
+    assert candidate("", 4) == [], "1st edge test error: " + str(candidate("", 4))
+    assert candidate("a b c d e f", 1) == ["b", "c", "d", "f"], "2nd edge test error: " + str(candidate("a b c d e f", 1))
+
+
+check(select_words)
+print('PASS_04fb348b568f428e8d6075dccb78dd65')
