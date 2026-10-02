@@ -36,7 +36,7 @@ def collect():
             m['quality'][suite]={'status':j['status'],'completed':r.get('completed_cases',0),'passed':r.get('passed_cases',0),'planned':r.get('planned_cases',{'structured':24,'retrieval':9,'humaneval':164}[suite])}
         for mini in [True,False]:
             j=next(x for x in own if x['kind']=='replay' and x['mini']==mini);r=records.get(j['id'],{});s=r.get('replay_summary',{})
-            m['replay']['mini' if mini else 'full']={'status':j['status'],'turns':s.get('totals',{}).get('turns'),'served':s.get('totals',{}).get('successful_turns'),'end_to_end_tok_s':s.get('end_to_end_output_tokens_per_second'),'context_evidence':s.get('config',{}).get('context')}
+            m['replay']['mini' if mini else 'full']={'status':j['status'],'run_id':j['id'],'turns':s.get('totals',{}).get('turns'),'served':s.get('totals',{}).get('successful_turns'),'end_to_end_tok_s':s.get('end_to_end_output_tokens_per_second'),'context_evidence':s.get('config',{}).get('context'),'output_policy':s.get('config',{}).get('output_tokens',{}).get('policy'),'measured_duration_s':s.get('measured_duration_ms',0)/1000 if s else None,'short_output_warnings':s.get('totals',{}).get('short_output_warnings'),'server_output_tokens':s.get('totals',{}).get('total_server_output_tokens'),'server_prompt_tokens':s.get('totals',{}).get('total_server_prompt_tokens'),'server_cached_prompt_tokens':s.get('totals',{}).get('total_server_cached_prompt_tokens')}
         for c in [1,2,4]:
             j=next(x for x in own if x['kind']=='serving' and x['concurrency']==c);r=records.get(j['id'],{})
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_p95_s','latency_p95_s','completed_requests']};m['serving'][str(c)]['status']=j['status']
