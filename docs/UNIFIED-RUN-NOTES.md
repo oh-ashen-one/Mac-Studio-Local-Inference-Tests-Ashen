@@ -257,3 +257,24 @@ Preserved limitations: **four short-output warnings**, **155 length-finished tur
 Whole-child telemetry observed zero system swap growth and **178.19 GiB** minimum available memory; the independently sampled server interval minimum was **178.11 GiB**. [Official raw summary](../results/u20261002-gemma-aa-full/raw/summary.json), [all turn counters](../results/u20261002-gemma-aa-full/raw/turns.jsonl), and [runtime log](../results/u20261002-gemma-aa-full/server.log) preserve the evidence.
 
 The visual dashboard now places the full replay's elapsed time, end-to-end rate, output policy and context/short-output warnings together. Exact token totals and raw evidence are expandable. The driver has started Gemma's 164-problem HumanEval diagnostic under the already qualified sandbox; **143/234 groups** are complete.
+
+
+## October 2, 14:19 UTC — Gemma HumanEval-164 complete
+
+Gemma passed **159/164 cases (96.95%)** under the predeclared **single greedy sample, chat-adapted, restricted Python evaluator**. All 164 cases are accounted for, with no retry or changed output budget. The stage took **1275.696s (21m16s)** including setup/evaluation; summed request time was **1252.357s**, with **6.826s** median request latency. These short coding prompts contained **110–490 actual input tokens** per case, separate from the long-context speed and retrieval conditions. Total input was 35,475 tokens, total generated output 33,127 tokens, and reported cached tokens zero.
+
+The five non-passing outcomes have different causes:
+
+| Case | Recorded outcome | Interpretation |
+|---|---|---|
+| HumanEval/32 · find_zero | Failed assertion | Functional test failure in polynomial root finding |
+| HumanEval/103 · rounded_avg | Failed assertion | Functional test failure in rounded average output |
+| HumanEval/132 · is_nested | Failed assertion | Functional test failure in bracket nesting |
+| HumanEval/145 · order_by_points | Failed assertion | Functional test failure in digit-sum ordering |
+| HumanEval/124 · valid_date | Rejected before execution | Generated `import datetime`, outside the evaluator's frozen import subset; not a demonstrated functional failure |
+
+The import rejection remains a non-pass under this declared protocol. Its unchanged code is preserved without executing it under a relaxed policy or substituting another sample. The evaluator had already passed **164/164 canonical solutions** and private-file/network/fork negative controls. Thus this is a reproducible restricted-evaluator result, **not an official HumanEval leaderboard score**. Public task contamination and the chat adaptation limit broader conclusions. No cross-model ranking is inferred before matched coverage.
+
+Whole-child telemetry observed zero system swap growth and **192.29 GiB** minimum available memory; the independently sampled server interval minimum was **195.42 GiB**. [All case outcomes](../results/u20261002-gemma-humaneval/result.json), exact requests/responses, code and evaluator traces are preserved by the publication hash manifest.
+
+The campaign is **144/234 groups complete**. The next active group is Gemma's nine actual 200K-token retrieval cases. All remaining configurations and suites continue under their original budgets.
