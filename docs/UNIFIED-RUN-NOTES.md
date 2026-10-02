@@ -171,3 +171,22 @@ Qwen 3.6 35B A3B FP4 completed all **20** fresh-process speed runs, five repetit
 Generation at 200K is **46.0% slower** than at 8192 tokens; context fill takes **71.9 times as long**. Exact counters, unchanged model/runtime/residency/corpus identities, identical input/output token sequences within every length, and zero observed timed/whole-child swap growth were verified across all 20 runs. The 200K generation range is **78.4142–80.3715 tok/s**, with all observations retained.
 
 This is throughput performance for the disclosed FP4/MLX-VLM profile, not an intelligence or task-success conclusion. Its first bounded repository attempt failed within eight turns; that evidence remains unchanged, with four further attempts plus the separate twenty-turn condition still required. The runner has advanced to MiMo's repeated speed measurements. Five configurations have complete speed grids, but the full 234-group study remains unfinished.
+
+## October 2, 10:50 UTC — all six five-repeat 200K groups complete
+
+MiMo's five measured resident-profile runs completed exact **200000 input / 256 output** work. Decode median is **37.6764 tok/s**, mean **37.5792**, sample standard deviation **0.2115**, range **37.2172–37.7477**. Context-fill median is **392.706s**, mean **392.215s**, sample standard deviation **2.046s**, range **388.804–394.284s**. Prefill median is **509.465 tok/s**. Peak MLX allocation was **210.36 GiB** in each run.
+
+All five share model/runtime/residency identities and identical input/output token sequences. Timed inference showed **zero swap growth**; the fifth timed interval ended with 8 MiB less swap. Broader whole-child intervals including loading observed system-wide growth of **0, 3.0625, 1.25, 1.4375 and 1.8125 MiB**. These boundaries are not interchangeable and do not attribute system swapping to the model. No sample was replaced or omitted. The old unwired samples and the separate resident setup probe remain excluded.
+
+Every configuration now has five measured 200K repetitions:
+
+| Configuration | Decode median | Context-fill median | Samples |
+|---|---:|---:|---:|
+| Qwen 3.8 27B · 8-bit | 21.4262 tok/s | 212.930s | 5 |
+| Gemma 4 31B · 8-bit | 15.2549 tok/s | 311.842s | 5 |
+| DeepSeek V4 Flash · mixed Q4 | 37.6100 tok/s | 303.859s | 5 |
+| MiMo V2.6 Flash · MXFP4 | 37.6764 tok/s | 392.706s | 5 |
+| Qwen 3.6 35B A3B · FP4 | 78.7654 tok/s | 66.722s | 5 |
+| Qwen 3.8 27B · Q4_K_M | 24.5246 tok/s | 531.977s | 5 |
+
+Timing boundaries and tokenizers differ across model families/runtimes, as declared in the protocol. This table describes configurations on the same M5, not hardware-only effects or general intelligence. MiMo's shorter-context grid remains in progress, followed by all unfinished useful-work, sustained-output and serving suites. Completing this common 200K group does not complete the 234-group study.
