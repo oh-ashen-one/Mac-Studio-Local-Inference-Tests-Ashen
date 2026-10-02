@@ -4,7 +4,7 @@
 
 **The expanded campaign is running.** [Current coverage and results](results/unified-overnight-20261002/README.md) · [research notes](docs/UNIFIED-RUN-NOTES.md). The earlier 22-cell additional-model phase is archived; its completion and paused-monitor receipt describe that earlier checkpoint, not the current runner. Matched M3 testing and personal-site publication remain pending.
 
-**MiMo measurement correction:** the historical 0.30–0.41 tok/s direct-generation results came from a harness that omitted normal MLX process memory wiring. They do not represent normal resident inference. A separate setup probe reached **37.57 tok/s** with identical input and output token IDs; it is excluded from the newly declared repetitions. [Current protocol and evidence boundaries](docs/UNIFIED-OVERNIGHT-PROTOCOL.md).
+**MiMo measurement correction:** the historical 0.30–0.41 tok/s direct-generation results came from a harness that omitted normal MLX process memory wiring. They do not represent normal resident inference. The first newly measured resident-profile sample reached **37.75 tok/s** after 200K input (**n=1/5**). Its input and output token IDs match the historical run. The separate **37.57 tok/s** setup probe remains excluded from the measured repetitions. [Current protocol and evidence boundaries](docs/UNIFIED-OVERNIGHT-PROTOCOL.md).
 
 ## Start with the 200K results — October 1, 2026
 
