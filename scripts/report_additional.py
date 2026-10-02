@@ -7,10 +7,13 @@ ROOT=Path(__file__).resolve().parents[1]
 def main():
     lock=json.loads((ROOT/'config/additional-models.lock.json').read_text());records=[]
     for path in (ROOT/'results').glob('*/result.json'):
-        r=json.loads(path.read_text());r['evidence']=str(path.relative_to(ROOT));records.append(r)
+        r=json.loads(path.read_text())
+        if r.get('campaign_id') or path.parent.name.startswith('u20261002-'):continue
+        r['evidence']=str(path.relative_to(ROOT));records.append(r)
     replays=[]
     for path in (ROOT/'results').glob('*aa*/run.json'):
         r=json.loads(path.read_text())
+        if r.get('campaign_id') or path.parent.name.startswith('u20261002-'):continue
         if not r.get('model_id'):continue
         summary=path.parent/'raw/summary.json'
         if summary.exists():
@@ -19,10 +22,12 @@ def main():
             r['context_evidence']=saved.get('config',{}).get('context')
         r['evidence']=str(path.relative_to(ROOT));replays.append(r)
     report={'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'models':[],'hardware_comparison':'No original M3 inference; no matched chip-only percentage.','speed_definition':'Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.','original_cohort':'Unchanged; original three speed cells remain n=1.'}
+    report['retrospective_profile_note']='Historical direct MLX speed profile omitted normal process memory wiring. MiMo 0.30-0.41 tok/s describes that unwired harness, not normal resident inference. A separate recommended-residency setup probe reached 37.5743 tok/s with identical input/output token IDs; the unified repeated study is separate. Original repository/replay outcomes are unchanged.'
     matrix=ROOT/'results/m5-additional-summary-20261001/campaign.json'
     if matrix.exists():report['campaign']=json.loads(matrix.read_text())
     lines=['# Additional M5 model results','',report['speed_definition'],'',report['hardware_comparison'],'','| Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |','|---|---:|---:|---:|---:|---:|---:|']
     if report.get('campaign',{}).get('status')=='complete':lines[2:2]=['**Identified additional cohort complete.** All 22 tracked cells are handled, including the preserved failed MiMo qualification and its unrun unsupported original full profile. Complete means accounted for, not every task passed. The final completion check found no task-owned inference processes; see the saved completion receipt.','']
+    lines[2:2]=['**Archived phase; the six-configuration unified campaign is still active.** '+report['retrospective_profile_note']+' [Current protocol](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md) · [Current coverage](../unified-overnight-20261002/README.md).','']
     detail=[]
     for m in lock['models']:
         own=[r for r in records if r.get('model_id')==m['id']]

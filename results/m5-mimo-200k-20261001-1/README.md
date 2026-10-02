@@ -1,5 +1,7 @@
 # MiMo V2.6 Flash — first full 200K run on M5
 
+**Retrospective correction, October 2:** this archived direct-generation profile omitted normal MLX process memory wiring. Its slow numbers remain valid records of that unwired harness, but do not represent normal resident inference. A separately labeled setup probe reached 37.5743 tok/s with identical input/output token IDs. [The new repeated study](../unified-overnight-20261002/README.md) remains separate; original raw measurements and task outcomes are unchanged. The observations below describe the original run at the time.
+
 The pinned MXFP4 artifact completed **200,000 actual input tokens and 256 output tokens** through the independent MLX-VLM text runtime. This first sample is valid throughput evidence for this configuration, but it is very slow after context fill. It is not a claim about every MiMo runtime or the M5's maximum performance. Two repetitions remain in the declared campaign.
 
 | Measurement | Result |

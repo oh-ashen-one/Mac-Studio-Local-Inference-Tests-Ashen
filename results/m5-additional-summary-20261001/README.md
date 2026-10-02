@@ -1,5 +1,7 @@
 # Additional M5 model results
 
+**Archived phase; the six-configuration unified campaign is still active.** Historical direct MLX speed profile omitted normal process memory wiring. MiMo 0.30-0.41 tok/s describes that unwired harness, not normal resident inference. A separate recommended-residency setup probe reached 37.5743 tok/s with identical input/output token IDs; the unified repeated study is separate. Original repository/replay outcomes are unchanged. [Current protocol](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md) · [Current coverage](../unified-overnight-20261002/README.md).
+
 **Identified additional cohort complete.** All 22 tracked cells are handled, including the preserved failed MiMo qualification and its unrun unsupported original full profile. Complete means accounted for, not every task passed. The final completion check found no task-owned inference processes; see the saved completion receipt.
 
 Median of complete 200K-input, 256-output, empty-KV-cache text runs; model load/tokenization excluded. Swap column covers timed prefill/decode only; whole-job loading observations are reported separately when available.

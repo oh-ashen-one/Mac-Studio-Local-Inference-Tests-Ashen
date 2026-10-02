@@ -39,3 +39,11 @@ Both repository runs reused large prefixes after the initial turn: MLX reported 
 Both Qwen 3.8 mini recorded-policy replays served **6/6 turns** with four short-output warnings each. Full replays remain planned. The 8-bit configuration's structured score was **21/24**, returning 13 instead of 23 on the state question at all three seeds, matching the Q4 error pattern.
 
 Qwen 3.6 35B A3B FP4 completed its first 200K/256 speed sample at **80.3715 tok/s**, with **66.236s** fill and zero sampled swap growth. Its structured score was **21/24**: it returned 19 instead of 23 on that same state-tracking question at all seeds. Its first repository attempt is running. The small structured suite remains a limited diagnostic, not an intelligence ranking.
+
+## October 2, 06:20 UTC — retained task failure and MiMo entry
+
+Qwen 3.6's first eight-turn repository attempt did **not** pass. It finished the full budget in **592.190s**, made one ineffective edit (`remove` to `discard` in the unapply loop), and produced three responses rejected by the fixed JSON-action parser. No rescue, additional turn or replacement trial was given. All eight responses reported zero cached input; the initial count was 200020 and the final request reached 214300 tokens. Both telemetry intervals observed zero swap growth, with 195.60 GiB minimum available memory across the child interval. Its 80.37 tok/s synthetic result therefore must not be treated as proof that it finishes this task fastest. This is one of five planned attempts.
+
+Its mini recorded-policy replay qualified **6/6** serving turns with three short-output warnings. MiMo then passed **24/24** structured checks. MiMo's complete structured-check server/child interval recorded **8.12 MiB system-swap growth** (not attributable solely to the model) and 83.02 GiB minimum available memory. Its first measured resident 200K speed sample is now running.
+
+README and historical MiMo report wording has been corrected to identify the old unwired speed profile. Historical raw measurements, sample counts, medians and task outcomes are unchanged. The historical report generator now excludes unified campaign records so future regeneration cannot combine the two profiles.

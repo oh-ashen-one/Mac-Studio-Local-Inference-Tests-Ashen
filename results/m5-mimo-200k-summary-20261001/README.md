@@ -1,5 +1,7 @@
 # MiMo V2.6 Flash — three 200K speed runs on M5
 
+**Retrospective correction, October 2:** this archived direct-generation profile omitted normal MLX process memory wiring. Its slow numbers remain valid records of that unwired harness, but do not represent normal resident inference. A separately labeled setup probe reached 37.5743 tok/s with identical input/output token IDs. [The new repeated study](../unified-overnight-20261002/README.md) remains separate; original raw measurements and task outcomes are unchanged. The observations below describe the original run at the time.
+
 All three fresh-process runs completed 200,000 actual input tokens and 256 output tokens using the same pinned MXFP4 artifact, independent text runtime and input token-ID hash. Empty KV/state cache was used; this does not imply a cold filesystem or reboot. Model loading and tokenization are outside the timed fill/decode interval.
 
 | Repeat | Context fill | Input tok/s | Output tok/s | Peak MLX | Timed system swap change |
