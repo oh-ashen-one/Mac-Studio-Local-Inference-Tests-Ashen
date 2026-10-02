@@ -48,3 +48,9 @@ This only prepares packages. Inference still requires owner authorization and a 
 [Current saved results and all failure links](../results/m5-additional-summary-20261001/README.md). Summaries are regenerated from raw saved artifacts with `python3 scripts/report_additional.py`.
 
 The initial attached-server qualification also retains AA's official context-discovery flag: `model-not-listed`, `observed_tokens: null`, and non-comparable status. The independently verified model context limit and successful 200K tests do not overwrite AA's endpoint qualification metadata. The six-turn Qwen mini run served all six requests, with three short-output warnings; it is a setup cell, not a substitute for the full replay or a task-solving score.
+
+## MiMo replay parser correction — separate XML-v2 profile
+
+The original six-turn MiMo qualification failed five transport-validity checks because MLX-LM auto-detected JSON from a compact XML tool template. Its XML inference rule requires a newline that this template lacks. The original run is preserved, and its unrun full profile is marked unsupported. A CPU-only reproduction verifies the existing upstream `qwen3_coder` parser handles the declared XML and leaves rendered prompt token IDs unchanged.
+
+`--mimo-xml-tools` explicitly selects that parser for MiMo only. The separately named XML-v2 mini/full replay cells retain all weights, original files, template, sampling, output caps and deadlines. `config/mimo-xml-replay-review.json` pins the original failure hash and the reviewed decision. The campaign continuation flag `--mimo-xml-replay` never retries failed speed/repository measurements and never overwrites the failed qualification. Its progress count includes preserved failures and unsupported cells as handled, not successful.

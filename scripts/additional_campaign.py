@@ -4,9 +4,10 @@ import argparse,datetime,fcntl,json,os,signal,subprocess,sys,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import safety,stop,Telemetry,write_json
+from models import digest
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--mimo-xml-replay',action='store_true',help='Run separately reviewed XML parser profile; preserve failed original qualification');a=p.parse_args()
     if not a.allow_inference:p.error('Explicit owner authorization required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     lock=(ROOT/'work/additional-campaign.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -29,7 +30,19 @@ def main():
         for mini in [True,False]:
             run=f'm5-aa-{short}-'+('mini' if mini else 'full')+'-recorded-20261001'
             jobs.append((run,'run.json',[python,'scripts/additional_replay.py',*common,'--run-id',run]+(['--mini'] if mini else []),15000))
+    review=None
+    if a.mimo_xml_replay:
+        review=json.loads((ROOT/'config/mimo-xml-replay-review.json').read_text())
+        validation=json.loads((ROOT/'hardware/mimo-xml-parser-validation.json').read_text())
+        if not validation.get('passed') or not validation.get('prompt_token_ids_unchanged'):raise RuntimeError('Parser-only CPU validation is required')
+        if digest(ROOT/'results'/review['failed_run_id']/'run.json')!=review['failed_run_sha256']:raise RuntimeError('Original failed qualification changed')
+        for mini in [True,False]:
+            run='m5-aa-mimo-'+('mini' if mini else 'full')+'-xml-v2-recorded-20261001'
+            jobs.append((run,'run.json',[python,'scripts/additional_replay.py','--allow-inference','--model','mimo-v2.6-flash-mopd','--lock',model_lock,'--mimo-xml-tools','--run-id',run]+(['--mini'] if mini else []),15000))
+        prior=ROOT/'work/additional-campaign.json';backup=ROOT/'work/additional-campaign-before-xml.json'
+        if prior.exists() and not backup.exists():backup.write_bytes(prior.read_bytes())
     state={'pid':os.getpid(),'status':'starting','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'jobs':[{'run_id':j[0],'status':'pending'} for j in jobs]}
+    if review:state['review']='config/mimo-xml-replay-review.json'
     def save():write_json(ROOT/'work/additional-campaign.json',state)
     save();process=None
     try:
@@ -37,6 +50,10 @@ def main():
             result_file=ROOT/'results'/run/file
             if result_file.exists():
                 saved=json.loads(result_file.read_text())
+                if review and run in [review['failed_run_id'],review['unsupported_full_run_id']]:
+                    expected='failed' if run==review['failed_run_id'] else 'unsupported'
+                    if saved.get('status')!=expected:raise RuntimeError('Reviewed original cell status changed')
+                    state['jobs'][index]['status']='failed preserved' if expected=='failed' else 'unsupported';save();continue
                 if saved.get('status')!='complete':raise RuntimeError('Existing incomplete/failed job needs review: '+run)
                 state['jobs'][index]['status']='already complete';save();continue
             # Respect a new download or another session before every next cell.
