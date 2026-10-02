@@ -218,3 +218,10 @@ Gemma's second and third fresh eight-turn-budget attempts both passed the immuta
 Attempt three began with **200009 actual input tokens**; subsequent requests contained 204305 and 204854 tokens. All three requests reported zero cached tokens. The sequence read the executor, edited the squash-migration unapply handling and requested evaluation. The accepted patch, raw outputs and immutable final test log are preserved. Whole-child telemetry observed no swap growth and a minimum **148.09 GiB** available system memory; the narrower server interval minimum was **150.11 GiB**. System-wide memory observations are not per-process attribution.
 
 The full campaign is **140/234 groups complete** at this checkpoint. The standard speed phase remains complete; other useful-work, quality, sustained-output and load cells remain pending.
+
+
+## October 2, 12:33 UTC — fourth Gemma repository attempt complete
+
+Attempt four passed **19/19 tests** in **1042.159s**, three turns and zero human rescues. It began at **200009 input tokens** and reported zero cached tokens across all turns. Its read/edit/evaluate sequence and exact patch remain in the raw record; passing this fixed regression suite is not a claim of general patch correctness. Whole-child telemetry recorded zero swap growth and **149.92 GiB** minimum available system memory (server interval: **149.86 GiB**, independently sampled).
+
+The series now has four observed passes with **4/5 required attempts complete**; attempt five is active. The campaign is **141/234 groups complete**, with all non-speed groups still required under their original budgets.

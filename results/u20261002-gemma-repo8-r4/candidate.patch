@@ -1,0 +1,18 @@
+--- a/django/db/migrations/executor.py
++++ b/django/db/migrations/executor.py
+@@ -252,8 +252,14 @@
+                 state = migration.unapply(state, schema_editor)
+         # For replacement migrations, record individual statuses
+         if migration.replaces:
++            # If the replaced migrations are still around, we only unapply
++            # the replacement migration itself, not the replaced ones.
++            # This is because the replaced migrations are not applied
++            # if the replacement migration is applied.
++            self.recorder.record_unapplied(migration.app_label, migration.name)
+             for app_label, name in migration.replaces:
+-                self.recorder.record_unapplied(app_label, name)
++                if (app_label, name) not in self.loader.graph.nodes:
++                    self.recorder.record_unapplied(app_label, name)
+         else:
+             self.recorder.record_unapplied(migration.app_label, migration.name)
+         # Report progress
