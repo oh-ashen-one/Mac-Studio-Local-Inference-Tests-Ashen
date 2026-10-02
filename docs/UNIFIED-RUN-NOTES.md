@@ -472,3 +472,8 @@ The nine request message payloads were verified identical to their Qwen Q4 count
 Whole-child swap growth was zero and minimum system available memory **156.03 GiB**; independently sampled server minimum was **156.34 GiB**. All published artifact hashes were verified. [Exact cases and outcomes](../results/u20261002-qwen38q8-retrieval/result.json) remain a narrow exact-key diagnostic, not proof of broad long-context reasoning.
 
 Coverage is **166/234 groups complete**. Qwen 8-bit, Qwen Q4, Gemma and DeepSeek each have 30/39 groups complete. The driver is executing Qwen 3.6's remaining eight-turn repository trials; all later sustained-output, extended-task and load conditions remain required.
+
+
+### Subsequent checkpoint — Qwen 3.6 attempt two
+
+Qwen 3.6 35B A3B FP4's second repository attempt passed **19/19 tests** in **214.739s**, three turns and zero human rescues, starting at **200020 actual input tokens**. Whole-child swap growth was zero, with **174.78 GiB** minimum available memory. The unsuccessful first attempt remains intact; this is **one pass among two completed of five planned attempts**, not a final success rate. [Second raw trial](../results/u20261002-qwen36-repo8-r2/result.json) is published. Coverage reached **167/234 groups**, with attempt three active.
