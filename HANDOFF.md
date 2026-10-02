@@ -2,6 +2,37 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Management handoff — Midir Dot appointed by owner
+
+On October 2 the owner explicitly appointed **Midir Dot as manager**, while this Codex chat remains the benchmark executor. The owner reaffirmed the same extensive, high-quality testing. This changes coordination, not the frozen six-configuration/234-group protocol, model locks, budgets or scientific acceptance criteria.
+
+**Midir acknowledged management in this exact thread at approximately 20:33 UTC.** His instruction is read-only oversight aligned with the existing follow-up: preserve the models, methodology, budgets, concurrency and schedule, with no restart, duplicate job, acceleration or resource takeover. Keep `m5-model-download-follow-up` ACTIVE until an explicit later scheduling decision or full campaign completion. Management acknowledgment alone does not retire the schedule. This Codex chat continues executing, diagnosing within scope and publishing evidence.
+
+### Manager's first checks
+
+1. Read this ACTIVE section, `docs/UNIFIED-OVERNIGHT-PROTOCOL.md`, `config/unified-models.lock.json`, `config/unified-campaign.json` and `docs/UNIFIED-RUN-NOTES.md`.
+2. Verify the M5 through the controller's ignored `config/machines.local.json`; do not guess an endpoint or run inference on the M3. The controller/target mappings and credentials are private local adapters, not portable public configuration.
+3. Inspect remote `work/unified-campaign.json`, its actual PID/children, current result/logs and shared GPU holders. At **20:33 UTC**, driver **55667**, wrapper **61778**, MLX server **61794** and official replay client **61800** were healthy on the verified **Mac17,15 / Apple M5 Ultra / 256 GiB**; **163/234 groups** were complete and `u20261002-qwen38q8-aa-full` was active. Recheck rather than relying on this PID snapshot.
+4. Leave a healthy driver running. It starts the next group continuously; the heartbeat does not start individual tests. No duplicate model server, runner or second manager should act on the same active cell.
+5. Have this executor harvest only completed/exited groups, verify/redact evidence, update the visual localhost dashboard and push the public task branch. Use `python3 scripts/harvest_unified.py`, review/commit/push explicit artifacts, then `python3 scripts/harvest_unified.py --sync-target`. The sync preserves M5 originals and rejects inference-code changes while the runner is active.
+6. Report completed stages, meaningful failures and findings. Include actual requests/cases, elapsed time, input/output counts and remaining workload by suite. **Group counts are not time estimates**: a retrieval group contains nine long requests, a HumanEval group 164 problems, and a serving group 60 measured requests plus warmups.
+
+### Preserve these execution boundaries
+
+- One model at a time under shared slots and memory/deadline guards; keep `caffeinate -is` so the display can sleep. Do not stop another session's processes or restart an unknown/live worker.
+- The M3 is occupied. Darkbloom provider/app/account/configuration changes remain outside this campaign. Read approved downloaded model files through independent pinned runtimes only.
+- Preserve failed attempts, evaluator rejections, exact prompts/settings/hashes, cache behavior and sample counts. A task failure is a completed unsuccessful trial, not automatic permission to retry. Runtime fixes require separate recorded evidence and revised run IDs where appropriate.
+- Full-study completion requires every declared group finished or an explicitly evidenced unsupported disposition. All 120 speed runs are already complete, but the remaining quality, sustained-output, extended-task and serving suites must continue.
+- Task-branch GitHub updates and localhost publication are authorized. Main merge, personal-site deployment, social posting and external benchmark submission are not.
+
+### Portable state and readiness
+
+The branch is `codex/long-context-dashboard-20261001` in `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`; draft PR #3 is the review surface. The handoff collector verified one controller worktree, no stashes, a clean tree and no unpushed commits before this management note. Shared-brain main was rechecked at `3be383eed8647847fe37fe066df7756ff6ec98f3`. The task-owned M5 readonly preview is at loopback port **18765**; its current PID receipt is `work/preview.pid` (last verified PID **13833**). No new machine or process launch is needed for the management takeover. Current independent blockers: none; 71 groups remain across full replays, HumanEval/retrieval suites, remaining eight-turn trials, sustained output, twenty-turn trials and serving loads. The app configuration confirms an active 15-minute interval; its exact next execution timestamp is not exposed by the tool, so treat the Scheduled card as authoritative rather than inventing a next-wake time.
+
+Model weights, environments, private routing/credentials, live ledgers and original raw backups remain on their existing machines and out of Git. Completed sanitized evidence, protocols and notes are published. This is a management handoff, not a filesystem migration. The collector's raw output stays ignored under `work/midir-handoff-collection.txt`.
+
+Resume instruction for Midir: **Manage the existing Mac Studio benchmark chat on branch `codex/long-context-dashboard-20261001`; read the management and ACTIVE sections of `HANDOFF.md`, verify the live M5 driver, and coordinate this executor through the unchanged full matrix. Preserve the existing follow-up until an explicit later scheduling decision.**
+
 ## ACTIVE: unified overnight campaign, October 2, 2026
 
 The owner explicitly rejected uneven coverage and authorized **every downloaded configuration** to receive the same extensive matrix, one model at a time on the M5. They then removed the nine-hour cutoff: **no overall deadline**. Individual request/evaluation safety budgets remain fixed. Display sleep is allowed; task-owned `caffeinate -is` is active (receipt `work/caffeinate.json`, last launch PID 50803). The M3 remains occupied and must not run inference.
