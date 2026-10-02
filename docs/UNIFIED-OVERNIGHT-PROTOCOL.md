@@ -1,6 +1,6 @@
 # Unified M5 benchmark protocol — 2026-10-02
 
-The owner explicitly authorized an autonomous sequential campaign for **every downloaded configuration**, then removed the initial nine-hour cutoff. There is no overall deadline. Individual request and evaluation budgets remain fixed so a hung request cannot stop all work indefinitely. The display may sleep; `caffeinate -is` keeps the M5 accessible. The original M3 is reserved for other sessions.
+The owner explicitly authorized an autonomous sequential campaign for **every downloaded configuration**, then removed the initial nine-hour cutoff. There is no overall deadline. Individual request and evaluation budgets remain fixed so a hung request cannot stop all work indefinitely. Initially display sleep was allowed with `caffeinate -is`. On October 2 at 20:51 UTC the owner, through Midir, requested continuous display wake: a separate `caffeinate -d` assertion was added without restarting inference. The durable power setting requires unavailable administrator authentication; see `HANDOFF.md` for the verified assertion and persistence limitation. The original M3 is reserved for other sessions.
 
 ## Frozen scope
 

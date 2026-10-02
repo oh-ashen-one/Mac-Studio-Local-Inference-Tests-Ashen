@@ -17,9 +17,17 @@ On October 2 the owner explicitly appointed **Midir Dot as manager**, while this
 5. Have this executor harvest only completed/exited groups, verify/redact evidence, update the visual localhost dashboard and push the public task branch. Use `python3 scripts/harvest_unified.py`, review/commit/push explicit artifacts, then `python3 scripts/harvest_unified.py --sync-target`. The sync preserves M5 originals and rejects inference-code changes while the runner is active.
 6. Report completed stages, meaningful failures and findings. Include actual requests/cases, elapsed time, input/output counts and remaining workload by suite. **Group counts are not time estimates**: a retrieval group contains nine long requests, a HumanEval group 164 problems, and a serving group 60 measured requests plus warmups.
 
+### Display-awake owner update, October 2 at 20:51 UTC
+
+The owner explicitly requested through Midir that the M5 display stay on continuously, superseding the earlier permission for display sleep. Verified target: **Mac17,15 / Apple M5 Ultra**. Attempting the durable AC-power setting `sudo -n pmset -c displaysleep 0` was blocked with **`sudo: a password is required`**. Stop that privileged action; no credential request, security change or privilege bypass was used. The stored AC `displaysleep` value remains **10 minutes**, unchanged.
+
+Task-owned **`caffeinate -d` PID 67253** is active, and `pmset -g assertions` confirms **PreventUserIdleDisplaySleep = 1**. A separate `caffeinate -u -t 5` wake request was issued. Existing **`caffeinate -is` PID 50803** still prevents system/idle sleep. The display assertion is process-lifetime only and **does not survive reboot**; durable persistence remains blocked on authorized administrator authentication. Physical monitor pixels were not independently inspected. Lock/password/security settings were not changed. Local receipt: `work/display-awake.json` on the M5.
+
+Benchmark continuity was verified before and after: driver **55667**, HumanEval wrapper **66001** and MLX server **66017** remained active in `u20261002-qwen38q8-humaneval`; no measurement process was restarted. Keep the display-awake assertion while this new owner preference remains in effect.
+
 ### Preserve these execution boundaries
 
-- One model at a time under shared slots and memory/deadline guards; keep `caffeinate -is` so the display can sleep. Do not stop another session's processes or restart an unknown/live worker.
+- One model at a time under shared slots and memory/deadline guards; keep `caffeinate -is` plus the owner-requested display-awake assertion documented above. Do not stop another session's processes or restart an unknown/live worker.
 - The M3 is occupied. Darkbloom provider/app/account/configuration changes remain outside this campaign. Read approved downloaded model files through independent pinned runtimes only.
 - Preserve failed attempts, evaluator rejections, exact prompts/settings/hashes, cache behavior and sample counts. A task failure is a completed unsuccessful trial, not automatic permission to retry. Runtime fixes require separate recorded evidence and revised run IDs where appropriate.
 - Full-study completion requires every declared group finished or an explicitly evidenced unsupported disposition. All 120 speed runs are already complete, but the remaining quality, sustained-output, extended-task and serving suites must continue.
@@ -35,7 +43,7 @@ Resume instruction for Midir: **Manage the existing Mac Studio benchmark chat on
 
 ## ACTIVE: unified overnight campaign, October 2, 2026
 
-The owner explicitly rejected uneven coverage and authorized **every downloaded configuration** to receive the same extensive matrix, one model at a time on the M5. They then removed the nine-hour cutoff: **no overall deadline**. Individual request/evaluation safety budgets remain fixed. Display sleep is allowed; task-owned `caffeinate -is` is active (receipt `work/caffeinate.json`, last launch PID 50803). The M3 remains occupied and must not run inference.
+The owner explicitly rejected uneven coverage and authorized **every downloaded configuration** to receive the same extensive matrix, one model at a time on the M5. They then removed the nine-hour cutoff: **no overall deadline**. Individual request/evaluation safety budgets remain fixed. The latest owner update requires the display to stay on: task-owned `caffeinate -is` remains active (receipt `work/caffeinate.json`, PID 50803), with a separate `caffeinate -d` assertion (receipt `work/display-awake.json`, PID 67253); see the management section for the blocked durable setting. The M3 remains occupied and must not run inference.
 
 Authoritative new scope: `config/unified-models.lock.json` (six configurations, including Qwen 3.8 Q4_K_M) and `config/unified-campaign.json` (**234 cells**). Read `docs/UNIFIED-OVERNIGHT-PROTOCOL.md`. Each configuration gets five repetitions at 8K/32K/128K/200K, three 200K/2048-output runs, five eight-turn repository attempts, three fresh twenty-turn attempts, official mini/full recorded replay, 24 structured checks, nine 200K retrieval cases, all 164 HumanEval problems, and 60-request serving tests at concurrency 1/2/4. The older additional-model phase below is historical and is NOT completion of this new campaign.
 

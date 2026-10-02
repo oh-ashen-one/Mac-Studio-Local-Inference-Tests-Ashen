@@ -426,3 +426,10 @@ Median **attempt duration across all five, including the failure**, is **237.594
 The controller briefly received an SSH reachability error during publication. The existing sync completed, and a bounded read-only recheck reached the same verified M5 and original driver PID with no campaign error. The benchmark had advanced to the full Qwen 8-bit replay. No test was restarted or endpoint rerouted. This was a monitoring interruption, not recorded as a model failure.
 
 Coverage is **163/234 groups complete**, and the full recorded-policy Qwen 8-bit replay is active.
+
+
+## October 2, 20:51 UTC — owner-requested display wake
+
+The owner requested through manager Midir that the verified M5 display stay on. Stored AC display idle timeout was **10 minutes**. The attempt to set it permanently to zero was blocked by `sudo: a password is required`; the stored value remains unchanged. A task-owned `caffeinate -d` process now holds `PreventUserIdleDisplaySleep = 1`, and a five-second user-activity wake assertion was issued. Existing system/idle `caffeinate -is` remains active. The new display assertion does **not persist across reboot**; administrator authentication is still required for the durable setting. Lock/password/security settings were preserved. Physical pixels were not visually verified.
+
+Driver 55667, HumanEval wrapper 66001 and model server 66017 remained alive before and after. The owner-requested display condition change is timestamped here; no model, budget, concurrency, runtime or inference worker was changed or restarted.
