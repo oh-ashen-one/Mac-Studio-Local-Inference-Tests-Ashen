@@ -1,0 +1,23 @@
+import re
+
+def fix_spaces(text):
+    """
+    Given a string text, replace all spaces in it with underscores, 
+    and if a string has more than 2 consecutive spaces, 
+    then replace all consecutive spaces with - 
+    
+    fix_spaces("Example") == "Example"
+    fix_spaces("Example 1") == "Example_1"
+    fix_spaces(" Example 2") == "_Example_2"
+    fix_spaces(" Example   3") == "_Example-3"
+    """
+    # Replace sequences of 3 or more spaces with '-'
+    # Replace sequences of 1 or 2 spaces with '_'
+    # We need to handle this carefully: first replace 3+ spaces, then 1-2 spaces
+    
+    # Use regex to replace 3 or more spaces with '-'
+    result = re.sub(r' {3,}', '-', text)
+    # Then replace remaining 1 or 2 spaces with '_'
+    result = re.sub(r' {1,2}', '_', result)
+    
+    return result

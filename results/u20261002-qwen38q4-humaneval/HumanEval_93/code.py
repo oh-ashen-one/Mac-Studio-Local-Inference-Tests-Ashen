@@ -1,0 +1,58 @@
+def encode(message):
+    """
+    Write a function that takes a message, and encodes in such a 
+    way that it swaps case of all letters, replaces all vowels in 
+    the message with the letter that appears 2 places ahead of that 
+    vowel in the english alphabet. 
+    Assume only letters. 
+    
+    Examples:
+    >>> encode('test')
+    'TGST'
+    >>> encode('This is a message')
+    'tHKS KS C MGSSCGG'
+    """
+    vowels = set('aeiouAEIOU')
+    result = []
+    for char in message:
+        if char in vowels:
+            # Swap case first
+            if char.islower():
+                new_char = char.upper()
+            else:
+                new_char = char.lower()
+            # Then replace with letter 2 places ahead
+            # We need to work with the original vowel to find the replacement
+            # The replacement is based on the original vowel's position
+            # Let's get the lowercase version to find the index
+            lower_char = char.lower()
+            idx = ord(lower_char) - ord('a')
+            new_idx = (idx + 2) % 26
+            replacement = chr(ord('a') + new_idx)
+            # The replacement should have the same case as the swapped case
+            # Wait, let me re-read: "swaps case of all letters, replaces all vowels in the message with the letter that appears 2 places ahead"
+            # So for a vowel, we swap its case AND replace it with the letter 2 places ahead.
+            # The question is: does the replacement letter have the swapped case or the original case?
+            # Looking at the example: 'test' -> 'TGST'
+            # 't' is a vowel (lowercase). Swap case -> 'T'. Replace with 2 places ahead of 't' -> 'v'. But result is 'T'.
+            # Wait, 't' is not a vowel. Let me re-check.
+            # 'test': t, e, s, t
+            # 'e' is a vowel. 'e' -> swap case -> 'E', replace with 2 places ahead of 'e' -> 'g'. So 'e' becomes 'G'? But result is 'TGST'.
+            # Let me trace: 
+            # t -> not vowel, swap case -> T
+            # e -> vowel, swap case -> E, replace with 2 ahead of e -> g, so G? 
+            # s -> not vowel, swap case -> S
+            # t -> not vowel, swap case -> T
+            # Result: T G S T = 'TGST'. Yes!
+            # So the replacement letter takes the swapped case.
+            if new_char.islower():
+                result.append(replacement.lower())
+            else:
+                result.append(replacement.upper())
+        else:
+            # Just swap case
+            if char.islower():
+                result.append(char.upper())
+            else:
+                result.append(char.lower())
+    return ''.join(result)

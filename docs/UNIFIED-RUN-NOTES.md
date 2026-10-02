@@ -383,3 +383,14 @@ The high observed prefix reuse and low first-token waits are a useful property o
 Whole-child system swap growth was zero and minimum available memory **165.15 GiB**; the server interval minimum was **165.11 GiB**. All 12 published artifact hashes were verified. [Official summary](../results/u20261002-qwen38q4-aa-full/raw/summary.json), [per-turn counters](../results/u20261002-qwen38q4-aa-full/raw/turns.jsonl), settings and logs are retained.
 
 The campaign is **157/234 groups complete**. Qwen Q4's HumanEval diagnostic is active; its score remains partial until all 164 cases finish.
+
+
+## October 2, 18:33 UTC — Qwen Q4 HumanEval complete
+
+Qwen 3.8 27B Q4_K_M passed **158/164 cases (96.34%)** under the same declared single greedy chat sample and restricted Python evaluator. Six non-passes were functional failures: **HumanEval/62, /83, /127, /130, /140 and /145**. Five failed assertions; /130 raised an `IndexError`. No case was rejected for an unsupported import. All original requests, responses, code and evaluator traces are retained, with no sample retry or scoring-policy change.
+
+Full stage elapsed time was **938.101s (15m38s)** including preparation/evaluation. Summed request time was **916.554s**, median request **4.303s**. Actual input ranged from **109–473 tokens** per case, totaling **34,112 tokens**; reported cached input was zero. Generated output totaled **40,231 tokens**. These are short coding diagnostics, separate from 200K performance measurements. Different output lengths, tokenization and runtimes limit direct latency comparisons; this is not an official HumanEval leaderboard score or general intelligence ranking.
+
+Whole-child system swap growth was zero and minimum available memory **168.71 GiB**; independently sampled server minimum was **168.68 GiB**. All **825 published artifact hashes** were checked. [All 164 case outcomes](../results/u20261002-qwen38q4-humaneval/result.json) retain the evidence and failure categories.
+
+Campaign coverage is **158/234 groups complete**. Qwen Q4's nine 200K retrieval cases are active, with all remaining configurations and later stress/load conditions still required.
