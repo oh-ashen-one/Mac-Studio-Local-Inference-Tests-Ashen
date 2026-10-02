@@ -1,12 +1,12 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **82/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **87/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
 
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
 |---|---:|---:|---:|---:|---:|---:|
-| Qwen 3.8 27B · 8-bit | 5/39 | 21.264 tok/s | 2/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
+| Qwen 3.8 27B · 8-bit | 10/39 | 21.426 tok/s | 5/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 | Gemma 4 31B · 8-bit | 23/39 | 15.255 tok/s | 5/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 | DeepSeek V4 Flash · mixed Q4 | 23/39 | 37.610 tok/s | 5/5 | 1/1 completed | 0/0 completed | 0/0 scored of 164 |
 | MiMo V2.6 Flash · MXFP4 | 4/39 | 37.748 tok/s | 1/5 | 0/1 completed | 0/0 completed | 0/0 scored of 164 |

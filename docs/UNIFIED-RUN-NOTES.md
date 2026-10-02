@@ -126,3 +126,16 @@ All **20** Qwen 3.8 Q4_K_M / llama.cpp speed runs are complete, five fresh serve
 Within this configuration, median generation at 200K is **45.3% slower** than at 8192 tokens, while context fill takes **79.0 times as long**. Exact input/output counters, input-token hashes within each length, model/runtime/executable identities and zero observed swap growth were verified across all 20 runs. Native timing fields and HTTP first-output latency remain separately recorded. No repetition was replaced or omitted.
 
 The runtime is now measuring the repeated 8-bit MLX profile. Its second 200K sample completed at **21.0825 tok/s** with **217.512s** fill. The final repeated Q4-versus-8-bit comparison remains pending the rest of the 8-bit grid. Q4's task, quality and load suites are not implied complete by finishing its speed grid.
+
+## October 2, 09:50 UTC — repeated Qwen 200K configuration comparison
+
+Qwen 3.8 8-bit MLX completed all five **200000 input / 256 output** repetitions. Decode median is **21.4262 tok/s**, mean **21.2872**, sample standard deviation **0.2123**, range **21.0291–21.4536**. Context-fill median is **212.930s**, mean **213.487s**, sample standard deviation **3.437s**, range **209.874–217.512s**. All five share the same input/output token sequences and model/runtime/residency identities, with zero observed timed and whole-child swap growth.
+
+| Configuration, 200K input / 256 output | Decode median | Context-fill median | Samples |
+|---|---:|---:|---:|
+| Qwen 3.8 8-bit MLX | 21.4262 tok/s | 212.930s | 5 |
+| Qwen 3.8 Q4_K_M llama.cpp | 24.5246 tok/s | 531.977s | 5 |
+
+The two five-sample groups confirm **14.5% higher generation rate for Q4**, but **60.0% less context-fill time for 8-bit MLX**. Inputs have identical token-ID hashes and both use fixed 256-token output work without prefix reuse. This compares coupled precision/runtime configurations on the same M5; it does not isolate quantization or hardware. MLX measures its direct input-to-first-token interval; llama.cpp retains native timings and HTTP first-output latency separately. Repository timing remains a separate metric, and its five-attempt outcome comparison is not yet complete.
+
+The 8-bit grid's other input lengths remain in progress. Earlier one-sample observations stay preserved as dated observations rather than being treated as extra repetitions in this group.
