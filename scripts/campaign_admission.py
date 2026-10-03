@@ -55,6 +55,8 @@ def reviewed_disposition(root, job, result):
     note=json.loads((Path(root)/evidence).read_text())
     if disposition==BUDGET:
         import hashlib
+        if job.get('kind')!='repo' or not result or result.get('kind')!='repo_task':
+            raise RuntimeError('Repository budget audit cannot account for an unrun quality suite')
         if (not result or result.get('status')!='failed'
             or result.get('error')!='Declared per-request deadline exceeded'
             or note.get('disposition')!=BUDGET or note.get('run_id')!=job['id']

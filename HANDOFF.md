@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral second repository timeout review — October3 23:38 UTC /19:38 EDT
+
+Driver72523 stopped after original fresh repo8-r2 seed1002 exceeded the unchanged900s first-request deadline. Zero completed responses/final usage/task score; empty patch. Own hash-bound audit/rawpacket/reconstructed request/logs/stopledger/telemetry preserved, all11 publication hashes checked. Whole-child minimum67.868GiB available, swap growth0; no GPU event, total1. Driver/wrapper40458/server40562 exited and holders empty.
+
+Only actually attempted r1/r2 are separately audited/unscored budget limits; original results unchanged and neither retried. Seeds1003/1004/1005 remain required. Plan prior bytes/hash archived. Metadata admission now explicitly repository-only, preventing one request from accounting for unrun multi-case quality suites;52 pinned-environment tests pass. No measured condition/entry/model/runtime change. After publication/sync and actualM5 idle/qualification checks, launch one continuation toward original repo8-r3. Mistral22 complete +2 budget-limited attempts +15 required remaining; MiMo2 deferred trials remain required, follow-up ACTIVE15min.
+
 ## CURRENT Mistral full cold-speed matrix — October3 23:17 UTC /19:17 EDT
 
 Same driver72523 is healthy in the next predeclared fresh repository trial `u20261003-mistral35-repo8-r2`, wrapper40458/native server40562. ALL20 Mistral cold-context speed runs completed, five each at8192/32768/131072/200000 input with256 output. Native median decode12.55738417 /9.98258606 /5.35302148 /4.04147978 tok/s respectively; median HTTP fill32.58644 /209.70521 /2239.11888 /4923.51180s. All120 per-run publication artifact hashes checked, matching common model/runtime/corpus pins and six measurement-entry/adapter/guard blobs, identical token IDs/commands within each context, zero cache reuse/positive swap growth. Audit/manifest: `results/mistral-speed-summary-20261003`. Setup/outliers excluded/no removal. This is ONLY the cold-speed matrix, not full study.

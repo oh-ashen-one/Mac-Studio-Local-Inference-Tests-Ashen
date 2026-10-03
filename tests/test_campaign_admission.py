@@ -51,11 +51,11 @@ class ResourceReviewTests(unittest.TestCase):
 class BudgetReviewTests(unittest.TestCase):
  def fixture(self,root):
   import hashlib
-  result={'status':'failed','error':'Declared per-request deadline exceeded','turns':[]}
+  result={'kind':'repo_task','status':'failed','error':'Declared per-request deadline exceeded','turns':[]}
   p=root/'results/budget-run/result.json';p.parent.mkdir(parents=True);p.write_text(json.dumps(result))
   note={'disposition':BUDGET,'run_id':'budget-run','request_timeout_seconds':900,'final_task_score':None,'completed_responses':0,'result_sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
   (root/'audit.json').write_text(json.dumps(note))
-  job={'id':'budget-run','disposition':BUDGET,'disposition_evidence':'audit.json'}
+  job={'id':'budget-run','kind':'repo','disposition':BUDGET,'disposition_evidence':'audit.json'}
   return job,result,note,p
  def test_attempted_timeout_is_accounted_without_scoring_or_retry(self):
   with tempfile.TemporaryDirectory() as t:
@@ -79,3 +79,10 @@ class BudgetReviewTests(unittest.TestCase):
    for change in [{'request_timeout_seconds':7200},{'final_task_score':False},{'completed_responses':1}]:
     (root/'audit.json').write_text(json.dumps({**n,**change}))
     with self.assertRaises(RuntimeError):reviewed_disposition(root,j,r)
+ def test_single_request_timeout_cannot_complete_multi_case_quality_suite(self):
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);j,r,n,p=self.fixture(root)
+   with self.assertRaisesRegex(RuntimeError,'unrun quality suite'):
+    reviewed_disposition(root,{**j,'kind':'quality'},r)
+   with self.assertRaisesRegex(RuntimeError,'unrun quality suite'):
+    reviewed_disposition(root,j,{**r,'kind':'useful_work'})
