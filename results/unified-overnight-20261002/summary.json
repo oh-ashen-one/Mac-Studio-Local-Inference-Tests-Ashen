@@ -1,16 +1,15 @@
 {
   "campaign_id": "unified-overnight-20261002",
-  "status": "stopped",
+  "status": "running",
   "overall_deadline": null,
   "active": {
-    "id": "u20261002-mimo-retrieval",
+    "id": "u20261002-mimo-retrieval-resume-v2",
     "model_id": "mimo-v2.6-flash-mopd",
     "kind": "quality",
     "suite": "retrieval",
-    "status": "interrupted",
-    "reason": "Owner-requested pause; partial evidence retained"
+    "status": "running"
   },
-  "error": "Owner-requested pause: MiMo retrieval interrupted after 8/9 cases. Explicit resume and recorded interruption disposition required.",
+  "error": null,
   "amendments": [
     {
       "id": "deepseek-pretoken-v2",
@@ -19,6 +18,19 @@
       "replacement_run": "u20261002-deepseek-repo8-r1-pretoken-v2",
       "reason": "Before any model request, concurrent native metadata mapping and the resident server hit the swap guard. Standalone metadata tokenization passes. Calibrate native packets before loading the server; unchanged model, task, seed, context and budgets. The specific mapping interaction remains under investigation.",
       "review": "docs/DEEPSEEK-SETUP-REVIEW-20261002.md"
+    },
+    {
+      "id": "mimo-owner-resume-v2",
+      "previous_plan_sha256": "a4d8f698d7a906a850d686cf7475b626abd7ce2178b11f198f0fc0a942932e21",
+      "preserved_failed_run": "u20261002-mimo-retrieval",
+      "replacement_run": "u20261002-mimo-retrieval-resume-v2",
+      "label": "Preserved owner-requested interruption",
+      "reason": "The owner paused retrieval after eight of nine cases. Explicit owner resume authorizes a fresh nine-case replacement using the unchanged harness, checkpoint, precision, prompts, seeds, token budgets, runtime and guards. Original completed cases and partial ninth remain archived; the interruption is not a model failure and is not pooled into the replacement score.",
+      "review": "docs/MIMO-OWNER-RESUME-20261002.md",
+      "preserved_result_sha256": "426fa7f024757e1d6007ce15e98e4f9fdcf3c8ec82c606695763921061c4098f",
+      "preserved_pause_audit_sha256": "319c44dd7dde239c143e7bf1f9481032619584549e280f3890a15e316d05b92e",
+      "preserved_publication_manifest_sha256": "04e1542fa1b16696af755b1f629bb14dfe757991089fd8194cd6a673c0886842",
+      "model_lock_sha256": "79b756a50e463289dd85d480b29865449036906cbc6a46789a3d617671229f3f"
     }
   ],
   "completed_jobs": 179,
@@ -846,9 +858,9 @@
           "planned": 24
         },
         "retrieval": {
-          "status": "interrupted",
-          "completed": 8,
-          "passed": 8,
+          "status": "running",
+          "completed": 0,
+          "passed": 0,
           "planned": 9
         },
         "humaneval": {
@@ -2906,12 +2918,11 @@
       "status": "complete"
     },
     {
-      "id": "u20261002-mimo-retrieval",
+      "id": "u20261002-mimo-retrieval-resume-v2",
       "model_id": "mimo-v2.6-flash-mopd",
       "kind": "quality",
       "suite": "retrieval",
-      "status": "interrupted",
-      "reason": "Owner-requested pause; partial evidence retained"
+      "status": "running"
     },
     {
       "id": "u20261002-gemma-tail-200000-2048-r1",
@@ -3364,5 +3375,5 @@
       "status": "pending"
     }
   ],
-  "updated_at_utc": "2026-10-03T00:40:41.676708+00:00"
+  "updated_at_utc": "2026-10-03T01:23:07.763972+00:00"
 }

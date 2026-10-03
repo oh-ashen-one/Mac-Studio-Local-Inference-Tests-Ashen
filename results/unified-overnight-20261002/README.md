@@ -1,6 +1,6 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **179/234 cells completed**. Status: stopped. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **179/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
 
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
@@ -16,3 +16,5 @@ Coverage: **179/234 cells completed**. Status: stopped. No overall deadline. A c
 Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.
 
 Preserved setup failure: `u20261002-deepseek-repo8-r1`. Separately labeled replacement: `u20261002-deepseek-repo8-r1-pretoken-v2`. [Review and unchanged measurement limits](../../docs/DEEPSEEK-SETUP-REVIEW-20261002.md).
+
+Preserved owner-requested interruption: `u20261002-mimo-retrieval`. Separately labeled replacement: `u20261002-mimo-retrieval-resume-v2`. [Review and unchanged measurement limits](../../docs/MIMO-OWNER-RESUME-20261002.md).
