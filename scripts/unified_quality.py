@@ -83,11 +83,11 @@ def retrieval_packet(spec,folder,ident,case,port=None):
     return messages,case
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--suite',choices=['structured','retrieval','humaneval'],required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--suite',choices=['structured','retrieval','humaneval'],required=True);p.add_argument('--lock',default='config/unified-models.lock.json');p.add_argument('--campaign-id',default='unified-overnight-20261002');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    spec,folder,lock=resolve_model(a.model,'config/unified-models.lock.json');out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
-    r={'kind':'useful_work','campaign_id':'unified-overnight-20261002','model_id':a.model,'machine_id':'studio-new','suite':a.suite,'status':'starting','cases':[],'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'thinking_requested':False,'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    spec,folder,lock=resolve_model(a.model,a.lock);out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
+    r={'kind':'useful_work','campaign_id':a.campaign_id,'model_id':a.model,'machine_id':'studio-new','suite':a.suite,'status':'starting','cases':[],'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'thinking_requested':False,'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
     def update():write_json(out/'result.json',r);write_json(ROOT/'work/unified-job-live.json',r)
     update()
     try:

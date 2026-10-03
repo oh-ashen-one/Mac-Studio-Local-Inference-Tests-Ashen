@@ -11,12 +11,12 @@ from run_repo_task import SYSTEM
 from unified_server import server,chat,chat_payload,fill_to_tokens
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--attempt',type=int,required=True);p.add_argument('--max-turns',type=int,default=8);p.add_argument('--context',type=int,default=200000);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--attempt',type=int,required=True);p.add_argument('--max-turns',type=int,default=8);p.add_argument('--context',type=int,default=200000);p.add_argument('--lock',default='config/unified-models.lock.json');p.add_argument('--campaign-id',default='unified-overnight-20261002');a=p.parse_args()
     if not a.allow_inference:p.error('Owner inference authorization required')
     if a.max_turns not in [8,20] or not 1<=a.attempt<=5:p.error('Use the declared task budgets and seeds')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    spec,folder,lock=resolve_model(a.model,'config/unified-models.lock.json');out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
-    candidate=ROOT/'work'/f'{a.run_id}-candidate';result={'kind':'repo_task','campaign_id':'unified-overnight-20261002','model_id':a.model,'machine_id':'studio-new','attempt':a.attempt,'status':'starting','passed':False,'human_rescues':0,'protocol':'django-charprefix-v2-'+str(a.max_turns)+'turns','task_id':TASK['instance_id'],'base_commit':TASK['base_commit'],'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'max_turns':a.max_turns,'max_output_tokens_per_turn':2048,'temperature':.2,'seed':1000+a.attempt,'thinking_requested':False,'turns':[],'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    spec,folder,lock=resolve_model(a.model,a.lock);out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
+    candidate=ROOT/'work'/f'{a.run_id}-candidate';result={'kind':'repo_task','campaign_id':a.campaign_id,'model_id':a.model,'machine_id':'studio-new','attempt':a.attempt,'status':'starting','passed':False,'human_rescues':0,'protocol':'django-charprefix-v2-'+str(a.max_turns)+'turns','task_id':TASK['instance_id'],'base_commit':TASK['base_commit'],'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'max_turns':a.max_turns,'max_output_tokens_per_turn':2048,'temperature':.2,'seed':1000+a.attempt,'thinking_requested':False,'turns':[],'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
     def update():write_json(out/'result.json',result);write_json(ROOT/'work/unified-job-live.json',result)
     update();started=None
     try:
