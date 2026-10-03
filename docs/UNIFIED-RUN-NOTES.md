@@ -604,3 +604,7 @@ All three fresh twenty-turn-budget attempts passed, each using three turns and z
 ### October3: Gemma coverage complete
 
 Gemma finished all39 declared groups. Concurrency4 serving completed60/60 measured requests in577.719s, aggregate26.58730 output tok/s, median/p95 response latency38.522/38.559s. Its concurrency1/2/4 aggregate rates were15.337/21.601/26.587 tok/s, while median latency rose16.689/23.700/38.522s. This is throughput scaling with higher individual latency, not reduced response time. Two warmups per group remain excluded from measured rates. Full-study work continues with27 retained baseline groups plus39 Mistral groups.
+
+### October3, first DeepSeek sustained generation
+
+`u20261002-deepseek-tail-200000-2048-r1` completed exact200000 input/2048 output tokens. Native steady decode20.43 tok/s (2047 steady tokens), native overall generation20.42 tok/s, context fill309.641s derived from native prefill645.91 tok/s. Whole-child swap growth zero; minimum available45.68GiB. This is1/3 sustained repeats; the lower longer-generation rate than the short256-token series requires the remaining repetitions before interpretation. Native timing/counter definitions and raw rows are preserved. Driver continued to the first fresh twenty-turn repair trial.
