@@ -718,3 +718,7 @@ Exact200000 input/256 output, native decode4.04100918 tok/s, HTTP context fill49
 ### October3, third Mistral200K repetition completed
 
 Exact200000 input/256 output, native decode4.04412063 tok/s, HTTP fill4923.512s, complete request4986.574s. Model-lock/runtime/corpus/exact token-ID hashes match earlier repeats, no cache reuse or whole-child swap growth. Six artifact hashes verified. This is3 of5 declared200K repetitions; unfinished series statistics remain provisional. Same driver continues in fourth repetition, Mistral5 completed +1 unscored budget-limited attempt +33 required remaining. Native measurement continued across a recovered metadata SSH timeout; no inferred hardware/worker restart or changed conditions. MiMo's two deferred trials remain required and GPU safety count1.
+
+### October3, fourth Mistral200K repetition completed
+
+Exact200000 input/256 output, native decode4.04147978 tok/s, HTTP fill4924.726s, complete request4987.830s. Model-lock/runtime/corpus/exact token-ID hashes match earlier repeats, no cache reuse or whole-child swap growth. Six publication hashes verified. This is4 of5 declared200K repetitions; the full-series summary waits for the fifth. Same driver continues in fifth repetition, Mistral6 completed +1 unscored budget-limited attempt +32 required remaining. MiMo's two deferred trials remain required and GPU safety count1.
