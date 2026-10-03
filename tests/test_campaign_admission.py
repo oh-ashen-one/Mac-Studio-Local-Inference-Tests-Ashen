@@ -17,7 +17,7 @@ class AdmissionTests(unittest.TestCase):
   self.assertEqual(len(new['jobs']),234)
   for a,b in zip(old['jobs'],new['jobs']):self.assertEqual(a,{k:v for k,v in b.items() if not k.startswith('disposition')})
   omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),18);self.assertTrue(all(j['model_id'] in ('qwen38-q4-gguf','qwen3.6-35b-a3b-vl-mtp-mxfp8') for j in omitted))
-  self.assertFalse(extension_pending(ROOT,new))
+  self.assertTrue(extension_pending(ROOT,new))
  def test_extension_full_matrix(self):
   ext=json.loads((ROOT/'config/unified-extension-20261003.json').read_text())
   self.assertEqual(len(ext['jobs']),156)

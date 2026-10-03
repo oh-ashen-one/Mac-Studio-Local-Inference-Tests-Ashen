@@ -1,7 +1,7 @@
 # Unified all-configuration benchmark — interim report
 
 Coverage: **188/234 cells completed**. Status: saved_results. No overall deadline. A completed task attempt may still be unsuccessful.
- The 156-group four-model extension was cancelled by owner scope; none is counted as passed.
+ Owner scope omissions: 18; remaining baseline groups: 28. Omissions are not passes. Required extension: 39 separately declared groups awaiting verification/qualification. The 156-group four-model extension was cancelled by owner scope; none is counted as passed.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |

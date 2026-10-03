@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## LATEST Mistral addition — October 3
+
+Owner requested one new Mistral representative. Selected **Mistral Medium3.5 128B Q4_K_M GGUF**, three pinned shards/74.897GB, expected hashes recorded in `config/mistral-models.lock.json`. Full39-group separate extension: `config/mistral-campaign-20261003.json`. Read `docs/MISTRAL-ADDITION-20261003.md`: download, integrity, runtime qualification and upstream long-context-fix verification remain pending. No Mistral weights downloaded or loaded yet. The four previously skipped extension models and Qwen3.6 remain skipped.
+
+Existing boundary guard21919 still waits for Gemma serving-c4. Do not duplicate or interrupt it. After completion/verified cleanup adopt the latest plan, which now requires this Mistral-only extension, and perform preparation on the idle M5 without contaminating timed trials. Retained baseline28 groups plus Mistral39 =67 required groups at declaration time, including active Gemma. Scope additions are separate; historical completed evidence stays unchanged.
+
 ## LATEST owner skip instruction — October 3
 
 The owner explicitly skipped all four extension models and remaining Qwen3.6 tests. Read `docs/OWNER-SKIP-FIVE-MODELS-20261003.md`; older extension-required instructions below are superseded. Preserve completed evidence and downloaded files. Required remaining models: Gemma31B, DeepSeek V4 Flash, Qwen3.8 27B 8-bit, MiMo. Accounting188 complete +18 scope omissions +28 remaining baseline;156 extension groups cancelled by owner, never passes. No new model qualification is required.
