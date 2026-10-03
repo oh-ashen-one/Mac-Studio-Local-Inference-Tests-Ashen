@@ -608,3 +608,7 @@ Gemma finished all39 declared groups. Concurrency4 serving completed60/60 measur
 ### October3, first DeepSeek sustained generation
 
 `u20261002-deepseek-tail-200000-2048-r1` completed exact200000 input/2048 output tokens. Native steady decode20.43 tok/s (2047 steady tokens), native overall generation20.42 tok/s, context fill309.641s derived from native prefill645.91 tok/s. Whole-child swap growth zero; minimum available45.68GiB. This is1/3 sustained repeats; the lower longer-generation rate than the short256-token series requires the remaining repetitions before interpretation. Native timing/counter definitions and raw rows are preserved. Driver continued to the first fresh twenty-turn repair trial.
+
+### October3, first DeepSeek twenty-turn-budget trial
+
+The fresh declared attempt completed with passed=True, 3 turns, 331.324s task wall, 0 human rescues. Whole-child swap growth was 0 bytes. This is1/3 extended attempts, not an extension of a prior failed trial. Exact requests/cache/token counts and evaluator outcomes remain preserved.
