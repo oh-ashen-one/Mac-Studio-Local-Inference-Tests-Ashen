@@ -740,3 +740,7 @@ Exact131072 input/256 output, native decode5.35302148 tok/s, HTTP fill2239.142s,
 ### October3, third Mistral128K repetition completed
 
 Exact131072 input/256 output, native decode5.35510128 tok/s, HTTP fill2238.918s, complete request2286.542s. Model/runtime/corpus/token-ID pins match earlier samples; six publication hashes checked and no positive whole-child swap growth. This is3 of5 at128K; same driver advances to repetition4. Mistral10 completed +1 unscored request-budget limit +28 required remaining; MiMo's two deferred trials remain required and GPU safety count1.
+
+### October3, fourth Mistral128K repetition completed
+
+Exact131072 input/256 output, native decode5.35281720 tok/s, HTTP fill2239.119s, complete request2286.763s. Model/runtime/corpus/token-ID pins match earlier samples; six publication hashes checked and no positive whole-child swap growth. This is4 of5 at128K; same driver advances to repetition5. Mistral11 completed +1 unscored request-budget limit +27 required remaining; MiMo's two deferred trials remain required and GPU safety count1.
