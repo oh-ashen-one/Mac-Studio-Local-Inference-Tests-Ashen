@@ -137,10 +137,30 @@ def active_controls(root,pid_exists):
     return active
 
 
+def aggregate_files():
+    return {f'results/{name}/{file}'
+            for name in ['unified-overnight-20261002','mistral-extension-20261003']
+            for file in ['summary.json','README.md']}
+
+
+def preserve_aggregate(root,relative):
+    # Only our generated reports may be moved aside without a per-run receipt.
+    assert relative in aggregate_files(),'Unknown aggregate path'
+    p=Path(root)/relative
+    assert p.is_file() and not p.is_symlink()
+    data=p.read_bytes();digest=hashlib.sha256(data).hexdigest()
+    backup=Path(root)/'work/published-backup/aggregates'/digest/relative
+    backup.parent.mkdir(parents=True,exist_ok=True)
+    if backup.exists():assert backup.read_bytes()==data
+    else:backup.write_bytes(data)
+    assert hashlib.sha256(backup.read_bytes()).hexdigest()==digest
+    return backup
+
+
 def sync_target():
     print(remote('''import hashlib,json,pathlib,subprocess,psutil
 from pathlib import Path
-''' + inspect.getsource(active_controls) + '''
+''' + inspect.getsource(active_controls) + inspect.getsource(aggregate_files) + inspect.getsource(preserve_aggregate) + '''
 def git(*a):return subprocess.check_output(['git',*a])
 branch=''' + repr(BRANCH) + '''
 assert git('branch','--show-current').decode().strip()==branch
@@ -157,7 +177,7 @@ if active_controls(pathlib.Path.cwd(),psutil.pid_exists) or live_gpu:
  assert all(p in allowed or p.startswith(('results/','viewer/','docs/','outputs/','hardware/')) for p in changes),'Refusing to change executing runtime code'
 conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitlines()) & set(git('ls-tree','-r','--name-only',target).decode().splitlines())
 runs={p.split('/')[1] for p in conflicts if p.startswith(('results/u20261002-','results/u20261003-'))}
-assert all(p.startswith(('results/u20261002-','results/u20261003-')) for p in conflicts),'Unrelated untracked conflict'
+assert all(p.startswith(('results/u20261002-','results/u20261003-')) or p in aggregate_files() for p in conflicts),'Unrelated untracked conflict'
 for run in sorted(runs):
  state=next(s for s in states if any(j['id']==run for j in s['jobs']))
  j=next(j for j in state['jobs'] if j['id']==run)
@@ -178,13 +198,14 @@ for run in sorted(runs):
  dest.parent.mkdir(parents=True,exist_ok=True)
  source.rename(dest)
 # Aggregate is reproducible and may have changed after the report snapshot.
-for aggregate in ['unified-overnight-20261002','mistral-extension-20261003']:
- for name in ['summary.json','README.md']:
-  p=pathlib.Path('results')/aggregate/name
-  if p.exists() and git('diff','--',str(p)):
-   backup=pathlib.Path('work/published-backup')/(aggregate+'-aggregate')/name
-   backup.parent.mkdir(parents=True,exist_ok=True);backup.write_bytes(p.read_bytes())
-   p.write_bytes(git('show','HEAD:'+str(p)))
+# The first publication is untracked; preserve it before adopting the copy.
+head_files=set(git('ls-tree','-r','--name-only','HEAD').decode().splitlines())
+for relative in sorted(aggregate_files()):
+ p=pathlib.Path(relative)
+ if p.exists() and (relative in conflicts or git('diff','--',relative)):
+  preserve_aggregate(pathlib.Path.cwd(),relative)
+  if relative in head_files:p.write_bytes(git('show','HEAD:'+relative))
+  else:p.unlink()
 subprocess.run(['git','merge','--ff-only',target],check=True)
 print('Original bytes preserved; target fast-forwarded')
 ''').decode())

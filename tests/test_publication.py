@@ -77,3 +77,26 @@ def test_download_verification_control_is_protected_even_without_model_worker(tm
     (tmp_path/'work/mistral-preparation.json').write_text(json.dumps({'pid':30,'status':'verifying'}))
     assert harvest_unified.active_controls(tmp_path,lambda pid:pid==30)==['work/mistral-preparation.json']
     assert harvest_unified.active_controls(tmp_path,lambda pid:False)==[]
+
+
+def test_first_mistral_aggregate_preserves_exact_bytes_before_adoption(tmp_path):
+    import hashlib
+    relative='results/mistral-extension-20261003/summary.json'
+    p=tmp_path/relative;p.parent.mkdir(parents=True);p.write_bytes(b'first generated snapshot\xff')
+    original=p.read_bytes();backup=harvest_unified.preserve_aggregate(tmp_path,relative)
+    assert backup.read_bytes()==original and p.read_bytes()==original
+    assert hashlib.sha256(original).hexdigest() in str(backup)
+    assert harvest_unified.preserve_aggregate(tmp_path,relative)==backup
+    p.write_bytes(b'later snapshot')
+    second=harvest_unified.preserve_aggregate(tmp_path,relative)
+    assert second!=backup and backup.read_bytes()==original
+
+
+def test_unrelated_untracked_content_cannot_be_treated_as_aggregate(tmp_path):
+    import pytest
+    p=tmp_path/'results/mistral-extension-20261003/unrelated.json'
+    p.parent.mkdir(parents=True);p.write_text('other owner')
+    with pytest.raises(AssertionError,match='Unknown aggregate'):
+        harvest_unified.preserve_aggregate(tmp_path,str(p.relative_to(tmp_path)))
+    assert p.read_text()=='other owner'
+    assert not (tmp_path/'work').exists()
