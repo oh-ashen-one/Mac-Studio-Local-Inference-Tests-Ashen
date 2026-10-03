@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT 11AM owner status — October3 15:00 UTC /11:00 EDT
+
+Live M5 driver72523 is healthy in third200K/256 repetition `u20261003-mistral35-core-200000-r3`, wrapper82629/native server82662. Second repetition completed at14:57:30.452 UTC: exact200000 input/256 output,4.04100918 native decode tok/s,4921.053s context fill. Corpus/token-ID/model-lock/runtime pins match the first repetition; both approximately4.04 tok/s, n=2 of5. No full-series conclusion. Six publication hashes verified and originals preserved before sync.
+
+Mistral4 complete +1 unscored request-budget-limited attempt +34 required remaining. Baseline213 complete +18 owner omissions +1 resource-limited attempt +2 deferred MiMo trials unchanged; retained Gemma/DeepSeek/Qwen8 each39/39. The owner asked for the11AM status; inference continues, and the existing ACTIVE15-minute follow-up remains. No driver duplicate/restart or inference-source change. GPU safety count1 and system/display wake assertions verified active.
+
 ## CURRENT Mistral continuation progress — October3 13:35 UTC
 
 Driver72523 remains healthy in second200K/256 speed repetition `u20261003-mistral35-core-200000-r2`, wrapper72671/native server72703. Mini replay completed6/6 served,21.639s measured,10.07682 end-to-end output tok/s. Preserve6 short-output warnings, actual4610 input/3171 cached/218 output tokens, reported262144 context and zero whole-child swap growth. Served replay is not autonomous task solving.12 public artifact hashes checked.
