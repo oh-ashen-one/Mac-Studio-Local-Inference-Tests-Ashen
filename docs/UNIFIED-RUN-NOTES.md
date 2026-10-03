@@ -714,3 +714,7 @@ The driver is healthy in the second predeclared200K/256 repetition. Mistral3 com
 ### October3, second Mistral200K repetition completed
 
 Exact200000 input/256 output, native decode4.04100918 tok/s, HTTP context fill4921.053s and total request4984.164s. Both first two repetitions are approximately4.04 tok/s; n=2 of5, not a complete-series claim. Corpus/native token-ID/model-lock/runtime hashes match. No cache reuse or whole-child swap growth. Six publication hashes verified. Driver72523 remains healthy in the third original repetition; Mistral4 complete +1 unscored request-budget-limited attempt +34 required remaining. The two MiMo deferred trials remain required; GPU safety count1.
+
+### October3, third Mistral200K repetition completed
+
+Exact200000 input/256 output, native decode4.04412063 tok/s, HTTP fill4923.512s, complete request4986.574s. Model-lock/runtime/corpus/exact token-ID hashes match earlier repeats, no cache reuse or whole-child swap growth. Six artifact hashes verified. This is3 of5 declared200K repetitions; unfinished series statistics remain provisional. Same driver continues in fourth repetition, Mistral5 completed +1 unscored budget-limited attempt +33 required remaining. Native measurement continued across a recovered metadata SSH timeout; no inferred hardware/worker restart or changed conditions. MiMo's two deferred trials remain required and GPU safety count1.
