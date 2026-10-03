@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import safety,Telemetry,stop,write_json
 from models import digest
-from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, reviewed_disposition, gpu_safety_failures
+from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, BUDGET, reviewed_disposition, gpu_safety_failures
 
 def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
     python=str(ROOT/('vendor/vlm-runtime/.venv/bin/python' if spec['runtime']=='mlx-vlm' else '.venv/bin/python'))
@@ -85,7 +85,7 @@ def main():
                 j['status']='needs_review';raise RuntimeError('Cell failed and was preserved: '+j['id'])
             j['status']='complete';save();process=None
         if any(j['status']==DEFERRED for j in state['jobs']):state.update(status='baseline_deferred_resource_review',active=None)
-        elif any(j['status'] not in ('complete',OMITTED,RESOURCE) for j in state['jobs']):state['status']='needs_review'
+        elif any(j['status'] not in ('complete',OMITTED,RESOURCE,BUDGET) for j in state['jobs']):state['status']='needs_review'
         elif extension_pending(ROOT,plan):state.update(status='baseline_accounted_extension_pending',active=None)
         else:state.update(status='complete',active=None,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
         save()

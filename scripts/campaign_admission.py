@@ -43,15 +43,29 @@ def extension_pending(root, plan):
 
 RESOURCE = 'unsupported_resource'
 DEFERRED = 'deferred_resource_review'
+BUDGET = 'unsupported_request_budget'
 
 def reviewed_disposition(root, job, result):
     """Require concrete preserved evidence; never score a partial resource failure."""
     disposition=job.get('disposition')
-    if disposition not in (RESOURCE,DEFERRED):return None
+    if disposition not in (RESOURCE,DEFERRED,BUDGET):return None
     import json
     evidence=job.get('disposition_evidence')
     if not evidence:raise RuntimeError('Missing resource review evidence')
     note=json.loads((Path(root)/evidence).read_text())
+    if disposition==BUDGET:
+        import hashlib
+        if (not result or result.get('status')!='failed'
+            or result.get('error')!='Declared per-request deadline exceeded'
+            or note.get('disposition')!=BUDGET or note.get('run_id')!=job['id']
+            or note.get('request_timeout_seconds')!=900
+            or note.get('final_task_score','missing') is not None
+            or note.get('completed_responses')!=len(result.get('turns',[]))):
+            raise RuntimeError('Budget disposition requires the exact preserved attempted timeout')
+        path=Path(root)/'results'/job['id']/'result.json'
+        if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=note.get('result_sha256'):
+            raise RuntimeError('Budget audit result hash mismatch')
+        return disposition
     if note.get('disposition')!=RESOURCE or note.get('server_error')!='kIOGPUCommandBufferCallbackErrorOutOfMemory':raise RuntimeError('Missing concrete reviewed GPU resource failure')
     if disposition==RESOURCE:
         if note.get('run_id')!=job['id'] or not result or result.get('status')!='failed' or note.get('final_task_score') is not None:raise RuntimeError('Resource disposition does not match a preserved failed attempt')

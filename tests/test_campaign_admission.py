@@ -1,7 +1,7 @@
 import unittest,tempfile,json,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from campaign_admission import pending_disposition,download_snapshot,extension_pending,OMITTED,reviewed_disposition,RESOURCE,DEFERRED,gpu_safety_failures
+from campaign_admission import pending_disposition,download_snapshot,extension_pending,OMITTED,reviewed_disposition,RESOURCE,DEFERRED,BUDGET,gpu_safety_failures
 ROOT=Path(__file__).resolve().parents[1]
 class AdmissionTests(unittest.TestCase):
  def test_existing_evidence_never_omitted(self):
@@ -47,3 +47,35 @@ class ResourceReviewTests(unittest.TestCase):
    p.write_text(json.dumps({'events':[{'run_id':'first','count_toward_two_failure_stop':True},{'run_id':'second','count_toward_two_failure_stop':True}]}))
    self.assertEqual(gpu_safety_failures(root),2)
    self.assertEqual(len(json.loads(p.read_text())['events']),2)
+
+class BudgetReviewTests(unittest.TestCase):
+ def fixture(self,root):
+  import hashlib
+  result={'status':'failed','error':'Declared per-request deadline exceeded','turns':[]}
+  p=root/'results/budget-run/result.json';p.parent.mkdir(parents=True);p.write_text(json.dumps(result))
+  note={'disposition':BUDGET,'run_id':'budget-run','request_timeout_seconds':900,'final_task_score':None,'completed_responses':0,'result_sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+  (root/'audit.json').write_text(json.dumps(note))
+  job={'id':'budget-run','disposition':BUDGET,'disposition_evidence':'audit.json'}
+  return job,result,note,p
+ def test_attempted_timeout_is_accounted_without_scoring_or_retry(self):
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);j,r,n,p=self.fixture(root);original=p.read_bytes()
+   self.assertEqual(reviewed_disposition(root,j,r),BUDGET);self.assertEqual(p.read_bytes(),original)
+ def test_unrun_or_different_seed_cannot_inherit_timeout_disposition(self):
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);j,r,n,p=self.fixture(root)
+   with self.assertRaises(RuntimeError):reviewed_disposition(root,j,None)
+   j['id']='unrun-seed'
+   with self.assertRaises(RuntimeError):reviewed_disposition(root,j,r)
+ def test_gpu_failure_or_modified_result_cannot_pass_budget_audit(self):
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);j,r,n,p=self.fixture(root)
+   with self.assertRaises(RuntimeError):reviewed_disposition(root,j,{**r,'error':'GPU out of memory'})
+   p.write_text(json.dumps({**r,'unexpected_change':True}))
+   with self.assertRaises(RuntimeError):reviewed_disposition(root,j,r)
+ def test_changed_budget_or_task_score_is_rejected(self):
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);j,r,n,p=self.fixture(root)
+   for change in [{'request_timeout_seconds':7200},{'final_task_score':False},{'completed_responses':1}]:
+    (root/'audit.json').write_text(json.dumps({**n,**change}))
+    with self.assertRaises(RuntimeError):reviewed_disposition(root,j,r)

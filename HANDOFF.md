@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral request-budget review — October3 13:27 UTC
+
+Driver59984 stopped after first eight-turn repository trial exceeded the unchanged900s request deadline before a completed response. All owned workers exited; shared GPU holders empty. Original failed result, empty patch, complete initial packet, clearly reconstructed request, wrapper/server logs, stop ledger and telemetry are preserved. Final native usage/task score unknown, not zero. Read `docs/MISTRAL-REQUEST-BUDGET-REVIEW-20261003.md`.
+
+Only actually attempted `u20261003-mistral35-repo8-r1` is audited `unsupported_request_budget`, unscored; original result unchanged and hash-bound. No GPU safety event added (total1), minimum72.129GiB available/zero swap growth. Mistral accounting2 complete +1 budget-limited attempt +36 required unrun groups. Plan original archived, original job order/settings/budgets preserved.51 unit checks pass. After publication/sync and verified idle admission, launch exactly one continuation; it skips completed/audited cells and goes to predeclared mini replay. Never retry failed r1 or infer unrun seeds unsupported. Baseline213 complete +18 omissions +1 resource attempt +2 required deferred MiMo cells unchanged. Existing15-minute follow-up stays ACTIVE.
+
 ## CURRENT Mistral first200K measurement — October3 13:06 UTC
 
 Driver59984 remains healthy and advanced without restart. `u20261003-mistral35-core-200000-r1` completed at13:01:54.888 UTC: **200000 input /256 output**, native steady decode **4.04140977 tok/s**, context fill **4919.995s** (about82min), native prefill40.65056 tok/s, zero reported cache reuse. Whole-child available minimum92.280GiB and zero swap growth. Six published artifact hashes verified. This is only the first of five200K repetitions; no complete-series statistic or fastest/absolute hardware claim.
