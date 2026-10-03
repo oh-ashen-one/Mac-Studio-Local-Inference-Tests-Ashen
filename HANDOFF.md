@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Overnight management authority — October3
+
+The owner is going to sleep and explicitly granted this executor full overnight management. Continue autonomously until the retained baseline and required Mistral39-group extension are complete or have evidence-backed unsupported dispositions, then publish final research report, verify owned inference exits and pause the existing follow-up. Prioritize correctness, preserve all budgets/failures and keep routine healthy checks quiet. Do not reintroduce skipped models. No main merge, personal-site/social/external submission or account/security changes are authorized.
+
+At05:23 UTC driver23995 was healthy in DeepSeek first sustained200K/2048, wrapper24030/native ds4-bench24092, one GPU slot,49.14GiB available. System/display wake assertions active. Mistral harness preparation will use an isolated controller checkout; never update executing M5 inference source or load a second model during current trial.
+
 ## Latest execution — October3 05:17 UTC
 
 Mistral download completed and all three shard SHA256 values verified at05:10:17 UTC; preparation PID23955 exited. Published receipt `hardware/mistral-integrity-20261003.json`; exact long-context metadata already verified separately. This is artifact readiness, not runtime qualification. No Mistral inference yet.
