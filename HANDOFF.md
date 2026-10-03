@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral completed200K series — October3 19:24 UTC /15:24 EDT
+
+Same driver72523 is healthy in first131072/256 repetition `u20261003-mistral35-core-131072-r1`, wrapper13453/native server13491. All5 declared200K/256 repetitions completed: exact200000 input/256 output each, native median4.04147978 tok/s (range4.04100918–4.04412063, sample SD0.00124519), median fill4923.51180s. No cache reuse/positive whole-child swap growth; observed minimum88.921GiB available. Model/runtime/corpus/token-ID fingerprints and all six measurement-entry/guard/adapter source blobs match across5 repetitions, despite publication/accounting commit differences. Audit/manifest: `results/mistral-200k-series-20261003`. All30 per-run publication artifact hashes checked, originals preserved before sync. This completes only this context stage, not the full speed/study matrix.
+
+Mistral7 complete +1 unscored request-budget-limited attempt +31 required remaining; other contexts/sustained/task/replay/coding/retrieval/serving phases remain required. Baseline/MiMo deferred accounting unchanged, GPU safety count1 and wake assertions active, follow-up ACTIVE15min. Keep measured conditions unchanged and leave healthy driver running. Future quality-suite failures must preserve individual case counts and remaining requests; one failed request never proves all unrun cases unsupported. The existing single-attempt budget disposition addresses the repository trial only.
+
 ## CURRENT Mistral fifth repetition — October3 17:54 UTC /13:54 EDT
 
 Same driver72523 is healthy in fifth200K/256 speed repetition `u20261003-mistral35-core-200000-r5`, wrapper3412/native server3444. Fourth repetition completed17:46:50.766 UTC: exact200000 input/256 output,4.04147978 native decode tok/s,4924.726s fill. Four of five200K repeats now complete; model/runtime/corpus/token-ID pins match. No full-series conclusion. Six publication hashes checked, zero whole-child swap growth; originals preserved before sync.
