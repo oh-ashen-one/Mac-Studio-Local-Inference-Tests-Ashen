@@ -9,6 +9,14 @@ from models import digest,verify
 from unified_server import server,post,chat,chat_payload,count_chat
 PINNED_NATIVE='f1cee9941b0e843ea260bf8dd9a090fbd9711b6a'
 
+def rendered_reasoning_effort(prompt):
+    start='[MODEL_SETTINGS]';end='[/MODEL_SETTINGS]'
+    if start not in prompt or end not in prompt:raise RuntimeError('Native template omitted explicit model settings')
+    settings=json.loads(prompt.split(start,1)[1].split(end,1)[0])
+    mode=settings.get('reasoning_effort')
+    if mode not in ('none','high'):raise RuntimeError('Unsupported rendered reasoning effort')
+    return mode
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--run-id',required=True);a=p.parse_args()
     if not a.allow_inference:p.error('Owner inference authorization required')
@@ -46,9 +54,15 @@ def main():
                 if (actual,generated)!=(8192,32):raise RuntimeError('Exact native qualification token counts mismatch')
                 result.update(exact_token_count_passed=True,actual_probe_input_tokens=actual,actual_probe_output_tokens=generated);save()
                 messages=[{'role':'system','content':'Respond directly without reasoning.'},{'role':'user','content':'Reply with the JSON object {"ready": true}.'}]
+                templates={}
+                for effort in ['none','high']:
+                    rendered=post(port,'/apply-template',{'messages':messages,'add_generation_prompt':True,'chat_template_kwargs':{'reasoning_effort':effort}})
+                    if rendered_reasoning_effort(rendered['prompt'])!=effort:raise RuntimeError('Native renderer ignored explicit reasoning effort')
+                    templates[effort]=rendered
+                write_json(out/'reasoning-template-evidence.json',templates);result['reasoning_control_passed']=True;save()
                 count=count_chat(spec,folder,messages,port);request=chat_payload(spec,messages,128,0,1729);write_json(out/'task-request.json',request)
                 reply=chat(port,request,900);write_json(out/'task-response.json',reply)
-                if reply['usage'].get('prompt_tokens')!=count or not reply['output'] or reply['reasoning']:raise RuntimeError('Common no-reasoning task interface or exact template usage mismatch')
+                if reply['usage'].get('prompt_tokens')!=count or not reply['output'] or reply['reasoning'] or '[THINK]' in reply['output'] or '<think>' in reply['output']:raise RuntimeError('Common no-reasoning task interface or exact template usage mismatch')
                 result.update(task_interface_passed=True,actual_task_input_tokens=count,task_output_tokens=reply['usage']['completion_tokens']);save()
                 metadata=json.loads((ROOT/'hardware/mistral-gguf-metadata-20261003.json').read_text())
                 if not metadata.get('metadata_crosschecks') or not all(metadata['metadata_crosschecks'].values()):raise RuntimeError('Long-context fixed metadata crosscheck missing')

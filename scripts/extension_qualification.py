@@ -16,7 +16,7 @@ def require_qualified(root,plan,specs):
         receipt=spec.get('qualification_receipt')
         if not receipt:raise RuntimeError('Missing extension qualification receipt')
         q=json.loads((root/receipt).read_text())
-        for key in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','long_context_metadata_passed']:
+        for key in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','reasoning_control_passed','long_context_metadata_passed']:
             if q.get(key) is not True:raise RuntimeError('Unpassed qualification gate: '+key)
         if q.get('model_revision')!=spec['revision']:raise RuntimeError('Qualification revision mismatch')
         native=spec['native_runtime']

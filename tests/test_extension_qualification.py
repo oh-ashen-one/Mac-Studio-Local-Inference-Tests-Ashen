@@ -38,7 +38,7 @@ def test_modified_linked_library_refuses_an_otherwise_qualified_runtime(tmp_path
     native={'lock':'runtime.json','server':'server','commit':'pinned-source','files':files}
     spec={'id':'mistral','extension':True,'execution_ready':True,'revision':'model-rev','files':[],
           'qualification_receipt':'qualification.json','native_runtime':native}
-    q={k:True for k in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','long_context_metadata_passed']}
+    q={k:True for k in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','reasoning_control_passed','long_context_metadata_passed']}
     q.update(model_revision=spec['revision'],model_files=[],runtime_lock_sha256=digest(lock),
              native_server_sha256=digest(server),runtime_source_commit='pinned-source',runtime_files=files)
     (tmp_path/'qualification.json').write_text(json.dumps(q))
@@ -46,3 +46,11 @@ def test_modified_linked_library_refuses_an_otherwise_qualified_runtime(tmp_path
     library.write_bytes(b'changed library')
     with pytest.raises(RuntimeError,match='Qualified linked runtime changed'):
         require_qualified(tmp_path,{}, {'mistral':spec})
+
+
+def test_explicit_native_reasoning_settings_are_required():
+    from qualify_mistral import rendered_reasoning_effort
+    assert rendered_reasoning_effort('prefix[MODEL_SETTINGS]{"reasoning_effort":"none"}[/MODEL_SETTINGS]suffix')=='none'
+    assert rendered_reasoning_effort('[MODEL_SETTINGS]{"reasoning_effort":"high"}[/MODEL_SETTINGS]')=='high'
+    with pytest.raises(RuntimeError,match='omitted explicit model settings'):rendered_reasoning_effort('plain template')
+    with pytest.raises(RuntimeError,match='Unsupported rendered'):rendered_reasoning_effort('[MODEL_SETTINGS]{"reasoning_effort":"low"}[/MODEL_SETTINGS]')
