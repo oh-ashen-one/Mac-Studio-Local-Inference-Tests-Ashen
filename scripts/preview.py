@@ -11,6 +11,15 @@ ROOT=Path(__file__).resolve().parents[1]
 def state(comparison):
     from unified_report import collect
     unified=collect() if (ROOT/'config/unified-campaign.json').exists() else None
+    mistral=None
+    if (ROOT/'config/mistral-campaign-20261003.json').exists():
+        mistral=collect('config/mistral-campaign-20261003.json','work/mistral-campaign.json')
+        if not (ROOT/'work/mistral-campaign.json').exists():
+            specs=json.loads((ROOT/'config/mistral-models.lock.json').read_text())['models']
+            mistral['status']='qualified_awaiting_start' if all(m.get('execution_ready') for m in specs) else 'awaiting_runtime_qualification'
+        q=ROOT/'work/mistral-qualification-driver.json'
+        if q.exists():
+            record=json.loads(q.read_text());mistral['qualification']={k:record.get(k) for k in ['run_id','status','elapsed_s','error']}
     specs=json.loads((ROOT/'config/models.lock.json').read_text())['models']
     models=[]
     for m in specs:
@@ -67,7 +76,7 @@ def state(comparison):
             if row.get('model_family_id')==QWEN36:
                 row['precision']=CORRECTED_PRECISION
                 row['precision_warning']='Catalog fp4 and legacy mxfp8 are provenance labels; config specifies affine 4-bit with 8-bit gate overrides.'
-    return {'unified':unified,'additional_live':additional_live,'downloads':download_data,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
+    return {'unified':unified,'mistral':mistral,'additional_live':additional_live,'downloads':download_data,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 

@@ -9,9 +9,9 @@ def stats(values):
     values=[x for x in values if isinstance(x,(int,float))]
     return {'n':len(values),'median':statistics.median(values) if values else None,'mean':statistics.mean(values) if values else None,'stdev':statistics.stdev(values) if len(values)>1 else None,'min':min(values) if values else None,'max':max(values) if values else None}
 
-def collect():
-    plan=json.loads((ROOT/'config/unified-campaign.json').read_text());specs=json.loads((ROOT/plan['model_lock']).read_text())['models']
-    live_path=ROOT/'work/unified-campaign.json';live=json.loads(live_path.read_text()) if live_path.exists() else None
+def collect(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json'):
+    plan=json.loads((ROOT/plan_path).read_text());specs=json.loads((ROOT/plan['model_lock']).read_text())['models']
+    live_path=ROOT/state_path;live=json.loads(live_path.read_text()) if live_path.exists() else None
     jobs=live['jobs'] if live else [{**j,'status':'pending'} for j in plan['jobs']]
     records={}
     for j in jobs:
@@ -55,8 +55,8 @@ def collect():
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
     return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 
-def write():
-    r=collect();out=ROOT/'results/unified-overnight-20261002';out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
+def write(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json',output='results/unified-overnight-20261002'):
+    r=collect(plan_path,state_path);out=ROOT/output;out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
     lines=['# Unified all-configuration benchmark — interim report','',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
     lines[3] += f" Owner scope omissions: {r['omitted_jobs']}; remaining baseline groups: {r['remaining_jobs']}. Omissions are not passes. Required extension: {r['extension_planned_jobs']} separately declared groups awaiting verification/qualification." if r.get('required_extension') else ''
     if r.get('cancelled_extension'):lines[3] += ' The 156-group four-model extension was cancelled by owner scope; none is counted as passed.'

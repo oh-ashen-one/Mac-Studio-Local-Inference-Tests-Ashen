@@ -7,12 +7,14 @@ from first_test import safety,Telemetry,stop,write_json
 from models import digest
 from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED
 
-def command_for(job,spec):
+def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
     python=str(ROOT/('vendor/vlm-runtime/.venv/bin/python' if spec['runtime']=='mlx-vlm' else '.venv/bin/python'))
     common=['--allow-inference','--model',job['model_id'],'--run-id',job['id']]
+    if spec.get('extension'):
+        common+=['--lock',model_lock,'--campaign-id',campaign_id]
     if job['kind']=='speed':
         if spec['runtime']=='llama-cpp':entry=['scripts/llama_context.py',*common]
-        else:entry=['scripts/long_context.py',*common,'--lock','config/unified-models.lock.json','--campaign-id','unified-overnight-20261002','--backend',spec['runtime'] if spec['runtime'].startswith('mlx') else 'mlx-lm','--wired-policy','recommended' if spec['runtime'].startswith('mlx') else 'unchanged']
+        else:entry=['scripts/long_context.py',*common,'--lock',model_lock,'--campaign-id',campaign_id,'--backend',spec['runtime'] if spec['runtime'].startswith('mlx') else 'mlx-lm','--wired-policy','recommended' if spec['runtime'].startswith('mlx') else 'unchanged']
         return [python,*entry,'--tokens',str(job['tokens']),'--output-tokens',str(job['output_tokens'])],7600
     if job['kind']=='repo':return [python,'scripts/unified_repo.py',*common,'--attempt',str(job['attempt']),'--max-turns',str(job['max_turns'])],7800 if job['max_turns']==20 else 4200
     if job['kind']=='replay':return [python,'scripts/unified_replay.py',*common]+(['--mini'] if job['mini'] else []),15000
@@ -21,13 +23,17 @@ def command_for(job,spec):
     raise ValueError('Unknown frozen job type')
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--plan',default='config/unified-campaign.json');p.add_argument('--state',default='work/unified-campaign.json');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization required')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     lock=(ROOT/'work/unified-campaign.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-    plan=json.loads((ROOT/'config/unified-campaign.json').read_text());specs={s['id']:s for s in json.loads((ROOT/plan['model_lock']).read_text())['models']}
-    state={'campaign_id':plan['id'],'pid':os.getpid(),'status':'starting','overall_deadline':None,'plan_sha256':digest(ROOT/'config/unified-campaign.json'),'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'jobs':[{**j,'status':'pending'} for j in plan['jobs']]}
-    def save():write_json(ROOT/'work/unified-campaign.json',state)
+    plan=json.loads((ROOT/a.plan).read_text());specs={s['id']:s for s in json.loads((ROOT/plan['model_lock']).read_text())['models']}
+    if a.plan!='config/unified-campaign.json':
+        from extension_qualification import require_qualified
+        require_qualified(ROOT,plan,specs)
+        if a.state=='work/unified-campaign.json':p.error('Extension must use a separate ledger')
+    state={'campaign_id':plan['id'],'pid':os.getpid(),'status':'starting','overall_deadline':None,'plan_sha256':digest(ROOT/a.plan),'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'jobs':[{**j,'status':'pending'} for j in plan['jobs']]}
+    def save():write_json(ROOT/a.state,state)
     save();process=None
     try:
         import psutil
@@ -57,7 +63,7 @@ def main():
                 held=json.loads(holder.read_text())
                 if held.get('pid') and psutil.pid_exists(held['pid']):raise RuntimeError('Another GPU holder is active; preserve its work')
             safety('studio-new')
-            command,budget=command_for(j,specs[j['model_id']]);j['status']='running';state.update(status='running',active=j['id']);save()
+            command,budget=command_for(j,specs[j['model_id']],plan['model_lock'],plan['id']);j['status']='running';state.update(status='running',active=j['id']);save()
             with (ROOT/'work'/f'{j["id"]}.log').open('w') as log:
                 process=subprocess.Popen(command,cwd=ROOT,env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1'),stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
                 start=time.monotonic()

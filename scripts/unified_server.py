@@ -13,10 +13,14 @@ def post(port,path,payload,timeout=60):
 def model_name(spec):
     return 'default_model' if spec['runtime'].startswith('mlx') else spec['id'] if spec['runtime']=='llama-cpp' else spec['repo']
 
+def template_kwargs(spec):
+    return {'reasoning_effort':'none'} if spec['id']=='mistral-medium35-q4' else {'enable_thinking':False}
+
 def chat_payload(spec,messages,max_tokens=2048,temperature=0,seed=1729):
     payload={'model':model_name(spec),'messages':messages,'max_tokens':max_tokens,'temperature':temperature,'seed':seed,'stream':True,'stream_options':{'include_usage':True}}
     if spec['runtime']=='dwarfstar':payload['thinking']={'type':'disabled'}
-    else:payload['chat_template_kwargs']={'enable_thinking':False}
+    else:payload['chat_template_kwargs']=template_kwargs(spec)
+    if spec['id']=='mistral-medium35-q4':payload['reasoning_effort']='none'
     return payload
 
 def chat(port,payload,timeout=900):
@@ -53,7 +57,7 @@ def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
         if spec['id']=='mimo-v2.6-flash-mopd':cmd+=['--mimo-xml-tools']
         cwd=ROOT
     elif spec['runtime']=='llama-cpp':
-        cmd=[str(ROOT/'vendor/llama-agentperf/build/bin/llama-server'),'-m',str(folder/spec['files'][0]['path']),'--alias',spec['id'],'--jinja','--host','127.0.0.1','--port',str(port),'-c',str(context*slots),'-ngl','999','--parallel',str(slots),'--flash-attn','on','--batch-size','2048','--ubatch-size','2048','--no-context-shift']
+        cmd=[str(ROOT/spec.get('native_runtime',{}).get('server','vendor/llama-agentperf/build/bin/llama-server')),'-m',str(folder/spec['files'][0]['path']),'--alias',spec['id'],'--jinja','--host','127.0.0.1','--port',str(port),'-c',str(context*slots),'-ngl','999','--parallel',str(slots),'--flash-attn','on','--batch-size','2048','--ubatch-size','2048','--no-context-shift']
         cwd=ROOT
     elif spec['runtime']=='dwarfstar':
         cmd=[str(ROOT/'vendor/dwarfstar/ds4-server'),'-m',str(folder/spec['files'][0]['path']),'--host','127.0.0.1','--port',str(port),'--metal','--ctx',str(context),'--prefill-chunk','2048']
@@ -63,6 +67,7 @@ def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
     process=None;telemetry=None
     from models import digest
     runtime_lock='config/requirements-mlx-vlm.lock' if spec['runtime']=='mlx-vlm' else 'requirements-macos-arm64.lock' if spec['runtime']=='mlx-lm' else 'config/agentperf.lock.json' if spec['runtime']=='llama-cpp' else 'config/dwarfstar.lock.json'
+    runtime_lock=spec.get('native_runtime',{}).get('lock',runtime_lock)
     (out/'server-config.json').write_text(json.dumps({'runtime':spec['runtime'],'runtime_lock_sha256':digest(ROOT/runtime_lock),'command':[x.replace(str(ROOT),'<repo>').replace(str(Path.home()),'<home>') for x in cmd],'requested_context_per_slot':context,'slots':slots,'prompt_cache_sequences':cache_sequences,'thinking_policy':'Requested disabled in common task payloads; official replay keeps its declared policy','native_binary_sha256':digest(Path(cmd[0])) if not spec['runtime'].startswith('mlx') else None},indent=2)+'\n')
     with (out/'server.log').open('w') as log:
         try:
@@ -85,7 +90,7 @@ def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
 
 def count_chat(spec,folder,messages,port=None):
     if spec['runtime']=='llama-cpp' and port is not None:
-        rendered=post(port,'/apply-template',{'messages':messages,'add_generation_prompt':True,'chat_template_kwargs':{'enable_thinking':False}})['prompt']
+        rendered=post(port,'/apply-template',{'messages':messages,'add_generation_prompt':True,'chat_template_kwargs':template_kwargs(spec)})['prompt']
         return len(post(port,'/tokenize',{'content':rendered,'add_special':False,'parse_special':True})['tokens'])
     if spec['runtime']=='dwarfstar':
         if _native_server_active:raise RuntimeError('Native metadata tokenization must finish before loading the DwarfStar server')
