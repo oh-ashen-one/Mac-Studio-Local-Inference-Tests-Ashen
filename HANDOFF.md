@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral reviewed continuation — October3 13:31 UTC
+
+Exactly one qualified continuation driver **72523** started at13:30:56.786 UTC after old59984/wrapper70154/server70223 exit and empty holders were rechecked. It skips2 complete groups plus the one hash-bound `unsupported_request_budget` attempt, then waits for the normal60-second download-quiescence gate before predeclared mini replay. Recheck actual PID/children/ledger; never duplicate. All39 original job IDs/order/parameters remain declared,36 unrun groups still required. No model/runtime/memory/cache/token/budget change; no failed-trial retry.51 checks passed. Native qualification and deadline-result admission were both checked on actual M5 before launch.
+
+The published failure preserves11 artifact hashes and unchanged result SHA; originals moved to task backup before sync. Read-only dashboard restarted only its verified owned preview after report-module changes; use work/preview.pid for current PID. Baseline/MiMo deferred accounting remains unchanged and GPU safety events remain1. The existing15-minute follow-up stays ACTIVE.
+
 ## CURRENT Mistral request-budget review — October3 13:27 UTC
 
 Driver59984 stopped after first eight-turn repository trial exceeded the unchanged900s request deadline before a completed response. All owned workers exited; shared GPU holders empty. Original failed result, empty patch, complete initial packet, clearly reconstructed request, wrapper/server logs, stop ledger and telemetry are preserved. Final native usage/task score unknown, not zero. Read `docs/MISTRAL-REQUEST-BUDGET-REVIEW-20261003.md`.
