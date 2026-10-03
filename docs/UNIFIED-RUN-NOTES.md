@@ -676,3 +676,7 @@ All three fixed200000-input/2048-output repetitions completed. Decode37.6035160/
 ### October3, MiMo concurrency-one serving
 
 60/60 measured requests completed in548.358s,15360 output tokens (256 each), actual8219–8220 input tokens. Aggregate28.01089 output tok/s; median/p95 first output5.010/5.029s and median/p95 latency9.138/9.159s. Whole-child swap growth zero, no new GPU safety event. This small-context result does not resolve the deferred long-history resource condition. Concurrency2 is now active and concurrency4 remains; two long-history trials stay deferred and required.
+
+### October3, MiMo concurrency-two serving
+
+60/60 measured requests completed in438.510s,15360 output tokens (256 each), actual8219–8220 input tokens. Aggregate35.02774 output tok/s, versus28.01089 at concurrency1; median/p95 latency14.606/14.699s, versus9.138/9.159s. First-output median/p959.172/9.247s. Whole-child swap growth zero and no new GPU safety event. Concurrency4 is active; deferred long-history cells remain required.
