@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral continuation progress — October3 13:35 UTC
+
+Driver72523 remains healthy in second200K/256 speed repetition `u20261003-mistral35-core-200000-r2`, wrapper72671/native server72703. Mini replay completed6/6 served,21.639s measured,10.07682 end-to-end output tok/s. Preserve6 short-output warnings, actual4610 input/3171 cached/218 output tokens, reported262144 context and zero whole-child swap growth. Served replay is not autonomous task solving.12 public artifact hashes checked.
+
+Mistral accounting3 complete +1 hash-bound unscored request-budget limit +35 required remaining. No GPU safety event added; still1. Leave healthy driver/source/settings untouched. All original repetition counts/budgets remain; failed repo8-r1 never retried, other seeds not excluded. Baseline/MiMo deferred accounting unchanged. Readonly preview verified PID72532 on18765; existing15-minute follow-up remains ACTIVE.
+
 ## CURRENT Mistral reviewed continuation — October3 13:31 UTC
 
 Exactly one qualified continuation driver **72523** started at13:30:56.786 UTC after old59984/wrapper70154/server70223 exit and empty holders were rechecked. It skips2 complete groups plus the one hash-bound `unsupported_request_budget` attempt, then waits for the normal60-second download-quiescence gate before predeclared mini replay. Recheck actual PID/children/ledger; never duplicate. All39 original job IDs/order/parameters remain declared,36 unrun groups still required. No model/runtime/memory/cache/token/budget change; no failed-trial retry.51 checks passed. Native qualification and deadline-result admission were both checked on actual M5 before launch.
