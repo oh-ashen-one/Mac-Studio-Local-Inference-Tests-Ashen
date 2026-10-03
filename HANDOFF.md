@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT qualified Mistral admission — October3
+
+Setup r2 passed all real gates; child and supervisor completed/exited. Exact8192/32 native probe,33-token BOS-aware chat usage, none/high native rendering, no-reasoning response, loaded262144 training-context metadata, model/source/binary/dylib hashes verified. See immutable `results/q20261003-mistral-qualification-r2/qualification.json`, supervisor receipt and publication hashes. Original r1 remains failed setup and unpooled; no GPU event added (total still1).
+
+Mistral lock now execution_ready true with receipt/runtime closure pins; config/mistral-campaign-20261003.json is qualified_ready_for_measured_campaign. After publication/sync with original setup bytes backed up, verify idle M5, then start exactly one driver with --plan config/mistral-campaign-20261003.json --state work/mistral-campaign.json. Setup probes do not count as measured repeats. Baseline remains213 complete +18 omissions +1 resource-limited attempt +2 required deferred MiMo trials; do not declare whole completion while those are unresolved.
+
 ## CURRENT Mistral setup review — October3
 
 Setup r1 exited failed at the common chat count gate, while artifact hashes, model load, exact8192/32 counts and native reasoning rendering passed. Chat answer was correct JSON with no reasoning; estimator missed one native BOS token. No GPU safety event; total remains1 from MiMo. All setup r1 evidence and original bytes are preserved. Read `docs/MISTRAL-QUALIFICATION-REVIEW-20261003.md`.

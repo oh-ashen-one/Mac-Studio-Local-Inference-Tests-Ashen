@@ -8,6 +8,7 @@ from unified_campaign import command_for
 def test_unqualified_mistral_refuses_admission():
     plan=json.loads((ROOT/'config/mistral-campaign-20261003.json').read_text())
     spec=json.loads((ROOT/plan['model_lock']).read_text())['models'][0]
+    spec=dict(spec,execution_ready=False)
     with pytest.raises(RuntimeError,match='not explicitly qualified'):require_qualified(ROOT,plan,{spec['id']:spec})
 
 def test_every_extension_command_uses_separate_lock_and_campaign_with_original_budgets():
