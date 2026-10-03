@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT owner reconfirmation and128K progress — October3 19:54 UTC /15:54 EDT
+
+Owner directly reconfirmed autonomous management, continuing the existing routines. No scope/budget/schedule change. Live driver72523 is healthy in second131072/256 repeat `u20261003-mistral35-core-131072-r2`, wrapper18083/native server18115. First128K repeat completed with exact131072 input/256 output,5.35511725 native decode tok/s and2238.855s fill. This is1 of5 at this context, not a complete-series claim. Six artifact hashes checked; raw originals retained before sync.
+
+Mistral8 complete +1 unscored request-budget limitation +30 required remaining; two MiMo deferred trials remain required. Existing ACTIVE15-minute follow-up verified. Leave healthy driver running, preserve all declared settings/failures and final-report/worker-exit completion gates.
+
 ## CURRENT Mistral completed200K series — October3 19:24 UTC /15:24 EDT
 
 Same driver72523 is healthy in first131072/256 repetition `u20261003-mistral35-core-131072-r1`, wrapper13453/native server13491. All5 declared200K/256 repetitions completed: exact200000 input/256 output each, native median4.04147978 tok/s (range4.04100918–4.04412063, sample SD0.00124519), median fill4923.51180s. No cache reuse/positive whole-child swap growth; observed minimum88.921GiB available. Model/runtime/corpus/token-ID fingerprints and all six measurement-entry/guard/adapter source blobs match across5 repetitions, despite publication/accounting commit differences. Audit/manifest: `results/mistral-200k-series-20261003`. All30 per-run publication artifact hashes checked, originals preserved before sync. This completes only this context stage, not the full speed/study matrix.
