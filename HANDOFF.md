@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT reviewed Mistral seed1003 continuation — October3 23:44 UTC /19:44 EDT
+
+Exactly one qualified continuation driver **42884** started23:43:17.165 UTC after verified old72523/40458/40562 exit, empty GPU holders and unchanged safety count1. ActualM5 immutable model/runtime qualification plus both independent repository-only budget audits passed before launch. At23:44 driver42884 is healthy in `u20261003-mistral35-repo8-r3`, wrapper42892 (server starts after verification); normal60s partial-free download gate passed. Recheck live identities/children/outputs/holders, never duplicate a healthy driver.
+
+Mistral22 complete +2 independently audited unscored request-budget attempts +15 required remaining. Original seed1003/1004/1005 trials remain distinct and required; neither failed r1/r2 is retried. Whole-study/quality-case accounting and two MiMo deferred trials remain.52 tests pass, all original budgets/cache/weights/runtime/input/seed conditions preserved, ACTIVE15-minute follow-up unchanged. Only metadata admission tightened at stopped boundary.
+
 ## CURRENT Mistral second repository timeout review — October3 23:38 UTC /19:38 EDT
 
 Driver72523 stopped after original fresh repo8-r2 seed1002 exceeded the unchanged900s first-request deadline. Zero completed responses/final usage/task score; empty patch. Own hash-bound audit/rawpacket/reconstructed request/logs/stopledger/telemetry preserved, all11 publication hashes checked. Whole-child minimum67.868GiB available, swap growth0; no GPU event, total1. Driver/wrapper40458/server40562 exited and holders empty.
