@@ -125,7 +125,7 @@ target='origin/'+branch
 subprocess.run(['git','merge-base','--is-ancestor','HEAD',target],check=True)
 state=json.loads(pathlib.Path('work/unified-campaign.json').read_text())
 changes=git('diff','--name-only','HEAD..'+target).decode().splitlines()
-if state['status']=='running':
+if psutil.pid_exists(state['pid']):
  allowed={'scripts/publication_labels.py','tests/test_publication.py','scripts/harvest_unified.py','scripts/unified_report.py','scripts/report_additional.py','scripts/report_unified_speed.py','config/requirements-plotting.lock','scripts/preview.py','HANDOFF.md','README.md'}
  assert all(p in allowed or p.startswith(('results/','viewer/','docs/','outputs/','hardware/')) for p in changes),'Refusing to change executing runtime code'
 conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitlines()) & set(git('ls-tree','-r','--name-only',target).decode().splitlines())

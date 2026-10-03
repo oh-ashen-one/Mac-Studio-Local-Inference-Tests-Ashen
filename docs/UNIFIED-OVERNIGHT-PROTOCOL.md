@@ -2,9 +2,11 @@
 
 The owner explicitly authorized an autonomous sequential campaign for **every downloaded configuration**, then removed the initial nine-hour cutoff. There is no overall deadline. Individual request and evaluation budgets remain fixed so a hung request cannot stop all work indefinitely. Initially display sleep was allowed with `caffeinate -is`. On October 2 at 20:51 UTC the owner, through Midir, requested continuous display wake: a separate `caffeinate -d` assertion was added without restarting inference. The durable power setting requires unavailable administrator authentication. A subsequent user-level LaunchAgent restores the assertion at GUI login after reboot, without changing stored power or security settings; see `HANDOFF.md` and `docs/M5-DISPLAY-AWAKE.md`. The original M3 is reserved for other sessions.
 
-## Frozen scope
+## Original declaration and explicit owner amendment
 
-`config/unified-models.lock.json` pins six configurations: Qwen 3.8 27B 8-bit MLX, Gemma 4 31B 8-bit MLX, DeepSeek V4 Flash mixed Q4/DwarfStar, Qwen 3.6 35B A3B FP4/MLX-VLM, MiMo V2.6 Flash MXFP4/MLX-VLM, and the downloaded Qwen 3.8 Q4_K_M GGUF/llama.cpp variant. Model bytes, revisions and hashes are unchanged. The original locks and historical measurements remain separate.
+The later one-per-release owner instruction is recorded in [the scope amendment](OWNER-SCOPE-AMENDMENT-20261003.md): nine pending duplicate Qwen Q4 cells are omitted, completed evidence preserved, and four new releases receive a separately declared full-suite extension. The original declaration below remains historical methodology.
+
+`config/unified-models.lock.json` pins six configurations: Qwen 3.8 27B 8-bit MLX, Gemma 4 31B 8-bit MLX, DeepSeek V4 Flash mixed Q4/DwarfStar, Qwen 3.6 35B A3B 4-bit affine MLX-VLM (8-bit gates), MiMo V2.6 Flash MXFP4/MLX-VLM, and the downloaded Qwen 3.8 Q4_K_M GGUF/llama.cpp variant. Model bytes, revisions and hashes are unchanged. The original locks and historical measurements remain separate.
 
 `config/unified-campaign.json` is the predeclared **234-cell** plan. Each configuration receives the same applicable suite:
 

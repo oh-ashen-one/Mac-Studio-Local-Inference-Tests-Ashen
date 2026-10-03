@@ -2,6 +2,14 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## LATEST owner scope amendment — October 3 UTC
+
+Owner via Midir selected one representative per family-release, preserving full test rigor and authorizing autonomous choices. Read `docs/OWNER-SCOPE-AMENDMENT-20261003.md`. Nine unrun Qwen 3.8 Q4 groups are declared `omitted_by_owner_scope`; its completed 30 remain historical. Original Qwen 8-bit and Gemma 31B remain representatives. A separate 156-group extension declares Qwen 3.5 35B A3B, GPT-OSS20B, Bonsai2 27B, and Nemotron3.5 Lightning, pending completed-download hashes and runtime qualification. The owner is downloading seven packages; do not duplicate transfers. The older six-only inventory below is historical, superseded by the dated new download receipts.
+
+**Queue amendment prepared, not yet adopted by the live driver.** At 01:54 UTC driver 98036 / wrapper 98040 / server 98118 were healthy, MiMo replacement retrieval 5/9 cases complete, 179/234 groups complete. Boundary guard PID1645 waits for this group to finish; inspect `work/queue-boundary-stop.json` before acting. Preserve a healthy group. Deploy the revised queue only after verified driver/worker exit, then start exactly one guarded driver. It will wait for downloads to become quiescent before the next timed group. MiMo download overlap is flagged in run `comparability.json`; do not claim uncontended timing. No partial model load or runtime qualification has occurred for the extension. TensorFold remains later backlog. Heartbeat stays ACTIVE; M3 is occupied with Unreal.
+
+Qwen 3.6 published precision is corrected to **4-bit MLX (affine; 8-bit gates)** in commit `5f22f6e`; catalog FP4 and legacy MXFP8 remain provenance only. Numeric results and locks are unchanged. No main merge or external deployment.
+
 ## RESUMED BY OWNER — October 2, 9:18 PM EDT / October 3, 01:18 UTC
 
 Hari explicitly authorized resuming the existing M5 baseline through Midir. This supersedes the historical pause below. The M3 remains occupied with Unreal Engine; no heavy compute or M3 inference. TensorFold stays in the backlog until after the baseline.

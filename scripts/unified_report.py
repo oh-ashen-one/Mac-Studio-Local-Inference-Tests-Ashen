@@ -23,10 +23,17 @@ def collect():
                 summary=folder/'raw/summary.json'
                 if summary.exists():r['replay_summary']=json.loads(summary.read_text())
             except (OSError,ValueError):pass
+    declared={j["id"]:j for j in plan["jobs"]}
+    for j in jobs:
+        amendment=declared.get(j["id"],{})
+        if j["status"]=="pending" and amendment.get("disposition")=="omitted_by_owner_scope":
+            j.update(status="omitted_by_owner_scope",reason=amendment["disposition_reason"])
     models=[]
     for spec in specs:
         spec=public_spec(spec)
         own=[j for j in jobs if j['model_id']==spec['id']];done=[j for j in own if j['status']=='complete'];m={'id':spec['id'],'name':spec['display_name'],'runtime':spec['runtime'],'quantization':spec['quantization'],'completed_jobs':len(done),'planned_jobs':len(own),'speed':{},'repo':{},'quality':{},'replay':{},'serving':{}}
+        m['omitted_jobs']=sum(j['status']=='omitted_by_owner_scope' for j in own)
+        m['historical_comparison']=spec['id']=='qwen38-q4-gguf' and bool(plan.get('scope_amendments'))
         for length in plan['context_lengths']:
             rows=[records[j['id']] for j in done if j['kind']=='speed' and j['tokens']==length and j['output_tokens']==256 and j['id'] in records]
             m['speed'][str(length)]={'decode':stats([r.get('decode_tok_s') for r in rows]),'fill':stats([r.get('context_fill_s') for r in rows]),'prefill':stats([r.get('prefill_tok_s') for r in rows])}
@@ -44,11 +51,12 @@ def collect():
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_p95_s','latency_p95_s','completed_requests']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
-    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 
 def write():
     r=collect();out=ROOT/'results/unified-overnight-20261002';out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
     lines=['# Unified all-configuration benchmark — interim report','',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
+    lines[3] += f" Owner scope omissions: {r['omitted_jobs']}; remaining baseline groups: {r['remaining_jobs']}. Omissions are not passes. Four-release extension: 156 separately declared groups awaiting verification/qualification." if r.get('required_extension') else ''
     for m in r['models']:
         speed=m['speed']['200000']['decode'];q=m['quality']['humaneval'];rate=f"{speed['median']:.3f} tok/s" if speed['n'] else 'Pending'
         lines.append(f"| {m['name']} | {m['completed_jobs']}/{m['planned_jobs']} | {rate} | {speed['n']}/5 | {m['repo']['8']['passed']}/{m['repo']['8']['completed']} completed | {m['repo']['20']['passed']}/{m['repo']['20']['completed']} completed | {q['passed']}/{q['completed']} scored of 164 |")
