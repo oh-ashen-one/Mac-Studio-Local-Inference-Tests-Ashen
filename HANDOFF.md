@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral third128K repetition — October3 20:32 UTC /16:32 EDT
+
+Same driver72523 remains healthy in third131072/256 repeat `u20261003-mistral35-core-131072-r3`, wrapper22722 (native starts after artifact verification). Second128K repeat completed20:30:46.465 UTC: exact131072 input/256 output,5.35302148 native decode tok/s,2239.142s fill. Two of five at this context; no complete-series claim. Model/runtime/corpus/token-ID pins match, six artifact hashes checked, zero whole-child swap growth. Raw originals retained before sync.
+
+Mistral9 complete +1 unscored request-budget limitation +29 required remaining; two MiMo deferred trials remain required. GPU safety count1 and wake assertions active; existing ACTIVE15-minute follow-up unchanged. Leave healthy driver running and preserve all settings and completion gates.
+
 ## CURRENT owner reconfirmation and128K progress — October3 19:54 UTC /15:54 EDT
 
 Owner directly reconfirmed autonomous management, continuing the existing routines. No scope/budget/schedule change. Live driver72523 is healthy in second131072/256 repeat `u20261003-mistral35-core-131072-r2`, wrapper18083/native server18115. First128K repeat completed with exact131072 input/256 output,5.35511725 native decode tok/s and2238.855s fill. This is1 of5 at this context, not a complete-series claim. Six artifact hashes checked; raw originals retained before sync.

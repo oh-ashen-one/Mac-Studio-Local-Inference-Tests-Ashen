@@ -732,3 +732,7 @@ All5 declared repeats completed with exact200000 input/256 output each. Native d
 ### October3, first Mistral128K repetition completed
 
 Exact131072 input/256 output, native decode5.35511725 tok/s, HTTP fill2238.855s (37m18.855s). This is1 of5 at this context; the healthy driver is executing repetition2. Six artifact hashes checked, originals preserved before publication sync. Owner reconfirmed continuing autonomous management without scope/budget/schedule changes. Mistral8 complete +1 unscored request-budget limitation +30 required remaining; two MiMo deferred cells remain required.
+
+### October3, second Mistral128K repetition completed
+
+Exact131072 input/256 output, native decode5.35302148 tok/s, HTTP fill2239.142s, complete request2286.784s. Model/runtime/corpus/token-ID pins match the first sample; six publication hashes checked and no positive whole-child swap growth. This is2 of5 at128K; same driver advances to repetition3. Mistral9 completed +1 unscored request-budget limit +29 required remaining; MiMo's two deferred trials remain required and GPU safety count1.
