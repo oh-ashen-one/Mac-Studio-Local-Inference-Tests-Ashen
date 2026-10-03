@@ -654,3 +654,7 @@ All three predeclared twenty-turn-budget attempts passed in3/5/4 turns, wall230.
 ### October3, Qwen8-bit concurrency-one serving
 
 60/60 measured requests completed in831.543s,15360 total output tokens (256 each), actual8203–8204 input tokens. Aggregate18.47170 output tok/s; median/p95 first output5.185/5.194s, median/p95 response latency13.854/13.891s. Whole-child swap growth zero; two warmups separately preserved. Concurrency2 remains active and concurrency4 pending. No final scaling conclusion yet.
+
+### October3, Qwen8-bit concurrency-two serving
+
+60/60 measured requests completed in581.980s,15360 output tokens (256 each), actual8203–8204 input tokens. Aggregate26.39264 output tok/s, versus18.47170 at concurrency1; median/p95 latency19.380/19.603s, versus13.854/13.891s. First-output median/p9510.095/10.351s. Whole-child swap growth zero. Aggregate throughput improves while individual latency rises under this pinned MLX serving profile. Concurrency4 remains active; no final scaling conclusion yet.
