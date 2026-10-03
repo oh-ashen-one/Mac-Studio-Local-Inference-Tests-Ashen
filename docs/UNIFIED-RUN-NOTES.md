@@ -638,3 +638,7 @@ Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap grow
 Concurrency4 completed60/60 measured requests in1253.112s, actual8201 input/256 output each (15360 outputs), zero whole-child swap growth, minimum available74.79GiB. Aggregate12.25748 output tok/s, median/p95 latency59.722/167.887s, first-output median/p9538.657/89.853s. Across concurrency1/2/4, aggregate rates were19.505/8.159/12.257 tok/s; median latency13.124/63.264/59.722s. All requests succeeded but concurrency2/4 throughput stayed below concurrency1 and tail latency rose substantially. Preserve this pinned DwarfStar batch-runtime result; no optimization or retesting substituted for it.
 
 DeepSeek now has39/39 completed groups, joining Gemma. Driver continued sequentially to Qwen3.8 27B8-bit sustained repeat1. Pending duplicate QwenQ4 groups were explicitly marked omitted_by_owner_scope; their30 earlier results remain preserved. Global coverage198 completed +18 owner omissions +18 remaining retained baseline; Mistral39 remains separately required.
+
+### October3, Qwen8-bit sustained and extended phase underway
+
+Sustained repeats1/2 completed exact200000 input/2048 output at21.3674009/21.4290322 decode tok/s, context fill210.489/209.883s; no whole-child swap growth. First fresh twenty-turn-budget repair passed in three turns/230.261s, zero human rescues and swap growth. These are2/3 sustained repeats and1/3 extended attempts; the second extended attempt is active. No trial was rescued or silently repeated.
