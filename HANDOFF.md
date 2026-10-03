@@ -4,6 +4,8 @@ Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long
 
 ## ACTIVE resource review — October3
 
+Reviewed continuation started at10:10:37 UTC as **driver53830**. At10:11 it was alive in the normal60-second quiescence gate before `u20261002-mimo-tail-200000-2048-r2`. No duplicate inference. Five safe continuing groups then exit with two long-history trials still deferred; those remain required and must not be counted complete. The existing heartbeat has been updated to this source and safety state.
+
 Driver23995 stopped after MiMo extended trial1 failed on request12 with MetalGPU out-of-memory;11 responses preserved. No actual usage was emitted for the failing response, so no final task score is claimed. Read `docs/MIMO-METAL-RESOURCE-FAILURE-20261003.md`. Reconstructed preflight request233765 tokens is below model1048576 positions; this is GPU allocation failure, not context-length truncation. Whole-child minimum16.578GiB available,3.4375MiB swap growth; guards were not relaxed. Owned inference processes and GPU holders verified absent.
 
 Original failed trial is `unsupported_resource` with evidence/audit; unrun extended trials2/3 are `deferred_resource_review`, still required and unscored. Five remaining sustained/short8K serving groups may continue first under original order/settings, while deferred entries remain pending review. GPU safety event1 recorded in work/compute-safety-events.json; after2 events no automatic inference relaunch. Status accounting:208 complete +18 owner omissions +1 resource-limited attempt +7 required remaining (including2 deferred), plus39 Mistral.
