@@ -760,3 +760,9 @@ Repeat2: exact32768 input/256 output, native decode9.97133222 tok/s, HTTP fill20
 Two of five32K samples complete; model/runtime/corpus/token-ID pins match. Full study and remaining samples continue under unchanged budgets.
 
 Third32K sample: exact32768/256, native decode9.98754886 tok/s, HTTP fill209.735s, zero positive whole-child swap growth. Six publication artifact hashes checked; third of five at this context, not full-series completion. Healthy driver advances to fourth32K sample.
+
+### October3, Mistral32K five-repeat stage complete
+
+All5 exact32768/256 runs completed: native median9.98258606 tok/s, mean9.98126234, sample SD0.00664661, range9.97133222–9.98754886. HTTP fill median209.70521s (3m29.705s), range209.64199–209.73476s. No cache reuse/positive whole-child swap growth. [Stage audit and raw references](../results/mistral-32k-series-20261003/README.md) verifies30 artifact hashes, matching model/runtime/corpus/token-ID pins and identical six measurement-entry/adapter/guard source blobs. No setup/outlier pooled or removed; originals preserved.
+
+First8K sample completed exact8192/256, native12.52300919 tok/s, HTTP fill32.560s, zero swap growth; first of5 only. Remaining8K, sustained/task/fullreplay/coding/retrieval/serving and MiMo deferred cells remain required. Healthy existing driver advances continuously under unchanged settings.

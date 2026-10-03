@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral completed32K stage and8K progress — October3 22:59 UTC /18:59 EDT
+
+Same driver72523 remains healthy, in the standard quiescence gate before second8192/256 repetition. All5 declared32768/256 samples completed: exact32768 input/256 output each, native median9.98258606 tok/s (range9.97133222–9.98754886, sample SD0.00664661), median HTTP fill209.70521s. Matching model/runtime/corpus/token-ID pins and6 measurement-entry/adapter/guard blobs, zero cache reuse/positive whole-child swap growth; min146.574GiB available. Full audit: `results/mistral-32k-series-20261003`, all30 artifact hashes checked.
+
+First8K sample completed exact8192/256 at12.52300919 native tok/s and32.560s fill, zero swap growth;1 of5 only. Mistral18 complete +1 unscored request-budget limit +20 required remaining at this snapshot, including4 remaining8K samples and all useful-work/load phases. MiMo's two deferred trials remain required, GPU safety count1 and wake assertions active. Existing ACTIVE15-minute routines remain, no whole-study completion claim. Leave healthy driver untouched; recheck actual live phase before actions.
+
 ## CURRENT Mistral32K progress — October3 22:47 UTC /18:47 EDT
 
 Same driver72523 remains healthy in fourth32768/256 repeat `u20261003-mistral35-core-32768-r4`, wrapper38523 (native starts after verification). Three32K repeats complete; each exact32768 input/256 output, six artifact hashes per run checked, zero swap growth. Full200K and128K five-repeat stages are already audited/published.
