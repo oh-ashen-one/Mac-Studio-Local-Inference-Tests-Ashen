@@ -642,3 +642,7 @@ DeepSeek now has39/39 completed groups, joining Gemma. Driver continued sequenti
 ### October3, Qwen8-bit sustained and extended phase underway
 
 Sustained repeats1/2 completed exact200000 input/2048 output at21.3674009/21.4290322 decode tok/s, context fill210.489/209.883s; no whole-child swap growth. First fresh twenty-turn-budget repair passed in three turns/230.261s, zero human rescues and swap growth. These are2/3 sustained repeats and1/3 extended attempts; the second extended attempt is active. No trial was rescued or silently repeated.
+
+### October3, Qwen8-bit sustained series complete
+
+All three repeats completed exact200000 input/2048 output tokens. Decode21.3674009/21.4290322/21.4194524 tok/s, median21.4194524, full range21.3674009–21.4290322. Fill210.489/209.883/209.941s, median209.941s. No whole-child swap growth. Second fresh twenty-turn-budget repair passed in five turns/240.435s, zero human rescues/swap growth. Extended repair coverage2/3; third attempt remains active.
