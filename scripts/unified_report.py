@@ -50,7 +50,7 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
             m['replay']['mini' if mini else 'full']={'status':j['status'],'run_id':j['id'],'turns':s.get('totals',{}).get('turns'),'served':s.get('totals',{}).get('successful_turns'),'end_to_end_tok_s':s.get('end_to_end_output_tokens_per_second'),'context_evidence':s.get('config',{}).get('context'),'output_policy':s.get('config',{}).get('output_tokens',{}).get('policy'),'measured_duration_s':s.get('measured_duration_ms',0)/1000 if s else None,'short_output_warnings':s.get('totals',{}).get('short_output_warnings'),'server_output_tokens':s.get('totals',{}).get('total_server_output_tokens'),'server_prompt_tokens':s.get('totals',{}).get('total_server_prompt_tokens'),'server_cached_prompt_tokens':s.get('totals',{}).get('total_server_cached_prompt_tokens')}
         for c in [1,2,4]:
             j=next(x for x in own if x['kind']=='serving' and x['concurrency']==c);r=records.get(j['id'],{})
-            m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_p95_s','latency_p95_s','completed_requests']};m['serving'][str(c)]['status']=j['status']
+            m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_median_s','ttft_p95_s','latency_median_s','latency_p95_s','completed_requests','wall_s','total_output_tokens']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
     return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -67,6 +67,12 @@ def write(plan_path='config/unified-campaign.json',state_path='work/unified-camp
     for m in r['models']:
         t=m['sustained'];rate=t['decode']['median']
         if t['completed']:lines.append(f"- {m['name']}: {t['completed']}/3 repeats; median decode {rate:.5f} tok/s; actual inputs {t['actual_input_tokens']}; actual outputs {t['actual_output_tokens']}.")
+    lines += ['', '## Serving load — completed measured profiles', '', '| Configuration | Concurrency | Requests | Output tokens | Measured seconds | Aggregate output tok/s | Median latency s | P95 latency s |', '|---|---:|---:|---:|---:|---:|---:|---:|']
+    def display(value):return f'{value:.3f}' if isinstance(value,(int,float)) else '—'
+    for m in r['models']:
+        for c,t in m['serving'].items():
+            if t['status']=='complete':lines.append(f"| {m['name']} | {c} | {t['completed_requests']} | {t['total_output_tokens']} | {display(t['wall_s'])} | {display(t['aggregate_output_tok_s'])} | {display(t['latency_median_s'])} | {display(t['latency_p95_s'])} |")
+    lines += ['', 'Two warmups per profile are excluded from measured metrics. Concurrency changes both aggregate throughput and individual latency; results describe each pinned serving runtime. Exact request/output/cache counts are preserved in raw artifacts.', '']
     lines+=['','Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.','']
     for amendment in r['amendments']:
         lines += [f"{amendment.get('label','Preserved setup failure')}: `{amendment['preserved_failed_run']}`. Separately labeled replacement: `{amendment['replacement_run']}`. [Review and unchanged measurement limits](../../{amendment['review']}).",'']

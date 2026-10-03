@@ -604,3 +604,31 @@ All three fresh twenty-turn-budget attempts passed, each using three turns and z
 ### October3: Gemma coverage complete
 
 Gemma finished all39 declared groups. Concurrency4 serving completed60/60 measured requests in577.719s, aggregate26.58730 output tok/s, median/p95 response latency38.522/38.559s. Its concurrency1/2/4 aggregate rates were15.337/21.601/26.587 tok/s, while median latency rose16.689/23.700/38.522s. This is throughput scaling with higher individual latency, not reduced response time. Two warmups per group remain excluded from measured rates. Full-study work continues with27 retained baseline groups plus39 Mistral groups.
+
+### October3, first DeepSeek sustained generation
+
+`u20261002-deepseek-tail-200000-2048-r1` completed exact200000 input/2048 output tokens. Native steady decode20.43 tok/s (2047 steady tokens), native overall generation20.42 tok/s, context fill309.641s derived from native prefill645.91 tok/s. Whole-child swap growth zero; minimum available45.68GiB. This is1/3 sustained repeats; the lower longer-generation rate than the short256-token series requires the remaining repetitions before interpretation. Native timing/counter definitions and raw rows are preserved. Driver continued to the first fresh twenty-turn repair trial.
+
+### October3, first DeepSeek twenty-turn-budget trial
+
+The fresh declared attempt completed with passed=True, 3 turns, 331.324s task wall, 0 human rescues. Whole-child swap growth was 0 bytes. This is1/3 extended attempts, not an extension of a prior failed trial. Exact requests/cache/token counts and evaluator outcomes remain preserved.
+
+### October3, DeepSeek sustained repetition spread
+
+Second sustained200K/2048 repeat completed at38.14 native steady decode tok/s,301.164s fill, no whole-child swap growth. Repeat1 was20.43 tok/s,309.641s fill; native binary/source, model/runtime lock and corpus hashes match. Source-commit fields differ because read-only reporting/evidence was published between runs; inference code was not replaced. The last recorded native-process available-memory sample differed (46.91GiB versus75.49GiB), while both stayed above guards and had no swap growth. This is observable variation, not an established causal explanation. Retain both samples and wait for declared repeat3 before summarizing sustained performance; no extra retry or condition change. The fresh second extended repair remains active.
+
+### October3, DeepSeek sustained series complete
+
+All three200K/2048-output runs are complete, exact counts in each. Native steady decode20.43/38.14/38.15 tok/s, median38.14 and full range20.43–38.15. Context fill309.641/301.164/301.200s, median301.200s. All native binary/source, model/runtime lock and corpus hashes match; no whole-child swap growth. Preserve the slow first repeat in all summaries. Its cause remains unproven. Fresh extended repair trial2 passed in three turns/324.951s with no human rescues or whole-child swap growth; trial3 is active.
+
+### October3, DeepSeek extended repair series complete
+
+Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap growth0 bytes. All three predeclared twenty-turn-budget trials are now complete; each passed in three turns. Serving concurrency1/2/4 remains, with concurrency1 now active. This is36/39 completed groups for DeepSeek, not full configuration completion.
+
+### October3, DeepSeek concurrency-one serving
+
+60/60 measured requests completed in787.475s with15360 output tokens (256 each), actual8201 input tokens each, aggregate19.50537 output tok/s. Median/p95 first output8.521/8.526s; median/p95 response latency13.124/13.130s. Whole-child swap growth zero. Two warmups remain separately preserved; setup/native metadata calibration occurs before server loading and before the measured interval. Concurrency2 is active, concurrency4 pending; no final scaling conclusion yet.
+
+### October3, DeepSeek concurrency-two load regression
+
+60/60 measured requests completed in1882.486s; actual8201 input/256 output each,15360 outputs total, zero whole-child swap growth. Aggregate output8.15942 tok/s versus19.50537 at concurrency1. Median/p95 latency63.264/63.757s, versus13.124/13.130s at concurrency1. First-output median/p9530.089/30.400s. This negative scaling is retained as measured DwarfStar batched-session behavior under the declared concurrency condition. The causal mechanism is not established, and no tuning/retry/budget change is introduced. Concurrency4 is active. It is not an inference that M5 hardware or all serving runtimes universally regress with concurrency.

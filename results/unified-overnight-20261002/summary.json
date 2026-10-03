@@ -1,6 +1,6 @@
 {
   "campaign_id": "unified-overnight-20261002",
-  "status": "stopped",
+  "status": "saved_results",
   "overall_deadline": null,
   "active": null,
   "error": null,
@@ -27,10 +27,10 @@
       "model_lock_sha256": "79b756a50e463289dd85d480b29865449036906cbc6a46789a3d617671229f3f"
     }
   ],
-  "completed_jobs": 189,
+  "completed_jobs": 197,
   "planned_jobs": 234,
-  "omitted_jobs": 9,
-  "remaining_jobs": 36,
+  "omitted_jobs": 18,
+  "remaining_jobs": 19,
   "scope_amendments": [
     {
       "id": "owner-one-per-release-20261003",
@@ -51,9 +51,36 @@
         "qwen38-q4-gguf"
       ],
       "review": "docs/OWNER-SCOPE-AMENDMENT-20261003.md"
+    },
+    {
+      "id": "owner-skip-five-models-20261003",
+      "original_plan": "config/archive/unified-campaign-before-owner-skip-20261003.json",
+      "original_plan_sha256": "5ebab94157da624c2f6f53ae238a1ee992caa8cc6286a3a885b0bb3dff284d28",
+      "omitted_jobs": [
+        "u20261002-qwen36-tail-200000-2048-r1",
+        "u20261002-qwen36-repo20-r1",
+        "u20261002-qwen36-tail-200000-2048-r2",
+        "u20261002-qwen36-repo20-r2",
+        "u20261002-qwen36-tail-200000-2048-r3",
+        "u20261002-qwen36-repo20-r3",
+        "u20261002-qwen36-serving-c1",
+        "u20261002-qwen36-serving-c2",
+        "u20261002-qwen36-serving-c4"
+      ],
+      "historical_model_ids": [
+        "qwen3.6-35b-a3b-vl-mtp-mxfp8"
+      ],
+      "review": "docs/OWNER-SKIP-FIVE-MODELS-20261003.md"
+    },
+    {
+      "id": "owner-add-mistral-20261003",
+      "previous_plan_sha256": "08533dde2f9d54eed32e35dec6490bfed5e2c541098a2bb765ef8dd02238e252",
+      "review": "docs/MISTRAL-ADDITION-20261003.md"
     }
   ],
-  "required_extension": "config/unified-extension-20261003.json",
+  "required_extension": "config/mistral-campaign-20261003.json",
+  "extension_planned_jobs": 39,
+  "cancelled_extension": "config/unified-extension-20261003.json",
   "models": [
     {
       "id": "qwen-27b",
@@ -259,23 +286,35 @@
       "serving": {
         "1": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         },
         "2": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         },
         "4": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         }
       },
@@ -508,23 +547,35 @@
       "serving": {
         "1": {
           "aggregate_output_tok_s": 15.337442578383182,
+          "ttft_median_s": 6.544987812492764,
           "ttft_p95_s": 6.5543411336555435,
+          "latency_median_s": 16.688616917002946,
           "latency_p95_s": 16.711750375300472,
           "completed_requests": 60,
+          "wall_s": 1001.4707420420018,
+          "total_output_tokens": 15360,
           "status": "complete"
         },
         "2": {
           "aggregate_output_tok_s": 21.60051366188198,
+          "ttft_median_s": 12.530153958505252,
           "ttft_p95_s": 12.572752422602207,
+          "latency_median_s": 23.699858062500425,
           "latency_p95_s": 23.745072322906346,
           "completed_requests": 60,
+          "wall_s": 711.0942008340062,
+          "total_output_tokens": 15360,
           "status": "complete"
         },
         "4": {
           "aggregate_output_tok_s": 26.587302077522576,
+          "ttft_median_s": 24.930283958499786,
           "ttft_p95_s": 24.977091725297942,
+          "latency_median_s": 38.521674166499,
           "latency_p95_s": 38.55856087564971,
           "completed_requests": 60,
+          "wall_s": 577.7193923329905,
+          "total_output_tokens": 15360,
           "status": "complete"
         }
       },
@@ -566,7 +617,7 @@
       "name": "DeepSeek V4 Flash \u00b7 mixed Q4",
       "runtime": "dwarfstar",
       "quantization": "Q4_K experts, mixed higher precision",
-      "completed_jobs": 30,
+      "completed_jobs": 38,
       "planned_jobs": 39,
       "speed": {
         "8192": {
@@ -688,15 +739,15 @@
           }
         },
         "20": {
-          "completed": 0,
-          "passed": 0,
+          "completed": 3,
+          "passed": 3,
           "wall_s": {
-            "n": 0,
-            "median": null,
-            "mean": null,
-            "stdev": null,
-            "min": null,
-            "max": null
+            "n": 3,
+            "median": 325.4616330000281,
+            "mean": 327.24545954201795,
+            "stdev": 3.541391227811793,
+            "min": 324.9506936670223,
+            "max": 331.32405195900355
           }
         }
       },
@@ -764,50 +815,70 @@
       },
       "serving": {
         "1": {
-          "aggregate_output_tok_s": null,
-          "ttft_p95_s": null,
-          "latency_p95_s": null,
-          "completed_requests": null,
-          "status": "pending"
+          "aggregate_output_tok_s": 19.5053748131761,
+          "ttft_median_s": 8.521119770986843,
+          "ttft_p95_s": 8.525537517300108,
+          "latency_median_s": 13.124167395508266,
+          "latency_p95_s": 13.130264331541548,
+          "completed_requests": 60,
+          "wall_s": 787.4752547499957,
+          "total_output_tokens": 15360,
+          "status": "complete"
         },
         "2": {
-          "aggregate_output_tok_s": null,
-          "ttft_p95_s": null,
-          "latency_p95_s": null,
-          "completed_requests": null,
-          "status": "pending"
+          "aggregate_output_tok_s": 8.159422240540769,
+          "ttft_median_s": 30.088551541499328,
+          "ttft_p95_s": 30.399613531235083,
+          "latency_median_s": 63.26364027100499,
+          "latency_p95_s": 63.75684436520969,
+          "completed_requests": 60,
+          "wall_s": 1882.4862284589908,
+          "total_output_tokens": 15360,
+          "status": "complete"
         },
         "4": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         }
       },
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
-        "completed": 0,
+        "completed": 3,
         "planned": 3,
         "decode": {
-          "n": 0,
-          "median": null,
-          "mean": null,
-          "stdev": null,
-          "min": null,
-          "max": null
+          "n": 3,
+          "median": 38.14,
+          "mean": 32.24,
+          "stdev": 10.227761240858138,
+          "min": 20.43,
+          "max": 38.15
         },
         "fill": {
-          "n": 0,
-          "median": null,
-          "mean": null,
-          "stdev": null,
-          "min": null,
-          "max": null
+          "n": 3,
+          "median": 301.20028312826616,
+          "mean": 304.0016479985261,
+          "stdev": 4.883563086311999,
+          "min": 301.1639988555768,
+          "max": 309.6406620117354
         },
-        "actual_input_tokens": [],
-        "actual_output_tokens": []
+        "actual_input_tokens": [
+          200000,
+          200000,
+          200000
+        ],
+        "actual_output_tokens": [
+          2048,
+          2048,
+          2048
+        ]
       }
     },
     {
@@ -1014,23 +1085,35 @@
       "serving": {
         "1": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         },
         "2": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         },
         "4": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "pending"
         }
       },
@@ -1263,28 +1346,40 @@
       "serving": {
         "1": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
-          "status": "pending"
+          "wall_s": null,
+          "total_output_tokens": null,
+          "status": "omitted_by_owner_scope"
         },
         "2": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
-          "status": "pending"
+          "wall_s": null,
+          "total_output_tokens": null,
+          "status": "omitted_by_owner_scope"
         },
         "4": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
-          "status": "pending"
+          "wall_s": null,
+          "total_output_tokens": null,
+          "status": "omitted_by_owner_scope"
         }
       },
-      "omitted_jobs": 0,
-      "historical_comparison": false,
+      "omitted_jobs": 9,
+      "historical_comparison": true,
       "sustained": {
         "completed": 0,
         "planned": 3,
@@ -1512,23 +1607,35 @@
       "serving": {
         "1": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "omitted_by_owner_scope"
         },
         "2": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "omitted_by_owner_scope"
         },
         "4": {
           "aggregate_output_tok_s": null,
+          "ttft_median_s": null,
           "ttft_p95_s": null,
+          "latency_median_s": null,
           "latency_p95_s": null,
           "completed_requests": null,
+          "wall_s": null,
+          "total_output_tokens": null,
           "status": "omitted_by_owner_scope"
         }
       },
@@ -3177,7 +3284,7 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 1,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-repo20-r1",
@@ -3185,7 +3292,7 @@
       "kind": "repo",
       "attempt": 1,
       "max_turns": 20,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-tail-200000-2048-r2",
@@ -3194,7 +3301,7 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 2,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-repo20-r2",
@@ -3202,7 +3309,7 @@
       "kind": "repo",
       "attempt": 2,
       "max_turns": 20,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-tail-200000-2048-r3",
@@ -3211,7 +3318,7 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 3,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-repo20-r3",
@@ -3219,7 +3326,7 @@
       "kind": "repo",
       "attempt": 3,
       "max_turns": 20,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-serving-c1",
@@ -3227,7 +3334,7 @@
       "kind": "serving",
       "concurrency": 1,
       "requests": 60,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-serving-c2",
@@ -3235,7 +3342,7 @@
       "kind": "serving",
       "concurrency": 2,
       "requests": 60,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-deepseek-serving-c4",
@@ -3429,7 +3536,10 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 1,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-repo20-r1",
@@ -3437,7 +3547,10 @@
       "kind": "repo",
       "attempt": 1,
       "max_turns": 20,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-tail-200000-2048-r2",
@@ -3446,7 +3559,10 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 2,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-repo20-r2",
@@ -3454,7 +3570,10 @@
       "kind": "repo",
       "attempt": 2,
       "max_turns": 20,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-tail-200000-2048-r3",
@@ -3463,7 +3582,10 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 3,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-repo20-r3",
@@ -3471,7 +3593,10 @@
       "kind": "repo",
       "attempt": 3,
       "max_turns": 20,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-serving-c1",
@@ -3479,7 +3604,10 @@
       "kind": "serving",
       "concurrency": 1,
       "requests": 60,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-serving-c2",
@@ -3487,7 +3615,10 @@
       "kind": "serving",
       "concurrency": 2,
       "requests": 60,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-qwen36-serving-c4",
@@ -3495,7 +3626,10 @@
       "kind": "serving",
       "concurrency": 4,
       "requests": 60,
-      "status": "pending"
+      "disposition": "omitted_by_owner_scope",
+      "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+      "status": "omitted_by_owner_scope",
+      "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
     },
     {
       "id": "u20261002-mimo-tail-200000-2048-r1",
@@ -3573,5 +3707,5 @@
       "status": "pending"
     }
   ],
-  "updated_at_utc": "2026-10-03T05:02:22.403275+00:00"
+  "updated_at_utc": "2026-10-03T07:04:13.882193+00:00"
 }
