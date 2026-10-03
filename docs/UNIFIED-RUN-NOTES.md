@@ -750,3 +750,11 @@ Exact131072 input/256 output, native decode5.35281720 tok/s, HTTP fill2239.119s,
 All5 declared repeats completed with exact131072 input/256 output each. Native decode median5.35302148 tok/s, mean5.35378362, sample SD0.00121254, range5.35281720–5.35511725. HTTP fill median2239.11888s (37m19.119s), range2238.85515–2239.18766s. All5 report zero cache reuse and zero positive whole-child swap growth; minimum112.043GiB available.
 
 [Completed context-stage audit and raw references](../results/mistral-128k-series-20261003/README.md) retains per-run result/telemetry/publication hashes, native/model/input fingerprints and identical measurement-entry/adapter/guard source blobs. All30 per-run publication artifacts checked; no setup sample/outlier was pooled or removed. Remaining32K/8K/sustained/task/fullreplay/coding/retrieval/serving and two MiMo deferred trials remain required. Same driver advances to32768-token repetition1.
+
+### October3, first two Mistral32K samples
+
+Repeat1: exact32768 input/256 output, native decode9.98258606 tok/s, HTTP fill209.671s. Six per-run publication hashes checked; no positive whole-child swap growth.
+
+Repeat2: exact32768 input/256 output, native decode9.97133222 tok/s, HTTP fill209.734s. Six per-run publication hashes checked; no positive whole-child swap growth.
+
+Two of five32K samples complete; model/runtime/corpus/token-ID pins match. Full study and remaining samples continue under unchanged budgets.
