@@ -16,6 +16,11 @@ def require_qualified(root,plan,specs):
         receipt=spec.get('qualification_receipt')
         if not receipt:raise RuntimeError('Missing extension qualification receipt')
         q=json.loads((root/receipt).read_text())
+        if q.get('status')!='complete':raise RuntimeError('Qualification attempt did not complete')
+        driver_file=(root/receipt).parent/'qualification-driver.json'
+        if not driver_file.exists():raise RuntimeError('Missing completed qualification supervisor receipt')
+        driver=json.loads(driver_file.read_text())
+        if driver.get('status')!='complete' or driver.get('run_id')!=q.get('run_id'):raise RuntimeError('Qualification supervisor did not complete this attempt')
         for key in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','reasoning_control_passed','long_context_metadata_passed']:
             if q.get(key) is not True:raise RuntimeError('Unpassed qualification gate: '+key)
         if q.get('model_revision')!=spec['revision']:raise RuntimeError('Qualification revision mismatch')

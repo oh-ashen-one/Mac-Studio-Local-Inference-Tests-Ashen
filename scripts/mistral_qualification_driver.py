@@ -40,6 +40,8 @@ def main():
         state.update(status='stopped',error=str(error) or type(error).__name__);save();raise
     finally:
         stop(child)
-        if out.exists():write_json(out/'qualification-driver-telemetry.json',rows or (telemetry.rows if 'telemetry' in locals() else []))
+        if out.exists():
+            write_json(out/'qualification-driver-telemetry.json',rows or (telemetry.rows if 'telemetry' in locals() else []))
+            write_json(out/'qualification-driver.json',state)
 
 if __name__=='__main__':main()

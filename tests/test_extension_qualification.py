@@ -39,9 +39,10 @@ def test_modified_linked_library_refuses_an_otherwise_qualified_runtime(tmp_path
     spec={'id':'mistral','extension':True,'execution_ready':True,'revision':'model-rev','files':[],
           'qualification_receipt':'qualification.json','native_runtime':native}
     q={k:True for k in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','reasoning_control_passed','long_context_metadata_passed']}
-    q.update(model_revision=spec['revision'],model_files=[],runtime_lock_sha256=digest(lock),
+    q.update(status='complete',run_id='qualification-test',model_revision=spec['revision'],model_files=[],runtime_lock_sha256=digest(lock),
              native_server_sha256=digest(server),runtime_source_commit='pinned-source',runtime_files=files)
     (tmp_path/'qualification.json').write_text(json.dumps(q))
+    (tmp_path/'qualification-driver.json').write_text(json.dumps({'status':'complete','run_id':'qualification-test'}))
     require_qualified(tmp_path,{}, {'mistral':spec})
     library.write_bytes(b'changed library')
     with pytest.raises(RuntimeError,match='Qualified linked runtime changed'):
@@ -54,3 +55,11 @@ def test_explicit_native_reasoning_settings_are_required():
     assert rendered_reasoning_effort('[MODEL_SETTINGS]{"reasoning_effort":"high"}[/MODEL_SETTINGS]')=='high'
     with pytest.raises(RuntimeError,match='omitted explicit model settings'):rendered_reasoning_effort('plain template')
     with pytest.raises(RuntimeError,match='Unsupported rendered'):rendered_reasoning_effort('[MODEL_SETTINGS]{"reasoning_effort":"low"}[/MODEL_SETTINGS]')
+
+
+def test_failed_qualification_cannot_be_admitted_even_if_gate_flags_remain_true(tmp_path):
+    spec={'id':'mistral','extension':True,'execution_ready':True,'qualification_receipt':'qualification.json'}
+    q={k:True for k in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','reasoning_control_passed','long_context_metadata_passed']}
+    q['status']='failed'
+    (tmp_path/'qualification.json').write_text(json.dumps(q))
+    with pytest.raises(RuntimeError,match='did not complete'):require_qualified(tmp_path,{}, {'mistral':spec})
