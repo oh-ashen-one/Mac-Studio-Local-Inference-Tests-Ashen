@@ -592,3 +592,7 @@ All three sustained repetitions finished with exactly200000 input and2048 genera
 ### October 3, Gemma extended repair series complete
 
 All three fresh twenty-turn-budget attempts passed, each using three turns and zero human rescues. Durations997.837/998.060/997.614s, median997.837s. Third attempt whole-child swap growth was zero, matching the earlier two. These are independent declared trials, not extensions of prior attempts. Gemma now has36/39 groups complete; its concurrency1/2/4 serving tests remain. Driver advanced to the60-request concurrency1 group.
+
+### October 3, Gemma concurrency-one serving completed
+
+`u20261002-gemma-serving-c1` completed60/60 measured requests after two separately recorded warmups: actual inputs8207–8208 tokens,256 output tokens each (15360 total), zero reported cached input, zero whole-child swap growth. Measured wall1001.471s (16m41.5s), aggregate15.33744 output tok/s; median/p95 first output6.545/6.554s and response latency16.689/16.712s. Setup/tokenization precedes that measured interval; group elapsed is not the same metric. Driver advanced to concurrency2 with the same60-request count. No concurrency scaling conclusion until remaining load profiles finish.
