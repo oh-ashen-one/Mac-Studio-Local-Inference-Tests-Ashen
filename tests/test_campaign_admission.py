@@ -16,11 +16,13 @@ class AdmissionTests(unittest.TestCase):
   old=json.loads((ROOT/'config/archive/unified-campaign-pre-owner-scope-20261003.json').read_text());new=json.loads((ROOT/'config/unified-campaign.json').read_text())
   self.assertEqual(len(new['jobs']),234)
   for a,b in zip(old['jobs'],new['jobs']):self.assertEqual(a,{k:v for k,v in b.items() if not k.startswith('disposition')})
-  omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),9);self.assertTrue(all(j['model_id']=='qwen38-q4-gguf' for j in omitted))
-  self.assertTrue(extension_pending(ROOT,new))
+  omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),18);self.assertTrue(all(j['model_id'] in ('qwen38-q4-gguf','qwen3.6-35b-a3b-vl-mtp-mxfp8') for j in omitted))
+  self.assertFalse(extension_pending(ROOT,new))
  def test_extension_full_matrix(self):
   ext=json.loads((ROOT/'config/unified-extension-20261003.json').read_text())
   self.assertEqual(len(ext['jobs']),156)
+  self.assertEqual(ext['status'],'cancelled_by_owner_scope')
+  self.assertTrue(all(j['disposition']==OMITTED for j in ext['jobs']))
   for m in ext['models']:
    jobs=[j for j in ext['jobs'] if j['model_id']==m['id']];self.assertEqual(len(jobs),39)
    self.assertEqual(sum(j['kind']=='speed' for j in jobs),23)

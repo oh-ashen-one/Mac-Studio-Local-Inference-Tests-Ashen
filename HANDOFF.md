@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## LATEST owner skip instruction — October 3
+
+The owner explicitly skipped all four extension models and remaining Qwen3.6 tests. Read `docs/OWNER-SKIP-FIVE-MODELS-20261003.md`; older extension-required instructions below are superseded. Preserve completed evidence and downloaded files. Required remaining models: Gemma31B, DeepSeek V4 Flash, Qwen3.8 27B 8-bit, MiMo. Accounting188 complete +18 scope omissions +28 remaining baseline;156 extension groups cancelled by owner, never passes. No new model qualification is required.
+
+Queue edit prepared; driver6759 is still running active `u20261002-gemma-serving-c4` on its previous in-memory plan. New boundary guard PID **21919**, receipt is `work/owner-skip-boundary-stop.json`; let Gemma finish, verify driver/workers exit, then sync reviewed scope changes and launch exactly one amended driver. Do not launch cancelled models. The existing heartbeat stays ACTIVE.
+
 ## LATEST owner scope amendment — October 3 UTC
 
 Owner via Midir selected one representative per family-release, preserving full test rigor and authorizing autonomous choices. Read `docs/OWNER-SCOPE-AMENDMENT-20261003.md`. Nine unrun Qwen 3.8 Q4 groups are declared `omitted_by_owner_scope`; its completed 30 remain historical. Original Qwen 8-bit and Gemma 31B remain representatives. A separate 156-group extension declares Qwen 3.5 35B A3B, GPT-OSS20B, Bonsai2 27B, and Nemotron3.5 Lightning, pending completed-download hashes and runtime qualification. The owner is downloading seven packages; do not duplicate transfers. The older six-only inventory below is historical, superseded by the dated new download receipts.
