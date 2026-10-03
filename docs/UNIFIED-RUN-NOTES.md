@@ -624,3 +624,7 @@ All three200K/2048-output runs are complete, exact counts in each. Native steady
 ### October3, DeepSeek extended repair series complete
 
 Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap growth0 bytes. All three predeclared twenty-turn-budget trials are now complete; each passed in three turns. Serving concurrency1/2/4 remains, with concurrency1 now active. This is36/39 completed groups for DeepSeek, not full configuration completion.
+
+### October3, DeepSeek concurrency-one serving
+
+60/60 measured requests completed in787.475s with15360 output tokens (256 each), actual8201 input tokens each, aggregate19.50537 output tok/s. Median/p95 first output8.521/8.526s; median/p95 response latency13.124/13.130s. Whole-child swap growth zero. Two warmups remain separately preserved; setup/native metadata calibration occurs before server loading and before the measured interval. Concurrency2 is active, concurrency4 pending; no final scaling conclusion yet.
