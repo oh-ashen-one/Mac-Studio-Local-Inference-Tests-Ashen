@@ -658,3 +658,9 @@ All three predeclared twenty-turn-budget attempts passed in3/5/4 turns, wall230.
 ### October3, Qwen8-bit concurrency-two serving
 
 60/60 measured requests completed in581.980s,15360 output tokens (256 each), actual8203–8204 input tokens. Aggregate26.39264 output tok/s, versus18.47170 at concurrency1; median/p95 latency19.380/19.603s, versus13.854/13.891s. First-output median/p9510.095/10.351s. Whole-child swap growth zero. Aggregate throughput improves while individual latency rises under this pinned MLX serving profile. Concurrency4 remains active; no final scaling conclusion yet.
+
+### October3, Qwen8-bit full39-group coverage complete
+
+Concurrency4 completed60/60 measured requests in451.545s,15360 outputs (256 each), actual8203–8204 input tokens; no whole-child swap growth. Aggregate34.01655 output tok/s; median/p95 latency30.076/30.289s and first-output median/p9519.625/19.850s. Across concurrency1/2/4, aggregate18.472/26.393/34.017 tok/s, median latency13.854/19.380/30.076s. This pinned MLX serving runtime scales aggregate throughput while per-request latency rises; do not treat aggregate rate as single-request decode speed.
+
+Qwen8-bit now39/39 complete, joining Gemma and DeepSeek. The driver processed all18 owner-scope omissions without running them and moved to MiMo's first sustained200K/2048 trial. Coverage207 complete +18 omitted +9 retained baseline groups remaining; required Mistral39 groups remain separate.
