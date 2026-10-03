@@ -600,3 +600,7 @@ All three fresh twenty-turn-budget attempts passed, each using three turns and z
 ### October 3, Gemma concurrency-two serving completed
 
 60/60 measured requests completed in711.094s, aggregate21.60051 output tok/s; median/p95 latency23.700/23.745s. Compared with concurrency1, aggregate throughput increased about40.8%, while per-request latency increased. This is the expected throughput/latency tradeoff, not a universal speedup. Concurrency4 remains active; no final scaling conclusion yet. Raw request/output/cache and whole-child telemetry are preserved.
+
+### October3: Gemma coverage complete
+
+Gemma finished all39 declared groups. Concurrency4 serving completed60/60 measured requests in577.719s, aggregate26.58730 output tok/s, median/p95 response latency38.522/38.559s. Its concurrency1/2/4 aggregate rates were15.337/21.601/26.587 tok/s, while median latency rose16.689/23.700/38.522s. This is throughput scaling with higher individual latency, not reduced response time. Two warmups per group remain excluded from measured rates. Full-study work continues with27 retained baseline groups plus39 Mistral groups.

@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Current verified boundary — October 3,05:01 UTC
+
+Gemma completed39/39 groups, final concurrency4 serving60/60 in577.719s measured,26.58730 aggregate output tok/s, median latency38.522s. Owner-skip boundary guard21919 stopped driver6759; driver/wrapper21352/server21372/guard all exited and GPU slots were empty. Preserve stopped ledger original at work/unified-campaign-owner-skip-original.json. Completed result and telemetry reconciled to189 baseline groups. Latest required scope:189 complete +18 owner omissions +27 remaining baseline, plus39 Mistral groups.
+
+Apply latest scope/config at this idle boundary, then run `scripts/prepare_mistral.py` on M5 to download/verify pinned shards without overlapping timed inference. Inspect `work/mistral-preparation.json`, actual PID and per-attempt receipt before any launch. Never duplicate preparation or driver. Metadata settings already crosschecked against official long-context fix; weights/runtime qualification pending. Resume exactly one baseline driver only after download/verification exits and storage/memory/slots are safe. Mistral extension remains required; four previously skipped extension models/Qwen3.6 remain excluded.
+
 ## LATEST Mistral addition — October 3
 
 Owner requested one new Mistral representative. Selected **Mistral Medium3.5 128B Q4_K_M GGUF**, three pinned shards/74.897GB, expected hashes recorded in `config/mistral-models.lock.json`. Full39-group separate extension: `config/mistral-campaign-20261003.json`. Read `docs/MISTRAL-ADDITION-20261003.md`: download, integrity, runtime qualification and upstream long-context-fix verification remain pending. No Mistral weights downloaded or loaded yet. The four previously skipped extension models and Qwen3.6 remain skipped.
