@@ -37,6 +37,8 @@ def collect():
         for length in plan['context_lengths']:
             rows=[records[j['id']] for j in done if j['kind']=='speed' and j['tokens']==length and j['output_tokens']==256 and j['id'] in records]
             m['speed'][str(length)]={'decode':stats([r.get('decode_tok_s') for r in rows]),'fill':stats([r.get('context_fill_s') for r in rows]),'prefill':stats([r.get('prefill_tok_s') for r in rows])}
+        tails=[records[j['id']] for j in done if j['kind']=='speed' and j['output_tokens']==2048 and j['id'] in records]
+        m['sustained']={'completed':len(tails),'planned':3,'decode':stats([r.get('decode_tok_s') for r in tails]),'fill':stats([r.get('context_fill_s') for r in tails]),'actual_input_tokens':[r.get('input_tokens') for r in tails],'actual_output_tokens':[r.get('output_tokens') for r in tails]}
         for turns in [8,20]:
             rows=[records[j['id']] for j in done if j['kind']=='repo' and j['max_turns']==turns and j['id'] in records]
             m['repo'][str(turns)]={'completed':len(rows),'passed':sum(bool(r.get('passed')) for r in rows),'wall_s':stats([r.get('wall_s') for r in rows])}
@@ -60,6 +62,10 @@ def write():
     for m in r['models']:
         speed=m['speed']['200000']['decode'];q=m['quality']['humaneval'];rate=f"{speed['median']:.3f} tok/s" if speed['n'] else 'Pending'
         lines.append(f"| {m['name']} | {m['completed_jobs']}/{m['planned_jobs']} | {rate} | {speed['n']}/5 | {m['repo']['8']['passed']}/{m['repo']['8']['completed']} completed | {m['repo']['20']['passed']}/{m['repo']['20']['completed']} completed | {q['passed']}/{q['completed']} scored of 164 |")
+    lines += ['', '## Sustained 200K input / 2048 output', '']
+    for m in r['models']:
+        t=m['sustained'];rate=t['decode']['median']
+        if t['completed']:lines.append(f"- {m['name']}: {t['completed']}/3 repeats; median decode {rate:.5f} tok/s; actual inputs {t['actual_input_tokens']}; actual outputs {t['actual_output_tokens']}.")
     lines+=['','Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.','']
     for amendment in r['amendments']:
         lines += [f"{amendment.get('label','Preserved setup failure')}: `{amendment['preserved_failed_run']}`. Separately labeled replacement: `{amendment['replacement_run']}`. [Review and unchanged measurement limits](../../{amendment['review']}).",'']
