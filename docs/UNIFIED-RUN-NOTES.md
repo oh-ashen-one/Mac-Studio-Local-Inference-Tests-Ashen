@@ -672,3 +672,7 @@ Sustained repeat1 completed exact200000/2048 tokens,37.6035160 decode tok/s,390.
 ### October3, MiMo sustained series complete
 
 All three fixed200000-input/2048-output repetitions completed. Decode37.6035160/37.5663979/37.6423318 tok/s, median37.6035160, range37.5663979–37.6423318. Context fill390.435/383.392/382.914s, median383.392s. Whole-child swap growth1MiB/0/0; the first direct-run field reports zero over its narrower interval, so it must not replace the whole-child observation. No new GPU safety event. The fixed-context workload completed under unchanged memory/working-set limits; this does not establish safety for growing extended histories. Extended trials2/3 remain deferred and required. Concurrency1 serving is active.
+
+### October3, MiMo concurrency-one serving
+
+60/60 measured requests completed in548.358s,15360 output tokens (256 each), actual8219–8220 input tokens. Aggregate28.01089 output tok/s; median/p95 first output5.010/5.029s and median/p95 latency9.138/9.159s. Whole-child swap growth zero, no new GPU safety event. This small-context result does not resolve the deferred long-history resource condition. Concurrency2 is now active and concurrency4 remains; two long-history trials stay deferred and required.
