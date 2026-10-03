@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral32K progress — October3 22:47 UTC /18:47 EDT
+
+Same driver72523 remains healthy in fourth32768/256 repeat `u20261003-mistral35-core-32768-r4`, wrapper38523 (native starts after verification). Three32K repeats complete; each exact32768 input/256 output, six artifact hashes per run checked, zero swap growth. Full200K and128K five-repeat stages are already audited/published.
+
+Mistral15 complete +1 unscored request-budget limitation +23 required remaining; two MiMo deferred trials remain required. Existing ACTIVE15-minute routines remain unchanged. Leave healthy driver running and preserve all budgets, model/runtime/cache conditions and final completion gates.
+
 ## CURRENT Mistral completed128K series — October3 22:32 UTC /18:32 EDT
 
 At22:32 UTC the same driver72523 was healthy in first32768/256 repetition `u20261003-mistral35-core-32768-r1`, wrapper36869/native server36901. At22:41 the first two32K repetitions had completed, leaving14 completed groups +1 budget limit +24 required groups; the healthy driver was in the normal quiescence gate before32K repetition3. No duplicate launch or setting change. All5 declared131072/256 repetitions completed: exact131072 input/256 output each, native median5.35302148 tok/s (range5.35281720–5.35511725, sample SD0.00121254), median fill2239.11888s. No cache reuse/positive whole-child swap growth; observed minimum112.043GiB available. Model/runtime/corpus/token-ID fingerprints and all six measurement-entry/guard/adapter source blobs match across5 repetitions. Audit/manifest: `results/mistral-128k-series-20261003`. All30 per-run artifact hashes checked; originals preserved before sync. This completes this context stage only;32K/8K and full useful-work/load phases remain.

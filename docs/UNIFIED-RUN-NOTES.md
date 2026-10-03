@@ -758,3 +758,5 @@ Repeat1: exact32768 input/256 output, native decode9.98258606 tok/s, HTTP fill20
 Repeat2: exact32768 input/256 output, native decode9.97133222 tok/s, HTTP fill209.734s. Six per-run publication hashes checked; no positive whole-child swap growth.
 
 Two of five32K samples complete; model/runtime/corpus/token-ID pins match. Full study and remaining samples continue under unchanged budgets.
+
+Third32K sample: exact32768/256, native decode9.98754886 tok/s, HTTP fill209.735s, zero positive whole-child swap growth. Six publication artifact hashes checked; third of five at this context, not full-series completion. Healthy driver advances to fourth32K sample.
