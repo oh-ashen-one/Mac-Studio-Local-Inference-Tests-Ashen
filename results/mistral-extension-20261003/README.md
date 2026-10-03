@@ -1,12 +1,12 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **1/39 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **2/39 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
 
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
 |---|---:|---:|---:|---:|---:|---:|
-| Mistral Medium 3.5 128B · Q4_K_M GGUF | 1/39 | Pending | 0/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
+| Mistral Medium 3.5 128B · Q4_K_M GGUF | 2/39 | 4.041 tok/s | 1/5 | 0/0 completed | 0/0 completed | 0/0 scored of 164 |
 
 ## Sustained 200K input / 2048 output
 

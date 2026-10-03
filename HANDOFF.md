@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral first200K measurement — October3 13:06 UTC
+
+Driver59984 remains healthy and advanced without restart. `u20261003-mistral35-core-200000-r1` completed at13:01:54.888 UTC: **200000 input /256 output**, native steady decode **4.04140977 tok/s**, context fill **4919.995s** (about82min), native prefill40.65056 tok/s, zero reported cache reuse. Whole-child available minimum92.280GiB and zero swap growth. Six published artifact hashes verified. This is only the first of five200K repetitions; no complete-series statistic or fastest/absolute hardware claim.
+
+Mistral coverage2/39 groups complete. The first eight-turn repository trial `u20261003-mistral35-repo8-r1` is active, wrapper70154/native server70223; initial native-calibrated packet200025 tokens. Keep original900s request/4200s job limits and2048 output/8turns. Preserve any timeout as observed budget-limited evidence, never silently extend it or classify unrun seeds by analogy. Current GPU safety-event total remains1. Baseline213 complete +18 omissions +1 resource-limited attempt +2 REQUIRED deferred MiMo trials is unchanged; the existing15-minute follow-up stays ACTIVE. Older active snapshots below are historical.
+
 ## CURRENT measured Mistral execution — October3 11:41 UTC
 
 Measured driver **59984** is healthy on the verified M5, separate plan `config/mistral-campaign-20261003.json` and ledger `work/mistral-campaign.json`. Actual M5 admission passed before launch at11:35:04 UTC. First group `u20261003-mistral35-structured` completed24/24 cases,21 passed; first200K/256 speed repeat is active, wrapper60127/native server60160. Recheck live identities/children/logs/shared holders; never duplicate a healthy driver. It retains the60-second download-quiescence gate and unchanged budgets. Setup probes remain excluded from39 measured groups.
