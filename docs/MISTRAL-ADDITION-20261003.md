@@ -13,3 +13,9 @@ The official model card warns that earlier Transformers configurations degraded 
 `config/mistral-campaign-20261003.json` declares the full39-group suite using the original contexts, repetitions, turn/output budgets, quality cases and load requests. The four-model extension and remaining Qwen3.6 groups remain cancelled. Mistral is a separate required extension; finishing the retained baseline alone is not whole-study completion.
 
 Current Gemma concurrency4 remains uninterrupted. Existing owner-skip boundary guard21919 will stop the old driver after that test; adopt both latest scope changes at the same reviewed boundary. At an idle verified M5 boundary, check storage and duplicate/partial downloads, then download and verify only the pinned Mistral configuration. Do not overlap heavy download/verification with timed inference. No new Mistral inference is admitted until weights, runtime and long-context configuration are qualified. The existing heartbeat remains ACTIVE.
+
+## Metadata crosscheck completed
+
+The pinned first shard contains GGUF metadata and zero tensors (7.88MB). Its SHA256 matched. Context262144, YaRN factor64, original context4096, beta_fast4, beta_slow1, theta1000000 and log multiplier0 match the official fixed Transformers configuration. Receipt: `hardware/mistral-gguf-metadata-20261003.json`. This verifies stored settings, not the selected runtime's interpretation or numerical behavior. The two weight shards remain to download and verify on M5.
+
+Use `scripts/prepare_mistral.py` only at the verified idle boundary. It takes the campaign mutex, refuses a live driver/GPU holder, preserves100GiB disk headroom, downloads the pinned shards resumably and verifies hashes. Per-attempt receipts remain under work/mistral-preparation-*.json. The script performs no inference.
