@@ -580,3 +580,7 @@ An authorized metadata-only inventory then reconfirmed two additional independen
 ### October 3, first Gemma sustained-output repeat
 
 `u20261002-gemma-tail-200000-2048-r1` completed exactly 200000 input tokens and 2048 generated tokens. Context fill 311.429s, decode 15.37996 tok/s. This is one of three sustained repetitions, not a completed sustained series. Driver continued to the independently declared first twenty-turn repository attempt; no failed eight-turn attempt was rescued or extended.
+
+### October 3, Gemma extended repair and second sustained repeat
+
+`u20261002-gemma-repo20-r1` completed successfully in three turns, 997.837s, zero human rescues. This is a fresh predeclared twenty-turn-budget attempt, not a continuation of an eight-turn trial. Whole-child telemetry shows no swap growth. `u20261002-gemma-tail-200000-2048-r2` completed exactly200000 input/2048 output, fill311.771s, decode15.37908 tok/s, zero observed swap growth. Sustained coverage is now two of three repeats; extended repair one of three. Driver6759 continued to `u20261002-gemma-repo20-r2`.
