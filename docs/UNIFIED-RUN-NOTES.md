@@ -620,3 +620,7 @@ Second sustained200K/2048 repeat completed at38.14 native steady decode tok/s,30
 ### October3, DeepSeek sustained series complete
 
 All three200K/2048-output runs are complete, exact counts in each. Native steady decode20.43/38.14/38.15 tok/s, median38.14 and full range20.43–38.15. Context fill309.641/301.164/301.200s, median301.200s. All native binary/source, model/runtime lock and corpus hashes match; no whole-child swap growth. Preserve the slow first repeat in all summaries. Its cause remains unproven. Fresh extended repair trial2 passed in three turns/324.951s with no human rescues or whole-child swap growth; trial3 is active.
+
+### October3, DeepSeek extended repair series complete
+
+Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap growth0 bytes. All three predeclared twenty-turn-budget trials are now complete; each passed in three turns. Serving concurrency1/2/4 remains, with concurrency1 now active. This is36/39 completed groups for DeepSeek, not full configuration completion.
