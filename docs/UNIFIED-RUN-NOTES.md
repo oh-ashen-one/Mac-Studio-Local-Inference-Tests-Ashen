@@ -612,3 +612,7 @@ Gemma finished all39 declared groups. Concurrency4 serving completed60/60 measur
 ### October3, first DeepSeek twenty-turn-budget trial
 
 The fresh declared attempt completed with passed=True, 3 turns, 331.324s task wall, 0 human rescues. Whole-child swap growth was 0 bytes. This is1/3 extended attempts, not an extension of a prior failed trial. Exact requests/cache/token counts and evaluator outcomes remain preserved.
+
+### October3, DeepSeek sustained repetition spread
+
+Second sustained200K/2048 repeat completed at38.14 native steady decode tok/s,301.164s fill, no whole-child swap growth. Repeat1 was20.43 tok/s,309.641s fill; native binary/source, model/runtime lock and corpus hashes match. Source-commit fields differ because read-only reporting/evidence was published between runs; inference code was not replaced. The last recorded native-process available-memory sample differed (46.91GiB versus75.49GiB), while both stayed above guards and had no swap growth. This is observable variation, not an established causal explanation. Retain both samples and wait for declared repeat3 before summarizing sustained performance; no extra retry or condition change. The fresh second extended repair remains active.
