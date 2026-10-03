@@ -680,3 +680,9 @@ All three fixed200000-input/2048-output repetitions completed. Decode37.6035160/
 ### October3, MiMo concurrency-two serving
 
 60/60 measured requests completed in438.510s,15360 output tokens (256 each), actual8219–8220 input tokens. Aggregate35.02774 output tok/s, versus28.01089 at concurrency1; median/p95 latency14.606/14.699s, versus9.138/9.159s. First-output median/p959.172/9.247s. Whole-child swap growth zero and no new GPU safety event. Concurrency4 is active; deferred long-history cells remain required.
+
+### October3, MiMo serving profiles complete
+
+Concurrency4 completed60/60 measured requests in381.548s,15360 output tokens (256 each), no whole-child swap growth. Aggregate40.25703 output tok/s; median/p95 latency25.432/25.512s, first-output median/p9517.681/17.703s. Concurrency1/2/4 aggregate rates28.011/35.028/40.257 tok/s, median latency9.138/14.606/25.432s. All three60-request profiles succeeded under unchanged guards without a second GPU safety event. These small-context results do not resolve long-history resource safety.
+
+The continuing baseline driver exited with213 completed groups,18 owner omissions,1 audited resource-limited attempt and2 deferred required trials. No owned inference workers or GPU holders remained. Full baseline is not declared complete. Mistral setup-only qualification is now separately launched; its probes are excluded from the39 measured groups.
