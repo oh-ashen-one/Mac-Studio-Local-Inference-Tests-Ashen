@@ -567,3 +567,12 @@ The owner requested a pause through Midir while considering TensorFold. The exis
 Completed coverage remains **179/234 groups**. MiMo retrieval completed **8/9 cases, all eight passing**; case `needle-0.9-303` was interrupted. The original result, requests, logs and telemetry are preserved, with a separate `completion-audit.json` identifying **owner-requested interruption rather than a model/runtime failure**. This group is not marked complete or silently retried. The live ledger records the pause and the original pre-pause ledger/process identities are retained privately.
 
 No TensorFold installation/execution, method change or new benchmark was performed. Resume requires explicit owner authorization, safety/ownership rechecks and a documented disposition/new run ID or reviewed continuation for the interrupted group; the existing runner deliberately rejects the unmodified incomplete result. All other completed groups remain skippable from saved evidence.
+
+
+## October 2, 9:18 PM EDT / October 3, 01:18 UTC — authorized resume
+
+The owner explicitly resumed the unchanged baseline through Midir. Original interrupted MiMo retrieval evidence remains unchanged and separately labeled. A fresh nine-case replacement, `u20261002-mimo-retrieval-resume-v2`, is declared in the plan with prior-plan, preserved-result/audit/manifest and model-lock hashes. Required group count remains 234; all 179 completed groups were checked and skipped. [Amendment and evidence](MIMO-OWNER-RESUME-20261002.md).
+
+M5 preflight passed with no prior owned workers or GPU holders and approximately 237 GiB available. New driver 98036 launched exactly once; wrapper 98040/server 98118 began the first 200027-token input, with prefill visibly advancing. Only then was the existing 15-minute heartbeat restored to ACTIVE. Guards, budgets, concurrency, model/runtime files and measured request policy remain unchanged. The archive is not counted as a model failure or pooled into the replacement.
+
+An authorized metadata-only inventory then reconfirmed two additional independent checkpoints, no partial markers in documented cache roots, and expected file presence/sizes for all six locked configurations. The original estimated ten remains an unresolved itemization/location gap; no cohort expansion or new download was performed. The M3 remains occupied with Unreal Engine and receives no heavy compute or inference. TensorFold stays in the future backlog.

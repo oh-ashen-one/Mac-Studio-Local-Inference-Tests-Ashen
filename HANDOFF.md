@@ -2,11 +2,11 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
-## RESUME AUTHORIZED — preparation checkpoint
+## RESUMED BY OWNER — October 2, 9:18 PM EDT / October 3, 01:18 UTC
 
 Hari explicitly authorized resuming the existing M5 baseline through Midir. This supersedes the historical pause below. The M3 remains occupied with Unreal Engine; no heavy compute or M3 inference. TensorFold stays in the backlog until after the baseline.
 
-The new retrieval ID is `u20261002-mimo-retrieval-resume-v2`: a fresh nine-case group with unchanged conditions, preserving the original interrupted group unchanged. All 179 completed groups remain selected. See `docs/MIMO-OWNER-RESUME-20261002.md` for the amendment and hashes. The schedule remains paused during startup and is re-enabled only after healthy progress is verified.
+The new retrieval ID is `u20261002-mimo-retrieval-resume-v2`: a fresh nine-case group with unchanged conditions, preserving the original interrupted group unchanged. All 179 completed groups remain selected. See `docs/MIMO-OWNER-RESUME-20261002.md` for the amendment and hashes. Verified new driver **98036**, wrapper **98040**, and model server **98118** are processing the replacement (prefill advanced from 8192 through 30720 of 200027 tokens at the 01:19 UTC check). One shared GPU slot is held; the original memory/swap/deadline guards are unchanged. The existing heartbeat **`m5-model-download-follow-up` is ACTIVE** at its original 15-minute cadence, re-enabled after this progress check. System/display-awake assertions were verified.
 
 ## Historical owner pause — October 2, 8:38 PM EDT (October 3, 00:38 UTC)
 
@@ -25,7 +25,7 @@ The existing heartbeat **`m5-model-download-follow-up` is PAUSED**. Verified M5 
 3. Preserve `results/u20261002-mimo-retrieval` unchanged. The current runner intentionally refuses its existing incomplete result. Before resuming, record an explicit plan amendment and a fresh replacement run ID (for example `u20261002-mimo-retrieval-resume-v2`) if rerunning this group, or implement/review an explicitly labeled checkpoint continuation. Neither disposition was chosen or applied during the pause. No silent overwrite, retry or truncation.
 4. Only after that review and authorization, use the normal task-owned launch path on the M5: `.venv/bin/python -u scripts/unified_campaign.py --allow-inference`. It skips the preserved 179 completed groups; confirm the resulting ledger and process ownership. Re-enable the existing heartbeat only as part of the authorized resume, never create a duplicate.
 
-This is a preserved checkpoint with one interrupted group's disposition still requiring review, not an automatic one-command continuation. The remaining 54 untouched groups are still pending. The ancillary download-scope review is halted; its earlier records-only clarification remains published, but no conclusion from the pending current inventory is used here.
+Historical pause checkpoint: its disposition has now been resolved by the explicit fresh replacement described above. The remaining 54 untouched groups are still pending. The ancillary download-scope review is halted; its earlier records-only clarification remains published, but no conclusion from the pending current inventory is used here.
 
 ## Management handoff — Midir Dot appointed by owner
 
@@ -34,6 +34,8 @@ On October 2 the owner explicitly appointed **Midir Dot as manager**, while this
 **Midir acknowledged management in this exact thread at approximately 20:33 UTC.** His instruction is read-only oversight aligned with the existing follow-up: preserve the models, methodology, budgets, concurrency and schedule, with no restart, duplicate job, acceleration or resource takeover. The later explicit owner resume is in force; verify healthy execution before restoring the existing follow-up. Management acknowledgment alone does not retire the schedule. This Codex chat continues executing, diagnosing within scope and publishing evidence.
 
 ### Download-scope gap — recorded clarification
+
+Current authorized metadata-only scan at **October 3 01:20 UTC / October 2 9:20 PM EDT** again found only MiMo V2.6 Flash and Qwen 3.6 35B A3B as independent additional checkpoints, plus MiMo audio tokenizer. No partial markers in the documented cache roots; all six locked configurations have expected file presence/sizes, and no unmatched GGUF was found in project model storage. No weights were hashed or loaded for the inventory, and no provider/app was launched. No concrete omitted checkpoint was identified within these locations; the original roughly-ten selection remains unitemized and other unspecified locations remain unverified. Receipt: `hardware/download-scope-current-20261003.json`.
 
 The owner recalls roughly ten additional Darkbloom models. Existing saved records establish **only two independently downloaded additional language checkpoints**, MiMo V2.6 Flash and Qwen 3.6 35B A3B, with all 66 files verified. The owner estimate was **not fully reconciled against an itemized selection list**. No named additional independent checkpoint is established as pending/failed/excluded outside the six, but the identity/location of any further intended models remains unresolved. Catalog entries, shards, audio tokenizer and draft components do not fill that gap. The active six are original three + verified additional two + Qwen 3.8 Q4 variant. See `docs/DOWNLOAD-SCOPE-RECONCILIATION.md` for dated receipts and limits. This records-only clarification changes no tests, downloads, runtime or schedule; no extra M5 check was performed.
 
