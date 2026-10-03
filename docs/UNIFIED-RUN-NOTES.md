@@ -558,3 +558,12 @@ HumanEval passed **154/164 cases (93.90%)** under the frozen one-sample greedy c
 Stage duration was **592.946s (9m53s)**, summed request time **523.037s**, median request **2.556s**. Actual inputs **101–454 tokens** per problem, 32,345 total; generated output **32,062 tokens**, reported cached input zero. All 821 published coding artifact hashes were verified. [All outcomes](../results/u20261002-mimo-humaneval/result.json) retain the distinct failure categories. This remains a public, potentially contaminated, chat-adapted diagnostic rather than an official leaderboard score.
 
 Whole-child swap growth was zero in both stages. Minimum available memory was **60.52 GiB** for replay and **77.15 GiB** for coding; independently sampled server minima **60.56 GiB** and **78.29 GiB**. All six full replay suites and six 164-case coding suites are now complete. Coverage is **179/234 groups**, with MiMo's nine 200K retrieval cases active before the 54 declared sustained-output, extended-repair and serving-load groups.
+
+
+## October 2, 8:38 PM EDT / October 3, 00:38 UTC — explicit owner pause
+
+The owner requested a pause through Midir while considering TensorFold. The existing heartbeat was changed to **PAUSED** before stopping the verified M5 driver, preventing scheduled continuation. SIGTERM was sent to driver 55667 first; its wrapper 91210 and model server 91271 exited through the established graceful cleanup. Verification found no surviving owned inference processes and no shared GPU holder. System/display-awake assertions remained active.
+
+Completed coverage remains **179/234 groups**. MiMo retrieval completed **8/9 cases, all eight passing**; case `needle-0.9-303` was interrupted. The original result, requests, logs and telemetry are preserved, with a separate `completion-audit.json` identifying **owner-requested interruption rather than a model/runtime failure**. This group is not marked complete or silently retried. The live ledger records the pause and the original pre-pause ledger/process identities are retained privately.
+
+No TensorFold installation/execution, method change or new benchmark was performed. Resume requires explicit owner authorization, safety/ownership rechecks and a documented disposition/new run ID or reviewed continuation for the interrupted group; the existing runner deliberately rejects the unmodified incomplete result. All other completed groups remain skippable from saved evidence.
