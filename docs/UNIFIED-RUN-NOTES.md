@@ -628,3 +628,7 @@ Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap grow
 ### October3, DeepSeek concurrency-one serving
 
 60/60 measured requests completed in787.475s with15360 output tokens (256 each), actual8201 input tokens each, aggregate19.50537 output tok/s. Median/p95 first output8.521/8.526s; median/p95 response latency13.124/13.130s. Whole-child swap growth zero. Two warmups remain separately preserved; setup/native metadata calibration occurs before server loading and before the measured interval. Concurrency2 is active, concurrency4 pending; no final scaling conclusion yet.
+
+### October3, DeepSeek concurrency-two load regression
+
+60/60 measured requests completed in1882.486s; actual8201 input/256 output each,15360 outputs total, zero whole-child swap growth. Aggregate output8.15942 tok/s versus19.50537 at concurrency1. Median/p95 latency63.264/63.757s, versus13.124/13.130s at concurrency1. First-output median/p9530.089/30.400s. This negative scaling is retained as measured DwarfStar batched-session behavior under the declared concurrency condition. The causal mechanism is not established, and no tuning/retry/budget change is introduced. Concurrency4 is active. It is not an inference that M5 hardware or all serving runtimes universally regress with concurrency.
