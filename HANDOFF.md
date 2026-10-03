@@ -8,6 +8,10 @@ On October 2 the owner explicitly appointed **Midir Dot as manager**, while this
 
 **Midir acknowledged management in this exact thread at approximately 20:33 UTC.** His instruction is read-only oversight aligned with the existing follow-up: preserve the models, methodology, budgets, concurrency and schedule, with no restart, duplicate job, acceleration or resource takeover. Keep `m5-model-download-follow-up` ACTIVE until an explicit later scheduling decision or full campaign completion. Management acknowledgment alone does not retire the schedule. This Codex chat continues executing, diagnosing within scope and publishing evidence.
 
+### Download-scope gap — recorded clarification
+
+The owner recalls roughly ten additional Darkbloom models. Existing saved records establish **only two independently downloaded additional language checkpoints**, MiMo V2.6 Flash and Qwen 3.6 35B A3B, with all 66 files verified. The owner estimate was **not fully reconciled against an itemized selection list**. No named additional independent checkpoint is established as pending/failed/excluded outside the six, but the identity/location of any further intended models remains unresolved. Catalog entries, shards, audio tokenizer and draft components do not fill that gap. The active six are original three + verified additional two + Qwen 3.8 Q4 variant. See `docs/DOWNLOAD-SCOPE-RECONCILIATION.md` for dated receipts and limits. This records-only clarification changes no tests, downloads, runtime or schedule; no extra M5 check was performed.
+
 ### Manager's first checks
 
 1. Read this ACTIVE section, `docs/UNIFIED-OVERNIGHT-PROTOCOL.md`, `config/unified-models.lock.json`, `config/unified-campaign.json` and `docs/UNIFIED-RUN-NOTES.md`.
