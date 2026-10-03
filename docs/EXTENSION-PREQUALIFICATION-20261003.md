@@ -12,3 +12,9 @@ Metadata-only inspection found that every manifest-listed file in the four selec
 Single-file MLX-LM source modules for Qwen3.5, GPT-OSS and Nemotron exist in the pinned environments; their hashes are recorded. Presence is not qualification. The MLX-VLM single-file probe does not inventory package-directory implementations and must not be interpreted as absence of VLM support. No runtime import, provider activation, runtime update, weight conversion or inference occurred during this inspection.
 
 Before admission: verify tensor hashes on the M5 while no timed group is running, preserve independent artifact/runtime locks, test compatible runtime setup with separately labeled qualification evidence, and declare any unsupported workload with concrete evidence. Keep the original full suite for supported cells. Do not substitute another quantization or silently relax output/context budgets.
+
+## Independent Bonsai source candidate found
+
+PrismML publishes a dedicated [`prism-hadamard-qwen35` MLX-LM branch](https://github.com/PrismML-Eng/mlx-lm/tree/38f27dc24b535928246b64b211b66d38b7a3e17f), pinned for evaluation at `38f27dc24b535928246b64b211b66d38b7a3e17f`. Its [model implementation](https://github.com/PrismML-Eng/mlx-lm/blob/38f27dc24b535928246b64b211b66d38b7a3e17f/mlx_lm/models/prism_hadamard_qwen35.py) explicitly checks pack schema/namespace, grouped activations and 2-bit affine/group128 encoding. This is a concrete independent runtime candidate, not a compatibility pass. Source hash and remaining gates are in `config/extension-runtime-candidates.json`.
+
+The candidate has not been installed, imported or used for inference. Use a separate environment and pin its full resolved dependency set before qualification; preserve baseline environments unchanged. Do not replace the downloaded artifact with the vendor's GGUF alternative.
