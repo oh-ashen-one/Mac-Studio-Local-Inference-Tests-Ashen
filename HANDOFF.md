@@ -2,7 +2,13 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
-## PAUSED BY OWNER — October 2, 8:38 PM EDT (October 3, 00:38 UTC)
+## RESUME AUTHORIZED — preparation checkpoint
+
+Hari explicitly authorized resuming the existing M5 baseline through Midir. This supersedes the historical pause below. The M3 remains occupied with Unreal Engine; no heavy compute or M3 inference. TensorFold stays in the backlog until after the baseline.
+
+The new retrieval ID is `u20261002-mimo-retrieval-resume-v2`: a fresh nine-case group with unchanged conditions, preserving the original interrupted group unchanged. All 179 completed groups remain selected. See `docs/MIMO-OWNER-RESUME-20261002.md` for the amendment and hashes. The schedule remains paused during startup and is re-enabled only after healthy progress is verified.
+
+## Historical owner pause — October 2, 8:38 PM EDT (October 3, 00:38 UTC)
 
 Hari explicitly instructed through Midir: pause all benchmark work while considering TensorFold. This supersedes every earlier keep-running/keep-ACTIVE instruction below. **Do not resume inference, restart workers or re-enable the schedule without explicit owner authorization.** No TensorFold installation or execution was performed.
 
@@ -25,7 +31,7 @@ This is a preserved checkpoint with one interrupted group's disposition still re
 
 On October 2 the owner explicitly appointed **Midir Dot as manager**, while this Codex chat remains the benchmark executor. The owner reaffirmed the same extensive, high-quality testing. This changes coordination, not the frozen six-configuration/234-group protocol, model locks, budgets or scientific acceptance criteria.
 
-**Midir acknowledged management in this exact thread at approximately 20:33 UTC.** His instruction is read-only oversight aligned with the existing follow-up: preserve the models, methodology, budgets, concurrency and schedule, with no restart, duplicate job, acceleration or resource takeover. The later owner pause above is in force; keep `m5-model-download-follow-up` PAUSED. Management acknowledgment alone does not retire the schedule. This Codex chat continues executing, diagnosing within scope and publishing evidence.
+**Midir acknowledged management in this exact thread at approximately 20:33 UTC.** His instruction is read-only oversight aligned with the existing follow-up: preserve the models, methodology, budgets, concurrency and schedule, with no restart, duplicate job, acceleration or resource takeover. The later explicit owner resume is in force; verify healthy execution before restoring the existing follow-up. Management acknowledgment alone does not retire the schedule. This Codex chat continues executing, diagnosing within scope and publishing evidence.
 
 ### Download-scope gap — recorded clarification
 

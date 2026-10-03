@@ -52,7 +52,7 @@ def write():
         lines.append(f"| {m['name']} | {m['completed_jobs']}/{m['planned_jobs']} | {rate} | {speed['n']}/5 | {m['repo']['8']['passed']}/{m['repo']['8']['completed']} completed | {m['repo']['20']['passed']}/{m['repo']['20']['completed']} completed | {q['passed']}/{q['completed']} scored of 164 |")
     lines+=['','Different models/precisions/runtimes on one M5. No matched M3 hardware speedup is established. Scores are benchmark-specific; public tasks may be contaminated. Replays measure serving, not task solving. Full model/runtime/source hashes, prompts and raw outcomes remain in each run directory.','']
     for amendment in r['amendments']:
-        lines += [f"Preserved setup failure: `{amendment['preserved_failed_run']}`. Separately labeled replacement: `{amendment['replacement_run']}`. [Review and unchanged measurement limits](../../{amendment['review']}).",'']
+        lines += [f"{amendment.get('label','Preserved setup failure')}: `{amendment['preserved_failed_run']}`. Separately labeled replacement: `{amendment['replacement_run']}`. [Review and unchanged measurement limits](../../{amendment['review']}).",'']
     (out/'README.md').write_text('\n'.join(lines))
 
 if __name__=='__main__':write()
