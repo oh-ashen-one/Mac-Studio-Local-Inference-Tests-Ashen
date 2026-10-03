@@ -632,3 +632,9 @@ Trial3 passed=True in3 turns/325.462s, zero human rescues, whole-child swap grow
 ### October3, DeepSeek concurrency-two load regression
 
 60/60 measured requests completed in1882.486s; actual8201 input/256 output each,15360 outputs total, zero whole-child swap growth. Aggregate output8.15942 tok/s versus19.50537 at concurrency1. Median/p95 latency63.264/63.757s, versus13.124/13.130s at concurrency1. First-output median/p9530.089/30.400s. This negative scaling is retained as measured DwarfStar batched-session behavior under the declared concurrency condition. The causal mechanism is not established, and no tuning/retry/budget change is introduced. Concurrency4 is active. It is not an inference that M5 hardware or all serving runtimes universally regress with concurrency.
+
+### October3, DeepSeek full39-group coverage complete
+
+Concurrency4 completed60/60 measured requests in1253.112s, actual8201 input/256 output each (15360 outputs), zero whole-child swap growth, minimum available74.79GiB. Aggregate12.25748 output tok/s, median/p95 latency59.722/167.887s, first-output median/p9538.657/89.853s. Across concurrency1/2/4, aggregate rates were19.505/8.159/12.257 tok/s; median latency13.124/63.264/59.722s. All requests succeeded but concurrency2/4 throughput stayed below concurrency1 and tail latency rose substantially. Preserve this pinned DwarfStar batch-runtime result; no optimization or retesting substituted for it.
+
+DeepSeek now has39/39 completed groups, joining Gemma. Driver continued sequentially to Qwen3.8 27B8-bit sustained repeat1. Pending duplicate QwenQ4 groups were explicitly marked omitted_by_owner_scope; their30 earlier results remain preserved. Global coverage198 completed +18 owner omissions +18 remaining retained baseline; Mistral39 remains separately required.
