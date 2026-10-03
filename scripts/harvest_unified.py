@@ -8,6 +8,7 @@ the target checkout. It never resets files, retries trials, or merges main.
 import argparse
 import hashlib
 import io
+import inspect
 import json
 import re
 import shlex
@@ -123,8 +124,22 @@ with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
     print(json.dumps({'copied': copied, 'status': audit['state']['status'], 'active': audit['state'].get('active')}, indent=2))
 
 
+def active_controls(root,pid_exists):
+    paths=['work/unified-campaign.json','work/mistral-campaign.json',
+           'work/mistral-qualification-driver.json','work/mistral-preparation.json']
+    active=[]
+    for name in paths:
+        p=Path(root)/name
+        if p.exists():
+            pid=json.loads(p.read_text()).get('pid')
+            if pid and pid_exists(pid):active.append(name)
+    return active
+
+
 def sync_target():
     print(remote('''import hashlib,json,pathlib,subprocess,psutil
+from pathlib import Path
+''' + inspect.getsource(active_controls) + '''
 def git(*a):return subprocess.check_output(['git',*a])
 branch=''' + repr(BRANCH) + '''
 assert git('branch','--show-current').decode().strip()==branch
@@ -134,7 +149,9 @@ subprocess.run(['git','merge-base','--is-ancestor','HEAD',target],check=True)
 states=[json.loads(p.read_text()) for p in [pathlib.Path('work/unified-campaign.json'),pathlib.Path('work/mistral-campaign.json')] if p.exists()]
 state=states[0]
 changes=git('diff','--name-only','HEAD..'+target).decode().splitlines()
-if any(psutil.pid_exists(s['pid']) for s in states):
+holders=pathlib.Path.home()/'.cache/gpu-slot/holders'
+live_gpu=any(psutil.pid_exists(json.loads(p.read_text()).get('pid',0)) for p in holders.glob('*.json'))
+if active_controls(pathlib.Path.cwd(),psutil.pid_exists) or live_gpu:
  allowed={'config/extension-runtime-candidates.json','scripts/publication_labels.py','tests/test_publication.py','scripts/harvest_unified.py','scripts/unified_report.py','scripts/report_additional.py','scripts/report_unified_speed.py','config/requirements-plotting.lock','scripts/preview.py','HANDOFF.md','README.md'}
  assert all(p in allowed or p.startswith(('results/','viewer/','docs/','outputs/','hardware/')) for p in changes),'Refusing to change executing runtime code'
 conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitlines()) & set(git('ls-tree','-r','--name-only',target).decode().splitlines())

@@ -60,3 +60,20 @@ def test_mistral_harvest_rejects_a_baseline_id_before_copying(monkeypatch,tmp_pa
     monkeypatch.setattr(harvest_unified,'remote',lambda code:json.dumps({'ids':['u20261002-gemma-core-8192-r1'],'state':{'status':'running'}}).encode())
     with pytest.raises(AssertionError):harvest_unified.harvest('mistral')
     assert not (tmp_path/'results').exists()
+
+
+def test_qualification_driver_blocks_runtime_updates_after_baseline_exits(tmp_path):
+    import json
+    (tmp_path/'work').mkdir()
+    (tmp_path/'work/unified-campaign.json').write_text(json.dumps({'pid':10}))
+    (tmp_path/'work/mistral-qualification-driver.json').write_text(json.dumps({'pid':20,'status':'running'}))
+    active=harvest_unified.active_controls(tmp_path,lambda pid:pid==20)
+    assert active==['work/mistral-qualification-driver.json']
+
+
+def test_download_verification_control_is_protected_even_without_model_worker(tmp_path):
+    import json
+    (tmp_path/'work').mkdir()
+    (tmp_path/'work/mistral-preparation.json').write_text(json.dumps({'pid':30,'status':'verifying'}))
+    assert harvest_unified.active_controls(tmp_path,lambda pid:pid==30)==['work/mistral-preparation.json']
+    assert harvest_unified.active_controls(tmp_path,lambda pid:False)==[]
