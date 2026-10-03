@@ -19,3 +19,7 @@ Current Gemma concurrency4 remains uninterrupted. Existing owner-skip boundary g
 The pinned first shard contains GGUF metadata and zero tensors (7.88MB). Its SHA256 matched. Context262144, YaRN factor64, original context4096, beta_fast4, beta_slow1, theta1000000 and log multiplier0 match the official fixed Transformers configuration. Receipt: `hardware/mistral-gguf-metadata-20261003.json`. This verifies stored settings, not the selected runtime's interpretation or numerical behavior. The two weight shards remain to download and verify on M5.
 
 Use `scripts/prepare_mistral.py` only at the verified idle boundary. It takes the campaign mutex, refuses a live driver/GPU holder, preserves100GiB disk headroom, downloads the pinned shards resumably and verifies hashes. Per-attempt receipts remain under work/mistral-preparation-*.json. The script performs no inference.
+
+## Download integrity completed
+
+At05:10:17 UTC October3 all three M5 shard hashes matched the pinned lock; preparation process23955 exited. Receipt `hardware/mistral-integrity-20261003.json` preserves exact hashes and times. No Mistral model was loaded. The retained baseline resumes while independent Mistral runtime/harness integration remains pending.

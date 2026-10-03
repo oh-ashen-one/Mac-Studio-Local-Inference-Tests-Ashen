@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Latest execution — October3 05:17 UTC
+
+Mistral download completed and all three shard SHA256 values verified at05:10:17 UTC; preparation PID23955 exited. Published receipt `hardware/mistral-integrity-20261003.json`; exact long-context metadata already verified separately. This is artifact readiness, not runtime qualification. No Mistral inference yet.
+
+Confirmed baseline driver/owned workers absent and GPU slots empty, then started exactly one retained-baseline driver **23995**. It must pass the60-second quiescence gate before DeepSeek's first remaining sustained run. Recheck ledger/live children; never duplicate. Latest plan excludes remaining Qwen3.6 and the earlier four-model extension, retains27 baseline groups plus39 required Mistral groups. Mistral runtime/harness integration is still outstanding and must be completed before whole-study completion; do not alter active baseline runtime.
+
 ## Current verified boundary — October 3,05:01 UTC
 
 Gemma completed39/39 groups, final concurrency4 serving60/60 in577.719s measured,26.58730 aggregate output tok/s, median latency38.522s. Owner-skip boundary guard21919 stopped driver6759; driver/wrapper21352/server21372/guard all exited and GPU slots were empty. Preserve stopped ledger original at work/unified-campaign-owner-skip-original.json. Completed result and telemetry reconciled to189 baseline groups. Latest required scope:189 complete +18 owner omissions +27 remaining baseline, plus39 Mistral groups.
