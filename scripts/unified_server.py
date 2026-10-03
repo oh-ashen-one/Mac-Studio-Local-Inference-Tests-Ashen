@@ -91,7 +91,7 @@ def server(spec,folder,out,port=18185,context=262144,cache_sequences=1,slots=1):
 def count_chat(spec,folder,messages,port=None):
     if spec['runtime']=='llama-cpp' and port is not None:
         rendered=post(port,'/apply-template',{'messages':messages,'add_generation_prompt':True,'chat_template_kwargs':template_kwargs(spec)})['prompt']
-        return len(post(port,'/tokenize',{'content':rendered,'add_special':False,'parse_special':True})['tokens'])
+        return len(post(port,'/tokenize',{'content':rendered,'add_special':bool(spec.get('native_add_special_tokens',False)),'parse_special':True})['tokens'])
     if spec['runtime']=='dwarfstar':
         if _native_server_active:raise RuntimeError('Native metadata tokenization must finish before loading the DwarfStar server')
         if len(messages)!=2 or [m['role'] for m in messages]!=['system','user']:raise ValueError('Native exact counter currently supports the initial system/user packet only')

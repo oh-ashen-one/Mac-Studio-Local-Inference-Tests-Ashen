@@ -46,6 +46,8 @@ def main():
             result.update(native_runtime=native,runtime_files=files,runtime_source_commit=commit,native_server_sha256=files[0]['sha256'],runtime_lock_sha256=digest(ROOT/native['lock']));save()
             with server(spec,folder,out,port=18186,context=16384,cache_sequences=0) as (port,telemetry):
                 result['runtime_load_passed']=True;save()
+                with urllib.request.urlopen(f'http://127.0.0.1:{port}/v1/models',timeout=10) as response:model_info=json.load(response)
+                write_json(out/'native-model-info.json',model_info)
                 tokens=post(port,'/tokenize',{'content':(ROOT/'work/context-corpus.txt').read_text(),'add_special':False,'parse_special':False},120)['tokens']
                 if len(tokens)<8192:raise RuntimeError('Qualification corpus too short')
                 payload={'prompt':tokens[:8192],'n_predict':32,'temperature':0,'seed':1729,'ignore_eos':True,'cache_prompt':False,'stream':False,'return_tokens':True}
@@ -60,15 +62,15 @@ def main():
                     if rendered_reasoning_effort(rendered['prompt'])!=effort:raise RuntimeError('Native renderer ignored explicit reasoning effort')
                     templates[effort]=rendered
                 write_json(out/'reasoning-template-evidence.json',templates);result['reasoning_control_passed']=True;save()
-                count=count_chat(spec,folder,messages,port);request=chat_payload(spec,messages,128,0,1729);write_json(out/'task-request.json',request)
+                count=count_chat(spec,folder,messages,port);result['task_preflight_input_tokens']=count;save();request=chat_payload(spec,messages,128,0,1729);write_json(out/'task-request.json',request)
                 reply=chat(port,request,900);write_json(out/'task-response.json',reply)
                 if reply['usage'].get('prompt_tokens')!=count or not reply['output'] or reply['reasoning'] or '[THINK]' in reply['output'] or '<think>' in reply['output']:raise RuntimeError('Common no-reasoning task interface or exact template usage mismatch')
                 result.update(task_interface_passed=True,actual_task_input_tokens=count,task_output_tokens=reply['usage']['completion_tokens']);save()
                 metadata=json.loads((ROOT/'hardware/mistral-gguf-metadata-20261003.json').read_text())
                 if not metadata.get('metadata_crosschecks') or not all(metadata['metadata_crosschecks'].values()):raise RuntimeError('Long-context fixed metadata crosscheck missing')
-                log=(out/'server.log').read_text(errors='replace')
-                if not re.search(r'n_ctx_train\s*=\s*262144',log):raise RuntimeError('Native loader did not confirm declared262144 context')
-                result.update(long_context_metadata_passed=True,long_context_evidence='Verified stored corrected settings plus native loader declared context; no full200K qualification claim',status='complete');save()
+                entries=model_info.get('data',[])
+                if len(entries)!=1 or entries[0].get('meta',{}).get('n_ctx_train')!=262144:raise RuntimeError('Native model metadata did not confirm declared262144 training context')
+                result.update(long_context_metadata_passed=True,long_context_evidence='Verified stored corrected settings plus native model endpoint declared training context; no full200K qualification claim',status='complete');save()
     except BaseException as error:
         result.update(status='failed',error=(str(error) or type(error).__name__).replace(str(ROOT),'<repo>').replace(str(Path.home()),'<home>'));save();raise
     finally:

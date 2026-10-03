@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral setup review — October3
+
+Setup r1 exited failed at the common chat count gate, while artifact hashes, model load, exact8192/32 counts and native reasoning rendering passed. Chat answer was correct JSON with no reasoning; estimator missed one native BOS token. No GPU safety event; total remains1 from MiMo. All setup r1 evidence and original bytes are preserved. Read `docs/MISTRAL-QUALIFICATION-REVIEW-20261003.md`.
+
+Corrected Mistral-only template counting and native context evidence endpoint, without changing weights/budgets/guards.45 unit checks pass. Publish/sync at this clean stopped boundary, then launch exactly one separately labeled setup r2. Do not overwrite r1, set execution_ready from partial gates, or start measured39 before real complete receipts. Two MiMo deferred long-history trials remain required.
+
 ## CURRENT Mistral qualification — October3 11:16 UTC
 
 MiMo's final serving profile completed60/60 at40.25703 aggregate output tok/s, zero whole-child swap growth; all three profiles complete and GPU safety events still1. Driver53830 exited as `baseline_deferred_resource_review`; verified no owned workers/holders,237.84GiB available. Accounting213 complete +18 owner omissions +1 resource-limited attempt +2 required deferred trials; Mistral39 remains required. The baseline is not declared fully complete.

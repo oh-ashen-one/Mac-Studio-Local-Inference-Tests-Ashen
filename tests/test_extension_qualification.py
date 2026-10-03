@@ -63,3 +63,20 @@ def test_failed_qualification_cannot_be_admitted_even_if_gate_flags_remain_true(
     q['status']='failed'
     (tmp_path/'qualification.json').write_text(json.dumps(q))
     with pytest.raises(RuntimeError,match='did not complete'):require_qualified(tmp_path,{}, {'mistral':spec})
+
+
+def test_native_chat_count_includes_only_explicit_model_special_tokens(monkeypatch):
+    import unified_server
+    seen=[]
+    def post(port,path,payload,*args):
+        seen.append((path,payload))
+        if path=='/apply-template':return {'prompt':'rendered Mistral chat'}
+        return {'tokens':[1,2,3] if payload['add_special'] else [2,3]}
+    monkeypatch.setattr(unified_server,'post',post)
+    messages=[{'role':'user','content':'probe'}]
+    base={'id':'qwen38-q4-gguf','runtime':'llama-cpp'}
+    assert unified_server.count_chat(base,None,messages,123)==2
+    assert seen[-1][1]['add_special'] is False
+    mistral={'id':'mistral-medium35-q4','runtime':'llama-cpp','native_add_special_tokens':True}
+    assert unified_server.count_chat(mistral,None,messages,123)==3
+    assert seen[-1][1]['add_special'] is True
