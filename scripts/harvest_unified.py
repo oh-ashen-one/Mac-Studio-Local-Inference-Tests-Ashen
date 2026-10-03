@@ -116,7 +116,7 @@ with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
 
 
 def sync_target():
-    print(remote('''import hashlib,json,pathlib,subprocess
+    print(remote('''import hashlib,json,pathlib,subprocess,psutil
 def git(*a):return subprocess.check_output(['git',*a])
 branch=''' + repr(BRANCH) + '''
 assert git('branch','--show-current').decode().strip()==branch
