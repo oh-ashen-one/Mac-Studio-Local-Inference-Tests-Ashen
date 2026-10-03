@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT Mistral full cold-speed matrix — October3 23:17 UTC /19:17 EDT
+
+Same driver72523 is healthy in the next predeclared fresh repository trial `u20261003-mistral35-repo8-r2`, wrapper40458/native server40562. ALL20 Mistral cold-context speed runs completed, five each at8192/32768/131072/200000 input with256 output. Native median decode12.55738417 /9.98258606 /5.35302148 /4.04147978 tok/s respectively; median HTTP fill32.58644 /209.70521 /2239.11888 /4923.51180s. All120 per-run publication artifact hashes checked, matching common model/runtime/corpus pins and six measurement-entry/adapter/guard blobs, identical token IDs/commands within each context, zero cache reuse/positive swap growth. Audit/manifest: `results/mistral-speed-summary-20261003`. Setup/outliers excluded/no removal. This is ONLY the cold-speed matrix, not full study.
+
+Mistral22 complete +1 unscored request-budget-limited attempt +16 required remaining (four8-turn repo trials, full replay,164-case coding,9-case retrieval, three sustained, three20-turn repo, three60-request serving profiles). MiMo's two deferred trials remain required. Keep900s task-request and all job/token/turn budgets unchanged, audit each actual failure independently, never classify unrun quality cases from one timeout. Existing ACTIVE15-minute follow-up/GPU second-failure stop remain. Leave healthy driver untouched.
+
 ## CURRENT Mistral completed32K stage and8K progress — October3 22:59 UTC /18:59 EDT
 
 Same driver72523 remains healthy, in the standard quiescence gate before second8192/256 repetition. All5 declared32768/256 samples completed: exact32768 input/256 output each, native median9.98258606 tok/s (range9.97133222–9.98754886, sample SD0.00664661), median HTTP fill209.70521s. Matching model/runtime/corpus/token-ID pins and6 measurement-entry/adapter/guard blobs, zero cache reuse/positive whole-child swap growth; min146.574GiB available. Full audit: `results/mistral-32k-series-20261003`, all30 artifact hashes checked.
