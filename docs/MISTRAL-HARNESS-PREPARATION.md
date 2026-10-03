@@ -15,3 +15,5 @@ Next authorized steps at an idle M5 boundary:
 5. Extend publication/coverage to the separate ledger and u20261003 result IDs before publishing measured cells. The existing harvester accepts only baseline u20261002 IDs and must not silently omit the extension.
 
 Tests cover separate lock/ledger admission, exact preservation of all per-job budgets, refusal of unqualified artifacts, and explicit task reasoning policy. No GPU operation, model loading or M5 runtime mutation was performed while preparing this branch.
+
+The baseline native launcher is dynamically linked, so launcher SHA256 alone is insufficient provenance. Admission now verifies the pinned complete native runtime file list (launcher plus task-owned dylibs), its source commit and qualification receipt. A regression test verifies that changing a linked library blocks an otherwise qualified runtime. Baseline source includes Mistral3 and the corrected YaRN log-multiplier reader; no actual Mistral load has been qualified yet.

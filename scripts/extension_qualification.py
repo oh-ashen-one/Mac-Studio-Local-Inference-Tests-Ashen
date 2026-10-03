@@ -22,5 +22,13 @@ def require_qualified(root,plan,specs):
         native=spec['native_runtime']
         if digest(root/native['lock'])!=q.get('runtime_lock_sha256'):raise RuntimeError('Qualified runtime lock changed')
         if digest(root/native['server'])!=q.get('native_server_sha256'):raise RuntimeError('Qualified runtime binary changed')
+        files=native.get('files',[])
+        if not files or native['server'] not in [f['path'] for f in files]:raise RuntimeError('Missing pinned native runtime closure')
+        if q.get('runtime_files')!=files:raise RuntimeError('Qualified runtime file list changed')
+        if q.get('runtime_source_commit')!=native['commit']:raise RuntimeError('Qualified runtime source changed')
+        for f in files:
+            relative=Path(f['path'])
+            if relative.is_absolute() or '..' in relative.parts:raise RuntimeError('Runtime path outside task checkout')
+            if digest(root/relative)!=f['sha256']:raise RuntimeError('Qualified linked runtime changed: '+f['path'])
         # The receipt must refer to exactly the admitted model artifact list.
         if q.get('model_files')!=spec['files']:raise RuntimeError('Qualified artifact list changed')

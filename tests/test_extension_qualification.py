@@ -27,3 +27,22 @@ def test_mistral_declared_no_reasoning_is_explicit_in_task_and_counting_template
     assert payload['reasoning_effort']=='none'
     assert payload['chat_template_kwargs']==template_kwargs(spec)=={'reasoning_effort':'none'}
     assert template_kwargs({'id':'qwen38-q4-gguf'})=={'enable_thinking':False}
+
+
+def test_modified_linked_library_refuses_an_otherwise_qualified_runtime(tmp_path):
+    from extension_qualification import digest
+    server=tmp_path/'server';server.write_bytes(b'launcher')
+    library=tmp_path/'library.dylib';library.write_bytes(b'qualified library')
+    lock=tmp_path/'runtime.json';lock.write_text('{}')
+    files=[{'path':p.name,'sha256':digest(p)} for p in [server,library]]
+    native={'lock':'runtime.json','server':'server','commit':'pinned-source','files':files}
+    spec={'id':'mistral','extension':True,'execution_ready':True,'revision':'model-rev','files':[],
+          'qualification_receipt':'qualification.json','native_runtime':native}
+    q={k:True for k in ['artifact_hashes_verified','runtime_load_passed','exact_token_count_passed','task_interface_passed','long_context_metadata_passed']}
+    q.update(model_revision=spec['revision'],model_files=[],runtime_lock_sha256=digest(lock),
+             native_server_sha256=digest(server),runtime_source_commit='pinned-source',runtime_files=files)
+    (tmp_path/'qualification.json').write_text(json.dumps(q))
+    require_qualified(tmp_path,{}, {'mistral':spec})
+    library.write_bytes(b'changed library')
+    with pytest.raises(RuntimeError,match='Qualified linked runtime changed'):
+        require_qualified(tmp_path,{}, {'mistral':spec})
