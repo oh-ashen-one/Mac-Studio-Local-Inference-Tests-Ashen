@@ -1,17 +1,17 @@
 {
   "campaign_id": "unified-overnight-20261002",
-  "status": "running",
+  "status": "stopped",
   "overall_deadline": null,
   "active": {
-    "id": "u20261002-mimo-tail-200000-2048-r1",
+    "id": "u20261002-mimo-repo20-r1",
     "model_id": "mimo-v2.6-flash-mopd",
-    "kind": "speed",
-    "tokens": 200000,
-    "output_tokens": 2048,
-    "repeat": 1,
-    "status": "running"
+    "kind": "repo",
+    "attempt": 1,
+    "max_turns": 20,
+    "status": "unsupported_resource",
+    "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
   },
-  "error": null,
+  "error": "Cell failed and was preserved: u20261002-mimo-repo20-r1",
   "amendments": [
     {
       "id": "deepseek-pretoken-v2",
@@ -35,10 +35,12 @@
       "model_lock_sha256": "79b756a50e463289dd85d480b29865449036906cbc6a46789a3d617671229f3f"
     }
   ],
-  "completed_jobs": 207,
+  "completed_jobs": 208,
   "planned_jobs": 234,
   "omitted_jobs": 18,
-  "remaining_jobs": 9,
+  "resource_limited_jobs": 1,
+  "deferred_jobs": 2,
+  "remaining_jobs": 7,
   "scope_amendments": [
     {
       "id": "owner-one-per-release-20261003",
@@ -84,6 +86,18 @@
       "id": "owner-add-mistral-20261003",
       "previous_plan_sha256": "08533dde2f9d54eed32e35dec6490bfed5e2c541098a2bb765ef8dd02238e252",
       "review": "docs/MISTRAL-ADDITION-20261003.md"
+    },
+    {
+      "id": "mimo-metal-resource-review-20261003",
+      "original_plan": "config/archive/unified-campaign-before-mimo-resource-review-20261003.json",
+      "original_plan_sha256": "716b62865a8ecf16c078193401de8bfdd9543a973f1809f9868a73cce3772b50",
+      "resource_limited_job": "u20261002-mimo-repo20-r1",
+      "deferred_jobs": [
+        "u20261002-mimo-repo20-r2",
+        "u20261002-mimo-repo20-r3"
+      ],
+      "review": "docs/MIMO-METAL-RESOURCE-FAILURE-20261003.md",
+      "measurement_settings": "No weights, runtime dependencies, cache policy, memory limits, inputs, outputs, seeds, repetitions, concurrency or task budgets changed."
     }
   ],
   "required_extension": "config/mistral-campaign-20261003.json",
@@ -326,6 +340,8 @@
           "status": "complete"
         }
       },
+      "resource_limited_jobs": 0,
+      "deferred_jobs": 0,
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
@@ -595,6 +611,8 @@
           "status": "complete"
         }
       },
+      "resource_limited_jobs": 0,
+      "deferred_jobs": 0,
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
@@ -864,6 +882,8 @@
           "status": "complete"
         }
       },
+      "resource_limited_jobs": 0,
+      "deferred_jobs": 0,
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
@@ -902,7 +922,7 @@
       "name": "MiMo V2.6 Flash \u00b7 MXFP4",
       "runtime": "mlx-vlm",
       "quantization": "mxfp4 catalog; 4-bit config default",
-      "completed_jobs": 30,
+      "completed_jobs": 31,
       "planned_jobs": 39,
       "speed": {
         "8192": {
@@ -1133,29 +1153,35 @@
           "status": "pending"
         }
       },
+      "resource_limited_jobs": 1,
+      "deferred_jobs": 2,
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
-        "completed": 0,
+        "completed": 1,
         "planned": 3,
         "decode": {
-          "n": 0,
-          "median": null,
-          "mean": null,
+          "n": 1,
+          "median": 37.603516014703516,
+          "mean": 37.603516014703516,
           "stdev": null,
-          "min": null,
-          "max": null
+          "min": 37.603516014703516,
+          "max": 37.603516014703516
         },
         "fill": {
-          "n": 0,
-          "median": null,
-          "mean": null,
+          "n": 1,
+          "median": 390.4345504170051,
+          "mean": 390.4345504170051,
           "stdev": null,
-          "min": null,
-          "max": null
+          "min": 390.4345504170051,
+          "max": 390.4345504170051
         },
-        "actual_input_tokens": [],
-        "actual_output_tokens": []
+        "actual_input_tokens": [
+          200000
+        ],
+        "actual_output_tokens": [
+          2048
+        ]
       }
     },
     {
@@ -1394,6 +1420,8 @@
           "status": "omitted_by_owner_scope"
         }
       },
+      "resource_limited_jobs": 0,
+      "deferred_jobs": 0,
       "omitted_jobs": 9,
       "historical_comparison": true,
       "sustained": {
@@ -1655,6 +1683,8 @@
           "status": "omitted_by_owner_scope"
         }
       },
+      "resource_limited_jobs": 0,
+      "deferred_jobs": 0,
       "omitted_jobs": 9,
       "historical_comparison": true,
       "sustained": {
@@ -3654,7 +3684,7 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 1,
-      "status": "running"
+      "status": "complete"
     },
     {
       "id": "u20261002-mimo-repo20-r1",
@@ -3662,7 +3692,8 @@
       "kind": "repo",
       "attempt": 1,
       "max_turns": 20,
-      "status": "pending"
+      "status": "unsupported_resource",
+      "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
     },
     {
       "id": "u20261002-mimo-tail-200000-2048-r2",
@@ -3679,7 +3710,8 @@
       "kind": "repo",
       "attempt": 2,
       "max_turns": 20,
-      "status": "pending"
+      "status": "deferred_resource_review",
+      "reason": "Long-history trials remain required but await GPU resource review; not completed, passed or unsupported."
     },
     {
       "id": "u20261002-mimo-tail-200000-2048-r3",
@@ -3696,7 +3728,8 @@
       "kind": "repo",
       "attempt": 3,
       "max_turns": 20,
-      "status": "pending"
+      "status": "deferred_resource_review",
+      "reason": "Long-history trials remain required but await GPU resource review; not completed, passed or unsupported."
     },
     {
       "id": "u20261002-mimo-serving-c1",
@@ -3723,5 +3756,5 @@
       "status": "pending"
     }
   ],
-  "updated_at_utc": "2026-10-03T09:02:25.120848+00:00"
+  "updated_at_utc": "2026-10-03T10:06:13.375976+00:00"
 }

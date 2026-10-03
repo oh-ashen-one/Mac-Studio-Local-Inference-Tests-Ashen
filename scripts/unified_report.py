@@ -26,12 +26,14 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
     declared={j["id"]:j for j in plan["jobs"]}
     for j in jobs:
         amendment=declared.get(j["id"],{})
-        if j["status"]=="pending" and amendment.get("disposition")=="omitted_by_owner_scope":
-            j.update(status="omitted_by_owner_scope",reason=amendment["disposition_reason"])
+        if j['status'] in ('pending','needs_review') and amendment.get('disposition') in ('omitted_by_owner_scope','unsupported_resource','deferred_resource_review'):
+            j.update(status=amendment['disposition'],reason=amendment['disposition_reason'])
     models=[]
     for spec in specs:
         spec=public_spec(spec)
         own=[j for j in jobs if j['model_id']==spec['id']];done=[j for j in own if j['status']=='complete'];m={'id':spec['id'],'name':spec['display_name'],'runtime':spec['runtime'],'quantization':spec['quantization'],'completed_jobs':len(done),'planned_jobs':len(own),'speed':{},'repo':{},'quality':{},'replay':{},'serving':{}}
+        m['resource_limited_jobs']=sum(j['status']=='unsupported_resource' for j in own)
+        m['deferred_jobs']=sum(j['status']=='deferred_resource_review' for j in own)
         m['omitted_jobs']=sum(j['status']=='omitted_by_owner_scope' for j in own)
         m['historical_comparison']=any(spec['id'] in a.get('historical_model_ids',[]) for a in plan.get('scope_amendments',[]))
         for length in plan['context_lengths']:
@@ -53,12 +55,13 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_median_s','ttft_p95_s','latency_median_s','latency_p95_s','completed_requests','wall_s','total_output_tokens']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
-    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'resource_limited_jobs':sum(j['status']=='unsupported_resource' for j in jobs),'deferred_jobs':sum(j['status']=='deferred_resource_review' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope','unsupported_resource') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 
 def write(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json',output='results/unified-overnight-20261002'):
     r=collect(plan_path,state_path);out=ROOT/output;out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
     lines=['# Unified all-configuration benchmark — interim report','',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
     lines[3] += f" Owner scope omissions: {r['omitted_jobs']}; remaining baseline groups: {r['remaining_jobs']}. Omissions are not passes. Required extension: {r['extension_planned_jobs']} separately declared groups awaiting verification/qualification." if r.get('required_extension') else ''
+    if r.get('resource_limited_jobs'):lines[3] += f" Resource-limited attempted groups: {r['resource_limited_jobs']}; deferred for resource review: {r['deferred_jobs']}. Neither is scored as a pass; deferred groups remain required."
     if r.get('cancelled_extension'):lines[3] += ' The 156-group four-model extension was cancelled by owner scope; none is counted as passed.'
     for m in r['models']:
         speed=m['speed']['200000']['decode'];q=m['quality']['humaneval'];rate=f"{speed['median']:.3f} tok/s" if speed['n'] else 'Pending'

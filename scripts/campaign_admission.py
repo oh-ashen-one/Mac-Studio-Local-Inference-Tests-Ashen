@@ -40,3 +40,27 @@ def extension_pending(root, plan):
     import json
     extension = json.loads((root / name).read_text())
     return extension.get('status') != 'complete_with_evidence'
+
+RESOURCE = 'unsupported_resource'
+DEFERRED = 'deferred_resource_review'
+
+def reviewed_disposition(root, job, result):
+    """Require concrete preserved evidence; never score a partial resource failure."""
+    disposition=job.get('disposition')
+    if disposition not in (RESOURCE,DEFERRED):return None
+    import json
+    evidence=job.get('disposition_evidence')
+    if not evidence:raise RuntimeError('Missing resource review evidence')
+    note=json.loads((Path(root)/evidence).read_text())
+    if note.get('disposition')!=RESOURCE or note.get('server_error')!='kIOGPUCommandBufferCallbackErrorOutOfMemory':raise RuntimeError('Missing concrete reviewed GPU resource failure')
+    if disposition==RESOURCE:
+        if note.get('run_id')!=job['id'] or not result or result.get('status')!='failed' or note.get('final_task_score') is not None:raise RuntimeError('Resource disposition does not match a preserved failed attempt')
+    elif result is not None:raise RuntimeError('Cannot defer an already attempted result')
+    return disposition
+
+
+def gpu_safety_failures(root):
+    import json
+    path=Path(root)/'work/compute-safety-events.json'
+    if not path.exists():return 0
+    return sum(bool(e.get('count_toward_two_failure_stop')) for e in json.loads(path.read_text())['events'])

@@ -116,7 +116,8 @@ with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
         copied.append(run)
     # Save a timestamped aggregate, never an active primary result file. This
     # preserves accurate interim coverage while long quality suites are running.
-    remote("import sys;sys.path.insert(0,'scripts');from unified_report import write;write("+repr(settings['plan'])+","+repr(ledger)+","+repr(settings['aggregate'])+")")
+    report_call='write()' if campaign=='baseline' else 'write('+repr(settings['plan'])+','+repr(ledger)+','+repr(settings['aggregate'])+')'
+    remote("import sys;sys.path.insert(0,'scripts');from unified_report import write;"+report_call)
     aggregate=ROOT/settings['aggregate'];aggregate.mkdir(parents=True,exist_ok=True)
     for name in ['summary.json', 'README.md']:
         public = sanitize(remote("import pathlib,sys;sys.stdout.buffer.write(pathlib.Path(" + repr(settings['aggregate']+'/'+name) + ").read_bytes())"))

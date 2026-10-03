@@ -2,6 +2,14 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## ACTIVE resource review — October3
+
+Driver23995 stopped after MiMo extended trial1 failed on request12 with MetalGPU out-of-memory;11 responses preserved. No actual usage was emitted for the failing response, so no final task score is claimed. Read `docs/MIMO-METAL-RESOURCE-FAILURE-20261003.md`. Reconstructed preflight request233765 tokens is below model1048576 positions; this is GPU allocation failure, not context-length truncation. Whole-child minimum16.578GiB available,3.4375MiB swap growth; guards were not relaxed. Owned inference processes and GPU holders verified absent.
+
+Original failed trial is `unsupported_resource` with evidence/audit; unrun extended trials2/3 are `deferred_resource_review`, still required and unscored. Five remaining sustained/short8K serving groups may continue first under original order/settings, while deferred entries remain pending review. GPU safety event1 recorded in work/compute-safety-events.json; after2 events no automatic inference relaunch. Status accounting:208 complete +18 owner omissions +1 resource-limited attempt +7 required remaining (including2 deferred), plus39 Mistral.
+
+At this stopped/clean boundary the prepared Mistral harness branch was merged into this task branch, preserving all baseline argument defaults/dependency/model locks and measurement budgets. No Mistral inference occurred. Resource-disposition validation, explicit deferral and safety-stop accounting now pass44 tests. Do not treat prepared qualification code as passed evidence. After five safe baseline groups/driver exit, Mistral qualification/full suite can proceed while the two deferred MiMo cells stay visibly incomplete; do not publish full completion until each is resolved with actual evidence.
+
 ## Overnight management authority — October3
 
 The owner is going to sleep and explicitly granted this executor full overnight management. Continue autonomously until the retained baseline and required Mistral39-group extension are complete or have evidence-backed unsupported dispositions, then publish final research report, verify owned inference exits and pause the existing follow-up. Prioritize correctness, preserve all budgets/failures and keep routine healthy checks quiet. Do not reintroduce skipped models. No main merge, personal-site/social/external submission or account/security changes are authorized.

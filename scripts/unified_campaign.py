@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import safety,Telemetry,stop,write_json
 from models import digest
-from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED
+from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, reviewed_disposition, gpu_safety_failures
 
 def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
     python=str(ROOT/('vendor/vlm-runtime/.venv/bin/python' if spec['runtime']=='mlx-vlm' else '.venv/bin/python'))
@@ -39,8 +39,11 @@ def main():
         import psutil
         for j in state['jobs']:
             out=ROOT/'results'/j['id'];file=out/('run.json' if j['kind']=='replay' else 'result.json')
+            result=json.loads(file.read_text()) if file.exists() else None
+            reviewed=reviewed_disposition(ROOT,j,result)
+            if reviewed:
+                j.update(status=reviewed,reason=j['disposition_reason']);save();continue
             if file.exists():
-                result=json.loads(file.read_text())
                 if result.get('status')!='complete':j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Existing failed/incomplete cell requires explicit review');save();return
                 j['status']='complete';save();continue
             disposition=pending_disposition(j, file.exists())
@@ -62,6 +65,7 @@ def main():
             for holder in (Path.home()/'.cache/gpu-slot/holders').glob('*.json'):
                 held=json.loads(holder.read_text())
                 if held.get('pid') and psutil.pid_exists(held['pid']):raise RuntimeError('Another GPU holder is active; preserve its work')
+            if gpu_safety_failures(ROOT)>=2:raise RuntimeError('Two GPU safety failures recorded; no automatic inference relaunch')
             safety('studio-new')
             command,budget=command_for(j,specs[j['model_id']],plan['model_lock'],plan['id']);j['status']='running';state.update(status='running',active=j['id']);save()
             with (ROOT/'work'/f'{j["id"]}.log').open('w') as log:
@@ -80,7 +84,8 @@ def main():
             if process.returncode:
                 j['status']='needs_review';raise RuntimeError('Cell failed and was preserved: '+j['id'])
             j['status']='complete';save();process=None
-        if any(j['status'] not in ('complete',OMITTED) for j in state['jobs']):state['status']='needs_review'
+        if any(j['status']==DEFERRED for j in state['jobs']):state.update(status='baseline_deferred_resource_review',active=None)
+        elif any(j['status'] not in ('complete',OMITTED,RESOURCE) for j in state['jobs']):state['status']='needs_review'
         elif extension_pending(ROOT,plan):state.update(status='baseline_accounted_extension_pending',active=None)
         else:state.update(status='complete',active=None,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
         save()
