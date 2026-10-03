@@ -650,3 +650,7 @@ All three repeats completed exact200000 input/2048 output tokens. Decode21.36740
 ### October3, Qwen8-bit extended repair series complete
 
 All three predeclared twenty-turn-budget attempts passed in3/5/4 turns, wall230.261/240.435/238.785s, median238.785s. Every attempt had zero human rescues and whole-child swap growth. Qwen8-bit now has36/39 groups complete; serving concurrency1/2/4 remains, with concurrency1 active. Original eight-turn failed attempt4 remains preserved and was not extended or rescued.
+
+### October3, Qwen8-bit concurrency-one serving
+
+60/60 measured requests completed in831.543s,15360 total output tokens (256 each), actual8203–8204 input tokens. Aggregate18.47170 output tok/s; median/p95 first output5.185/5.194s, median/p95 response latency13.854/13.891s. Whole-child swap growth zero; two warmups separately preserved. Concurrency2 remains active and concurrency4 pending. No final scaling conclusion yet.
