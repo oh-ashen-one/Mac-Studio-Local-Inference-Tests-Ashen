@@ -21,3 +21,7 @@ The GitHub remote is authoritative. Work on your own branch, push all project ch
 Exactly three standard model configurations are selected in `config/models.lock.json`: Qwen 3.8 27B 8-bit MLX, Gemma 4 31B 8-bit MLX, and DeepSeek V4 Flash 0731 mixed Q4 through DwarfStar/Metal. No Mistral, no abliterated models, no automatic model upgrades. Any variant/version change creates a new cohort on **both** machines.
 
 Weights, caches and virtual environments stay out of Git. Model and runtime revisions, file hashes, preparation tools, sanitized inventories and intentional result releases are versioned. The incoming order is owner-confirmed: M5 Ultra, 36 CPU cores, 80 GPU cores, 32 Neural Engine cores, 256 GB, 2 TB. The delivered hardware was directly inventoried on October 1, 2026.
+
+## Active unified overnight campaign (owner update, October 2, 2026)
+
+The owner explicitly authorized extensive sequential M5 testing for all six downloaded configurations and removed the overall nine-hour cutoff. For this active chat/campaign, follow `docs/UNIFIED-OVERNIGHT-PROTOCOL.md` and `config/unified-campaign.json`; do not stop after only the two additional models. Use the separate unified model lock. Preserve historical results and all failures. The M3 remains occupied. Keep system/idle caffeinate active while allowing display sleep (`-is`, not `-d`). This standing authorization is scoped to the active campaign, not a future clone merely reading the README.

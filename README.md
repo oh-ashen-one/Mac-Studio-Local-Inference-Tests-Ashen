@@ -1,17 +1,43 @@
 # Mac Studio Local Inference Tests Ashen
 
-## First M5 results — October 1, 2026
+**Active: unified overnight campaign across all six downloaded configurations.** There is no overall cutoff. [Frozen 234-cell plan](config/unified-campaign.json) · [methods, sources and controls](docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Earlier results remain historical; the old two-model completion is not completion of this expanded study.
 
-The first sequential M5 run is complete: **Qwen 32.05 tok/s, Gemma 27.63 tok/s, DeepSeek 63.83 tok/s** at the fastest measured decode repeat in the pinned configurations. These are initial M5-only numbers, not an M3 comparison or a universal speed claim. Read the [full results, real responses and limitations](results/m5-firstlook-20261001/README.md).
+**The 120-run standard speed phase is complete.** [Consolidated speed report, raw-run manifest and exportable figures](results/unified-speed-summary-20261002/README.md). Every configuration has five measurements at each of four input lengths. The remaining task, quality, sustained-output and serving-load study is still running.
+
+**The expanded campaign is running.** [Current coverage and results](results/unified-overnight-20261002/README.md) · [research notes](docs/UNIFIED-RUN-NOTES.md). The earlier 22-cell additional-model phase is archived; its completion and paused-monitor receipt describe that earlier checkpoint, not the current runner. Matched M3 testing and personal-site publication remain pending.
+
+**MiMo measurement correction:** the historical 0.30–0.41 tok/s direct-generation results came from a harness that omitted normal MLX process memory wiring. They do not represent normal resident inference. The completed five-run resident-profile group reached **37.68 tok/s median** after 200K input (**n=5**, range 37.22–37.75). Its input and output token IDs match the historical run. The separate **37.57 tok/s** setup probe remains excluded from the measured repetitions. [Current protocol and evidence boundaries](docs/UNIFIED-OVERNIGHT-PROTOCOL.md).
+
+## Start with the 200K results — October 1, 2026
+
+The original three-model cohort completed **200,000 actual input tokens plus 256 output tokens** on the new M5 Studio:
+
+| Pinned configuration | Empty-cache context fill | Input tok/s | Output tok/s after 200K |
+|---|---:|---:|---:|
+| Qwen 3.8 27B, 8-bit MLX | 3m 34s | 933.63 | **21.44** |
+| Gemma 4 31B, 8-bit MLX | 5m 15s | 635.74 | **15.41** |
+| DeepSeek V4 Flash 0731, mixed Q4 | 5m 02s | 662.81 | **38.20** |
+
+![200K context fill and generation speeds](outputs/200k-context-results.png)
+
+One measured long-context run per model; no swap growth. These are throughput stress tests, not quality scores. Cache definitions, runtime differences and raw records are in the [campaign report](docs/LONG-CONTEXT-CAMPAIGN.md). The earlier [short-context setup checks](results/m5-firstlook-20261001/README.md) remain available but are not the headline result.
+
+**The original M3 GPU is busy with the owner's other sessions. No matched M3/M5 percentage is claimed.** The [live handoff](HANDOFF.md) tracks the official AA replay, Blender condition, [repository diagnostic](docs/REPO-DIAGNOSTIC.md) and [Darkbloom installation last](docs/DARKBLOOM.md). Changes and results are being reviewed in [PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3).
+
+**Also completed on M5:** the official AA replay served 168/168 turns with zero failures in 16m 29s ([report](results/m5-aa-full-alone-20261001/README.md)); the separate large-context Django diagnostic passed **4/5 fresh attempts with zero rescue**, including one retained failure ([report](results/m5-repo-qwen-summary-20261001/README.md)).
+
+**Additional downloaded models:** Qwen 3.6 35B A3B 4-bit affine MLX with 8-bit gates (21.3 GB) and MiMo V2.6 Flash MXFP4 (172.9 GB including its audio tokenizer) are fully checksum-verified in a [separate lock](config/additional-models.lock.json). The owner-authorized Qwen download retry succeeded. Their earlier independent-runtime phase is archived: three 200K speed samples, five bounded repository attempts and separately labeled qualified full replay cells per model. Initial loader failures and MiMo's strict JSON-format miss remain in the raw evidence. Darkbloom's provider is not running. [Method and runtime qualification](docs/ADDITIONAL-MODEL-CAMPAIGN.md). [Additional results](results/m5-additional-summary-20261001/README.md): Qwen 3.6 has completed three 200K runs at **79.78 tok/s median** (79.64–79.96), **66.69s median fill**, zero swap; its repository diagnostic finished at **4/5 attempts passed** (median 8m 45s, no rescue). The failed fourth trial is retained. The [full recorded-policy replay](results/m5-aa-qwen36-full-recorded-20261001/README.md) served 168/168 turns in 10m 05s (37.83 end-to-end tok/s), explicitly non-comparable to the original exact-length cell. MiMo’s [three completed 200K samples](results/m5-mimo-200k-summary-20261001/README.md) measured **0.303–0.413 tok/s**, median **0.398 tok/s**, with **9m 03s median fill**. These are historical **unwired-harness** measurements; the corrected resident profile is measured separately in the active study. They must not be presented as normal MiMo runtime performance. Its bounded repository diagnostic finished at **0/5 passed** (median 9m 37s, zero rescue). The original replay qualification failed a reproduced XML/JSON parser mismatch; a separately labeled parser-corrected profile qualified and [served the full 168/168-turn replay](results/m5-aa-mimo-full-xml-v2-recorded-20261001/README.md) in 29m 49s at 8.282 end-to-end tok/s, with the original failure preserved.
+
+The read-only visual dashboard is `http://127.0.0.1:18765` **on the new Studio**. To show saved records elsewhere, run `.venv/bin/python scripts/preview.py`. It cannot launch inference. Prompts/responses are collapsed; context-fill timelines, generation speeds, memory and source-linked external configurations are prominent.
 
 ## Start here — preparation only
 
-**The initial owner-authorized test is complete. Do not start another model or inference run merely from reading this README.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+**Do not start a model or inference run merely from reading this README.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
 
 On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
 
 ```sh
-git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
+git clone --branch codex/long-context-dashboard-20261001 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
 cd Mac-Studio-Local-Inference-Tests-Ashen
 bash scripts/prepare.sh
 ```
@@ -22,7 +48,7 @@ For this already-prepared Studio, return to this chat and say **“start the tes
 
 An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
 
-**Status: both Studios are prepared with the same three model artifacts and matched runtime versions. All 34 selected model files are SHA256 verified on the M5. No inference is running from this task; no controlled comparison results yet. [Paired setup receipt](docs/M5-READY.md).** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS have now been inspected; see the paired setup receipt. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+**Status: both Studios are prepared with the same three model artifacts and matched runtime versions. All 34 selected model files are SHA256 verified on the M5. See HANDOFF.md for active M5 campaign work; no controlled M3/M5 comparison results yet. [Paired setup receipt](docs/M5-READY.md).** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS have now been inspected; see the paired setup receipt. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
 
 ## What I want to find out
 
@@ -139,3 +165,5 @@ Please include machine specs, exact revisions, full settings, raw measurements a
 Before publishing, remove credentials, personal filesystem paths, IP addresses, private prompts, serial numbers and UUIDs. Keep needed sanitized evidence in Git or a named release; discard task-owned temporary captures/builds after verification and publication. Never remove shared model caches or another session's work.
 
 By [Ashen](https://x.com/ashen_one).
+
+Precision correction: the current Qwen 3.6 publication label is **4-bit MLX (affine; 8-bit gates)**. The legacy package ID and catalog `fp4` fields remain unchanged as provenance, not claims of floating FP4 encoding. [Evidence and dated correction](docs/QWEN36-PRECISION-CORRECTION.md).

@@ -1,0 +1,115 @@
+--- a/django/db/migrations/executor.py
++++ b/django/db/migrations/executor.py
+@@ -61,6 +61,23 @@
+                         applied[migration] = self.loader.graph.nodes[migration]
+         return plan
+ 
++    def check_replacements(self):
++        """
++        Mark replacement migrations applied if their replaced set all are.
++
++        Do this unconditionally on every migrate, rather than just when
++        migrations are applied or unapplied, to correctly handle the case
++        when a new squash migration is pushed to a deployment that already had
++        all its replaced migrations applied. In this case no new migration will
++        be applied, but the applied state of the squashed migration must be
++        maintained.
++        """
++        applied = self.recorder.applied_migrations()
++        for key, migration in self.loader.replacements.items():
++            all_applied = all(m in applied for m in migration.replaces)
++            if all_applied and key not in applied:
++                self.recorder.record_applied(*key)
++
+     def _create_project_state(self, with_applied_migrations=False):
+         """
+         Create a project state including all the applications without
+@@ -124,6 +141,23 @@
+ 
+         return state
+ 
++    def check_replacements(self):
++        """
++        Mark replacement migrations applied if their replaced set all are.
++
++        Do this unconditionally on every migrate, rather than just when
++        migrations are applied or unapplied, to correctly handle the case
++        when a new squash migration is pushed to a deployment that already had
++        all its replaced migrations applied. In this case no new migration will
++        be applied, but the applied state of the squashed migration must be
++        maintained.
++        """
++        applied = self.recorder.applied_migrations()
++        for key, migration in self.loader.replacements.items():
++            all_applied = all(m in applied for m in migration.replaces)
++            if all_applied and key not in applied:
++                self.recorder.record_applied(*key)
++
+     def _migrate_all_forwards(self, state, plan, full_plan, fake, fake_initial):
+         """
+         Take a list of 2-tuples of the form (migration instance, False) and
+@@ -149,6 +183,30 @@
+ 
+         return state
+ 
++    def _expand_backwards_plan(self, plan):
++        """
++        Expand a backwards plan so that unapplying a replacement (squashed)
++        migration also unapplies the migrations it replaces, if those are
++        still recorded as applied in the database.
++        """
++        applied = self.recorder.applied_migrations()
++        expanded = []
++        seen = set()
++        for migration, backwards in plan:
++            key = (migration.app_label, migration.name)
++            if backwards and key in self.loader.replacements:
++                replaced = self.loader.replacements[key].replaces
++                for replaced_key in replaced:
++                    if replaced_key in applied and replaced_key not in seen:
++                        replaced_migration = self.loader.disk_migrations.get(replaced_key)
++                        if replaced_migration is not None:
++                            expanded.append((replaced_migration, True))
++                            seen.add(replaced_key)
++            if key not in seen:
++                expanded.append((migration, backwards))
++                seen.add(key)
++        return expanded
++
+     def _migrate_all_backwards(self, plan, full_plan, fake):
+         """
+         Take a list of 2-tuples of the form (migration instance, True) and
+@@ -159,6 +217,9 @@
+         in a first run over the plan and then unapply them in a second run over
+         the plan.
+         """
++        # Unapplying a replacement (squashed) migration must also unapply the
++        # migrations it replaces if those are still recorded as applied.
++        plan = self._expand_backwards_plan(plan)
+         migrations_to_run = {m[0] for m in plan}
+         # Holds all migration states prior to the migrations being unapplied
+         states = {}
+@@ -260,23 +321,6 @@
+         if self.progress_callback:
+             self.progress_callback("unapply_success", migration, fake)
+         return state
+-
+-    def check_replacements(self):
+-        """
+-        Mark replacement migrations applied if their replaced set all are.
+-
+-        Do this unconditionally on every migrate, rather than just when
+-        migrations are applied or unapplied, to correctly handle the case
+-        when a new squash migration is pushed to a deployment that already had
+-        all its replaced migrations applied. In this case no new migration will
+-        be applied, but the applied state of the squashed migration must be
+-        maintained.
+-        """
+-        applied = self.recorder.applied_migrations()
+-        for key, migration in self.loader.replacements.items():
+-            all_applied = all(m in applied for m in migration.replaces)
+-            if all_applied and key not in applied:
+-                self.recorder.record_applied(*key)
+ 
+     def detect_soft_applied(self, project_state, migration):
+         """

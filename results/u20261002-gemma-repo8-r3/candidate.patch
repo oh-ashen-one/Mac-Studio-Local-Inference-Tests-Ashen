@@ -1,0 +1,13 @@
+--- a/django/db/migrations/executor.py
++++ b/django/db/migrations/executor.py
+@@ -254,6 +254,10 @@
+         if migration.replaces:
+             for app_label, name in migration.replaces:
+                 self.recorder.record_unapplied(app_label, name)
++            # If the replaced migrations are not around, we also need to
++            # mark the squash migration itself as unapplied.
++            if not any(self.loader.graph.nodes.get(key) for key in migration.replaces):
++                self.recorder.record_unapplied(migration.app_label, migration.name)
+         else:
+             self.recorder.record_unapplied(migration.app_label, migration.name)
+         # Report progress
