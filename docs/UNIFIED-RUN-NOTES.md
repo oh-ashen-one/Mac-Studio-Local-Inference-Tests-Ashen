@@ -588,3 +588,7 @@ An authorized metadata-only inventory then reconfirmed two additional independen
 ### October 3, Gemma sustained series complete
 
 All three sustained repetitions finished with exactly200000 input and2048 generated tokens. Decode median15.3790769 tok/s, range15.3752937–15.3799593. Third fill311.760s, zero whole-child swap growth. Second fresh twenty-turn-budget repair passed in three turns/998.060s, zero human rescues and swap growth. Extended repair remains2/3; third trial is active. This is one configuration's completed sustained series, not full-model or full-campaign completion.
+
+### October 3, Gemma extended repair series complete
+
+All three fresh twenty-turn-budget attempts passed, each using three turns and zero human rescues. Durations997.837/998.060/997.614s, median997.837s. Third attempt whole-child swap growth was zero, matching the earlier two. These are independent declared trials, not extensions of prior attempts. Gemma now has36/39 groups complete; its concurrency1/2/4 serving tests remain. Driver advanced to the60-request concurrency1 group.

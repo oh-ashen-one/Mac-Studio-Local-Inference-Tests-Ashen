@@ -1,13 +1,13 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **185/234 cells completed**. Status: saved_results. No overall deadline. A completed task attempt may still be unsuccessful.
- Owner scope omissions: 9; remaining baseline groups: 40. Omissions are not passes. Four-release extension: 156 separately declared groups awaiting verification/qualification.
+Coverage: **186/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+ Owner scope omissions: 9; remaining baseline groups: 39. Omissions are not passes. Four-release extension: 156 separately declared groups awaiting verification/qualification.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
 |---|---:|---:|---:|---:|---:|---:|
 | Qwen 3.8 27B · 8-bit | 30/39 | 21.426 tok/s | 5/5 | 4/5 completed | 0/0 completed | 158/164 scored of 164 |
-| Gemma 4 31B · 8-bit | 35/39 | 15.255 tok/s | 5/5 | 5/5 completed | 2/2 completed | 159/164 scored of 164 |
+| Gemma 4 31B · 8-bit | 36/39 | 15.255 tok/s | 5/5 | 5/5 completed | 3/3 completed | 159/164 scored of 164 |
 | DeepSeek V4 Flash · mixed Q4 | 30/39 | 37.610 tok/s | 5/5 | 5/5 completed | 0/0 completed | 148/164 scored of 164 |
 | MiMo V2.6 Flash · MXFP4 | 30/39 | 37.676 tok/s | 5/5 | 1/5 completed | 0/0 completed | 154/164 scored of 164 |
 | Qwen 3.6 35B A3B · 4-bit MLX (affine; 8-bit gates) | 30/39 | 78.765 tok/s | 5/5 | 4/5 completed | 0/0 completed | 158/164 scored of 164 |
