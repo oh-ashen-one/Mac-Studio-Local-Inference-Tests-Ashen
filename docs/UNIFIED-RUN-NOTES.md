@@ -596,3 +596,7 @@ All three fresh twenty-turn-budget attempts passed, each using three turns and z
 ### October 3, Gemma concurrency-one serving completed
 
 `u20261002-gemma-serving-c1` completed60/60 measured requests after two separately recorded warmups: actual inputs8207–8208 tokens,256 output tokens each (15360 total), zero reported cached input, zero whole-child swap growth. Measured wall1001.471s (16m41.5s), aggregate15.33744 output tok/s; median/p95 first output6.545/6.554s and response latency16.689/16.712s. Setup/tokenization precedes that measured interval; group elapsed is not the same metric. Driver advanced to concurrency2 with the same60-request count. No concurrency scaling conclusion until remaining load profiles finish.
+
+### October 3, Gemma concurrency-two serving completed
+
+60/60 measured requests completed in711.094s, aggregate21.60051 output tok/s; median/p95 latency23.700/23.745s. Compared with concurrency1, aggregate throughput increased about40.8%, while per-request latency increased. This is the expected throughput/latency tradeoff, not a universal speedup. Concurrency4 remains active; no final scaling conclusion yet. Raw request/output/cache and whole-child telemetry are preserved.
