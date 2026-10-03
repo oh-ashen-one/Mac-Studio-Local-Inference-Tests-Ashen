@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT measured Mistral execution — October3 11:41 UTC
+
+Measured driver **59984** is healthy on the verified M5, separate plan `config/mistral-campaign-20261003.json` and ledger `work/mistral-campaign.json`. Actual M5 admission passed before launch at11:35:04 UTC. First group `u20261003-mistral35-structured` completed24/24 cases,21 passed; first200K/256 speed repeat is active, wrapper60127/native server60160. Recheck live identities/children/logs/shared holders; never duplicate a healthy driver. It retains the60-second download-quiescence gate and unchanged budgets. Setup probes remain excluded from39 measured groups.
+
+Baseline driver53830 and all owned workers exited. Accounting213 complete +18 owner omissions +1 audited resource-limited attempt +2 deferred REQUIRED MiMo long-history trials. Those cells stay unscored/pending concrete review while Mistral proceeds. GPU safety event count remains1; a second event prevents automatic inference relaunch. Preserve all failures and stopped/empty boundaries. The existing15-minute heartbeat stays ACTIVE with this current state. Read older CURRENT/ACTIVE snapshots below as history superseded by this section.
+
 ## CURRENT qualified Mistral admission — October3
 
 Setup r2 passed all real gates; child and supervisor completed/exited. Exact8192/32 native probe,33-token BOS-aware chat usage, none/high native rendering, no-reasoning response, loaded262144 training-context metadata, model/source/binary/dylib hashes verified. See immutable `results/q20261003-mistral-qualification-r2/qualification.json`, supervisor receipt and publication hashes. Original r1 remains failed setup and unpooled; no GPU event added (total still1).
