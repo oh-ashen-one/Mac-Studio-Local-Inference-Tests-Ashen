@@ -616,3 +616,7 @@ The fresh declared attempt completed with passed=True, 3 turns, 331.324s task wa
 ### October3, DeepSeek sustained repetition spread
 
 Second sustained200K/2048 repeat completed at38.14 native steady decode tok/s,301.164s fill, no whole-child swap growth. Repeat1 was20.43 tok/s,309.641s fill; native binary/source, model/runtime lock and corpus hashes match. Source-commit fields differ because read-only reporting/evidence was published between runs; inference code was not replaced. The last recorded native-process available-memory sample differed (46.91GiB versus75.49GiB), while both stayed above guards and had no swap growth. This is observable variation, not an established causal explanation. Retain both samples and wait for declared repeat3 before summarizing sustained performance; no extra retry or condition change. The fresh second extended repair remains active.
+
+### October3, DeepSeek sustained series complete
+
+All three200K/2048-output runs are complete, exact counts in each. Native steady decode20.43/38.14/38.15 tok/s, median38.14 and full range20.43–38.15. Context fill309.641/301.164/301.200s, median301.200s. All native binary/source, model/runtime lock and corpus hashes match; no whole-child swap growth. Preserve the slow first repeat in all summaries. Its cause remains unproven. Fresh extended repair trial2 passed in three turns/324.951s with no human rescues or whole-child swap growth; trial3 is active.
