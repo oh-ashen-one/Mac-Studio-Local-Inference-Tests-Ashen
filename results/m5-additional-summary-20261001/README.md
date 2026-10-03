@@ -11,7 +11,7 @@ No original M3 inference; no matched chip-only percentage.
 | Configuration | 200K samples | Fill median | Prefill median | Decode median (range) | Peak MLX | Swap growth |
 |---|---:|---:|---:|---:|---:|---:|
 | Xiaomi: MiMo-V2.6-Flash · mxfp4 catalog; 4-bit config default | 3/3 | 543.16 s | 371.43 tok/s | **0.40** (0.30–0.41) | 210.36 GiB | 0 bytes |
-| Qwen 3.6 35B A3B · fp4 catalog; 4-bit config default | 3/3 | 66.69 s | 3001.24 tok/s | **79.78** (79.64–79.96) | 23.98 GiB | 0 bytes |
+| Qwen 3.6 35B A3B · 4-bit MLX (affine; 8-bit gates) · 4-bit affine MLX, group size 64; gate/shared-expert-gate overrides use 8 bits | 3/3 | 66.69 s | 3001.24 tok/s | **79.78** (79.64–79.96) | 23.98 GiB | 0 bytes |
 
 ## Xiaomi: MiMo-V2.6-Flash
 
@@ -43,7 +43,7 @@ Replay cells (serving only, not tasks solved):
 - [agentperf-default-v1](../../results/m5-aa-mimo-full-recorded-20261001/run.json) — unsupported; 0/0 turns served; 0 short-output warnings; output policy recorded. Context evidence: not recorded, observed limit None. Not directly comparable to the original managed exact-output cohort.
 - [aa-mini-v1](../../results/m5-aa-mimo-mini-xml-v2-recorded-20261001/run.json) — complete; 6/6 turns served; 6 short-output warnings; output policy recorded. Context evidence: model-not-listed, observed limit None. Not directly comparable to the original managed exact-output cohort.
 
-## Qwen 3.6 35B A3B
+## Qwen 3.6 35B A3B · 4-bit MLX (affine; 8-bit gates)
 
 Repository diagnostic: **4/5 completed attempts passed**, of five planned. Infrastructure failures: 0; human rescues: 0. Same historical Django bug, 19 immutable tests, 200K starting context, eight turns, 2048 output tokens per turn, temperature 0.2, seeds 1001–1005. This is a narrow diagnostic, not a general intelligence score.
 

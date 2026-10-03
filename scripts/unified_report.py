@@ -3,6 +3,7 @@
 import json,statistics,datetime,argparse
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+from publication_labels import public_spec
 
 def stats(values):
     values=[x for x in values if isinstance(x,(int,float))]
@@ -24,6 +25,7 @@ def collect():
             except (OSError,ValueError):pass
     models=[]
     for spec in specs:
+        spec=public_spec(spec)
         own=[j for j in jobs if j['model_id']==spec['id']];done=[j for j in own if j['status']=='complete'];m={'id':spec['id'],'name':spec['display_name'],'runtime':spec['runtime'],'quantization':spec['quantization'],'completed_jobs':len(done),'planned_jobs':len(own),'speed':{},'repo':{},'quality':{},'replay':{},'serving':{}}
         for length in plan['context_lengths']:
             rows=[records[j['id']] for j in done if j['kind']=='speed' and j['tokens']==length and j['output_tokens']==256 and j['id'] in records]

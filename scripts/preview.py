@@ -60,7 +60,14 @@ def state(comparison):
     if not additional_live_path.exists():additional_live_path=ROOT/'results/m5-additional-summary-20261001/campaign.json'
     additional_live=json.loads(additional_live_path.read_text()) if additional_live_path.exists() else None
     if additional_live:additional_live.pop('pid',None)
-    return {'unified':unified,'additional_live':additional_live,'downloads':json.loads(downloads.read_text()) if downloads.exists() else None,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
+    download_data=json.loads(downloads.read_text()) if downloads.exists() else None
+    if download_data:
+        from publication_labels import QWEN36,CORRECTED_PRECISION
+        for row in download_data.get('models',[]):
+            if row.get('model_family_id')==QWEN36:
+                row['precision']=CORRECTED_PRECISION
+                row['precision_warning']='Catalog fp4 and legacy mxfp8 are provenance labels; config specifies affine 4-bit with 8-bit gate overrides.'
+    return {'unified':unified,'additional_live':additional_live,'downloads':download_data,'repo_runs':repo_runs,'repo_live':repo_live,'aa_runs':aa_runs,'aa_live':aa_live,'long_runs':long_runs,'long_live':long_live,'peers':json.loads(peers.read_text()) if peers.exists() else None,'campaign':json.loads(campaign.read_text()) if campaign.exists() else None,'ready':(ROOT/'work/READY.json').exists() and all(m['present'] for m in models if not m.get('additional')),
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 

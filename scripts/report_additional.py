@@ -3,9 +3,10 @@
 import datetime,json,statistics
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+from publication_labels import public_spec
 
 def main():
-    lock=json.loads((ROOT/'config/additional-models.lock.json').read_text());records=[]
+    lock=json.loads((ROOT/'config/additional-models.lock.json').read_text());lock['models']=[public_spec(m) for m in lock['models']];records=[]
     for path in (ROOT/'results').glob('*/result.json'):
         r=json.loads(path.read_text())
         if r.get('campaign_id') or path.parent.name.startswith('u20261002-'):continue

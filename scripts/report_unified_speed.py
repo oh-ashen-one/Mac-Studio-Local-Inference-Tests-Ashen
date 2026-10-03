@@ -4,6 +4,7 @@
 JSON/Markdown: python3 scripts/report_unified_speed.py
 Figures: use an isolated environment with config/requirements-plotting.lock and --figures.
 """
+from publication_labels import public_spec
 import argparse
 import datetime
 import hashlib
@@ -63,6 +64,7 @@ def collect():
                              publication_receipt_sha256=digest(folder / 'publication.json')))
     configurations = []
     for spec in specs:
+        spec = public_spec(spec)
         if len(runtime_identities[spec['id']]) != 1:
             raise ValueError('Mixed runtime/binary/residency/corpus identities: ' + spec['id'])
         model = dict(id=spec['id'], name=spec['display_name'], runtime=spec['runtime'],
@@ -152,7 +154,7 @@ def figures(report):
             values = [m['contexts'][str(n)][key] for n in report['context_lengths']]
             med = [v['median'] for v in values]
             error = [[v['median']-v['min'] for v in values], [v['max']-v['median'] for v in values]]
-            ax.errorbar(x, med, yerr=error, label=m['name']+' ('+m['runtime']+')',
+            ax.errorbar(x, med, yerr=error, label=(m['name'].replace(' · 4-bit MLX (affine; 8-bit gates)', '\n4-bit affine MLX; 8-bit gates')+' ('+m['runtime']+')'),
                         color=color, marker=marker, linewidth=1.8, markersize=5,
                         capsize=3, elinewidth=1, alpha=.95)
     for ax, title, ylabel in zip(axes, ['Generation after context fill', 'Uncached context fill'],
@@ -174,6 +176,8 @@ def figures(report):
     fig.text(.07, .035, 'SPEED PHASE COMPLETE · The remaining task, quality, sustained-output and serving-load study is still running.', fontsize=9, fontweight='bold', color='#9C3D22')
     for extension in ['png', 'svg']:
         fig.savefig(ROOT / 'outputs' / ('unified-speed-phase.'+extension), dpi=180, facecolor='white')
+    svg_path = ROOT / 'outputs/unified-speed-phase.svg'
+    svg_path.write_text('\n'.join(line.rstrip() for line in svg_path.read_text().splitlines())+'\n')
     plt.close(fig)
     provenance = dict(matplotlib_version=matplotlib.__version__, backend='Agg (CPU only)',
                       plotting_lock_sha256=digest(ROOT/'config/requirements-plotting.lock'),
