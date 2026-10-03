@@ -646,3 +646,7 @@ Sustained repeats1/2 completed exact200000 input/2048 output at21.3674009/21.429
 ### October3, Qwen8-bit sustained series complete
 
 All three repeats completed exact200000 input/2048 output tokens. Decode21.3674009/21.4290322/21.4194524 tok/s, median21.4194524, full range21.3674009–21.4290322. Fill210.489/209.883/209.941s, median209.941s. No whole-child swap growth. Second fresh twenty-turn-budget repair passed in five turns/240.435s, zero human rescues/swap growth. Extended repair coverage2/3; third attempt remains active.
+
+### October3, Qwen8-bit extended repair series complete
+
+All three predeclared twenty-turn-budget attempts passed in3/5/4 turns, wall230.261/240.435/238.785s, median238.785s. Every attempt had zero human rescues and whole-child swap growth. Qwen8-bit now has36/39 groups complete; serving concurrency1/2/4 remains, with concurrency1 active. Original eight-turn failed attempt4 remains preserved and was not extended or rescued.
