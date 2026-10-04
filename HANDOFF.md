@@ -8,7 +8,7 @@ Exactly one admitted driver **77926** started09:37:48.655UTC after all old62909/
 
 This is only1 of3 sustained runs, with exact200000 input/2048 output and original7200s native/7600s driver budgets. Retrieval is explicitly all9 audited/unscored under its own900s request budget, not a semantic context failure; original failed result preserved. Root24 complete +6 budget-limited groups +9 required remaining; MiMo2 deferred trials required. No weights/quantization/native/cache/RoPE/memory changes; accounting source adopted only at verified idle boundary. Existing ACTIVE15min followup updated, final report/owned inference-exit verification still required.
 
-Readonly preview alone restarted because report module changed: former62885 exited, new77948 verified API; controller forward16096 preserved. System-awake50803 remains, display-only68047 retired/plistdisabled per owner; no display-wake reactivation. Source and completed artifacts pushed/public originals hash-preserved before sync.
+Readonly preview alone restarted because report module changed: former62885 exited, new79359 verified API; controller forward16096 preserved. System-awake50803 remains, display-only68047 retired/plistdisabled per owner; no display-wake reactivation. Source and completed artifacts pushed/public originals hash-preserved before sync. Readonly retrieval review flags now explicitly show all9 reviewed/requires_review=false after its module refresh; no measurement process touched.
 
 ## CURRENT all-nine retrieval review completed — October4 09:24 UTC /05:24 EDT
 
