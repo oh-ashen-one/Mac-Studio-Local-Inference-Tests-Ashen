@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT first sustained repeat complete; original20-turn trial active — October4 11:26 UTC /07:26 EDT
+
+Same admitted driver77926 advanced without restart after first sustained run completed11:11:30.081UTC. Original `u20261003-mistral35-tail-200000-2048-r1` produced exact200000 native input/2048 output, cache_n0, native decode3.95959289tok/s, HTTP fill5011.770631s and generation request wall5528.753184s. Whole-child min83.844162GiB available/swap growth0. All6 original M5 and6 publication hashes and6 unchanged measurement-source blobs checked; model/native/runtime/corpus/token-ID pins match cold200K. Prior77973/78005 exited. Audit `results/mistral-sustained-progress-20261004` is only1 of3 repeats, no full-series statistics or whole-study conclusion.
+
+At11:26 driver77926 remains healthy in original fresh `u20261003-mistral35-repo20-r1`, wrapper89040/native89106, wrapper owns slot0; current first request is incomplete. At11:24 native prefill69632 at699.22s observed, available65.243GiB, swap use unchanged across recent snapshots; no new GPU event(total1). Original seed1001/full200K packet/20turns/2048 output/900s requests/7800s job unchanged. Never infer a timeout or task outcome from prior repo8 failures; any actual failure needs its own immutable review. Do not restart healthy work.
+
+Mistral25 complete +6 audited unscored budget groups +8 required groups(two sustained/three20-turn repo/three serving). MiMo2 deferred trials and final research report/owned inference-exit verification still required. Existing ACTIVE15min follow-up continues. System-awake50803/displayoff preference/preview79359/controller forward16096 preserved. No source/runtime/model/cache/memory changes, no preview restart for data-only release; original completed evidence preserved before publication sync.
+
 ## CURRENT actual sustained-generation continuation — October4 09:41 UTC /05:41 EDT
 
 Exactly one admitted driver **77926** started09:37:48.655UTC after all old62909/62957/63002/protected controls and holders exited. Actual M5 qualification/native/model closure, all6 group budget audits including all9 retrieval cases and original guards passed; all70 pinned Python3.12 checks pass on both hosts. At09:41 it is healthy in first original `u20261003-mistral35-tail-200000-2048-r1`, wrapper77973/native78005, shared slot0 owned by wrapper; normal60s quiescence passed. Recheck actual live identity/children/current outputs, never duplicate/restart healthy work. Prior stopped ledger preserved before continuation.
