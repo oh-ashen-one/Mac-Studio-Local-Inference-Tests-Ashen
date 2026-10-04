@@ -1,6 +1,14 @@
 # M5 display-awake configuration
 
-## Current owner preference: display sleep, October4 2026
+## Current owner preference: displays awake on both Macs, October4 2026
+
+The owner directly requested caffeinate display-awake protection for both machines and their connected monitors, superseding the earlier display-sleep preference. On the M5 the exact retained LaunchAgent plist was restored and bootstrapped unchanged; launchctl and pmset verify its display-idle prevention assertion under PID27102. M5 system-awake PID50803 remains independently active. On the M3 controller the existing caffeinate PID1182 already prevents display/system idle sleep; it was preserved, with no duplicate permanent assertion or takeover. Display-wake requests were issued on both Macs. These are global display-idle assertions for each machine's connected monitors; physical monitor pixels were not independently inspected.
+
+Receipt [owner display-awake transition](../hardware/owner-display-awake-20261004.json). M5 service creation16:35:44.864UTC/verified16:38:12UTC. Benchmark driver19150/wrapper26107/server26138 retained the same creation times during original serving-c2. The display-condition transition occurred after measurement started at16:31:10UTC; preserve original timings and record this covariate without a causal timing-effect claim. No stored power/lock/security setting or inference configuration changed.
+
+Keep display-awake protection active on both Macs unless the owner changes this preference again. Verify M5 only through launchctl/pmset owning-PID metadata; never retry or elevate previously denied raw process-argument inspection. The M5 per-user agent runs at GUI login after reboot; no automatic login is enabled. The existing M3 assertion is verified current, without a new persistence-after-reboot claim.
+
+## Historical owner preference: display sleep, October4 2026
 
 The owner directly requested monitors off while testing continues. The named display-only service was unloaded through launchctl and its exact original plist retained as `.plist.disabled`; it will not automatically load at the next GUI login. Do not re-enable it without a new owner request. Display-only sleep requests succeeded on M5 and M3 controller. System-awake `caffeinate -is` PID50803 remains active on M5; no benchmark worker was stopped/restarted. Stored power/lock/security settings stayed unchanged. Receipt: `../hardware/owner-display-sleep-20261004.json`. Physical monitor pixels were not independently inspected. The prior installation evidence below is historical.
 
