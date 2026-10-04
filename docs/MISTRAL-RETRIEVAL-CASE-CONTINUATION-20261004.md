@@ -13,3 +13,7 @@ The original retrieval group24h budget is NOT renewed. Its saved start is conser
 After the eight cases finish, the supervisor deliberately stops for explicit review of all nine original case outcomes before advancing. Completed native responses can be scored; timed-out requests remain unscored with unknown final usage. Attempted/scored/unscored/unrun counts stay separate. Preparation/CPU tests are not execution evidence.
 
 At the verified idle boundary,66 pinned-Python3.12 checks pass, including refusal of retries, omitted cases, changed input/budgets/locks/sources/evidence/identities; correct unscored counters and retained partial stream state. The existing regression still rejects using a single repository timeout to account for a multi-case quality suite. ActualM5 validation/qualification/admission must pass before one continuation launch.
+
+## Actual admission and start
+
+At07:13:07.762UTC exactly one driver62909 started after all old controls/workers/holders exited, actual M5 native/model qualification and all real manifest/frozen-source evidence checks passed, with safety count1 and original guards. All66 CPU checks passed on both M3 controller and M5 under pinned Python3.12. At07:14 the admitted worker62957/native63002 owns slot0 and the normal60s quiescence gate has passed. This is actual continuation execution, not completion or a claim about any unrun case. Original group remains required pending all-nine-case review.
