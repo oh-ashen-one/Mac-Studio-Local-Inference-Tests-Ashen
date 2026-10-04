@@ -1,5 +1,9 @@
 # M5 display-awake configuration
 
+## Current owner preference: display sleep, October4 2026
+
+The owner directly requested monitors off while testing continues. The named display-only service was unloaded through launchctl and its exact original plist retained as `.plist.disabled`; it will not automatically load at the next GUI login. Do not re-enable it without a new owner request. Display-only sleep requests succeeded on M5 and M3 controller. System-awake `caffeinate -is` PID50803 remains active on M5; no benchmark worker was stopped/restarted. Stored power/lock/security settings stayed unchanged. Receipt: `../hardware/owner-display-sleep-20261004.json`. Physical monitor pixels were not independently inspected. The prior installation evidence below is historical.
+
 Owner-authorized through Midir on October 2, 2026. Target verified as Mac17,15 / Apple M5 Ultra. This affects display idle sleep only; the benchmark runner and system-awake assertion remain independently owned.
 
 - Label: `com.ashen.benchmark.display-awake`
@@ -34,4 +38,4 @@ launchctl bootout gui/501/com.ashen.benchmark.display-awake
 mv "$HOME/Library/LaunchAgents/com.ashen.benchmark.display-awake.plist" "$HOME/Library/LaunchAgents/com.ashen.benchmark.display-awake.plist.disabled"
 ```
 
-Check that the disabled destination does not already exist before moving it. Keep the benchmark driver, model workers and separate system-awake assertion untouched. The backed-up plist can be moved back and bootstrapped for reversal. These removal commands were documented, not executed.
+Check that the disabled destination does not already exist before moving it. Keep the benchmark driver, model workers and separate system-awake assertion untouched. The backed-up plist can be moved back and bootstrapped for reversal. These removal commands were executed on October4 under the owner’s direct display-off request. The original plist bytes were retained and hash-checked. Re-enable only after a new owner request.
