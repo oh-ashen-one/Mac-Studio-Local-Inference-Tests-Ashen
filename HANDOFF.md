@@ -2,6 +2,12 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT owned preview forward recovered — October 4, 22:39 UTC /18:39 EDT
+
+The controller loopback preview connection failed at 22:38 UTC because its owned SSH forward PID16096 had exited. The M5 preview PID41051 and its remote API remained healthy. After verifying the old forward was absent and the local port was free, restored only the headless task-owned forward as PID25218; `work/preview-forward.pid` now records it and the original PID receipt is preserved. Controller API coverage was rechecked: baseline213 completed/2 resource attempts/1 required deferred; Mistral30 completed/9 budget groups/0 remaining. Receipt: hardware/preview-forward-recovery-20261004.json.
+
+GPU safety events remain2, campaign controls/latest owned inference PIDs absent, shared holders empty, and original MiMo seed1003 result directory absent. The report hash and both display-awake assertions are unchanged. No inference, model qualification, preview restart, benchmark parameter or stored power/security change occurred. The pending owner scope question remains unanswered; keep the original trial required/unrun and this existing ACTIVE15-minute follow-up quiet while the safety block is unchanged. Use the current forward PID receipt instead of historical16096.
+
 ## CURRENT report published; owner scope decision pending — October4 20:12 UTC /16:12 EDT
 
 Bounded research report docs/M5-RESEARCH-REPORT-20261004.md/frozen source summaries/receipt and hardware/owned-inference-exit-verification-20261004.json are published/synced. Whole study stillincomplete: one originalMiMo seed1003 required/unrun undertwo-event stop. Owner inputpanel asks keeptrialrequired/holdinference (recommended) or explicitlyomitlasttrial/closereducedscope. No answer/approval inferred frompreselection/time; doNOTomit orstartinference withoutnew explicitownerdecision/evidence.
