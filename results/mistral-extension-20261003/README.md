@@ -1,16 +1,16 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **26/39 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **27/39 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
  Audited request-budget-limited attempted groups: 8, unscored; original failed records preserved.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
 |---|---:|---:|---:|---:|---:|---:|
-| Mistral Medium 3.5 128B · Q4_K_M GGUF | 26/39 | 4.041 tok/s | 5/5 | 0/0 completed | 0/0 completed | 151/164 scored of 164 |
+| Mistral Medium 3.5 128B · Q4_K_M GGUF | 27/39 | 4.041 tok/s | 5/5 | 0/0 completed | 0/0 completed | 151/164 scored of 164 |
 
 ## Sustained 200K input / 2048 output
 
-- Mistral Medium 3.5 128B · Q4_K_M GGUF: 2/3 repeats; median decode 3.96421 tok/s; actual inputs [200000, 200000]; actual outputs [2048, 2048].
+- Mistral Medium 3.5 128B · Q4_K_M GGUF: 3/3 repeats; median decode 3.95959 tok/s; actual inputs [200000, 200000, 200000]; actual outputs [2048, 2048, 2048].
 
 ## Serving load — completed measured profiles
 
