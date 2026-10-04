@@ -16,7 +16,9 @@ class AdmissionTests(unittest.TestCase):
   old=json.loads((ROOT/'config/archive/unified-campaign-pre-owner-scope-20261003.json').read_text());new=json.loads((ROOT/'config/unified-campaign.json').read_text())
   self.assertEqual(len(new['jobs']),234)
   for a,b in zip(old['jobs'],new['jobs']):self.assertEqual(a,{k:v for k,v in b.items() if not k.startswith('disposition')})
-  omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),18);self.assertTrue(all(j['model_id'] in ('qwen38-q4-gguf','qwen3.6-35b-a3b-vl-mtp-mxfp8') for j in omitted))
+  omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),19)
+  final=[j for j in omitted if j['model_id'] not in ('qwen38-q4-gguf','qwen3.6-35b-a3b-vl-mtp-mxfp8')];self.assertEqual([j['id'] for j in final],['u20261002-mimo-repo20-r3']);self.assertFalse((ROOT/'results'/final[0]['id']).exists())
+  closeout=json.loads((ROOT/new['completion_evidence']).read_text());self.assertEqual(closeout['owner_omitted_job'],final[0]['id']);self.assertTrue(closeout['owner_instruction'])
   # The completed Mistral extension must clear the baseline admission gate.
   extension=json.loads((ROOT/new['required_extension']).read_text())
   evidence=json.loads((ROOT/extension['completion_evidence']).read_text())

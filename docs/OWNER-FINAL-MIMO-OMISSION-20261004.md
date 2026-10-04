@@ -1,0 +1,11 @@
+# Owner-authorized final MiMo omission and study closeout
+
+Recorded 2026-10-04T23:54:01.239009+00:00. After receiving the status that the only remaining group was original MiMo seed1003, the owner directly instructed: “That's the last one. Fuck it, just leave it. Let's finish up”. This explicitly removes only `u20261002-mimo-repo20-r3` from required execution and authorizes closing the reduced study scope.
+
+The trial was never started and has no response, observed token usage or task score. Its disposition is `omitted_by_owner_scope`, not a pass, failed attempt or unsupported result. The two actually attempted MiMo Metal OOM failures retain their independent audits and unscored outcomes. The two-event automatic-inference prohibition remains intact.
+
+The previous plan bytes are preserved at `config/archive/unified-campaign-before-final-owner-omission-20261004.json` (SHA256 `98d9ad74dabe2222f84cc8061c6d9ab0bd53908b11a0fea7ed0e6c8262647578`). All 234 baseline IDs, ordering and measurement parameters are unchanged; only this job's disposition metadata and the recorded scope/closure metadata change. Primary driver ledgers, raw results, model/runtime locks and all request, context, output, cache and memory budgets are untouched.
+
+Final original-baseline accounting: 213 completed + 19 explicit owner omissions + 2 actual resource-limited attempts = 234. Mistral: 30 completed + 9 separately audited request-budget groups = 39. Across the five retained configurations, the original 195 groups are accounted as 183 completed + 11 actually attempted/unscored + 1 owner omission. The final required scope contains 194 groups, all accounted; none remains required/unrun. These coverage counts are not task pass rates.
+
+The [closure receipt](../results/study-closeout-20261004/completion-audit.json) binds the plan and [fresh owned-inference exit verification](../hardware/owned-inference-exit-closeout-20261004.json). The report and dashboard are being reconciled to this approved scope; pause the existing 15-minute follow-up only after publication, verification and final handoff are complete. Keep the preview and both Macs' display-awake assertions available. No main merge, personal-site/social deployment, provider activation or benchmark submission is authorized by this closeout.

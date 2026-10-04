@@ -2,6 +2,16 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## FINAL owner-approved scope closed — October 4, 2026
+
+The owner explicitly instructed: “That's the last one. Fuck it, just leave it. Let's finish up”. This omits ONLY original `u20261002-mimo-repo20-r3`, seed1003, and authorizes reduced-scope closeout. It was never started and has no score; do not classify it as a resource failure or successful attempt. Exact prior plan/report/source-summary/aggregate bytes are archived. All IDs/order/measurement parameters, raw ledgers/results and the two actual GPU safety events are preserved.
+
+Final retained scope: 194 required groups accounted, comprising 183 completed + 11 actual unscored groups; the original 195th group is an explicit owner omission. Baseline234 accounting: 213 completed + 19 owner omissions + 2 actual resource attempts. Mistral39: 30 completed + 9 audited request-budget groups. Zero required/unrun groups remain. Final report docs/M5-RESEARCH-REPORT-20261004.md and closure receipt results/study-closeout-20261004/completion-audit.json carry the approved scope. Fresh hardware/owned-inference-exit-closeout-20261004.json verifies controls/workers/holders absent and the final trial unrun.
+
+Read-only reporting projects the approved closure while retaining the raw stopped execution status/error; it verifies the plan/coverage/exit receipt before showing complete. The dashboard keeps MiMo's actual two resource attempts separate from its one omission and correctly preserves all three completed serving profiles. All74 CPU checks pass on the controller. Publish/sync, verify the actualM5 checks/API and restart ONLY its owned preview because the report module changed. Then pause the existing15-minute follow-up and record final verification. Automatic inference remains prohibited after two actual GPU events; no model/qualification/retry launch is authorized. Preserve both displays awake and the report preview/forward; no main/site/social/submission.
+
+Earlier entries below are historical and are superseded by this explicit final owner decision.
+
 ## CURRENT repeated preview transport loss recovered — October 4, 23:09 UTC /19:09 EDT
 
 The replacement task-owned SSH forward PID25218 had exited by 23:08 UTC. Its log reports an SSH host-down transport error; a fresh private-adapter connection and the remote M5 preview API succeeded, so the underlying network cause is not established. Verified old forward absent/local port free, preserved its exact PID receipt, and restored only the headless owned forward as PID54772. Read `work/preview-forward.pid` for the current identity; previous forward PIDs are historical. Local API coverage remains baseline213 completed/2 actual resource attempts/1 required deferred and Mistral30 completed/9 audited budget groups/0 remaining. New incident receipt: hardware/preview-forward-recovery-20261004-r2.json; first recovery evidence remains unchanged.

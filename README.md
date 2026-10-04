@@ -2,7 +2,7 @@
 
 **Active: unified overnight campaign across all six downloaded configurations.** There is no overall cutoff. [Frozen 234-cell plan](config/unified-campaign.json) · [methods, sources and controls](docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Earlier results remain historical; the old two-model completion is not completion of this expanded study.
 
-**The 120-run standard speed phase is complete.** [Consolidated speed report, raw-run manifest and exportable figures](results/unified-speed-summary-20261002/README.md). Every configuration has five measurements at each of four input lengths. The remaining task, quality, sustained-output and serving-load study is still running.
+**The 120-run standard speed phase is complete.** [Consolidated speed report, raw-run manifest and exportable figures](results/unified-speed-summary-20261002/README.md). Every configuration has five measurements at each of four input lengths. The full retained study is now closed at the owner-approved scope: 183 completed groups, 11 actual unscored groups and 1 explicitly omitted final MiMo trial, with zero required groups remaining. [Final research report](docs/M5-RESEARCH-REPORT-20261004.md) · [Closeout and owner omission](docs/OWNER-FINAL-MIMO-OMISSION-20261004.md).
 
 **The expanded campaign is running.** [Current coverage and results](results/unified-overnight-20261002/README.md) · [research notes](docs/UNIFIED-RUN-NOTES.md). The earlier 22-cell additional-model phase is archived; its completion and paused-monitor receipt describe that earlier checkpoint, not the current runner. Matched M3 testing and personal-site publication remain pending.
 

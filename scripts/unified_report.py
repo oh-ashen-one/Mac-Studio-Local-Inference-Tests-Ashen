@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read-only coverage/statistics for the frozen unified study; no model imports."""
-import json,statistics,datetime,argparse
+import json,statistics,datetime,argparse,hashlib
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 from publication_labels import public_spec
@@ -60,7 +60,7 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
         m['sustained']={'completed':len(tails),'planned':3,'decode':stats([r.get('decode_tok_s') for r in tails]),'fill':stats([r.get('context_fill_s') for r in tails]),'actual_input_tokens':[r.get('input_tokens') for r in tails],'actual_output_tokens':[r.get('output_tokens') for r in tails]}
         for turns in [8,20]:
             rows=[records[j['id']] for j in done if j['kind']=='repo' and j['max_turns']==turns and j['id'] in records]
-            m['repo'][str(turns)]={'completed':len(rows),'passed':sum(bool(r.get('passed')) for r in rows),'wall_s':stats([r.get('wall_s') for r in rows])}
+            m['repo'][str(turns)]={'completed':len(rows),'passed':sum(bool(r.get('passed')) for r in rows),'wall_s':stats([r.get('wall_s') for r in rows]),'resource_limited':sum(j['kind']=='repo' and j['max_turns']==turns and j['status']=='unsupported_resource' for j in own),'owner_omitted':sum(j['kind']=='repo' and j['max_turns']==turns and j['status']=='omitted_by_owner_scope' for j in own)}
         for suite in ['structured','retrieval','humaneval']:
             j=next(x for x in own if x['kind']=='quality' and x['suite']==suite);r=records.get(j['id'],{})
             m['quality'][suite]={'status':j['status'],'completed':r.get('completed_cases',0),'passed':r.get('passed_cases',0),'planned':r.get('planned_cases',{'structured':24,'retrieval':9,'humaneval':164}[suite])}
@@ -74,11 +74,39 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_median_s','ttft_p95_s','latency_median_s','latency_p95_s','completed_requests','wall_s','total_output_tokens']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
-    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'resource_limited_jobs':sum(j['status']=='unsupported_resource' for j in jobs),'deferred_jobs':sum(j['status']=='deferred_resource_review' for j in jobs),'budget_limited_jobs':sum(j['status'] in ('unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope','unsupported_resource','unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    report={'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'resource_limited_jobs':sum(j['status']=='unsupported_resource' for j in jobs),'deferred_jobs':sum(j['status']=='deferred_resource_review' for j in jobs),'budget_limited_jobs':sum(j['status'] in ('unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope','unsupported_resource','unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+
+
+    report['required_extension_status']=json.loads((ROOT/plan['required_extension']).read_text()).get('status') if plan.get('required_extension') else None
+    return finalize_scope(report,plan,plan_path)
+
+def finalize_scope(report,plan,plan_path):
+    """Project evidence-backed owner closeout without rewriting the driver ledger."""
+    if (plan.get('status')!='complete_with_evidence' or not plan.get('completion_evidence')
+        or report['remaining_jobs'] or report['status']=='running'
+        or (plan.get('required_extension') and report['required_extension_status']!='complete_with_evidence')):
+        return report
+    note=json.loads((ROOT/plan['completion_evidence']).read_text())
+    # Mistral's driver already completed normally and uses its separate audit schema.
+    if note.get('status')!='complete_with_owner_omissions':return report
+    if (not note.get('owner_instruction') or note['final_baseline_plan_sha256']!=hashlib.sha256((ROOT/plan_path).read_bytes()).hexdigest()
+        or any(report.get(k)!=v for k,v in note['baseline_accounting'].items())):
+        raise RuntimeError('Closeout plan or coverage evidence mismatch')
+    proof_path=ROOT/note['exit_verification'];proof=json.loads(proof_path.read_text())
+    if (hashlib.sha256(proof_path.read_bytes()).hexdigest()!=note['exit_verification_sha256']
+        or any(c['alive'] for c in proof['controls']) or proof['unexpected_task_inference_processes']
+        or proof['process_metadata_access_denied'] or not proof['shared_holders_empty']
+        or not proof['original_r3_result_absent']):
+        raise RuntimeError('Closeout requires verified owned inference exit evidence')
+    report.update(execution_status=report['status'],execution_error=report['error'],execution_active=report['active'],
+                  status='complete',active=None,error=None,closure=note)
+    return report
+
 
 def write(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json',output='results/unified-overnight-20261002'):
     r=collect(plan_path,state_path);out=ROOT/output;out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
-    lines=['# Unified all-configuration benchmark — interim report','',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
+    lines=['# Unified all-configuration benchmark — '+('final scope report' if r['status']=='complete' else 'interim report'),'',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
+    if r.get('closure'):lines[3] += ' Closed at the owner-approved scope; the last unrun MiMo trial is an explicit owner omission, not a measured failure or pass. The original stopped execution ledger remains preserved.'
     if r.get('required_extension'):
         extension=json.loads((ROOT/r['required_extension']).read_text())
         state='accounted with evidence' if extension.get('status')=='complete_with_evidence' else 'awaiting completion/qualification'

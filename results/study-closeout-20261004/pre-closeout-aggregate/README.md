@@ -1,7 +1,7 @@
-# Unified all-configuration benchmark — final scope report
+# Unified all-configuration benchmark — interim report
 
-Coverage: **213/234 cells completed**. Status: complete. No overall deadline. A completed task attempt may still be unsuccessful.
- Closed at the owner-approved scope; the last unrun MiMo trial is an explicit owner omission, not a measured failure or pass. The original stopped execution ledger remains preserved. Owner scope omissions: 19; remaining baseline groups: 0. Omissions are not passes. Required extension: 39 separately declared groups accounted with evidence. Resource-limited attempted groups: 2; deferred for resource review: 0. Neither is scored as a pass; deferred groups remain required. The 156-group four-model extension was cancelled by owner scope; none is counted as passed.
+Coverage: **213/234 cells completed**. Status: stopped. No overall deadline. A completed task attempt may still be unsuccessful.
+ Owner scope omissions: 18; remaining baseline groups: 1. Omissions are not passes. Required extension: 39 separately declared groups accounted with evidence. Resource-limited attempted groups: 2; deferred for resource review: 1. Neither is scored as a pass; deferred groups remain required. The 156-group four-model extension was cancelled by owner scope; none is counted as passed.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
