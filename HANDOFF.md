@@ -2,6 +2,14 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT independent seed1004 budget review — October4 03:54 UTC /October3 23:54 EDT
+
+Original fresh repo8-r4 seed1004 actually failed00:31:04.608 UTC on its unchanged900s first request: zero complete responses/final usage/task score, empty patch. Native initial calibration200025 is not final observed usage; last logged prefill79872 at879.14s; wrapper wall962.591s includes cleanup/stream deadline-check granularity. Whole-child min68.464GiB available, swap growth0; no new GPU event, global count1. Driver45210/wrapper45249/server45318 exited and holders empty. Its own immutable result hash/rawpacket/reconstructed request/logs/stopped ledger/telemetry are preserved, all11 publication artifact hashes checked.
+
+Only actually attempted original r1/r2/r3/r4 are independently audited unscored request-budget limits, never retried. All39 original IDs/order/parameters verified unchanged; prior plan exact bytes/hash archived. Original fresh seed1005 and all other remaining cases stay required. Mistral22 complete +4 unscored attempts +13 required remaining, plus MiMo2 deferred trials. After push/sync and actualM5 idle/qualified/four-audit admission, start exactly one continuation toward original repo8-r5; preserve normal60s quiescence and all guards/budgets/profiles.
+
+The last verified healthy snapshot was00:22 UTC; the next delivered follow-up arrived03:51 UTC. The driver remained safely stopped on the preserved failure during that supervision gap. Existing heartbeat is configured ACTIVE15min; prior prompt refresh app calls did not return and were not observed applied. No manual automation-store edit/duplicate schedule. Recheck scheduler metadata and retry the app tool; do not claim checks ran every15 minutes during this gap.
+
 ## CURRENT reviewed Mistral seed1004 continuation — October4 00:20 UTC /October3 20:20 EDT
 
 Exactly one continuation driver **45210** started00:13:27.093 UTC after verified old42884/42892/42985 exit, empty GPU holders and safety count1. ActualM5 immutable qualification/native/model pins and all three independent repository-only budget audits passed before launch. At00:20 the driver is healthy in original fresh `u20261003-mistral35-repo8-r4`, seed1004, wrapper45249/native server45318; native prefill progress43008 tokens at298.36s was observed. The unchanged60s partial-free download quiescence gate passed with zero scan blockers/owner hold; the wrapper owns shared slot0. Recheck live state/identities/children/outputs/holders; never duplicate healthy work.
