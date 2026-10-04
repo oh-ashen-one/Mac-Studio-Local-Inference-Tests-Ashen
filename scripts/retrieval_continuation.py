@@ -40,7 +40,7 @@ def original_function_sha(root, commit, path, name):
     return source_function_sha(source, name)
 
 
-def validate(root, relative, model_id, run_id=None, now=None):
+def validate(root, relative, model_id, run_id=None, now=None, require_remaining_budget=True):
     root = Path(root)
     relative = Path(relative)
     if relative.is_absolute() or '..' in relative.parts:
@@ -113,9 +113,75 @@ def validate(root, relative, model_id, run_id=None, now=None):
         raise RuntimeError('Original retrieval job deadline cannot be extended')
     now = now or datetime.datetime.now(datetime.timezone.utc)
     remaining = (deadline - now).total_seconds()
-    if remaining <= 0:
+    if remaining <= 0 and require_remaining_budget:
         raise RuntimeError('Original retrieval group job budget exhausted')
     return {**m, 'remaining_job_budget_seconds': remaining}
+
+
+def review_all_budget_cases(root, job, note, disposition):
+    """Account only nine individually evidenced attempts, never an unrun case."""
+    root = Path(root)
+    if (job.get('id') != PARENT or job.get('kind') != 'quality'
+            or job.get('suite') != 'retrieval' or job.get('model_id') != MODEL
+            or note.get('kind') != 'retrieval_all_original_cases_request_budget_review'
+            or note.get('disposition') != disposition or note.get('run_id') != PARENT
+            or note.get('case_ids') != CASE_IDS or note.get('attempted_cases') != 9
+            or note.get('completed_responses') != 0 or note.get('unscored_cases') != 9
+            or note.get('final_task_score', 'missing') is not None
+            or note.get('actual_final_server_usage', 'missing') is not None
+            or note.get('request_timeout_seconds') != 900
+            or note.get('new_gpu_safety_events') != 0
+            or note.get('owned_driver_and_workers_exited') is not True):
+        raise RuntimeError('Nine original retrieval attempts must each have concrete evidence')
+    m = validate(root, job['case_continuation'], MODEL, job['result_run_id'],
+                 require_remaining_budget=False)
+    continuation = root / 'results' / m['continuation_run_id']
+    r = json.loads((continuation / 'result.json').read_text())
+    original = json.loads((root / 'results' / PARENT / 'result.json').read_text())
+    original_profile = json.loads((root / 'results' / PARENT / 'server-config.json').read_text())
+    continued_profile = json.loads((continuation / 'server-config.json').read_text())
+    for key in ['runtime_lock_sha256', 'native_binary_sha256', 'requested_context_per_slot', 'slots', 'prompt_cache_sequences']:
+        if original_profile.get(key) != continued_profile.get(key):
+            raise RuntimeError('Retrieval continuation runtime/cache profile changed')
+    if (sha(continuation / 'result.json') != note.get('continuation_result_sha256')
+            or m['parent_result_sha256'] != note.get('parent_result_sha256')
+            or note.get('continuation_run_id') != m['continuation_run_id']
+            or r.get('status') != 'complete' or not r.get('requires_completion_review')
+            or r.get('attempted_cases') != 8 or r.get('completed_cases') != 0
+            or r.get('unscored_request_budget_cases') != 8
+            or r.get('model_lock_sha256') != original.get('model_lock_sha256')
+            or r.get('model_revision') != original.get('model_revision')
+            or [c.get('case_id') for c in r.get('cases', [])] != CASE_IDS[1:]
+            or datetime.datetime.fromisoformat(r['finished_at_utc']) > datetime.datetime.fromisoformat(m['original_job_deadline_utc'])):
+        raise RuntimeError('Continuation must actually finish all eight untouched cases within original budget')
+    case_proofs = note.get('cases', [])
+    if [c.get('case_id') for c in case_proofs] != CASE_IDS:
+        raise RuntimeError('Missing or reordered individual retrieval case proof')
+    for i, proof in enumerate(case_proofs):
+        ident = CASE_IDS[i]
+        folder = root / 'results' / (PARENT if i == 0 else m['continuation_run_id']) / ident
+        request = json.loads((folder / 'request.json').read_text())
+        if sha(folder / 'request.json') != proof.get('request_sha256'):
+            raise RuntimeError('Individual retrieval request hash changed')
+        seed = int(ident.rsplit('-', 1)[1]); position = float(ident.split('-')[1])
+        case = request.get('case', {})
+        if (case.get('seed') != seed or case.get('position') != position
+                or not 200000 <= case.get('actual_prompt_tokens_preflight', 0) <= 200032):
+            raise RuntimeError('Individual retrieval input or seed changed')
+        if i:
+            row = json.loads((folder / 'request-budget-failure.json').read_text())
+            if (sha(folder / 'request-budget-failure.json') != proof.get('failure_sha256')
+                    or row != r['cases'][i - 1] or row.get('case_id') != ident
+                    or row.get('status') != 'unscored_request_budget'
+                    or row.get('error') != DEADLINE_ERROR or row.get('request_timeout_seconds') != 900
+                    or row.get('passed', 'missing') is not None
+                    or row.get('final_task_score', 'missing') is not None
+                    or row.get('actual_final_server_usage', 'missing') is not None
+                    or row.get('request_sha256') != proof['request_sha256']
+                    or not isinstance(row.get('wall_s'), (int, float)) or row['wall_s'] < 900
+                    or row.get('native_template_calibration_tokens') != case['actual_prompt_tokens_preflight']):
+                raise RuntimeError('Each actual retrieval timeout must remain separately hash-bound and unscored')
+    return disposition
 
 
 def case_budget_failure(exc, ident, case, elapsed, request_sha256):

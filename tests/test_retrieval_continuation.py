@@ -150,3 +150,75 @@ def test_command_retains_frozen_profile_and_default_jobs_unchanged(reviewed, mon
     assert budget == 86400 and '--retrieval-continuation' not in command and rc.PARENT in command
     with pytest.raises(RuntimeError):
         campaign.command_for({**job, 'suite': 'humaneval'}, {'runtime': 'llama-cpp'})
+
+
+@pytest.fixture
+def all_nine_budget_cases(reviewed):
+    root, path, m, start = reviewed
+    folder = root / 'results' / m['continuation_run_id']
+    folder.mkdir()
+    profile = {'runtime_lock_sha256': 'runtime', 'native_binary_sha256': 'binary',
+               'requested_context_per_slot': 262144, 'slots': 1, 'prompt_cache_sequences': 0}
+    (root / 'results' / rc.PARENT / 'server-config.json').write_text(json.dumps(profile))
+    (folder / 'server-config.json').write_text(json.dumps(profile))
+    proofs = [{'case_id': rc.CASE_IDS[0], 'request_sha256': m['first_case_request_sha256']}]
+    cases = []
+    for ident in rc.CASE_IDS[1:]:
+        p = folder / ident
+        p.mkdir()
+        case = {'seed': int(ident.rsplit('-', 1)[1]), 'position': float(ident.split('-')[1]),
+                'actual_prompt_tokens_preflight': 200014, 'expected': {'answer': 'fixture'}}
+        (p / 'request.json').write_text(json.dumps({'case': case}))
+        row = rc.case_budget_failure(TimeoutError(rc.DEADLINE_ERROR), ident, case, 902, rc.sha(p / 'request.json'))
+        (p / 'request-budget-failure.json').write_text(json.dumps(row))
+        cases.append(row)
+        proofs.append({'case_id': ident, 'request_sha256': row['request_sha256'],
+                       'failure_sha256': rc.sha(p / 'request-budget-failure.json')})
+    result = {'status': 'complete', 'requires_completion_review': True,
+              'attempted_cases': 8, 'completed_cases': 0, 'unscored_request_budget_cases': 8,
+              'cases': cases, 'model_lock_sha256': m['model_lock_sha256'],
+              'finished_at_utc': (start + datetime.timedelta(hours=3)).isoformat()}
+    (folder / 'result.json').write_text(json.dumps(result))
+    disposition = 'unsupported_request_budget_cases'
+    note = {'kind': 'retrieval_all_original_cases_request_budget_review', 'disposition': disposition,
+            'run_id': rc.PARENT, 'continuation_run_id': m['continuation_run_id'],
+            'case_ids': rc.CASE_IDS, 'attempted_cases': 9, 'completed_responses': 0,
+            'unscored_cases': 9, 'final_task_score': None, 'actual_final_server_usage': None,
+            'request_timeout_seconds': 900, 'new_gpu_safety_events': 0,
+            'owned_driver_and_workers_exited': True, 'parent_result_sha256': m['parent_result_sha256'],
+            'continuation_result_sha256': rc.sha(folder / 'result.json'), 'cases': proofs}
+    job = {'id': rc.PARENT, 'kind': 'quality', 'suite': 'retrieval', 'model_id': rc.MODEL,
+           'case_continuation': path, 'result_run_id': m['continuation_run_id']}
+    return root, job, note, disposition, folder
+
+
+def test_all_nine_real_case_proofs_required_before_group_accounting(all_nine_budget_cases):
+    root, job, note, disposition, _ = all_nine_budget_cases
+    assert rc.review_all_budget_cases(root, job, note, disposition) == disposition
+    for change in [{'attempted_cases': 1}, {'case_ids': rc.CASE_IDS[:1]},
+                   {'cases': note['cases'][:-1]}, {'final_task_score': False},
+                   {'request_timeout_seconds': 7200}, {'completed_responses': 1},
+                   {'new_gpu_safety_events': 1}]:
+        with pytest.raises(RuntimeError):
+            rc.review_all_budget_cases(root, job, {**note, **change}, disposition)
+
+
+def test_missing_or_modified_case_cannot_inherit_other_timeout(all_nine_budget_cases):
+    root, job, note, disposition, folder = all_nine_budget_cases
+    (folder / rc.CASE_IDS[-1] / 'request.json').write_text('{"different":true}')
+    with pytest.raises(RuntimeError, match='request hash changed'):
+        rc.review_all_budget_cases(root, job, note, disposition)
+
+
+def test_altered_native_cache_profile_cannot_pass_case_review(all_nine_budget_cases):
+    root, job, note, disposition, folder = all_nine_budget_cases
+    p = folder / 'server-config.json';profile = json.loads(p.read_text());profile['slots'] = 2
+    p.write_text(json.dumps(profile))
+    with pytest.raises(RuntimeError, match='profile changed'):
+        rc.review_all_budget_cases(root, job, note, disposition)
+
+
+def test_other_quality_suite_cannot_use_retrieval_case_disposition(all_nine_budget_cases):
+    root, job, note, disposition, _ = all_nine_budget_cases
+    with pytest.raises(RuntimeError):
+        rc.review_all_budget_cases(root, {**job, 'suite': 'humaneval'}, note, disposition)

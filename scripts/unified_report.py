@@ -26,13 +26,13 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
     declared={j["id"]:j for j in plan["jobs"]}
     for j in jobs:
         amendment=declared.get(j["id"],{})
-        if j['status'] in ('pending','needs_review') and amendment.get('disposition') in ('omitted_by_owner_scope','unsupported_resource','deferred_resource_review','unsupported_request_budget'):
+        if j['status'] in ('pending','needs_review') and amendment.get('disposition') in ('omitted_by_owner_scope','unsupported_resource','deferred_resource_review','unsupported_request_budget','unsupported_request_budget_cases'):
             j.update(status=amendment['disposition'],reason=amendment['disposition_reason'])
     models=[]
     for spec in specs:
         spec=public_spec(spec)
         own=[j for j in jobs if j['model_id']==spec['id']];done=[j for j in own if j['status']=='complete'];m={'id':spec['id'],'name':spec['display_name'],'runtime':spec['runtime'],'quantization':spec['quantization'],'completed_jobs':len(done),'planned_jobs':len(own),'speed':{},'repo':{},'quality':{},'replay':{},'serving':{}}
-        m['budget_limited_jobs']=sum(j['status']=='unsupported_request_budget' for j in own)
+        m['budget_limited_jobs']=sum(j['status'] in ('unsupported_request_budget','unsupported_request_budget_cases') for j in own)
         m['resource_limited_jobs']=sum(j['status']=='unsupported_resource' for j in own)
         m['deferred_jobs']=sum(j['status']=='deferred_resource_review' for j in own)
         m['omitted_jobs']=sum(j['status']=='omitted_by_owner_scope' for j in own)
@@ -58,7 +58,7 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
             m['serving'][str(c)]={k:r.get(k) for k in ['aggregate_output_tok_s','ttft_median_s','ttft_p95_s','latency_median_s','latency_p95_s','completed_requests','wall_s','total_output_tokens']};m['serving'][str(c)]['status']=j['status']
         models.append(m)
     active=next((j for j in jobs if j['id']==(live or {}).get('active')),None)
-    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'resource_limited_jobs':sum(j['status']=='unsupported_resource' for j in jobs),'deferred_jobs':sum(j['status']=='deferred_resource_review' for j in jobs),'budget_limited_jobs':sum(j['status']=='unsupported_request_budget' for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope','unsupported_resource','unsupported_request_budget') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    return {'campaign_id':plan['id'],'status':(live or {}).get('status','saved_results'),'overall_deadline':None,'active':active,'error':(live or {}).get('error'),'amendments':plan.get('amendments',[]),'completed_jobs':sum(j['status']=='complete' for j in jobs),'planned_jobs':len(jobs),'omitted_jobs':sum(j['status']=='omitted_by_owner_scope' for j in jobs),'resource_limited_jobs':sum(j['status']=='unsupported_resource' for j in jobs),'deferred_jobs':sum(j['status']=='deferred_resource_review' for j in jobs),'budget_limited_jobs':sum(j['status'] in ('unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'remaining_jobs':sum(j['status'] not in ('complete','omitted_by_owner_scope','unsupported_resource','unsupported_request_budget','unsupported_request_budget_cases') for j in jobs),'scope_amendments':plan.get('scope_amendments',[]),'required_extension':plan.get('required_extension'),'extension_planned_jobs':len(json.loads((ROOT/plan['required_extension']).read_text())['jobs']) if plan.get('required_extension') else 0,'cancelled_extension':plan.get('cancelled_extension'),'models':models,'jobs':jobs,'updated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 
 def write(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json',output='results/unified-overnight-20261002'):
     r=collect(plan_path,state_path);out=ROOT/output;out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')

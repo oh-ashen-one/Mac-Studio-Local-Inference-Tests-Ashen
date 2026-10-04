@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from first_test import safety,Telemetry,stop,write_json
 from models import digest
-from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, BUDGET, reviewed_disposition, gpu_safety_failures
+from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, BUDGET, BUDGET_CASES, reviewed_disposition, gpu_safety_failures
 
 def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
     if job.get('result_run_id') and not job.get('case_continuation'):raise RuntimeError('Output alias requires reviewed case continuation')
@@ -48,7 +48,7 @@ def main():
     try:
         import psutil
         for j in state['jobs']:
-            if j.get('case_continuation'):
+            if j.get('case_continuation') and j.get('disposition')!=BUDGET_CASES:
                 from retrieval_continuation import validate
                 review=validate(ROOT,j['case_continuation'],j['model_id'],j['result_run_id'])
                 if j['id']!=review['parent_run_id']:raise RuntimeError('Continuation must belong to the original logical group')
@@ -105,7 +105,7 @@ def main():
                 j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Case continuation requires explicit review of all nine original cases');save();return
             j['status']='complete';save();process=None
         if any(j['status']==DEFERRED for j in state['jobs']):state.update(status='baseline_deferred_resource_review',active=None)
-        elif any(j['status'] not in ('complete',OMITTED,RESOURCE,BUDGET) for j in state['jobs']):state['status']='needs_review'
+        elif any(j['status'] not in ('complete',OMITTED,RESOURCE,BUDGET,BUDGET_CASES) for j in state['jobs']):state['status']='needs_review'
         elif extension_pending(ROOT,plan):state.update(status='baseline_accounted_extension_pending',active=None)
         else:state.update(status='complete',active=None,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
         save()

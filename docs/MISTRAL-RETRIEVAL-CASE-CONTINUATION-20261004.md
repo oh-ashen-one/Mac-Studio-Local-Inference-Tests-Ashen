@@ -17,3 +17,11 @@ At the verified idle boundary,66 pinned-Python3.12 checks pass, including refusa
 ## Actual admission and start
 
 At07:13:07.762UTC exactly one driver62909 started after all old controls/workers/holders exited, actual M5 native/model qualification and all real manifest/frozen-source evidence checks passed, with safety count1 and original guards. All66 CPU checks passed on both M3 controller and M5 under pinned Python3.12. At07:14 the admitted worker62957/native63002 owns slot0 and the normal60s quiescence gate has passed. This is actual continuation execution, not completion or a claim about any unrun case. Original group remains required pending all-nine-case review.
+
+## Actual completion and all-nine-case review
+
+At09:18:44.522UTC the separately identified continuation finished all eight original untouched attempts. The supervisor deliberately stopped at the review barrier; driver62909/wrapper62957/native63002 exited, holders empty. Every case individually hit the same900s deadline. All eight partial client buffers had no observed output/reasoning or usage; native final usage remains unknown. No GPU event added, whole-child minimum64.324936GiB available and swap growth0.
+
+The first original failed case plus all eight actual continuation cases are now separately verified: all50 original M5/publication artifact hashes and all9 request/failure bindings checked. Exact case order, frozen request/corpus/model/source/runtime/cache profile, preserved failed original result and completion inside the same original24h deadline validated. Only after this review the logical group receives `unsupported_request_budget_cases`, unscored with no retrieval accuracy. New dedicated admission demands all nine actual ordered case proofs; one request cannot account for the suite. Repository-only BUDGET refusal remains unchanged. All39 logical IDs/order/parameters unchanged, plan bytes/hash archived before accounting amendment.70 pinned Python3.12 CPU checks pass, including omission/altered-case/cache-profile/other-suite rejection.
+
+Audit `results/mistral-retrieval-all-cases-audit-20261004`. The helper complete flag alone was never treated as successful retrieval/group completion. The other nine original Mistral groups and two deferred MiMo trials remain required; whole study is not complete.

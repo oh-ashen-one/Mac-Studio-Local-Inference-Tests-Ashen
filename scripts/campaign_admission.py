@@ -44,15 +44,19 @@ def extension_pending(root, plan):
 RESOURCE = 'unsupported_resource'
 DEFERRED = 'deferred_resource_review'
 BUDGET = 'unsupported_request_budget'
+BUDGET_CASES = 'unsupported_request_budget_cases'
 
 def reviewed_disposition(root, job, result):
     """Require concrete preserved evidence; never score a partial resource failure."""
     disposition=job.get('disposition')
-    if disposition not in (RESOURCE,DEFERRED,BUDGET):return None
+    if disposition not in (RESOURCE,DEFERRED,BUDGET,BUDGET_CASES):return None
     import json
     evidence=job.get('disposition_evidence')
     if not evidence:raise RuntimeError('Missing resource review evidence')
     note=json.loads((Path(root)/evidence).read_text())
+    if disposition==BUDGET_CASES:
+        from retrieval_continuation import review_all_budget_cases
+        return review_all_budget_cases(root,job,note,BUDGET_CASES)
     if disposition==BUDGET:
         import hashlib
         if job.get('kind')!='repo' or not result or result.get('kind')!='repo_task':
