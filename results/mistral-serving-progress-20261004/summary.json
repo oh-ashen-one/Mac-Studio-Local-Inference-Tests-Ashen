@@ -1,52 +1,19 @@
 {
-  "scope": "Only concurrency1 of three original serving profiles complete/audited. Concurrency2/4, two MiMo trials, final report and owned inference-exit verification remain required; not whole-study completion.",
-  "updated_at_utc": "2026-10-04T16:47:35.386641+00:00",
+  "scope": "Only concurrency1/2 of three original serving profiles complete/audited. Concurrency4, two MiMo trials, final report and owned inference-exit verification remain required; not whole-study completion.",
+  "updated_at_utc": "2026-10-04T17:33:18.681608+00:00",
   "planned_profiles": [
     1,
     2,
     4
   ],
   "completed_profiles": [
-    1
+    1,
+    2
   ],
   "model_id": "mistral-medium35-q4",
   "model_revision": "c8f5b1477e1b22cd2d819157d450f001f7047298",
   "model_lock_sha256": "5defe49e105318877222cce0241897da9fd745abf9f1e5a89cf31d32eeefb8e7",
   "corpus_sha256": "c35b8d1518b766d20272cb2de094051f5ee382f785bea88eeaa0363c47e63480",
-  "native_profile": {
-    "runtime": "llama-cpp",
-    "runtime_lock_sha256": "20ad26adca57df1e4fbc6af55994ea67127c55442eaba5c74ee3d4ed11a6c9bd",
-    "command": [
-      "<repo>/vendor/llama-agentperf/build/bin/llama-server",
-      "-m",
-      "<repo>/models/mistral-medium35-q4/Q4_K_M/Mistral-Medium-3.5-128B-Q4_K_M-00001-of-00003.gguf",
-      "--alias",
-      "mistral-medium35-q4",
-      "--jinja",
-      "--host",
-      "127.0.0.1",
-      "--port",
-      "18185",
-      "-c",
-      "16384",
-      "-ngl",
-      "999",
-      "--parallel",
-      "1",
-      "--flash-attn",
-      "on",
-      "--batch-size",
-      "2048",
-      "--ubatch-size",
-      "2048",
-      "--no-context-shift"
-    ],
-    "requested_context_per_slot": 16384,
-    "slots": 1,
-    "prompt_cache_sequences": 0,
-    "thinking_policy": "Requested disabled in common task payloads; official replay keeps its declared policy",
-    "native_binary_sha256": "69105435ef7d21f9812477ed271ac9e0acf7d4bc25c4d1e71ec2576e4fa49f74"
-  },
   "measurement_source_blobs": {
     "scripts/unified_serving.py": "7e2c2c30c8191efe23a78b7e36514166df089b12",
     "scripts/unified_server.py": "8f60757a428479f7ce9c234ff5c5390ab662f331",
@@ -141,8 +108,166 @@
       },
       "source_commit": "bb8e49e8a598ae9ceb53279bd1bd05cbcaa23ed4",
       "publication_receipt_sha256": "f811a8dfd8bbba08cad388c220e90bb508294c4e4e667bbe39259109dcd6ba58",
-      "display_condition": "Task-owned display-awake service disabled throughout c1; actual physical pixels not observed. Restored later during c2 under direct owner request."
+      "display_condition": "Task-owned display-awake service disabled throughout c1; actual physical pixels not observed. Restored later during c2 under direct owner request.",
+      "native_profile": {
+        "runtime": "llama-cpp",
+        "runtime_lock_sha256": "20ad26adca57df1e4fbc6af55994ea67127c55442eaba5c74ee3d4ed11a6c9bd",
+        "command": [
+          "<repo>/vendor/llama-agentperf/build/bin/llama-server",
+          "-m",
+          "<repo>/models/mistral-medium35-q4/Q4_K_M/Mistral-Medium-3.5-128B-Q4_K_M-00001-of-00003.gguf",
+          "--alias",
+          "mistral-medium35-q4",
+          "--jinja",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18185",
+          "-c",
+          "16384",
+          "-ngl",
+          "999",
+          "--parallel",
+          "1",
+          "--flash-attn",
+          "on",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "2048",
+          "--no-context-shift"
+        ],
+        "requested_context_per_slot": 16384,
+        "slots": 1,
+        "prompt_cache_sequences": 0,
+        "thinking_policy": "Requested disabled in common task payloads; official replay keeps its declared policy",
+        "native_binary_sha256": "69105435ef7d21f9812477ed271ac9e0acf7d4bc25c4d1e71ec2576e4fa49f74"
+      }
+    },
+    {
+      "run_id": "u20261003-mistral35-serving-c2",
+      "concurrency": 2,
+      "completed_measured_requests": 60,
+      "separate_warmup_requests": 2,
+      "started_at_utc": "2026-10-04T16:28:12.724068+00:00",
+      "finished_at_utc": "2026-10-04T17:23:08.304271+00:00",
+      "measured_wall_seconds": 3116.997789667017,
+      "aggregate_output_tok_s": 4.927818701353933,
+      "requests_per_second": 0.019249291802163802,
+      "latency_median_seconds": 103.79491052101366,
+      "latency_p95_seconds": 104.03178661905113,
+      "ttft_median_seconds": 42.4486527495028,
+      "ttft_p95_seconds": 43.69630767741474,
+      "measured_actual_prompt_token_counts": {
+        "8215": 8,
+        "8216": 52
+      },
+      "measured_actual_output_token_counts": {
+        "256": 60
+      },
+      "measured_total_prompt_tokens": 492952,
+      "measured_total_output_tokens": 15360,
+      "measured_reported_cached_input_tokens": 0,
+      "finish_reason_counts": {
+        "length": 60
+      },
+      "reasoning_nonempty_responses": 0,
+      "warmup_native_usage": [
+        {
+          "completion_tokens": 256,
+          "prompt_tokens": 8215,
+          "total_tokens": 8471,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        {
+          "completion_tokens": 256,
+          "prompt_tokens": 8215,
+          "total_tokens": 8471,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        }
+      ],
+      "minimum_whole_child_available_bytes": 147442040832,
+      "maximum_positive_whole_child_swap_growth_bytes": 0,
+      "original_and_published_artifact_hashes_verified": 8,
+      "artifact_hashes": {
+        "campaign-telemetry.json": {
+          "original_sha256": "3b7819e09e34278536e5a453286410a6a84fcf20df74247c4ef05cf0610e0713",
+          "published_sha256": "3b7819e09e34278536e5a453286410a6a84fcf20df74247c4ef05cf0610e0713"
+        },
+        "requests.json": {
+          "original_sha256": "983589cde506ad1838c5d65ecca696c6bc65b8b794cc05c8c9dba220ebed37dd",
+          "published_sha256": "983589cde506ad1838c5d65ecca696c6bc65b8b794cc05c8c9dba220ebed37dd"
+        },
+        "responses.json": {
+          "original_sha256": "5451ce0ac5a2e6971f66db2b2a92729e223d26272f8208447f8e0a96d255f14c",
+          "published_sha256": "5451ce0ac5a2e6971f66db2b2a92729e223d26272f8208447f8e0a96d255f14c"
+        },
+        "result.json": {
+          "original_sha256": "2efa19d21866bfb9fd4544cc96f9294660c1842e4a8444fb01781de6761c181b",
+          "published_sha256": "2efa19d21866bfb9fd4544cc96f9294660c1842e4a8444fb01781de6761c181b"
+        },
+        "server-config.json": {
+          "original_sha256": "81339c61cc65c65f7cdf55e7a87e60f48afd6475a49c84385f279d799f308584",
+          "published_sha256": "81339c61cc65c65f7cdf55e7a87e60f48afd6475a49c84385f279d799f308584"
+        },
+        "server-telemetry.json": {
+          "original_sha256": "f8b07fc4869dacb3a594363e62f169befcd109337b0b9c7b69f4227ce962c77b",
+          "published_sha256": "f8b07fc4869dacb3a594363e62f169befcd109337b0b9c7b69f4227ce962c77b"
+        },
+        "server.log": {
+          "original_sha256": "1a98adefaee15f720abd10ccdf232281765a8911ac94434881fc6456b0e17ceb",
+          "published_sha256": "a717b4089e92158aa0cda0338c1ca2b30507ef54db2f4f038aa98740db4bda5c"
+        },
+        "warmup.json": {
+          "original_sha256": "79b731287099a77fa03bc8ab23097f3257e9d9c3aa228a41d5ce02fe733f98d1",
+          "published_sha256": "79b731287099a77fa03bc8ab23097f3257e9d9c3aa228a41d5ce02fe733f98d1"
+        }
+      },
+      "source_commit": "5d1ca86d5855f117f48a115f0cdcc2845832313b",
+      "publication_receipt_sha256": "9875ce1b020685855e7327919d5407ba54092dad26f7da1d27d8e11c326788c6",
+      "native_profile": {
+        "runtime": "llama-cpp",
+        "runtime_lock_sha256": "20ad26adca57df1e4fbc6af55994ea67127c55442eaba5c74ee3d4ed11a6c9bd",
+        "command": [
+          "<repo>/vendor/llama-agentperf/build/bin/llama-server",
+          "-m",
+          "<repo>/models/mistral-medium35-q4/Q4_K_M/Mistral-Medium-3.5-128B-Q4_K_M-00001-of-00003.gguf",
+          "--alias",
+          "mistral-medium35-q4",
+          "--jinja",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18185",
+          "-c",
+          "32768",
+          "-ngl",
+          "999",
+          "--parallel",
+          "2",
+          "--flash-attn",
+          "on",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "2048",
+          "--no-context-shift"
+        ],
+        "requested_context_per_slot": 16384,
+        "slots": 2,
+        "prompt_cache_sequences": 0,
+        "thinking_policy": "Requested disabled in common task payloads; official replay keeps its declared policy",
+        "native_binary_sha256": "69105435ef7d21f9812477ed271ac9e0acf7d4bc25c4d1e71ec2576e4fa49f74"
+      },
+      "request_payloads_sha256": "983589cde506ad1838c5d65ecca696c6bc65b8b794cc05c8c9dba220ebed37dd",
+      "display_condition": "Task-owned display-awake service restored during timed measurement at16:35:44.864UTC; measurement began16:31:10UTC. Raw timings unadjusted, physical pixels unobserved, no causal effect claim."
     }
   ],
-  "limits": "HTTP end-to-end aggregate includes input fill/decode/request overhead, not cold native decode or task success. Target8192 distinct from observed8215/8216 counts. Warmups excluded; all60length endings retained. Physical native prompt cache snapshots may be retained despite cache_prompt=false; report zero observed reused input tokens, not zero physical cache memory. Display-idle policy restored during c2 is a recorded covariate, no causal timing effect or clean concurrency-only attribution. Portable harness, not official AIPerf submission."
+  "limits": "HTTP end-to-end aggregate includes input fill/decode/request overhead, not cold native decode or task success. Target8192 distinct from observed8215/8216 counts. Warmups excluded; all60length endings retained. Physical native prompt cache snapshots may be retained despite cache_prompt=false; report zero observed reused input tokens, not zero physical cache memory. Display-idle policy restored during c2 is a recorded covariate, no causal timing effect or clean concurrency-only attribution. Portable harness, not official AIPerf submission.",
+  "native_profile_note": "Per-profile native command/slots/global context recorded in each row; unchanged16384context per slot and all other flags, requests byte-identical.",
+  "display_transition_receipt_sha256": "91d2b3777eb9455ee6ee7216732860978745bc1ff5775367aa050d8cc8503f88"
 }
