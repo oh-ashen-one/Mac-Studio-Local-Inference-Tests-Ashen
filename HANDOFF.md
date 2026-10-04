@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT qualified sustained repeat2 continuation — October4 11:34 UTC /07:34 EDT
+
+Exactly one driver91386 started11:33:06UTC after old77926/89040/89106/protected controls and shared holders were verified absent. ActualM5 immutable qualification/native26-file closure/model artifacts and all7 independent budget-group admissions passed, including the actual first20-turn failure. Original memory/swap/console/shared-lock checks passed; GPU safety count1. At11:34 driver91386 healthy in original `u20261003-mistral35-tail-200000-2048-r2`, wrapper91429/native91460; wrapper owns slot0, normal60s quiescence passed with zero blockers/owner hold. Native model loaded and started its original task; no complete response/sustained-series claim. Recheck actual identities/children/current outputs/holders; never duplicate healthy work.
+
+Original exact200000input/2048output/native7200s/driver7600s sustained budgets unchanged, same weights/quant/native/runtime/cache/corpus/token IDs/memory profile. First sustained run remains audited1of3; first20-turn seed1001 independently audited unscored/no retry. Mistral25 complete +7 audited unscored budget groups +7 required(two sustained/two20-turn repo/three serving); MiMo2 deferred trials/final report/owned inference exits remain required. Prior stopped ledger exact bytes/hash preserved. Failure original11 files and sustained original6 files backed up/hash-checked before publication sync; data/config-only updates, no inference-source changes.
+
+Existing ACTIVE15min followup continues. System-awake50803/displayoff preference/preview79359/controller forward16096 preserved; no readonly preview restart for data-only changes. No main merge/site/social/submission. Every later actual failure requires its own review; unrun seeds/groups remain required.
+
 ## CURRENT independently reviewed first20-turn budget attempt — October4 11:31 UTC /07:31 EDT
 
 Original `u20261003-mistral35-repo20-r1` actually failed11:29:15.222UTC on unchanged900s first-request deadline: zero complete responses/final usage/task-success score, empty patch. Native calibration200026 is not final usage; last prefill79872 at892.63s, wall969.275006s includes cleanup/check granularity. Whole-child min64.530777GiB available/swapgrowth0; no new GPU event(total1). Original result remains failed/SHA-bound; own11 original M5 and11 publication hashes checked, fullpacket/reconstructed request/logs/stopped ledger/telemetry preserved. Old77926/89040/89106 and protected controls exited, holders empty.
