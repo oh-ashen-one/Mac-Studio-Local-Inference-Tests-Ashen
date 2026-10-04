@@ -1,7 +1,7 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **27/39 cells completed**. Status: stopped. No overall deadline. A completed task attempt may still be unsuccessful.
- Audited request-budget-limited attempted groups: 8, unscored; original failed records preserved.
+Coverage: **27/39 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+ Audited request-budget-limited attempted groups: 9, unscored; original failed records preserved.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
 | Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |
