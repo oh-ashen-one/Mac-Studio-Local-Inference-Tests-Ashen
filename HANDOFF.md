@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT independently reviewed first20-turn budget attempt — October4 11:31 UTC /07:31 EDT
+
+Original `u20261003-mistral35-repo20-r1` actually failed11:29:15.222UTC on unchanged900s first-request deadline: zero complete responses/final usage/task-success score, empty patch. Native calibration200026 is not final usage; last prefill79872 at892.63s, wall969.275006s includes cleanup/check granularity. Whole-child min64.530777GiB available/swapgrowth0; no new GPU event(total1). Original result remains failed/SHA-bound; own11 original M5 and11 publication hashes checked, fullpacket/reconstructed request/logs/stopped ledger/telemetry preserved. Old77926/89040/89106 and protected controls exited, holders empty.
+
+Only this actually attempted original seed1001 newly unsupported_request_budget/unscored. Never retry; original1002/1003 and all unrun groups remain required. Prior plan bytes/hash archived, all39 IDs/order/measurement parameters unchanged. Read docs/MISTRAL-REPO20-REQUEST-BUDGET-REVIEW-20261004.md. Mistral25 complete +7 independently audited unscored groups +7 required(two sustained/two20-turn repo/three serving). MiMo2 deferred trials/final report/owned exits still required. First sustained sample remains audited1of3, not fullseries.
+
+Push/sync this data/config-only amendment, then validate actualM5 immutable qualification/all7 budget groups/original guards/idle slots/mutex and start exactly one continuation toward original sustained repeat2. Preserve7200s native/7600s driver speed budgets,900s taskrequests/7800s repo budgets, all cache/memory/runtime settings and60s quiescence. Existing ACTIVE15min followup persists; systemawake50803/displayoff/preview79359/tunnel16096 preserved. No preview restart for data-only release.
+
 ## CURRENT first sustained repeat complete; original20-turn trial active — October4 11:26 UTC /07:26 EDT
 
 Same admitted driver77926 advanced without restart after first sustained run completed11:11:30.081UTC. Original `u20261003-mistral35-tail-200000-2048-r1` produced exact200000 native input/2048 output, cache_n0, native decode3.95959289tok/s, HTTP fill5011.770631s and generation request wall5528.753184s. Whole-child min83.844162GiB available/swap growth0. All6 original M5 and6 publication hashes and6 unchanged measurement-source blobs checked; model/native/runtime/corpus/token-ID pins match cold200K. Prior77973/78005 exited. Audit `results/mistral-sustained-progress-20261004` is only1 of3 repeats, no full-series statistics or whole-study conclusion.
