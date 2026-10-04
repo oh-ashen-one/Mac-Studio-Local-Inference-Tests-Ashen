@@ -1,9 +1,12 @@
-# Mistral sustained generation — first completed repeat
+# Mistral sustained generation — two completed repeats
 
-One of three original repeats completed; two sustained repeats and other required Mistral/MiMo work remain. No full-series or whole-study conclusion.
+Two of three original sustained200K/2048 repeats complete. Third and remaining required Mistral/MiMo groups/report/exits unfinished. No full-series statistics or whole-study completion.
 
-[u20261003-mistral35-tail-200000-2048-r1](../u20261003-mistral35-tail-200000-2048-r1/result.json) completed at 2026-10-04T11:11:30.081313+00:00: exactly200000 native input tokens and2048 output tokens, zero native cache reuse. Native decode **3.95959289tok/s**, native decode time516.972339s; HTTP context fill5011.770631s and generation request wall5528.753184s use different timing boundaries.
+| Repeat | Exact input/output | Native decode tok/s | HTTP fill s | Generation request wall s | Whole-child min available GiB | Positive swap growth MiB |
+|---|---|---:|---:|---:|---:|---:|
+| [1](../u20261003-mistral35-tail-200000-2048-r1/result.json) |200000/2048|3.95959289|5011.770631|5528.753184|83.844162|0.000000|
+| [2](../u20261003-mistral35-tail-200000-2048-r2/result.json) |200000/2048|3.96881933|4992.601014|5508.380064|82.932892|0.000000|
 
-Whole-child minimum available memory83.844162GiB; maximum positive swap growth0.000000MiB. All6 original M5 and6 publication artifact SHA values checked; prior wrapper/server exited. Model/native/runtime/corpus/token IDs and6 measurement-source blobs match the cold200K runs, with the intentionally different2048-output condition kept separate from256-output measurements.
+Both final native receipts confirm zero cache reuse/exact token work. All12 original M5 and12 publication artifact hashes were checked; both exited worker pairs are absent. Model/native/runtime/corpus/token-ID pins, native commands/generation settings and6 measurement-source blobs match across repeats. Raw responses/chunks/telemetry remain linked. No repetition substitution or outlier removal.
 
-Pinned Q4_K_M GGUF, f16 KV, fresh server/slot, cache_prompt=false, temperature0/seed1729, EOS ignored, Metal/flash attention and no context shift. This is an observed speed measurement, not task success, semantic context accuracy or a hardware ceiling. No matched M3 inference exists. Display wake was disabled throughout and system-awake remained active. Original request/job/token/cache/memory budgets remain unchanged. Raw responses/chunks/timings are retained in the linked run; no outlier removal or repeat substitution.
+Pinned Q4_K_M GGUF/f16 KV, fresh native server/slot, cache_prompt=false, temperature0/seed1729, EOS ignored, Metal/flash attention/no context shift. Native decode, HTTP fill and request wall have distinct timing boundaries.2048-output runs are kept separate from cold256-output measurements. No speed-as-intelligence, semantic context, absolute hardware ceiling or matched-M3 causal claim. Display wake disabled throughout/system awake preserved. Third repeat and remaining trials/report/exits remain required.
