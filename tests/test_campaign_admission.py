@@ -17,7 +17,14 @@ class AdmissionTests(unittest.TestCase):
   self.assertEqual(len(new['jobs']),234)
   for a,b in zip(old['jobs'],new['jobs']):self.assertEqual(a,{k:v for k,v in b.items() if not k.startswith('disposition')})
   omitted=[j for j in new['jobs'] if j.get('disposition')==OMITTED];self.assertEqual(len(omitted),18);self.assertTrue(all(j['model_id'] in ('qwen38-q4-gguf','qwen3.6-35b-a3b-vl-mtp-mxfp8') for j in omitted))
-  self.assertTrue(extension_pending(ROOT,new))
+  # The completed Mistral extension must clear the baseline admission gate.
+  extension=json.loads((ROOT/new['required_extension']).read_text())
+  evidence=json.loads((ROOT/extension['completion_evidence']).read_text())
+  self.assertFalse(extension_pending(ROOT,new))
+  self.assertEqual(extension['status'],'complete_with_evidence')
+  self.assertEqual(len(extension['jobs']),39)
+  self.assertEqual(evidence['complete_groups']+evidence['unscored_repository_budget_groups']+evidence['unscored_retrieval_case_budget_groups'],39)
+  self.assertTrue(evidence['all_owned_mistral_inference_processes_exited'])
  def test_extension_full_matrix(self):
   ext=json.loads((ROOT/'config/unified-extension-20261003.json').read_text())
   self.assertEqual(len(ext['jobs']),156)
