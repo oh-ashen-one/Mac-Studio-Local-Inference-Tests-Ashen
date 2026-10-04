@@ -2,6 +2,12 @@
 
 Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT independent seed1003 budget review — October4 00:07 UTC /October3 20:07 EDT
+
+Original fresh repo8-r3 hit unchanged900s first-request deadline, zero complete responses/final usage/functional score, empty patch. Its own immutable result hash/rawpacket/reconstructed request/logs/stopledger/telemetry are preserved;11 publication hashes checked. Calibration200025 is not final usage; last logged prefill79872 at879.38s, wall962.816s including cleanup/check granularity. Min68.349GiB available, swap growth0, no GPU event (count1). Driver42884/wrapper42892/server42985 exited, holders empty.
+
+Only actually attempted r1/r2/r3 are independently audited unscored budget limits; no failed attempt retried, seeds1004/1005 remain required. Prior plan archived, all original39 IDs/order/parameters unchanged. No source/profile change. After sync and actualM5 idle/qualified/hash-bound audit checks, start one continuation toward original repo8-r4. Mistral22 complete +3 unscored attempts +14 required remaining; MiMo2 deferred trials required, follow-up ACTIVE15min.
+
 ## CURRENT reviewed Mistral seed1003 continuation — October3 23:44 UTC /19:44 EDT
 
 Exactly one qualified continuation driver **42884** started23:43:17.165 UTC after verified old72523/40458/40562 exit, empty GPU holders and unchanged safety count1. ActualM5 immutable model/runtime qualification plus both independent repository-only budget audits passed before launch. At23:44 driver42884 is healthy in `u20261003-mistral35-repo8-r3`, wrapper42892 (server starts after verification); normal60s partial-free download gate passed. Recheck live identities/children/outputs/holders, never duplicate a healthy driver.

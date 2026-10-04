@@ -776,3 +776,7 @@ Same healthy driver moved into fresh eight-turn repository trial2; no failed-tri
 ### October3, second fresh Mistral repair request hit original deadline
 
 Seed1002/repo8-r2 actually hit900s request deadline before a completed response; calibrated200025 input, no final usage/functional score. Last native prefill79872 at879.36s, wall962.750s includes cleanup/check granularity. Min67.868GiB available, zero swap growth, no new GPU event. Own11 publication hashes checked, original result hash-bound/preserved; new audited request-budget limitation does not exclude unrun seeds. Repository-only admission tightening adopts no measured condition change and52 tests pass. Mistral22 complete +2 unscored budget attempts +15 required remaining; MiMo2 deferred remain required.
+
+### October3 local evening, third fresh repair request budget limit
+
+Original seed1003 independently exceeded unchanged900s first-response budget: zero complete responses/final usage/task score, calibrated200025 initial tokens; last logged prefill79872 at879.38s. Wall962.816s includes cleanup/granularity. Min68.349GiB available and no positive swap growth/GPU event. Own11 publication hashes checked, result unchanged/hash-bound, no retry. Seeds1004/1005 and other cases remain required. Mistral22 complete +3 unscored budget attempts +14 required remaining; two MiMo deferred remain.
