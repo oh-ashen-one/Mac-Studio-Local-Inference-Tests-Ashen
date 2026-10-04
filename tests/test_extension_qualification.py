@@ -18,7 +18,15 @@ def test_every_extension_command_uses_separate_lock_and_campaign_with_original_b
         assert cmd[cmd.index('--lock')+1]==plan['model_lock']
         assert cmd[cmd.index('--campaign-id')+1]==plan['id']
         expected={'speed':7600,'repo':7800 if job.get('max_turns')==20 else 4200,'replay':15000,'quality':86400,'serving':7200}
-        assert budget==expected[job['kind']]
+        if job.get('case_continuation'):
+            from retrieval_continuation import validate
+            review=validate(ROOT,job['case_continuation'],job['model_id'],job['result_run_id'])
+            assert 0 < budget <= expected[job['kind']]
+            assert abs(budget-review['remaining_job_budget_seconds']) < 1
+            assert review['original_job_budget_seconds']==expected[job['kind']]
+            assert job['id']==review['parent_run_id']
+        else:
+            assert budget==expected[job['kind']]
 
 
 def test_mistral_declared_no_reasoning_is_explicit_in_task_and_counting_template():

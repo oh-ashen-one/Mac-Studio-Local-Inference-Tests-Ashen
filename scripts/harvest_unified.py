@@ -67,11 +67,11 @@ def harvest(campaign='baseline'):
     # telemetry is saved. Active/incomplete directories are never transferred.
     audit = json.loads(remote('''import json,pathlib,psutil
 s=json.loads(pathlib.Path(''' + repr(ledger) + ''').read_text())
-ids=[j['id'] for j in s['jobs'] if j['status']=='complete' and j['id']!=s.get('active') and pathlib.Path('results',j['id'],'campaign-telemetry.json').exists()]
+ids=[j.get('result_run_id',j['id']) for j in s['jobs'] if j['status']=='complete' and j['id']!=s.get('active') and pathlib.Path('results',j.get('result_run_id',j['id']),'campaign-telemetry.json').exists()]
 if s['status']=='stopped' and not psutil.pid_exists(s['pid']):
  for j in s['jobs']:
-  p=pathlib.Path('results',j['id']);f=p/('run.json' if j['kind']=='replay' else 'result.json')
-  if f.exists() and json.loads(f.read_text()).get('status')=='failed' and (p/'completion-audit.json').exists():ids.append(j['id'])
+  name=j.get('result_run_id',j['id']);p=pathlib.Path('results',name);f=p/('run.json' if j['kind']=='replay' else 'result.json')
+  if f.exists() and json.loads(f.read_text()).get('status') in ('failed','complete') and (p/'completion-audit.json').exists():ids.append(name)
 print(json.dumps({'ids':ids,'state':s}))
 '''))
     copied = []
@@ -85,13 +85,13 @@ print(json.dumps({'ids':ids,'state':s}))
         archive = remote('''import io,json,pathlib,sys,tarfile,psutil
 run=''' + repr(run) + '''
 s=json.loads(pathlib.Path(''' + repr(ledger) + ''').read_text())
-j=next(j for j in s['jobs'] if j['id']==run)
+j=next(j for j in s['jobs'] if j['id']==run or j.get('result_run_id')==run)
 p=pathlib.Path('results')/run
 if j['status']=='complete':
- assert s.get('active')!=run and (p/'campaign-telemetry.json').exists()
+ assert s.get('active')!=j['id'] and (p/'campaign-telemetry.json').exists()
 else:
  assert s['status']=='stopped' and not psutil.pid_exists(s['pid']) and (p/'completion-audit.json').exists()
- assert json.loads((p/('run.json' if j['kind']=='replay' else 'result.json')).read_text())['status']=='failed'
+ assert json.loads((p/('run.json' if j['kind']=='replay' else 'result.json')).read_text())['status'] in ('failed','complete')
 with tarfile.open(fileobj=sys.stdout.buffer,mode='w|') as t:
  for f in sorted(p.rglob('*')):
   assert not f.is_symlink()
@@ -179,8 +179,8 @@ conflicts=set(git('ls-files','--others','--exclude-standard').decode().splitline
 runs={p.split('/')[1] for p in conflicts if p.startswith(('results/u20261002-','results/u20261003-'))}
 assert all(p.startswith(('results/u20261002-','results/u20261003-')) or p in aggregate_files() for p in conflicts),'Unrelated untracked conflict'
 for run in sorted(runs):
- state=next(s for s in states if any(j['id']==run for j in s['jobs']))
- j=next(j for j in state['jobs'] if j['id']==run)
+ state=next(s for s in states if any(j['id']==run or j.get('result_run_id')==run for j in s['jobs']))
+ j=next(j for j in state['jobs'] if j['id']==run or j.get('result_run_id')==run)
  if j['status']=='complete':assert run!=state.get('active')
  else:
   import psutil

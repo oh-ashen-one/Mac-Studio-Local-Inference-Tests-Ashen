@@ -15,7 +15,7 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
     jobs=live['jobs'] if live else [{**j,'status':'pending'} for j in plan['jobs']]
     records={}
     for j in jobs:
-        folder=ROOT/'results'/j['id'];file=folder/('run.json' if j['kind']=='replay' else 'result.json')
+        folder=ROOT/'results'/j.get('result_run_id',j['id']);file=folder/('run.json' if j['kind']=='replay' else 'result.json')
         if file.exists():
             try:
                 r=json.loads(file.read_text());records[j['id']]=r
@@ -48,6 +48,8 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
         for suite in ['structured','retrieval','humaneval']:
             j=next(x for x in own if x['kind']=='quality' and x['suite']==suite);r=records.get(j['id'],{})
             m['quality'][suite]={'status':j['status'],'completed':r.get('completed_cases',0),'passed':r.get('passed_cases',0),'planned':r.get('planned_cases',{'structured':24,'retrieval':9,'humaneval':164}[suite])}
+            if j.get('case_continuation'):
+                m['quality'][suite].update(planned=9,attempted_cases=r.get('attempted_cases',0)+1,unscored_request_budget_cases=r.get('unscored_request_budget_cases',0)+1,continuation_run_id=j['result_run_id'],requires_full_case_review=True)
         for mini in [True,False]:
             j=next(x for x in own if x['kind']=='replay' and x['mini']==mini);r=records.get(j['id'],{});s=r.get('replay_summary',{})
             m['replay']['mini' if mini else 'full']={'status':j['status'],'run_id':j['id'],'turns':s.get('totals',{}).get('turns'),'served':s.get('totals',{}).get('successful_turns'),'end_to_end_tok_s':s.get('end_to_end_output_tokens_per_second'),'context_evidence':s.get('config',{}).get('context'),'output_policy':s.get('config',{}).get('output_tokens',{}).get('policy'),'measured_duration_s':s.get('measured_duration_ms',0)/1000 if s else None,'short_output_warnings':s.get('totals',{}).get('short_output_warnings'),'server_output_tokens':s.get('totals',{}).get('total_server_output_tokens'),'server_prompt_tokens':s.get('totals',{}).get('total_server_prompt_tokens'),'server_cached_prompt_tokens':s.get('totals',{}).get('total_server_cached_prompt_tokens')}

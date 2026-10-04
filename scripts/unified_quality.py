@@ -83,11 +83,18 @@ def retrieval_packet(spec,folder,ident,case,port=None):
     return messages,case
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--suite',choices=['structured','retrieval','humaneval'],required=True);p.add_argument('--lock',default='config/unified-models.lock.json');p.add_argument('--campaign-id',default='unified-overnight-20261002');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--model',required=True);p.add_argument('--run-id',required=True);p.add_argument('--suite',choices=['structured','retrieval','humaneval'],required=True);p.add_argument('--lock',default='config/unified-models.lock.json');p.add_argument('--campaign-id',default='unified-overnight-20261002');p.add_argument('--retrieval-continuation');a=p.parse_args()
     if not a.allow_inference:p.error('Owner authorization required')
+    continuation=None
+    if a.retrieval_continuation:
+        if a.suite!='retrieval':p.error('Case continuation is retrieval-only')
+        from retrieval_continuation import validate,case_budget_failure,continuation_counts,partial_stream_observation
+        continuation=validate(ROOT,a.retrieval_continuation,a.model,a.run_id)
+        if a.lock!=continuation['model_lock']:p.error('Continuation must use the frozen model lock')
     signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     spec,folder,lock=resolve_model(a.model,a.lock);out=ROOT/'results'/a.run_id;out.mkdir(exist_ok=False)
     r={'kind':'useful_work','campaign_id':a.campaign_id,'model_id':a.model,'machine_id':'studio-new','suite':a.suite,'status':'starting','cases':[],'model_revision':spec['revision'],'model_lock_sha256':digest(lock),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'thinking_requested':False,'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+    if continuation:r.update(continuation_parent_run_id=continuation['parent_run_id'],requires_completion_review=True,original_planned_cases=9,original_job_deadline_utc=continuation['original_job_deadline_utc'],excluded_audited_case_ids=['needle-0.1-101'])
     def update():write_json(out/'result.json',r);write_json(ROOT/'work/unified-job-live.json',r)
     update()
     try:
@@ -114,6 +121,7 @@ def main():
                     r['protocol']='HumanEval-164 chat adaptation, one greedy sample, restricted Python sandbox; not an official leaderboard run'
                 else:
                     jobs=[(f'needle-{position}-{seed}',None,{'position':position,'seed':seed},seed) for seed in [101,202,303] for position in [0.1,0.5,0.9]]
+                    if continuation:jobs=[job for job in jobs if job[0] in continuation['remaining_case_ids']]
                 r['planned_cases']=len(jobs)
                 for ident,messages,case,seed in jobs:
                     r.update(status='running',active_case=ident);update();caseout=out/ident;caseout.mkdir()
@@ -121,13 +129,23 @@ def main():
                         messages,case=prepared_retrieval.get(ident) or retrieval_packet(spec,folder,ident,case,port)
                     write_json(caseout/'request.json',{'messages':messages,'case':case})
                     row={'case_id':ident,'seed':seed,'expected':case.get('expected'),'passed':False}
-                    response=chat(port,chat_payload(spec,messages,2048 if a.suite=='humaneval' else 512,0 if a.suite!='structured' else .2,1729+seed),900);row.update(response);write_json(caseout/'response.json',response)
+                    request_started=time.perf_counter()
+                    try:response=chat(port,chat_payload(spec,messages,2048 if a.suite=='humaneval' else 512,0 if a.suite!='structured' else .2,1729+seed),900)
+                    except TimeoutError as exc:
+                        if not continuation:raise
+                        write_json(caseout/'partial-stream-observation.json',partial_stream_observation(exc))
+                        row=case_budget_failure(exc,ident,case,time.perf_counter()-request_started,digest(caseout/'request.json'))
+                        write_json(caseout/'request-budget-failure.json',row);r['cases'].append(row);r.update(continuation_counts(r['cases']));update();continue
+                    row.update(response);write_json(caseout/'response.json',response)
                     if a.suite=='humaneval':row['evaluation']=evaluate_code(case,response['output'],caseout);row['passed']=row['evaluation']['passed']
                     else:
                         try:row['passed']=final_json(response['output'])==case['expected']
                         except (ValueError,TypeError):pass
                     if a.suite=='retrieval' and not 200000<=response['usage'].get('prompt_tokens',0)<=200064:raise RuntimeError('Actual retrieval context mismatch')
-                    r['cases'].append({k:v for k,v in row.items() if k not in ['output','reasoning','stream_chunks']});r['completed_cases']=len(r['cases']);r['passed_cases']=sum(x['passed'] for x in r['cases']);update()
+                    r['cases'].append({k:v for k,v in row.items() if k not in ['output','reasoning','stream_chunks']})
+                    if continuation:r.update(continuation_counts(r['cases']))
+                    else:r['completed_cases']=len(r['cases']);r['passed_cases']=sum(x['passed'] for x in r['cases'])
+                    update()
                 r.update(status='complete',active_case=None)
     except BaseException as e:r.update(status='failed',error=str(e).replace(str(ROOT),'<repo>'));raise
     finally:r['finished_at_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();update()

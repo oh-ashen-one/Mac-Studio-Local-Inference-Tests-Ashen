@@ -8,8 +8,9 @@ from models import digest
 from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, BUDGET, reviewed_disposition, gpu_safety_failures
 
 def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
+    if job.get('result_run_id') and not job.get('case_continuation'):raise RuntimeError('Output alias requires reviewed case continuation')
     python=str(ROOT/('vendor/vlm-runtime/.venv/bin/python' if spec['runtime']=='mlx-vlm' else '.venv/bin/python'))
-    common=['--allow-inference','--model',job['model_id'],'--run-id',job['id']]
+    common=['--allow-inference','--model',job['model_id'],'--run-id',job.get('result_run_id',job['id'])]
     if spec.get('extension'):
         common+=['--lock',model_lock,'--campaign-id',campaign_id]
     if job['kind']=='speed':
@@ -18,7 +19,16 @@ def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_i
         return [python,*entry,'--tokens',str(job['tokens']),'--output-tokens',str(job['output_tokens'])],7600
     if job['kind']=='repo':return [python,'scripts/unified_repo.py',*common,'--attempt',str(job['attempt']),'--max-turns',str(job['max_turns'])],7800 if job['max_turns']==20 else 4200
     if job['kind']=='replay':return [python,'scripts/unified_replay.py',*common]+(['--mini'] if job['mini'] else []),15000
-    if job['kind']=='quality':return [python,'scripts/unified_quality.py',*common,'--suite',job['suite']],86400
+    if job['kind']=='quality':
+        command=[python,'scripts/unified_quality.py',*common,'--suite',job['suite']]
+        if job.get('case_continuation'):
+            if job['suite']!='retrieval':raise RuntimeError('Case continuation is retrieval-only')
+            from retrieval_continuation import validate
+            review=validate(ROOT,job['case_continuation'],job['model_id'],job['result_run_id'])
+            if job['id']!=review['parent_run_id']:raise RuntimeError('Continuation must belong to the original logical group')
+            if model_lock!=review['model_lock']:raise RuntimeError('Continuation must use the frozen model lock')
+            return [*command,'--retrieval-continuation',job['case_continuation']],review['remaining_job_budget_seconds']
+        return command,86400
     if job['kind']=='serving':return [python,'scripts/unified_serving.py',*common,'--concurrency',str(job['concurrency']),'--requests',str(job['requests'])],7200
     raise ValueError('Unknown frozen job type')
 
@@ -38,12 +48,18 @@ def main():
     try:
         import psutil
         for j in state['jobs']:
-            out=ROOT/'results'/j['id'];file=out/('run.json' if j['kind']=='replay' else 'result.json')
+            if j.get('case_continuation'):
+                from retrieval_continuation import validate
+                review=validate(ROOT,j['case_continuation'],j['model_id'],j['result_run_id'])
+                if j['id']!=review['parent_run_id']:raise RuntimeError('Continuation must belong to the original logical group')
+            out=ROOT/'results'/j.get('result_run_id',j['id']);file=out/('run.json' if j['kind']=='replay' else 'result.json')
             result=json.loads(file.read_text()) if file.exists() else None
             reviewed=reviewed_disposition(ROOT,j,result)
             if reviewed:
                 j.update(status=reviewed,reason=j['disposition_reason']);save();continue
             if file.exists():
+                if j.get('case_continuation'):
+                    j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Case continuation requires explicit review of all nine original cases');save();return
                 if result.get('status')!='complete':j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Existing failed/incomplete cell requires explicit review');save();return
                 j['status']='complete';save();continue
             disposition=pending_disposition(j, file.exists())
@@ -68,21 +84,25 @@ def main():
             if gpu_safety_failures(ROOT)>=2:raise RuntimeError('Two GPU safety failures recorded; no automatic inference relaunch')
             safety('studio-new')
             command,budget=command_for(j,specs[j['model_id']],plan['model_lock'],plan['id']);j['status']='running';state.update(status='running',active=j['id']);save()
-            with (ROOT/'work'/f'{j["id"]}.log').open('w') as log:
+            with (ROOT/'work'/f'{j.get("result_run_id",j["id"])}.log').open('w') as log:
                 process=subprocess.Popen(command,cwd=ROOT,env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1'),stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
                 start=time.monotonic()
                 try:
                     with Telemetry(process.pid) as telemetry:
                         while process.poll() is None:
                             state['elapsed_s']=time.monotonic()-start;save()
+                            if gpu_safety_failures(ROOT)>=2:raise RuntimeError('Two GPU safety failures recorded; stop owned work and never automatically relaunch')
                             if telemetry.rows and (telemetry.rows[-1]['available_bytes']<12*2**30 or telemetry.rows[-1]['swap_bytes']-telemetry.rows[0]['swap_bytes']>2*2**30):
                                 state['guard_sample']=telemetry.rows[-1];raise RuntimeError('Memory guard reached; no automatic retry')
                             if state['elapsed_s']>budget:raise TimeoutError('Declared individual-job budget reached; overall campaign has no cutoff')
+                            if j.get('case_continuation') and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(review['original_job_deadline_utc']):raise TimeoutError('Original retrieval group job deadline reached; no extension')
                             time.sleep(3)
                 finally:
                     if out.exists():write_json(out/'campaign-telemetry.json',telemetry.rows)
             if process.returncode:
                 j['status']='needs_review';raise RuntimeError('Cell failed and was preserved: '+j['id'])
+            if j.get('case_continuation'):
+                j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Case continuation requires explicit review of all nine original cases');save();return
             j['status']='complete';save();process=None
         if any(j['status']==DEFERRED for j in state['jobs']):state.update(status='baseline_deferred_resource_review',active=None)
         elif any(j['status'] not in ('complete',OMITTED,RESOURCE,BUDGET) for j in state['jobs']):state['status']='needs_review'
