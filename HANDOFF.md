@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT report published; owner scope decision pending — October4 20:12 UTC /16:12 EDT
+
+Bounded research report docs/M5-RESEARCH-REPORT-20261004.md/frozen source summaries/receipt and hardware/owned-inference-exit-verification-20261004.json are published/synced. Whole study stillincomplete: one originalMiMo seed1003 required/unrun undertwo-event stop. Owner inputpanel asks keeptrialrequired/holdinference (recommended) or explicitlyomitlasttrial/closereducedscope. No answer/approval inferred frompreselection/time; doNOTomit orstartinference withoutnew explicitownerdecision/evidence.
+
+Read-only report fix passed73CPU checks on BOTHcontroller/actualM5. ActualAPI verified213baselinecomplete+18owneromissions+2resource attempts+1requireddeferred; all3MiMo sustained/all3MiMo serving completed preserved despiteunvisitedstoppedledgerrows. Mistral30complete+9auditedbudgetgroups/0remaining. Primaryledgers/rawoutputs untouched. Preview restartedONLYbecause reportmodulechanged: old79359 verifiedowned/exited, new41051; samecontrollerforward16096 retained. No inference restart, source/runtime/model/cache/memory/budget/security change.
+
+GPUevents2 andalltaskownedinferencePIDs/holdersabsent; doNOTreset/erasecounter/automaticallyrelaunchanymodel. Latestkeepbothdisplaysawake persists M5display27102/system50803/M3existing1182. ExistingACTIVE15min followup mustremainactive whileunrunrequiredgap persists, quietforunchangedblock. Reportcompletion isnotwholegoalcompletion; ownerdecision/evidence needed forr3scope.
+
 ## CURRENT research report and exit proof delivered; required gap remains — October4 20:07 UTC /16:07 EDT
 
 Research report docs/M5-RESEARCH-REPORT-20261004.md and frozen source summaries/receipt results/research-report-20261004 are complete for preserved evidence. Coverage is194of195 retained groups accounted:183completed+11actualunscored+1requiredunrun. Original baseline213complete+18owneromissions+2actualresource attempts+1required safetydeferred; Mistral39 fullyaccounted30complete+9budgetgroups. Report keeps unknownfinalfailed usage/nulltaskscores/functionalnegative cases/replaywarnings/repetitions/source/runtime/quant differences and display-idle covariate explicit. No whole-study completion claim; lastoriginalMiMoseed1003 remainsrequired/unrun.
