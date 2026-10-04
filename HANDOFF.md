@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT actual sustained-generation continuation — October4 09:41 UTC /05:41 EDT
+
+Exactly one admitted driver **77926** started09:37:48.655UTC after all old62909/62957/63002/protected controls and holders exited. Actual M5 qualification/native/model closure, all6 group budget audits including all9 retrieval cases and original guards passed; all70 pinned Python3.12 checks pass on both hosts. At09:41 it is healthy in first original `u20261003-mistral35-tail-200000-2048-r1`, wrapper77973/native78005, shared slot0 owned by wrapper; normal60s quiescence passed. Recheck actual live identity/children/current outputs, never duplicate/restart healthy work. Prior stopped ledger preserved before continuation.
+
+This is only1 of3 sustained runs, with exact200000 input/2048 output and original7200s native/7600s driver budgets. Retrieval is explicitly all9 audited/unscored under its own900s request budget, not a semantic context failure; original failed result preserved. Root24 complete +6 budget-limited groups +9 required remaining; MiMo2 deferred trials required. No weights/quantization/native/cache/RoPE/memory changes; accounting source adopted only at verified idle boundary. Existing ACTIVE15min followup updated, final report/owned inference-exit verification still required.
+
+Readonly preview alone restarted because report module changed: former62885 exited, new77948 verified API; controller forward16096 preserved. System-awake50803 remains, display-only68047 retired/plistdisabled per owner; no display-wake reactivation. Source and completed artifacts pushed/public originals hash-preserved before sync.
+
 ## CURRENT all-nine retrieval review completed — October4 09:24 UTC /05:24 EDT
 
 Actual continuation finished09:18:44.522UTC and supervisor62909 stopped at its mandated all-nine-case review barrier. Old62909/62957/63002 are absent and holders empty; no new GPU event (total1). All eight continuation cases plus the separate original first case actually hit unchanged900s deadlines, no complete responses/final native usage/retrieval score. Every case independently request-hash/failure-hash checked, eight client partial buffers empty; all50 original M5 and50 publication artifact hashes checked. Continuation whole-child min64.324936GiB available, swap growth0; original firstcase also within guards. No unrun cases, no retry/whole-suite inference by analogy.
