@@ -1,6 +1,6 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **209/234 cells completed**. Status: running. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **209/234 cells completed**. Status: stopped. No overall deadline. A completed task attempt may still be unsuccessful.
  Owner scope omissions: 18; remaining baseline groups: 6. Omissions are not passes. Required extension: 39 separately declared groups awaiting verification/qualification. Resource-limited attempted groups: 1; deferred for resource review: 0. Neither is scored as a pass; deferred groups remain required. The 156-group four-model extension was cancelled by owner scope; none is counted as passed.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 
