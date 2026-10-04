@@ -1,6 +1,6 @@
 # Unified all-configuration benchmark — interim report
 
-Coverage: **30/39 cells completed**. Status: complete. No overall deadline. A completed task attempt may still be unsuccessful.
+Coverage: **30/39 cells completed**. Status: saved_results. No overall deadline. A completed task attempt may still be unsuccessful.
  Audited request-budget-limited attempted groups: 9, unscored; original failed records preserved.
 [Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.
 

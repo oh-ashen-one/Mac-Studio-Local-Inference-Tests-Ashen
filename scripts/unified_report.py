@@ -4,6 +4,7 @@ import json,statistics,datetime,argparse
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 from publication_labels import public_spec
+from campaign_admission import reviewed_disposition
 
 def stats(values):
     values=[x for x in values if isinstance(x,(int,float))]
@@ -26,8 +27,23 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
     declared={j["id"]:j for j in plan["jobs"]}
     for j in jobs:
         amendment=declared.get(j["id"],{})
-        if j['status'] in ('pending','needs_review') and amendment.get('disposition') in ('omitted_by_owner_scope','unsupported_resource','deferred_resource_review','unsupported_request_budget','unsupported_request_budget_cases'):
-            j.update(status=amendment['disposition'],reason=amendment['disposition_reason'])
+        saved=records.get(j['id'])
+        # A resumed driver walks old results sequentially. Later exited cells
+        # remain evidence-complete before this driver reaches their rows.
+        folder=ROOT/'results'/j.get('result_run_id',j['id'])
+        if (saved and saved.get('status')=='complete'
+            and (folder/'campaign-telemetry.json').exists()
+            and j['id']!=(live or {}).get('active')
+            and not amendment.get('case_continuation')):
+            j['status']='complete'
+        if amendment.get('case_continuation') and saved and saved.get('status')=='complete':
+            j['status']='needs_review'  # Helper completion is not whole-case review.
+        disposition=amendment.get('disposition')
+        if disposition=='omitted_by_owner_scope' and saved is None:
+            j.update(status=disposition,reason=amendment['disposition_reason'])
+        elif disposition in ('unsupported_resource','deferred_resource_review','unsupported_request_budget','unsupported_request_budget_cases'):
+            verified=reviewed_disposition(ROOT,amendment,saved)
+            j.update(status=verified,reason=amendment['disposition_reason'])
     models=[]
     for spec in specs:
         spec=public_spec(spec)
@@ -63,7 +79,10 @@ def collect(plan_path='config/unified-campaign.json',state_path='work/unified-ca
 def write(plan_path='config/unified-campaign.json',state_path='work/unified-campaign.json',output='results/unified-overnight-20261002'):
     r=collect(plan_path,state_path);out=ROOT/output;out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(r,indent=2)+'\n')
     lines=['# Unified all-configuration benchmark — interim report','',f"Coverage: **{r['completed_jobs']}/{r['planned_jobs']} cells completed**. Status: {r['status']}. No overall deadline. A completed task attempt may still be unsuccessful.",'','[Frozen protocol and research sources](../../docs/UNIFIED-OVERNIGHT-PROTOCOL.md). Historical measurements and the initial residency investigation are separate; no unsupported cell may be silently treated as completed.','','| Configuration | Cells | 200K decode median | 200K repetitions | Eight-turn repair | Twenty-turn repair | HumanEval |','|---|---:|---:|---:|---:|---:|---:|']
-    lines[3] += f" Owner scope omissions: {r['omitted_jobs']}; remaining baseline groups: {r['remaining_jobs']}. Omissions are not passes. Required extension: {r['extension_planned_jobs']} separately declared groups awaiting verification/qualification." if r.get('required_extension') else ''
+    if r.get('required_extension'):
+        extension=json.loads((ROOT/r['required_extension']).read_text())
+        state='accounted with evidence' if extension.get('status')=='complete_with_evidence' else 'awaiting completion/qualification'
+        lines[3] += f" Owner scope omissions: {r['omitted_jobs']}; remaining baseline groups: {r['remaining_jobs']}. Omissions are not passes. Required extension: {r['extension_planned_jobs']} separately declared groups {state}."
     if r.get('resource_limited_jobs'):lines[3] += f" Resource-limited attempted groups: {r['resource_limited_jobs']}; deferred for resource review: {r['deferred_jobs']}. Neither is scored as a pass; deferred groups remain required."
     if r.get('budget_limited_jobs'):lines[3] += f" Audited request-budget-limited attempted groups: {r['budget_limited_jobs']}, unscored; original failed records preserved."
     if r.get('cancelled_extension'):lines[3] += ' The 156-group four-model extension was cancelled by owner scope; none is counted as passed.'

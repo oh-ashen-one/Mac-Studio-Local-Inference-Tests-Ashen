@@ -3,14 +3,15 @@
   "status": "stopped",
   "overall_deadline": null,
   "active": {
-    "id": "u20261002-mimo-repo20-r2",
+    "id": "u20261002-mimo-repo20-r1",
     "model_id": "mimo-v2.6-flash-mopd",
     "kind": "repo",
-    "attempt": 2,
+    "attempt": 1,
     "max_turns": 20,
-    "status": "needs_review"
+    "status": "unsupported_resource",
+    "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
   },
-  "error": "Cell failed and was preserved: u20261002-mimo-repo20-r2",
+  "error": "Cell failed and was preserved: u20261002-mimo-repo20-r1",
   "amendments": [
     {
       "id": "deepseek-pretoken-v2",
@@ -34,13 +35,13 @@
       "model_lock_sha256": "79b756a50e463289dd85d480b29865449036906cbc6a46789a3d617671229f3f"
     }
   ],
-  "completed_jobs": 209,
+  "completed_jobs": 213,
   "planned_jobs": 234,
   "omitted_jobs": 18,
-  "resource_limited_jobs": 1,
-  "deferred_jobs": 0,
+  "resource_limited_jobs": 2,
+  "deferred_jobs": 1,
   "budget_limited_jobs": 0,
-  "remaining_jobs": 6,
+  "remaining_jobs": 1,
   "scope_amendments": [
     {
       "id": "owner-one-per-release-20261003",
@@ -113,6 +114,18 @@
       "model_runtime_cache_memory_profile_changed": false,
       "input_output_turn_request_job_budgets_changed": false,
       "failed_r1_never_retried": true
+    },
+    {
+      "id": "second-actual-mimo-metal-event-safety-stop-20261004",
+      "recorded_at_utc": "2026-10-04T19:19:06.255966+00:00",
+      "original_plan": "config/archive/unified-campaign-before-second-gpu-safety-stop-20261004.json",
+      "original_plan_sha256": "888f9b76d266e6c09d6975212e5f868793fd650023c0938f06ebee9bdea82117",
+      "attempted_resource_failure": "u20261002-mimo-repo20-r2",
+      "unrun_required_safety_deferred": "u20261002-mimo-repo20-r3",
+      "gpu_event_count": 2,
+      "automatic_inference_relaunch_prohibited": true,
+      "review": "docs/MIMO-SECOND-METAL-FAILURE-20261004.md",
+      "measurement_parameters_changed": false
     }
   ],
   "required_extension": "config/mistral-campaign-20261003.json",
@@ -940,7 +953,7 @@
       "name": "MiMo V2.6 Flash \u00b7 MXFP4",
       "runtime": "mlx-vlm",
       "quantization": "mxfp4 catalog; 4-bit config default",
-      "completed_jobs": 32,
+      "completed_jobs": 36,
       "planned_jobs": 39,
       "speed": {
         "8192": {
@@ -1146,7 +1159,7 @@
           "completed_requests": 60,
           "wall_s": 548.3581920830184,
           "total_output_tokens": 15360,
-          "status": "pending"
+          "status": "complete"
         },
         "2": {
           "aggregate_output_tok_s": 35.0277371856066,
@@ -1157,7 +1170,7 @@
           "completed_requests": 60,
           "wall_s": 438.50962791600614,
           "total_output_tokens": 15360,
-          "status": "pending"
+          "status": "complete"
         },
         "4": {
           "aggregate_output_tok_s": 40.25702951858803,
@@ -1168,38 +1181,40 @@
           "completed_requests": 60,
           "wall_s": 381.5482707910123,
           "total_output_tokens": 15360,
-          "status": "pending"
+          "status": "complete"
         }
       },
       "budget_limited_jobs": 0,
-      "resource_limited_jobs": 1,
-      "deferred_jobs": 0,
+      "resource_limited_jobs": 2,
+      "deferred_jobs": 1,
       "omitted_jobs": 0,
       "historical_comparison": false,
       "sustained": {
-        "completed": 2,
+        "completed": 3,
         "planned": 3,
         "decode": {
-          "n": 2,
-          "median": 37.58495694719045,
-          "mean": 37.58495694719045,
-          "stdev": 0.026246484981982152,
+          "n": 3,
+          "median": 37.603516014703516,
+          "mean": 37.60408189538609,
+          "stdev": 0.03797011874372364,
           "min": 37.566397879677375,
-          "max": 37.603516014703516
+          "max": 37.642331791777366
         },
         "fill": {
-          "n": 2,
-          "median": 386.91310079149844,
-          "mean": 386.91310079149844,
-          "stdev": 4.980081819605158,
-          "min": 383.3916511659918,
+          "n": 3,
+          "median": 383.3916511659918,
+          "mean": 385.58000647232984,
+          "stdev": 4.210941564113618,
+          "min": 382.91381783399265,
           "max": 390.4345504170051
         },
         "actual_input_tokens": [
           200000,
+          200000,
           200000
         ],
         "actual_output_tokens": [
+          2048,
           2048,
           2048
         ]
@@ -3715,9 +3730,6 @@
       "kind": "repo",
       "attempt": 1,
       "max_turns": 20,
-      "disposition": "unsupported_resource",
-      "disposition_evidence": "results/u20261002-mimo-repo20-r1/completion-audit.json",
-      "disposition_reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score.",
       "status": "unsupported_resource",
       "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
     },
@@ -3736,7 +3748,8 @@
       "kind": "repo",
       "attempt": 2,
       "max_turns": 20,
-      "status": "needs_review"
+      "status": "unsupported_resource",
+      "reason": "Actual original seed1002 MetalGPU OOM onrequest13 after12complete responses; unscored/no finalnative usage/taskscore. Originalfailed result/logs preserved, neverretry."
     },
     {
       "id": "u20261002-mimo-tail-200000-2048-r3",
@@ -3745,7 +3758,7 @@
       "tokens": 200000,
       "output_tokens": 2048,
       "repeat": 3,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-mimo-repo20-r3",
@@ -3753,7 +3766,8 @@
       "kind": "repo",
       "attempt": 3,
       "max_turns": 20,
-      "status": "pending"
+      "status": "deferred_resource_review",
+      "reason": "Originalseed1003 remains required/unrun/unscored. SECOND actualGPU safety event prohibits automaticfurther inference; safety-policy deferral only, not unsupported byanalogy or completion."
     },
     {
       "id": "u20261002-mimo-serving-c1",
@@ -3761,7 +3775,7 @@
       "kind": "serving",
       "concurrency": 1,
       "requests": 60,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-mimo-serving-c2",
@@ -3769,7 +3783,7 @@
       "kind": "serving",
       "concurrency": 2,
       "requests": 60,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "u20261002-mimo-serving-c4",
@@ -3777,8 +3791,8 @@
       "kind": "serving",
       "concurrency": 4,
       "requests": 60,
-      "status": "pending"
+      "status": "complete"
     }
   ],
-  "updated_at_utc": "2026-10-04T19:12:46.983105+00:00"
+  "updated_at_utc": "2026-10-04T19:40:05.912118+00:00"
 }
