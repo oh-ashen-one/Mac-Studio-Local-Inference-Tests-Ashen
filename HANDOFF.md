@@ -1,6 +1,16 @@
 # HANDOFF — M5 long-context and real-work campaign
 
-Updated 2026-10-02. Controller: verified original M3 Studio. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
+Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
+
+## CURRENT controller recovery and original seed1005 continuation — October4 04:01 UTC /00:01 EDT
+
+Owner reported the M3 controller crash and explicitly directed continuation. Actual local Mac15,14/M3 Ultra boot03:43:10 UTC was verified. Actual remote Mac17,15/M5 Ultra boot remains October1 12:42:25 local; no reboot or new inference safety event on the measured host. Interrupted sync completed to74b2b57, target branch clean, failed seed1004 original/hash-bound audit intact. No test is attributed to the controller crash and no failure retried.
+
+After verified old45210/45249/45318 exit, empty shared holders, global M5 inference safety count1, actual immutable qualification/native/model admission, four independent result-SHA-bound repository budget audits and unchanged preflight guards, exactly one continuation **47760** started03:58:15.875 UTC. At04:01 it is healthy in original fresh `u20261003-mistral35-repo8-r5`, seed1005, wrapper47771/native server47845, wrapper owns shared slot0. Normal60s stable/partial-free download gate passed. Actual native prefill16384 at64.92s observed; not a completed response/final token count. Never duplicate/restart a healthy worker or infer later-case outcomes from these prior failures.
+
+Mistral22 complete +4 independently audited unscored request-budget attempts +13 required remaining (including current fifth8-turn trial). MiMo2 deferred long-history trials remain required. Cold-speed20/20 stage remains audited; full useful-work/replay/coding/retrieval/sustained/serving, deferred MiMo boundary, final report and owned inference-exit verification remain. All frozen inputs/seed/turn/output/request/job/model/runtime/cache/memory settings unchanged. No heavy compute/renderer was started on M3.
+
+Existing15-minute heartbeat successfully updated through native app tool after recovery, then on-disk ACTIVE/interval/current-driver fields verified. Same automation/thread retained, no duplicate/manual store edit. Earlier missing checks remain recorded as a supervision gap, not claimed healthy periodic checks. M5 system/display assertions50803/68047 remain active via owning-PID metadata; preview72532 stayed alive and was not restarted. The dead controller-side loopback forward was restored as owned SSH PID16096 after verifying port18765 free; localhost18765/API serves the fresh22+4+13 accounting. Prior forward receipt preserved. Recheck actual live identities/ledger before any action.
 
 ## CURRENT independent seed1004 budget review — October4 03:54 UTC /October3 23:54 EDT
 
