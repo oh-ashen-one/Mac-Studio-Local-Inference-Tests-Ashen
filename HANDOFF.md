@@ -2,6 +2,12 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## CURRENT repeated preview transport loss recovered — October 4, 23:09 UTC /19:09 EDT
+
+The replacement task-owned SSH forward PID25218 had exited by 23:08 UTC. Its log reports an SSH host-down transport error; a fresh private-adapter connection and the remote M5 preview API succeeded, so the underlying network cause is not established. Verified old forward absent/local port free, preserved its exact PID receipt, and restored only the headless owned forward as PID54772. Read `work/preview-forward.pid` for the current identity; previous forward PIDs are historical. Local API coverage remains baseline213 completed/2 actual resource attempts/1 required deferred and Mistral30 completed/9 audited budget groups/0 remaining. New incident receipt: hardware/preview-forward-recovery-20261004-r2.json; first recovery evidence remains unchanged.
+
+M5 preview41051 was not restarted. GPU events remain2, checked campaign controls/latest owned inference PIDs absent, holders empty, and original seed1003 unrun/required. Both display-awake assertions and the report hash are unchanged. No inference, model qualification, benchmark profile, network settings or stored power/security change occurred. The pending owner scope decision is unanswered; keep this ACTIVE15-minute follow-up quiet for unchanged safety block.
+
 ## CURRENT owned preview forward recovered — October 4, 22:39 UTC /18:39 EDT
 
 The controller loopback preview connection failed at 22:38 UTC because its owned SSH forward PID16096 had exited. The M5 preview PID41051 and its remote API remained healthy. After verifying the old forward was absent and the local port was free, restored only the headless task-owned forward as PID25218; `work/preview-forward.pid` now records it and the original PID receipt is preserved. Controller API coverage was rechecked: baseline213 completed/2 resource attempts/1 required deferred; Mistral30 completed/9 budget groups/0 remaining. Receipt: hardware/preview-forward-recovery-20261004.json.
