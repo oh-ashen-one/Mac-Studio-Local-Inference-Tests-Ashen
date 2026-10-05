@@ -1,0 +1,19 @@
+--- a/django/db/migrations/executor.py
++++ b/django/db/migrations/executor.py
+@@ -243,6 +243,16 @@
+         else:
+             self.recorder.record_applied(migration.app_label, migration.name)
+ 
++    def replace_migration(self, migration):
++        """
++        Mark a replacement migration as applied if all of the migrations it
++        replaces are applied.
++        """
++        if migration.replaces:
++            applied = self.recorder.applied_migrations()
++            if all(m in applied for m in migration.replaces):
++                self.recorder.record_applied(migration.app_label, migration.name)
++
+     def unapply_migration(self, state, migration, fake=False):
+         """Run a migration backwards."""
+         if self.progress_callback:

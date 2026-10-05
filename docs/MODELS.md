@@ -1,4 +1,6 @@
-# Candidate selection and model provenance
+# Extended candidates and model provenance
+
+The selected three-model arrival cohort is documented in [ARRIVAL.md](ARRIVAL.md) and locked in `config/models.lock.json`. The list below is the original broader research backlog, not the download queue.
 
 Freeze the final manifest after arrival-day compatibility pilots. These are candidates checked against model/project sources on September 29, 2026, not an exhaustive ranking of the newest models.
 

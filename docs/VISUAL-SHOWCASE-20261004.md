@@ -1,0 +1,37 @@
+# Image-generated benchmark result infographics
+
+The owner requested a visual website showcase emphasizing speed comparisons, with detailed evidence on GitHub. The final five infographics were made with the built-in image-generation tool from exact benchmark numbers and edited with a reference sheet of sourced brand marks. Hardware-product artwork and rejected plotting-library exports are excluded from the published assets.
+
+## Evidence and labels
+
+The200K Qwen rate difference uses the full-precision M5 five-run median21.42618768956603 divided by the published M3 60-GPU result13.8, minus1:55.2622296%, displayed55.3%. The128K comparison uses the M5 five-run median24.44787 and published M3 80-GPU result17.2, displayed42.1%. Displayed rate labels are rounded to two decimals. Both are configuration reports with different software/corpus, not isolated chip-only effects.
+
+The market infographic preserves M5 native decode30.6 at8192 input tokens; optimized M3 report45.8 at200K with MTP/selective prefill; DGX Spark serving output throughput37.3 at approximately204 input tokens with FP8/DFlash2; RTX5090 fixed-output decode98.2 at8192 with NVFP4/MTP3. These differing workloads/timers are labeled and no matched winner or cross-row speedup percentage is assigned. The reviewed DGX report does not supply a matched200K run.
+
+The M5 lineup is the five retained configurations'200K/256-output five-run medians: MiMo37.68, DeepSeek37.61, Qwen21.43, Gemma15.25 and Mistral4.04. Model sizes, precisions and runtimes differ. The wait graphic retains212.930s context fill versus1184.985s reference TTFT and does not turn the different timing boundaries into a faster percentage.
+
+All five final images were inspected after generation and logo edits. The visible values, axis origins and approximate bar proportions were checked against the source values. Brand shapes come from Lobe Icons; exact SVG assets are also used beside labels in the page. [Source review](../research/showcase-source-review-20261004.json), [logo sources and hashes](../research/showcase-brand-assets.json), [full prompt set](../outputs/benchmark-infographic-prompts.md), and [image manifest](../outputs/visual-showcase-manifest.json) preserve provenance. Logos identify the configurations; no endorsement is claimed.
+
+## Release and verification
+
+The images are in viewer/assets/infographic-*.png. Run `.venv/bin/python scripts/build_visual_showcase.py` to bind them to frozen source summaries, record hashes/dimensions and record the visual release. The script performs no pixel edits and imports no inference library. Assets are served only from viewer/assets; traversal and escaping symlinks are rejected.
+
+79 CPU checks pass on the controller, including source-bound rate arithmetic, image hashes/dimensions, sourced logo availability, coverage counts, null/unscored outcomes and private-file rejection. The complete landing page and its condition controls are verified through rendered accessibility state and DOM layout bounds. Desktop1280px and phone389px checks show no horizontal overflow. Browser screenshot capture is unavailable; the final exported infographics were inspected directly. Subjective design acceptance remains the owner's.
+
+The task branch is published. M5 synchronization remains refused by the existing guard because another owner has a live shared GPU holder; that guard is not bypassed. The read-only page is served directly by the controller at loopback18765 through the existing private Tailscale route. Historical preview receipts remain unchanged; read HANDOFF and work/visual-showcase-preview.pid for the latest owned identity. No inference, measured-record change, personal-site deployment or main merge accompanies these viewer edits.
+
+## Complete research landing page
+
+The owner clarified that a few pictures were insufficient: the extensive research needs a proper visual landing page. The page now has a speed-led hero, a retained-study coverage ribbon, two Mac Studio comparisons, the GPU field and software contrast, five-model rates and an interactive context curve, earlier Qwen profiles, sustained min–max ranges, coding pass-rate rings, repository turn conditions, retrieval/JSON outcomes, serving concurrency and latency controls, recorded replay timing/warnings, and a research-evidence section. Navigation jumps to major sections; no consumer download or image-pack controls remain.
+
+New native SVG/HTML charts derive their geometry from the frozen measurements. Context points use their exact8192/32768/131072/200000 x positions. Sustained ranges use exact min/max values. HumanEval ring fractions use actual passed/completed counts. Grouped repository markers keep scored misses, request limits, resource limits and the owner omission distinct. MiMo's20-turn cell and Mistral's unscored cells never become0% accuracy scores. Exploratory image-generated curve/range/dot-grid variants were excluded after geometry/count review; the published native charts preserve those quantities exactly.
+
+The retained coverage ribbon shows5 models,100 cold-speed repetitions,15 sustained runs,820 HumanEval cases and900 measured serving requests. Replay includes840 served requests, structured checks120 cases, and retrieval45 actual attempted probes (including9 unscored Mistral deadlines). Historical Qwen profiles remain separate from the five retained configurations. Two meaningful regressions verify these derived counts and null/unscored outcomes.
+
+## Remotion hero graph
+
+The hero picture is replaced by an interactive, source-bound graph. A Remotion browser Player animates exact SVG bar lengths and rate labels, holds the final values and exposes a Replay button. M5/M3 controls switch200K and131072 input, displaying+55.3% and+42.1% reported rate differences. GPU field shows the four differently configured reports with no matched percentage. Our models shows all five retained200K medians. Company/model marks identify each bar, and source/configuration notes stay beneath the plot. The full research sections remain below.
+
+A separate compact composition keeps names, logos and values readable on phones. Both layouts share a zero origin and exact source-derived scale. Reduced-motion preference shows final values immediately. Animation is driven by useCurrentFrame/interpolate, with bounded easing and row staggering; it never overshoots a source value. The Player is muted, uses no audio and runs in the browser. No offline video render or model inference is needed.
+
+Build: `npm ci --prefix viewer/remotion` then `npm run build --prefix viewer/remotion`. Timing checks: `npm test --prefix viewer/remotion` (3 pass). Dependencies are locked, and viewer/assets/hero-remotion.js is checked in so the Python preview needs no Node process.79 Python checks pass. Live browser verification observed frame11 after Replay and frame119 with exact final labels, all modes/context controls, full-page sections and no overflow at1280px/389px. [Validation receipt](../research/remotion-hero-validation-20261004.json) records bundle/source hashes and bounded browser/HTTP evidence.

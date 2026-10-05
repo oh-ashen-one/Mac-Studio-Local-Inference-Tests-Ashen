@@ -1,0 +1,4470 @@
+{
+  "baseline": {
+    "campaign_id": "unified-overnight-20261002",
+    "status": "stopped",
+    "overall_deadline": null,
+    "active": {
+      "id": "u20261002-mimo-repo20-r1",
+      "model_id": "mimo-v2.6-flash-mopd",
+      "kind": "repo",
+      "attempt": 1,
+      "max_turns": 20,
+      "status": "unsupported_resource",
+      "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
+    },
+    "error": "Cell failed and was preserved: u20261002-mimo-repo20-r1",
+    "amendments": [
+      {
+        "id": "deepseek-pretoken-v2",
+        "previous_plan_sha256": "fd8ed20fee87e18af16e60d79683f6864a03d452791d08d7f931a233749b30ca",
+        "preserved_failed_run": "u20261002-deepseek-repo8-r1",
+        "replacement_run": "u20261002-deepseek-repo8-r1-pretoken-v2",
+        "reason": "Before any model request, concurrent native metadata mapping and the resident server hit the swap guard. Standalone metadata tokenization passes. Calibrate native packets before loading the server; unchanged model, task, seed, context and budgets. The specific mapping interaction remains under investigation.",
+        "review": "docs/DEEPSEEK-SETUP-REVIEW-20261002.md"
+      },
+      {
+        "id": "mimo-owner-resume-v2",
+        "previous_plan_sha256": "a4d8f698d7a906a850d686cf7475b626abd7ce2178b11f198f0fc0a942932e21",
+        "preserved_failed_run": "u20261002-mimo-retrieval",
+        "replacement_run": "u20261002-mimo-retrieval-resume-v2",
+        "label": "Preserved owner-requested interruption",
+        "reason": "The owner paused retrieval after eight of nine cases. Explicit owner resume authorizes a fresh nine-case replacement using the unchanged harness, checkpoint, precision, prompts, seeds, token budgets, runtime and guards. Original completed cases and partial ninth remain archived; the interruption is not a model failure and is not pooled into the replacement score.",
+        "review": "docs/MIMO-OWNER-RESUME-20261002.md",
+        "preserved_result_sha256": "426fa7f024757e1d6007ce15e98e4f9fdcf3c8ec82c606695763921061c4098f",
+        "preserved_pause_audit_sha256": "319c44dd7dde239c143e7bf1f9481032619584549e280f3890a15e316d05b92e",
+        "preserved_publication_manifest_sha256": "04e1542fa1b16696af755b1f629bb14dfe757991089fd8194cd6a673c0886842",
+        "model_lock_sha256": "79b756a50e463289dd85d480b29865449036906cbc6a46789a3d617671229f3f"
+      }
+    ],
+    "completed_jobs": 213,
+    "planned_jobs": 234,
+    "omitted_jobs": 18,
+    "resource_limited_jobs": 2,
+    "deferred_jobs": 1,
+    "budget_limited_jobs": 0,
+    "remaining_jobs": 1,
+    "scope_amendments": [
+      {
+        "id": "owner-one-per-release-20261003",
+        "original_plan": "config/archive/unified-campaign-pre-owner-scope-20261003.json",
+        "original_plan_sha256": "395d08ee46e8049f650044906b38607ad89974a9a738da61f0aba74df9082843",
+        "omitted_jobs": [
+          "u20261002-qwen38q4-tail-200000-2048-r1",
+          "u20261002-qwen38q4-repo20-r1",
+          "u20261002-qwen38q4-tail-200000-2048-r2",
+          "u20261002-qwen38q4-repo20-r2",
+          "u20261002-qwen38q4-tail-200000-2048-r3",
+          "u20261002-qwen38q4-repo20-r3",
+          "u20261002-qwen38q4-serving-c1",
+          "u20261002-qwen38q4-serving-c2",
+          "u20261002-qwen38q4-serving-c4"
+        ],
+        "historical_model_ids": [
+          "qwen38-q4-gguf"
+        ],
+        "review": "docs/OWNER-SCOPE-AMENDMENT-20261003.md"
+      },
+      {
+        "id": "owner-skip-five-models-20261003",
+        "original_plan": "config/archive/unified-campaign-before-owner-skip-20261003.json",
+        "original_plan_sha256": "5ebab94157da624c2f6f53ae238a1ee992caa8cc6286a3a885b0bb3dff284d28",
+        "omitted_jobs": [
+          "u20261002-qwen36-tail-200000-2048-r1",
+          "u20261002-qwen36-repo20-r1",
+          "u20261002-qwen36-tail-200000-2048-r2",
+          "u20261002-qwen36-repo20-r2",
+          "u20261002-qwen36-tail-200000-2048-r3",
+          "u20261002-qwen36-repo20-r3",
+          "u20261002-qwen36-serving-c1",
+          "u20261002-qwen36-serving-c2",
+          "u20261002-qwen36-serving-c4"
+        ],
+        "historical_model_ids": [
+          "qwen3.6-35b-a3b-vl-mtp-mxfp8"
+        ],
+        "review": "docs/OWNER-SKIP-FIVE-MODELS-20261003.md"
+      },
+      {
+        "id": "owner-add-mistral-20261003",
+        "previous_plan_sha256": "08533dde2f9d54eed32e35dec6490bfed5e2c541098a2bb765ef8dd02238e252",
+        "review": "docs/MISTRAL-ADDITION-20261003.md"
+      },
+      {
+        "id": "mimo-metal-resource-review-20261003",
+        "original_plan": "config/archive/unified-campaign-before-mimo-resource-review-20261003.json",
+        "original_plan_sha256": "716b62865a8ecf16c078193401de8bfdd9543a973f1809f9868a73cce3772b50",
+        "resource_limited_job": "u20261002-mimo-repo20-r1",
+        "deferred_jobs": [
+          "u20261002-mimo-repo20-r2",
+          "u20261002-mimo-repo20-r3"
+        ],
+        "review": "docs/MIMO-METAL-RESOURCE-FAILURE-20261003.md",
+        "measurement_settings": "No weights, runtime dependencies, cache policy, memory limits, inputs, outputs, seeds, repetitions, concurrency or task budgets changed."
+      },
+      {
+        "id": "mimo-original-r2-r3-resource-review-admission-20261004",
+        "recorded_at_utc": "2026-10-04T18:27:29.238769+00:00",
+        "original_plan": "config/archive/unified-campaign-before-mimo-original-r2-r3-admission-20261004.json",
+        "original_plan_sha256": "569586fa1c2e44299739f8f0a3d85da5b8bf7f231f8da5838c6e4ef96d8310ff",
+        "removed_deferrals_only": [
+          "u20261002-mimo-repo20-r2",
+          "u20261002-mimo-repo20-r3"
+        ],
+        "review": "docs/MIMO-ORIGINAL-R2-R3-ADMISSION-20261004.md",
+        "mistral_completion_evidence": "results/mistral-campaign-completion-20261004/completion-audit.json",
+        "model_runtime_cache_memory_profile_changed": false,
+        "input_output_turn_request_job_budgets_changed": false,
+        "failed_r1_never_retried": true
+      },
+      {
+        "id": "second-actual-mimo-metal-event-safety-stop-20261004",
+        "recorded_at_utc": "2026-10-04T19:19:06.255966+00:00",
+        "original_plan": "config/archive/unified-campaign-before-second-gpu-safety-stop-20261004.json",
+        "original_plan_sha256": "888f9b76d266e6c09d6975212e5f868793fd650023c0938f06ebee9bdea82117",
+        "attempted_resource_failure": "u20261002-mimo-repo20-r2",
+        "unrun_required_safety_deferred": "u20261002-mimo-repo20-r3",
+        "gpu_event_count": 2,
+        "automatic_inference_relaunch_prohibited": true,
+        "review": "docs/MIMO-SECOND-METAL-FAILURE-20261004.md",
+        "measurement_parameters_changed": false
+      }
+    ],
+    "required_extension": "config/mistral-campaign-20261003.json",
+    "extension_planned_jobs": 39,
+    "cancelled_extension": "config/unified-extension-20261003.json",
+    "models": [
+      {
+        "id": "qwen-27b",
+        "name": "Qwen 3.8 27B \u00b7 8-bit",
+        "runtime": "mlx-lm",
+        "quantization": "8bit",
+        "completed_jobs": 39,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 30.581307023189897,
+              "mean": 30.71318955068402,
+              "stdev": 0.3305286376426153,
+              "min": 30.533691968295802,
+              "max": 31.30321066289488
+            },
+            "fill": {
+              "n": 5,
+              "median": 4.961343499999202,
+              "mean": 4.934651717000816,
+              "stdev": 0.06733740911297958,
+              "min": 4.815803042001789,
+              "max": 4.975217667000834
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1675.6038769953484,
+              "mean": 1685.9490195685878,
+              "stdev": 22.96254225174015,
+              "min": 1673.4560938511895,
+              "max": 1726.7450089416245
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 28.92787782690569,
+              "mean": 29.122580073991085,
+              "stdev": 0.37207373879095057,
+              "min": 28.740624304701075,
+              "max": 29.53486596592671
+            },
+            "fill": {
+              "n": 5,
+              "median": 21.43657995799731,
+              "mean": 21.289562150002165,
+              "stdev": 0.23031118101334278,
+              "min": 21.03349341700232,
+              "max": 21.473041292003472
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1535.3134779970646,
+              "mean": 1546.0688417737463,
+              "stdev": 16.76566229945124,
+              "min": 1532.8047888698038,
+              "max": 1564.6246299018385
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 24.44787265937321,
+              "mean": 24.3168952678126,
+              "stdev": 0.3012557394453902,
+              "min": 23.778209634741867,
+              "max": 24.461170865381177
+            },
+            "fill": {
+              "n": 5,
+              "median": 115.5888600420003,
+              "mean": 115.99942565840028,
+              "stdev": 0.9281035047876285,
+              "min": 115.31674258299608,
+              "max": 117.51584020900191
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1136.0709657475584,
+              "mean": 1132.0582457248097,
+              "stdev": 9.007107237312757,
+              "min": 1117.381833581532,
+              "max": 1138.7009028232985
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 21.42618768956603,
+              "mean": 21.28718431790319,
+              "stdev": 0.21230867689231864,
+              "min": 21.029085224107792,
+              "max": 21.453582355622085
+            },
+            "fill": {
+              "n": 5,
+              "median": 212.93007929200394,
+              "mean": 213.4872828418025,
+              "stdev": 3.437276346033489,
+              "min": 209.87392591700336,
+              "max": 217.5120517500036
+            },
+            "prefill": {
+              "n": 5,
+              "median": 939.797661301198,
+              "mean": 937.5541703195028,
+              "stdev": 15.056311255815334,
+              "min": 919.9975382750328,
+              "max": 953.4922410349541
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 4,
+            "wall_s": {
+              "n": 5,
+              "median": 237.59420929200132,
+              "mean": 239.6800515002018,
+              "stdev": 11.23738890296683,
+              "min": 229.89831079200667,
+              "max": 257.2596360840107
+            }
+          },
+          "20": {
+            "completed": 3,
+            "passed": 3,
+            "wall_s": {
+              "n": 3,
+              "median": 238.78473562499858,
+              "mean": 236.49337034700633,
+              "stdev": 5.460172128970077,
+              "min": 230.26087008300237,
+              "max": 240.43450533301802
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 21,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 158,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-qwen38q8-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 25.767174080590703,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 23.599427624998498,
+            "short_output_warnings": 4,
+            "server_output_tokens": 608,
+            "server_prompt_tokens": 6226,
+            "server_cached_prompt_tokens": 3176
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-qwen38q8-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 8.347438916844489,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 2024.8501323340022,
+            "short_output_warnings": 7,
+            "server_output_tokens": 16901,
+            "server_prompt_tokens": 2577822,
+            "server_cached_prompt_tokens": 404728
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": 18.471695471302926,
+            "ttft_median_s": 5.185268083019764,
+            "ttft_p95_s": 5.193702783301705,
+            "latency_median_s": 13.854321000006166,
+            "latency_p95_s": 13.890681129145378,
+            "completed_requests": 60,
+            "wall_s": 831.5425091249926,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "2": {
+            "aggregate_output_tok_s": 26.392641422484537,
+            "ttft_median_s": 10.0949111039954,
+            "ttft_p95_s": 10.350587745558006,
+            "latency_median_s": 19.380410625512013,
+            "latency_p95_s": 19.603479653551766,
+            "completed_requests": 60,
+            "wall_s": 581.9803995410039,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "4": {
+            "aggregate_output_tok_s": 34.01655282238984,
+            "ttft_median_s": 19.62473149949801,
+            "ttft_p95_s": 19.850412448223505,
+            "latency_median_s": 30.075724395996076,
+            "latency_p95_s": 30.289149487490068,
+            "completed_requests": 60,
+            "wall_s": 451.5448722919973,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 0,
+        "historical_comparison": false,
+        "sustained": {
+          "completed": 3,
+          "planned": 3,
+          "decode": {
+            "n": 3,
+            "median": 21.41945240950053,
+            "mean": 21.405295181688015,
+            "stdev": 0.033165131024080835,
+            "min": 21.367400896584414,
+            "max": 21.429032238979104
+          },
+          "fill": {
+            "n": 3,
+            "median": 209.9409349579946,
+            "mean": 210.10453386066365,
+            "stdev": 0.33442121521239393,
+            "min": 209.88340741599677,
+            "max": 210.48925920799957
+          },
+          "actual_input_tokens": [
+            200000,
+            200000,
+            200000
+          ],
+          "actual_output_tokens": [
+            2048,
+            2048,
+            2048
+          ]
+        }
+      },
+      {
+        "id": "gemma-31b",
+        "name": "Gemma 4 31B \u00b7 8-bit",
+        "runtime": "mlx-lm",
+        "quantization": "8bit",
+        "completed_jobs": 39,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 25.848440315062646,
+              "mean": 25.877045698064272,
+              "stdev": 0.07271810584855293,
+              "min": 25.81920988362523,
+              "max": 26.002927827702553
+            },
+            "fill": {
+              "n": 5,
+              "median": 6.359216208998987,
+              "mean": 6.3595623999994135,
+              "stdev": 0.012173935470882385,
+              "min": 6.34091554099723,
+              "max": 6.373941582998668
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1307.2161411104819,
+              "mean": 1307.4024952214436,
+              "stdev": 3.4305109801561753,
+              "min": 1302.8044399802063,
+              "max": 1311.746063369938
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 24.165016930426678,
+              "mean": 24.167620891098636,
+              "stdev": 0.05367890727986228,
+              "min": 24.118594153338584,
+              "max": 24.25209280106469
+            },
+            "fill": {
+              "n": 5,
+              "median": 28.510359209001763,
+              "mean": 28.493486483197195,
+              "stdev": 0.04267493424928186,
+              "min": 28.4307849159959,
+              "max": 28.528955165995285
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1155.2613538457952,
+              "mean": 1155.0358455925257,
+              "stdev": 1.5302600124331733,
+              "min": 1153.2451852401848,
+              "max": 1157.1422592599781
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 19.14740395804044,
+              "mean": 19.05194148717104,
+              "stdev": 0.1980838143099715,
+              "min": 18.788688119263117,
+              "max": 19.219849053187964
+            },
+            "fill": {
+              "n": 5,
+              "median": 165.83250629100075,
+              "mean": 166.92550798320008,
+              "stdev": 1.9043352987669364,
+              "min": 165.38967825000145,
+              "max": 169.04636925000523
+            },
+            "prefill": {
+              "n": 5,
+              "median": 791.7255957904479,
+              "mean": 786.7036512436815,
+              "stdev": 9.014090414674389,
+              "min": 776.6905873649137,
+              "max": 794.1507905075458
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 15.254857634599892,
+              "mean": 15.277901957748899,
+              "stdev": 0.15045787679432718,
+              "min": 15.111116073827581,
+              "max": 15.443419679935927
+            },
+            "fill": {
+              "n": 5,
+              "median": 311.8419878749992,
+              "mean": 314.02278852500024,
+              "stdev": 5.479018482443327,
+              "min": 310.77455962500244,
+              "max": 323.78583504100243
+            },
+            "prefill": {
+              "n": 5,
+              "median": 641.6838120684196,
+              "mean": 637.3802721789715,
+              "stdev": 10.878521226365637,
+              "min": 618.0023854005808,
+              "max": 643.8963056543855
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 5,
+            "wall_s": {
+              "n": 5,
+              "median": 1042.15915425001,
+              "mean": 1380.5659460166032,
+              "stdev": 507.59326408629994,
+              "min": 1002.6056967500044,
+              "max": 2082.353078
+            }
+          },
+          "20": {
+            "completed": 3,
+            "passed": 3,
+            "wall_s": {
+              "n": 3,
+              "median": 997.8370084170019,
+              "mean": 997.8369119723308,
+              "stdev": 0.2227287246524937,
+              "min": 997.6141350410035,
+              "max": 998.059592458987
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 24,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 159,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-gemma-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 23.355431378139876,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 32.074324665998574,
+            "short_output_warnings": 4,
+            "server_output_tokens": 749,
+            "server_prompt_tokens": 4477,
+            "server_cached_prompt_tokens": 2857
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-gemma-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 8.223063047621867,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 2987.6239539160015,
+            "short_output_warnings": 4,
+            "server_output_tokens": 24566,
+            "server_prompt_tokens": 2539617,
+            "server_cached_prompt_tokens": 366565
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": 15.337442578383182,
+            "ttft_median_s": 6.544987812492764,
+            "ttft_p95_s": 6.5543411336555435,
+            "latency_median_s": 16.688616917002946,
+            "latency_p95_s": 16.711750375300472,
+            "completed_requests": 60,
+            "wall_s": 1001.4707420420018,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "2": {
+            "aggregate_output_tok_s": 21.60051366188198,
+            "ttft_median_s": 12.530153958505252,
+            "ttft_p95_s": 12.572752422602207,
+            "latency_median_s": 23.699858062500425,
+            "latency_p95_s": 23.745072322906346,
+            "completed_requests": 60,
+            "wall_s": 711.0942008340062,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "4": {
+            "aggregate_output_tok_s": 26.587302077522576,
+            "ttft_median_s": 24.930283958499786,
+            "ttft_p95_s": 24.977091725297942,
+            "latency_median_s": 38.521674166499,
+            "latency_p95_s": 38.55856087564971,
+            "completed_requests": 60,
+            "wall_s": 577.7193923329905,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 0,
+        "historical_comparison": false,
+        "sustained": {
+          "completed": 3,
+          "planned": 3,
+          "decode": {
+            "n": 3,
+            "median": 15.379076899984506,
+            "mean": 15.378109964233007,
+            "stdev": 0.002478549494612101,
+            "min": 15.375293690313756,
+            "max": 15.379959302400758
+          },
+          "fill": {
+            "n": 3,
+            "median": 311.7599464160012,
+            "mean": 311.6533344576649,
+            "stdev": 0.19408993697426893,
+            "min": 311.4293055409944,
+            "max": 311.77075141599926
+          },
+          "actual_input_tokens": [
+            200000,
+            200000,
+            200000
+          ],
+          "actual_output_tokens": [
+            2048,
+            2048,
+            2048
+          ]
+        }
+      },
+      {
+        "id": "deepseek-v4-flash",
+        "name": "DeepSeek V4 Flash \u00b7 mixed Q4",
+        "runtime": "dwarfstar",
+        "quantization": "Q4_K experts, mixed higher precision",
+        "completed_jobs": 39,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 55.35,
+              "mean": 54.974000000000004,
+              "stdev": 0.5624322181383293,
+              "min": 54.19,
+              "max": 55.39
+            },
+            "fill": {
+              "n": 5,
+              "median": 8.341564246947772,
+              "mean": 8.392586241356337,
+              "stdev": 0.07394782606652671,
+              "min": 8.337064929778139,
+              "max": 8.486744641395672
+            },
+            "prefill": {
+              "n": 5,
+              "median": 982.07,
+              "mean": 976.16,
+              "stdev": 8.570002917152362,
+              "min": 965.27,
+              "max": 982.6
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 51.82,
+              "mean": 51.424,
+              "stdev": 0.5617205711027511,
+              "min": 50.76,
+              "max": 51.85
+            },
+            "fill": {
+              "n": 5,
+              "median": 35.63094655575491,
+              "mean": 35.86725577489546,
+              "stdev": 0.32836986995686823,
+              "min": 35.623199434690434,
+              "max": 36.24217488442056
+            },
+            "prefill": {
+              "n": 5,
+              "median": 919.65,
+              "mean": 913.652,
+              "stdev": 8.336535251529877,
+              "min": 904.14,
+              "max": 919.85
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 41.57,
+              "mean": 41.732,
+              "stdev": 0.36901219492043874,
+              "min": 41.4,
+              "max": 42.14
+            },
+            "fill": {
+              "n": 5,
+              "median": 175.57029000066976,
+              "mean": 175.7108074782584,
+              "stdev": 0.8813340295709013,
+              "min": 174.55087826770188,
+              "max": 176.58740316604917
+            },
+            "prefill": {
+              "n": 5,
+              "median": 746.55,
+              "mean": 745.968,
+              "stdev": 3.7438242480116375,
+              "min": 742.25,
+              "max": 750.91
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 37.61,
+              "mean": 37.804,
+              "stdev": 0.3593466293149273,
+              "min": 37.5,
+              "max": 38.2
+            },
+            "fill": {
+              "n": 5,
+              "median": 303.8590094196293,
+              "mean": 303.99712182713097,
+              "stdev": 2.177097375949597,
+              "min": 301.01894914284856,
+              "max": 306.3866292874979
+            },
+            "prefill": {
+              "n": 5,
+              "median": 658.2,
+              "mean": 657.928,
+              "stdev": 4.718714867418888,
+              "min": 652.77,
+              "max": 664.41
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 5,
+            "wall_s": {
+              "n": 5,
+              "median": 327.55786337501195,
+              "mean": 328.3950880416029,
+              "stdev": 3.311064048100179,
+              "min": 325.7616422090068,
+              "max": 334.1527686659974
+            }
+          },
+          "20": {
+            "completed": 3,
+            "passed": 3,
+            "wall_s": {
+              "n": 3,
+              "median": 325.4616330000281,
+              "mean": 327.24545954201795,
+              "stdev": 3.541391227811793,
+              "min": 324.9506936670223,
+              "max": 331.32405195900355
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 24,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 148,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-deepseek-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 36.474533049389734,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 12.010685375003959,
+            "short_output_warnings": 6,
+            "server_output_tokens": 438,
+            "server_prompt_tokens": 5983,
+            "server_cached_prompt_tokens": 3262
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-deepseek-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 5.051910351445648,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 3033.0660555829963,
+            "short_output_warnings": 11,
+            "server_output_tokens": 15322,
+            "server_prompt_tokens": 2468626,
+            "server_cached_prompt_tokens": 46747
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": 19.5053748131761,
+            "ttft_median_s": 8.521119770986843,
+            "ttft_p95_s": 8.525537517300108,
+            "latency_median_s": 13.124167395508266,
+            "latency_p95_s": 13.130264331541548,
+            "completed_requests": 60,
+            "wall_s": 787.4752547499957,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "2": {
+            "aggregate_output_tok_s": 8.159422240540769,
+            "ttft_median_s": 30.088551541499328,
+            "ttft_p95_s": 30.399613531235083,
+            "latency_median_s": 63.26364027100499,
+            "latency_p95_s": 63.75684436520969,
+            "completed_requests": 60,
+            "wall_s": 1882.4862284589908,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "4": {
+            "aggregate_output_tok_s": 12.257483742322728,
+            "ttft_median_s": 38.65745200001402,
+            "ttft_p95_s": 89.85260039760033,
+            "latency_median_s": 59.722359624516685,
+            "latency_p95_s": 167.88703941698913,
+            "completed_requests": 60,
+            "wall_s": 1253.1120026669814,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 0,
+        "historical_comparison": false,
+        "sustained": {
+          "completed": 3,
+          "planned": 3,
+          "decode": {
+            "n": 3,
+            "median": 38.14,
+            "mean": 32.24,
+            "stdev": 10.227761240858138,
+            "min": 20.43,
+            "max": 38.15
+          },
+          "fill": {
+            "n": 3,
+            "median": 301.20028312826616,
+            "mean": 304.0016479985261,
+            "stdev": 4.883563086311999,
+            "min": 301.1639988555768,
+            "max": 309.6406620117354
+          },
+          "actual_input_tokens": [
+            200000,
+            200000,
+            200000
+          ],
+          "actual_output_tokens": [
+            2048,
+            2048,
+            2048
+          ]
+        }
+      },
+      {
+        "id": "mimo-v2.6-flash-mopd",
+        "name": "MiMo V2.6 Flash \u00b7 MXFP4",
+        "runtime": "mlx-vlm",
+        "quantization": "mxfp4 catalog; 4-bit config default",
+        "completed_jobs": 36,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 65.70317822138219,
+              "mean": 66.09522528265468,
+              "stdev": 0.7707227569159874,
+              "min": 65.57558396132336,
+              "max": 67.43529459525202
+            },
+            "fill": {
+              "n": 5,
+              "median": 8.41768695799692,
+              "mean": 8.57482214999909,
+              "stdev": 0.7444241965265425,
+              "min": 7.556450250005582,
+              "max": 9.543373749998864
+            },
+            "prefill": {
+              "n": 5,
+              "median": 978.4339001360562,
+              "mean": 968.066259683508,
+              "stdev": 84.55280186559969,
+              "min": 862.4898178596513,
+              "max": 1091.0089758488616
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 59.42527717088346,
+              "mean": 59.50621911291118,
+              "stdev": 0.22424088237511375,
+              "min": 59.23827075721771,
+              "max": 59.76332142741977
+            },
+            "fill": {
+              "n": 5,
+              "median": 27.929903374999412,
+              "mean": 27.96473352520261,
+              "stdev": 0.654648585956562,
+              "min": 27.175749166999594,
+              "max": 28.659647125008632
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1182.1835554470356,
+              "mean": 1176.5453029108915,
+              "stdev": 27.79612431696123,
+              "min": 1146.2853758106435,
+              "max": 1209.038809488158
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 44.48553558046894,
+              "mean": 44.67794937190432,
+              "stdev": 0.3077935594191349,
+              "min": 44.410955619383444,
+              "max": 45.04458486778298
+            },
+            "fill": {
+              "n": 5,
+              "median": 178.42620808399806,
+              "mean": 177.9407216417967,
+              "stdev": 1.8263715363469255,
+              "min": 175.12337674999435,
+              "max": 179.8373383750004
+            },
+            "prefill": {
+              "n": 5,
+              "median": 735.3800717834858,
+              "mean": 737.4396676768368,
+              "stdev": 7.619799238338917,
+              "min": 729.6162425491387,
+              "max": 749.259092089074
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 37.67644210277068,
+              "mean": 37.5792120327711,
+              "stdev": 0.21153025493140526,
+              "min": 37.217244719777604,
+              "max": 37.747669816938625
+            },
+            "fill": {
+              "n": 5,
+              "median": 392.7062950000036,
+              "mean": 392.2154144502027,
+              "stdev": 2.0462123888476187,
+              "min": 388.8036829170014,
+              "max": 394.2838782500039
+            },
+            "prefill": {
+              "n": 5,
+              "median": 509.46541363145315,
+              "mean": 510.11544931410197,
+              "stdev": 2.672475012202504,
+              "min": 507.43297682916096,
+              "max": 514.5814715930564
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 1,
+            "wall_s": {
+              "n": 5,
+              "median": 536.0832564159937,
+              "mean": 532.7140226499948,
+              "stdev": 32.49673130567821,
+              "min": 496.50028029199166,
+              "max": 575.8736592079949
+            }
+          },
+          "20": {
+            "completed": 0,
+            "passed": 0,
+            "wall_s": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "stdev": null,
+              "min": null,
+              "max": null
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 24,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 154,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-mimo-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 14.119815124710033,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 22.807657582998218,
+            "short_output_warnings": 6,
+            "server_output_tokens": 322,
+            "server_prompt_tokens": 4742,
+            "server_cached_prompt_tokens": 2300
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-mimo-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 8.828211962539962,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 1747.9138800839867,
+            "short_output_warnings": 10,
+            "server_output_tokens": 15430,
+            "server_prompt_tokens": 2458654,
+            "server_cached_prompt_tokens": 360272
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": 28.0108881781319,
+            "ttft_median_s": 5.0098122079944005,
+            "ttft_p95_s": 5.028956270503113,
+            "latency_median_s": 9.137825020996388,
+            "latency_p95_s": 9.159437719042762,
+            "completed_requests": 60,
+            "wall_s": 548.3581920830184,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "2": {
+            "aggregate_output_tok_s": 35.0277371856066,
+            "ttft_median_s": 9.1716616670019,
+            "ttft_p95_s": 9.246913599637628,
+            "latency_median_s": 14.605562062512035,
+            "latency_p95_s": 14.699241108343994,
+            "completed_requests": 60,
+            "wall_s": 438.50962791600614,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "4": {
+            "aggregate_output_tok_s": 40.25702951858803,
+            "ttft_median_s": 17.681074333013385,
+            "ttft_p95_s": 17.702666737193066,
+            "latency_median_s": 25.432099124998786,
+            "latency_p95_s": 25.511522368762236,
+            "completed_requests": 60,
+            "wall_s": 381.5482707910123,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 2,
+        "deferred_jobs": 1,
+        "omitted_jobs": 0,
+        "historical_comparison": false,
+        "sustained": {
+          "completed": 3,
+          "planned": 3,
+          "decode": {
+            "n": 3,
+            "median": 37.603516014703516,
+            "mean": 37.60408189538609,
+            "stdev": 0.03797011874372364,
+            "min": 37.566397879677375,
+            "max": 37.642331791777366
+          },
+          "fill": {
+            "n": 3,
+            "median": 383.3916511659918,
+            "mean": 385.58000647232984,
+            "stdev": 4.210941564113618,
+            "min": 382.91381783399265,
+            "max": 390.4345504170051
+          },
+          "actual_input_tokens": [
+            200000,
+            200000,
+            200000
+          ],
+          "actual_output_tokens": [
+            2048,
+            2048,
+            2048
+          ]
+        }
+      },
+      {
+        "id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "name": "Qwen 3.6 35B A3B \u00b7 4-bit MLX (affine; 8-bit gates)",
+        "runtime": "mlx-vlm",
+        "quantization": "4-bit affine MLX, group size 64; gate/shared-expert-gate overrides use 8 bits",
+        "completed_jobs": 30,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 145.89376630982338,
+              "mean": 146.10686595477742,
+              "stdev": 0.5574504883025767,
+              "min": 145.58201746349744,
+              "max": 146.80633965365527
+            },
+            "fill": {
+              "n": 5,
+              "median": 0.9277067910006735,
+              "mean": 0.949274483199406,
+              "stdev": 0.030686657927679703,
+              "min": 0.9254802080031368,
+              "max": 0.9836288749938831
+            },
+            "prefill": {
+              "n": 5,
+              "median": 9114.668339711543,
+              "mean": 8907.98143293589,
+              "stdev": 295.0045438204057,
+              "min": 8578.085768644327,
+              "max": 9133.684539864114
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 131.97410357584218,
+              "mean": 131.7302900069701,
+              "stdev": 0.5965964074683778,
+              "min": 130.73845694784742,
+              "max": 132.17373195823487
+            },
+            "fill": {
+              "n": 5,
+              "median": 4.526134874999116,
+              "mean": 4.520012741601386,
+              "stdev": 0.031092404363562573,
+              "min": 4.469321875003516,
+              "max": 4.554769041998952
+            },
+            "prefill": {
+              "n": 5,
+              "median": 7301.236307359569,
+              "mean": 7312.039543770337,
+              "stdev": 49.261207211155714,
+              "min": 7260.060130849924,
+              "max": 7393.898795618092
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 96.83352320912903,
+              "mean": 95.91010071950595,
+              "stdev": 1.4042128030554955,
+              "min": 94.04699286576859,
+              "max": 97.02887748693327
+            },
+            "fill": {
+              "n": 5,
+              "median": 33.092043374999776,
+              "mean": 33.062723091599764,
+              "stdev": 0.2078334712509664,
+              "min": 32.799691166997945,
+              "max": 33.27929420799774
+            },
+            "prefill": {
+              "n": 5,
+              "median": 3970.8839159929025,
+              "mean": 3974.3862353952018,
+              "stdev": 24.979797738285633,
+              "min": 3948.3926098680536,
+              "max": 4005.9929026659584
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 78.7654235603458,
+              "mean": 79.03304215574678,
+              "stdev": 0.7926421616964054,
+              "min": 78.41422655029697,
+              "max": 80.3715075673575
+            },
+            "fill": {
+              "n": 5,
+              "median": 66.72211408399744,
+              "mean": 66.64380787520058,
+              "stdev": 0.23064584945281866,
+              "min": 66.23626441700617,
+              "max": 66.80659124999511
+            },
+            "prefill": {
+              "n": 5,
+              "median": 2999.5105617604363,
+              "mean": 3003.078214754543,
+              "stdev": 10.435662359451868,
+              "min": 2995.730093384876,
+              "max": 3021.5204564869277
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 4,
+            "wall_s": {
+              "n": 5,
+              "median": 214.7385100829997,
+              "mean": 290.2697903334032,
+              "stdev": 168.77852015000727,
+              "min": 214.56688583400683,
+              "max": 592.1896477920018
+            }
+          },
+          "20": {
+            "completed": 0,
+            "passed": 0,
+            "wall_s": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "stdev": null,
+              "min": null,
+              "max": null
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 21,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 158,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-qwen36-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 88.20244570043492,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 10.071881041003508,
+            "short_output_warnings": 3,
+            "server_output_tokens": 888,
+            "server_prompt_tokens": 5938,
+            "server_cached_prompt_tokens": 3024
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-qwen36-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 40.1741031213567,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "model-not-listed",
+              "observed_tokens": null,
+              "reduced": true,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 696.9399076669943,
+            "short_output_warnings": 9,
+            "server_output_tokens": 27994,
+            "server_prompt_tokens": 2563686,
+            "server_cached_prompt_tokens": 398534
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          },
+          "2": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          },
+          "4": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 9,
+        "historical_comparison": true,
+        "sustained": {
+          "completed": 0,
+          "planned": 3,
+          "decode": {
+            "n": 0,
+            "median": null,
+            "mean": null,
+            "stdev": null,
+            "min": null,
+            "max": null
+          },
+          "fill": {
+            "n": 0,
+            "median": null,
+            "mean": null,
+            "stdev": null,
+            "min": null,
+            "max": null
+          },
+          "actual_input_tokens": [],
+          "actual_output_tokens": []
+        }
+      },
+      {
+        "id": "qwen38-q4-gguf",
+        "name": "Qwen 3.8 27B \u00b7 Q4_K_M",
+        "runtime": "llama-cpp",
+        "quantization": "Q4_K_M",
+        "completed_jobs": 30,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 44.796051482784435,
+              "mean": 44.73556687646222,
+              "stdev": 0.34238732871385236,
+              "min": 44.2525100283997,
+              "max": 45.17423969983046
+            },
+            "fill": {
+              "n": 5,
+              "median": 6.7376157920007245,
+              "mean": 6.73474184180086,
+              "stdev": 0.015099484095639954,
+              "min": 6.715584375000617,
+              "max": 6.751516958996945
+            },
+            "prefill": {
+              "n": 5,
+              "median": 1216.1948097045577,
+              "mean": 1216.7150802447368,
+              "stdev": 2.7261616858409488,
+              "min": 1213.68554906752,
+              "max": 1220.1775543036356
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 41.06979900923539,
+              "mean": 41.04994025838532,
+              "stdev": 0.10848578149547629,
+              "min": 40.92389791942903,
+              "max": 41.19723361384072
+            },
+            "fill": {
+              "n": 5,
+              "median": 34.27941479199944,
+              "mean": 34.253350516800126,
+              "stdev": 0.0612071784972065,
+              "min": 34.174089625004854,
+              "max": 34.30684708299668
+            },
+            "prefill": {
+              "n": 5,
+              "median": 956.0011052595787,
+              "mean": 956.7343403281869,
+              "stdev": 1.7111524152369,
+              "min": 955.2404213155976,
+              "max": 958.9533829196438
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 29.4163213517388,
+              "mean": 29.425717834325745,
+              "stdev": 0.04235402975717646,
+              "min": 29.37609325147042,
+              "max": 29.490620652663292
+            },
+            "fill": {
+              "n": 5,
+              "median": 265.2091334170036,
+              "mean": 265.3621706165999,
+              "stdev": 0.3633450874301171,
+              "min": 265.0975165830023,
+              "max": 265.98953004099894
+            },
+            "prefill": {
+              "n": 5,
+              "median": 494.2400383126528,
+              "mean": 493.95695430121384,
+              "stdev": 0.6762343771448451,
+              "min": 492.79014503926993,
+              "max": 494.45378404739284
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 24.524637980277767,
+              "mean": 24.432063419950545,
+              "stdev": 0.18203837493186445,
+              "min": 24.118663826024036,
+              "max": 24.547325655507453
+            },
+            "fill": {
+              "n": 5,
+              "median": 531.9773637500039,
+              "mean": 532.7589354418,
+              "stdev": 4.2346494769174905,
+              "min": 528.875814125,
+              "max": 539.9752999999982
+            },
+            "prefill": {
+              "n": 5,
+              "median": 375.96729170282725,
+              "mean": 375.433230186216,
+              "stdev": 2.9604090649954133,
+              "min": 370.39700877450514,
+              "max": 378.17092872929794
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 5,
+            "passed": 5,
+            "wall_s": {
+              "n": 5,
+              "median": 587.6982927080098,
+              "mean": 589.8885775085989,
+              "stdev": 28.31303029933306,
+              "min": 559.8617170419966,
+              "max": 620.1504847089964
+            }
+          },
+          "20": {
+            "completed": 0,
+            "passed": 0,
+            "wall_s": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "stdev": null,
+              "min": null,
+              "max": null
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 21,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "complete",
+            "completed": 9,
+            "passed": 9,
+            "planned": 9
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 158,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261002-qwen38q4-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 37.976940887519035,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "reported",
+              "observed_tokens": 262144,
+              "reduced": false,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 18.756467167004303,
+            "short_output_warnings": 4,
+            "server_output_tokens": 712,
+            "server_prompt_tokens": 6226,
+            "server_cached_prompt_tokens": 3968
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261002-qwen38q4-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 27.91612194114409,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "reported",
+              "observed_tokens": 262144,
+              "reduced": false,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 627.2991164160048,
+            "short_output_warnings": 5,
+            "server_output_tokens": 17506,
+            "server_prompt_tokens": 2577822,
+            "server_cached_prompt_tokens": 2399938
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          },
+          "2": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          },
+          "4": {
+            "aggregate_output_tok_s": null,
+            "ttft_median_s": null,
+            "ttft_p95_s": null,
+            "latency_median_s": null,
+            "latency_p95_s": null,
+            "completed_requests": null,
+            "wall_s": null,
+            "total_output_tokens": null,
+            "status": "omitted_by_owner_scope"
+          }
+        },
+        "budget_limited_jobs": 0,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 9,
+        "historical_comparison": true,
+        "sustained": {
+          "completed": 0,
+          "planned": 3,
+          "decode": {
+            "n": 0,
+            "median": null,
+            "mean": null,
+            "stdev": null,
+            "min": null,
+            "max": null
+          },
+          "fill": {
+            "n": 0,
+            "median": null,
+            "mean": null,
+            "stdev": null,
+            "min": null,
+            "max": null
+          },
+          "actual_input_tokens": [],
+          "actual_output_tokens": []
+        }
+      }
+    ],
+    "jobs": [
+      {
+        "id": "u20261002-gemma-structured",
+        "model_id": "gemma-31b",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-200000-r1",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo8-r1",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-aa-mini",
+        "model_id": "gemma-31b",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-structured",
+        "model_id": "deepseek-v4-flash",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-200000-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo8-r1-pretoken-v2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-aa-mini",
+        "model_id": "deepseek-v4-flash",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-structured",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-200000-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-repo8-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-aa-mini",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-structured",
+        "model_id": "qwen-27b",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-200000-r1",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo8-r1",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-aa-mini",
+        "model_id": "qwen-27b",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-structured",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-200000-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-repo8-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-aa-mini",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-structured",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-200000-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo8-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-aa-mini",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-200000-r2",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-200000-r3",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-200000-r4",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-200000-r5",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-131072-r1",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-131072-r2",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-131072-r3",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-131072-r4",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-131072-r5",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-32768-r1",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-32768-r2",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-32768-r3",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-32768-r4",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-32768-r5",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-8192-r1",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-8192-r2",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-8192-r3",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-8192-r4",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-core-8192-r5",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-200000-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-200000-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-200000-r4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-200000-r5",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-131072-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-131072-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-131072-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-131072-r4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-131072-r5",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-32768-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-32768-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-32768-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-32768-r4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-32768-r5",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-8192-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-8192-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-8192-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-8192-r4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-core-8192-r5",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-200000-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-200000-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-200000-r4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-200000-r5",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-131072-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-131072-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-131072-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-131072-r4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-131072-r5",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-32768-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-32768-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-32768-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-32768-r4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-32768-r5",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-8192-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-8192-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-8192-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-8192-r4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-core-8192-r5",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-200000-r2",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-200000-r3",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-200000-r4",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-200000-r5",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-131072-r1",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-131072-r2",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-131072-r3",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-131072-r4",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-131072-r5",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-32768-r1",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-32768-r2",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-32768-r3",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-32768-r4",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-32768-r5",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-8192-r1",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-8192-r2",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-8192-r3",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-8192-r4",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-core-8192-r5",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-200000-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-200000-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-200000-r4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-200000-r5",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-131072-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-131072-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-131072-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-131072-r4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-131072-r5",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-32768-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-32768-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-32768-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-32768-r4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-32768-r5",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-8192-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-8192-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-8192-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-8192-r4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-core-8192-r5",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-200000-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-200000-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-200000-r4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-200000-r5",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-131072-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-131072-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-131072-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-131072-r4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-131072-r5",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-32768-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-32768-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-32768-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-32768-r4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-32768-r5",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-8192-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-8192-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-8192-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-8192-r4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-core-8192-r5",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo8-r2",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo8-r3",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo8-r4",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo8-r5",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-aa-full",
+        "model_id": "gemma-31b",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-gemma-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-humaneval",
+        "model_id": "gemma-31b",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-retrieval",
+        "model_id": "gemma-31b",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo8-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo8-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo8-r4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo8-r5",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-aa-full",
+        "model_id": "deepseek-v4-flash",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-deepseek-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-humaneval",
+        "model_id": "deepseek-v4-flash",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-retrieval",
+        "model_id": "deepseek-v4-flash",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-repo8-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-repo8-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-repo8-r4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-repo8-r5",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-aa-full",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-qwen38q4-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-humaneval",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-retrieval",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo8-r2",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo8-r3",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo8-r4",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo8-r5",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-aa-full",
+        "model_id": "qwen-27b",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-qwen38q8-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-humaneval",
+        "model_id": "qwen-27b",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-retrieval",
+        "model_id": "qwen-27b",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-repo8-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-repo8-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-repo8-r4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-repo8-r5",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-aa-full",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-qwen36-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-humaneval",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-retrieval",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo8-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo8-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo8-r4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo8-r5",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-aa-full",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261002-mimo-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-humaneval",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-retrieval-resume-v2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "quality",
+        "suite": "retrieval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-tail-200000-2048-r1",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo20-r1",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-tail-200000-2048-r2",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo20-r2",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-tail-200000-2048-r3",
+        "model_id": "gemma-31b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-repo20-r3",
+        "model_id": "gemma-31b",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-serving-c1",
+        "model_id": "gemma-31b",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-serving-c2",
+        "model_id": "gemma-31b",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-gemma-serving-c4",
+        "model_id": "gemma-31b",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-tail-200000-2048-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo20-r1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-tail-200000-2048-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo20-r2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-tail-200000-2048-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-repo20-r3",
+        "model_id": "deepseek-v4-flash",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-serving-c1",
+        "model_id": "deepseek-v4-flash",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-serving-c2",
+        "model_id": "deepseek-v4-flash",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-deepseek-serving-c4",
+        "model_id": "deepseek-v4-flash",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q4-tail-200000-2048-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-repo20-r1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-tail-200000-2048-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-repo20-r2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-tail-200000-2048-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-repo20-r3",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-serving-c1",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-serving-c2",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q4-serving-c4",
+        "model_id": "qwen38-q4-gguf",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner selected Qwen 3.8 27B 8-bit MLX as sole primary representative; completed Q4 results remain historical."
+      },
+      {
+        "id": "u20261002-qwen38q8-tail-200000-2048-r1",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo20-r1",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-tail-200000-2048-r2",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo20-r2",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-tail-200000-2048-r3",
+        "model_id": "qwen-27b",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-repo20-r3",
+        "model_id": "qwen-27b",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-serving-c1",
+        "model_id": "qwen-27b",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-serving-c2",
+        "model_id": "qwen-27b",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen38q8-serving-c4",
+        "model_id": "qwen-27b",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-qwen36-tail-200000-2048-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-repo20-r1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-tail-200000-2048-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-repo20-r2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-tail-200000-2048-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-repo20-r3",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-serving-c1",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-serving-c2",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-qwen36-serving-c4",
+        "model_id": "qwen3.6-35b-a3b-vl-mtp-mxfp8",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "disposition": "omitted_by_owner_scope",
+        "disposition_reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained.",
+        "status": "omitted_by_owner_scope",
+        "reason": "Owner explicitly skipped remaining Qwen 3.6 tests on October 3; completed evidence retained."
+      },
+      {
+        "id": "u20261002-mimo-tail-200000-2048-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo20-r1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "status": "unsupported_resource",
+        "reason": "Pinned runtime suffered Metal GPU OOM preparing request12; preserve partial attempt, no final task score."
+      },
+      {
+        "id": "u20261002-mimo-tail-200000-2048-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo20-r2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "status": "unsupported_resource",
+        "reason": "Actual original seed1002 MetalGPU OOM onrequest13 after12complete responses; unscored/no finalnative usage/taskscore. Originalfailed result/logs preserved, neverretry."
+      },
+      {
+        "id": "u20261002-mimo-tail-200000-2048-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-repo20-r3",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "status": "deferred_resource_review",
+        "reason": "Originalseed1003 remains required/unrun/unscored. SECOND actualGPU safety event prohibits automaticfurther inference; safety-policy deferral only, not unsupported byanalogy or completion."
+      },
+      {
+        "id": "u20261002-mimo-serving-c1",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-serving-c2",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261002-mimo-serving-c4",
+        "model_id": "mimo-v2.6-flash-mopd",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "status": "complete"
+      }
+    ],
+    "updated_at_utc": "2026-10-04T19:56:44.912290+00:00"
+  },
+  "mistral": {
+    "campaign_id": "mistral-extension-20261003",
+    "status": "saved_results",
+    "overall_deadline": null,
+    "active": null,
+    "error": null,
+    "amendments": [],
+    "completed_jobs": 30,
+    "planned_jobs": 39,
+    "omitted_jobs": 0,
+    "resource_limited_jobs": 0,
+    "deferred_jobs": 0,
+    "budget_limited_jobs": 9,
+    "remaining_jobs": 0,
+    "scope_amendments": [],
+    "required_extension": null,
+    "extension_planned_jobs": 0,
+    "cancelled_extension": null,
+    "models": [
+      {
+        "id": "mistral-medium35-q4",
+        "name": "Mistral Medium 3.5 128B \u00b7 Q4_K_M GGUF",
+        "runtime": "llama-cpp",
+        "quantization": "Q4_K_M",
+        "completed_jobs": 30,
+        "planned_jobs": 39,
+        "speed": {
+          "8192": {
+            "decode": {
+              "n": 5,
+              "median": 12.55738416785687,
+              "mean": 12.549948955300234,
+              "stdev": 0.015508276099272357,
+              "min": 12.523009187763519,
+              "max": 12.560074714220129
+            },
+            "fill": {
+              "n": 5,
+              "median": 32.58643691698671,
+              "mean": 32.58387027520221,
+              "stdev": 0.026330046524001477,
+              "min": 32.55786862500827,
+              "max": 32.6222347090079
+            },
+            "prefill": {
+              "n": 5,
+              "median": 251.4060339719155,
+              "mean": 251.42582869455782,
+              "stdev": 0.202972031294184,
+              "min": 251.13025475190128,
+              "max": 251.626418316634
+            }
+          },
+          "32768": {
+            "decode": {
+              "n": 5,
+              "median": 9.982586063691326,
+              "mean": 9.981262339103214,
+              "stdev": 0.00664660540259173,
+              "min": 9.971332224338708,
+              "max": 9.987548855759819
+            },
+            "fill": {
+              "n": 5,
+              "median": 209.70521312498022,
+              "mean": 209.69747024159295,
+              "stdev": 0.04056496789843571,
+              "min": 209.64199375000317,
+              "max": 209.73476399999345
+            },
+            "prefill": {
+              "n": 5,
+              "median": 156.25991064582587,
+              "mean": 156.26572043521264,
+              "stdev": 0.03025570714499363,
+              "min": 156.2379496153115,
+              "max": 156.30711392322934
+            }
+          },
+          "131072": {
+            "decode": {
+              "n": 5,
+              "median": 5.3530214804366585,
+              "mean": 5.353783622725935,
+              "stdev": 0.0012125421401908267,
+              "min": 5.3528171960868765,
+              "max": 5.355117250292195
+            },
+            "fill": {
+              "n": 5,
+              "median": 2239.1188818749797,
+              "mean": 2239.044330991595,
+              "stdev": 0.14770730472478324,
+              "min": 2238.855146041984,
+              "max": 2239.187659917021
+            },
+            "prefill": {
+              "n": 5,
+              "median": 58.53755554245868,
+              "mean": 58.53952710036065,
+              "stdev": 0.003855189695491261,
+              "min": 58.53580060006037,
+              "max": 58.54446227441361
+            }
+          },
+          "200000": {
+            "decode": {
+              "n": 5,
+              "median": 4.0414797832264355,
+              "mean": 4.041932612264607,
+              "stdev": 0.0012451932515501302,
+              "min": 4.041009175325268,
+              "max": 4.0441206265075555
+            },
+            "fill": {
+              "n": 5,
+              "median": 4923.5117956659815,
+              "mean": 4922.8579652749995,
+              "stdev": 2.234847406026523,
+              "min": 4919.995139208011,
+              "max": 4925.004037667008
+            },
+            "prefill": {
+              "n": 5,
+              "median": 40.621499303930506,
+              "mean": 40.62692389211376,
+              "stdev": 0.018432062609009696,
+              "min": 40.60921961005213,
+              "max": 40.65055576266054
+            }
+          }
+        },
+        "repo": {
+          "8": {
+            "completed": 0,
+            "passed": 0,
+            "wall_s": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "stdev": null,
+              "min": null,
+              "max": null
+            }
+          },
+          "20": {
+            "completed": 0,
+            "passed": 0,
+            "wall_s": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "stdev": null,
+              "min": null,
+              "max": null
+            }
+          }
+        },
+        "quality": {
+          "structured": {
+            "status": "complete",
+            "completed": 24,
+            "passed": 21,
+            "planned": 24
+          },
+          "retrieval": {
+            "status": "unsupported_request_budget_cases",
+            "completed": 0,
+            "passed": 0,
+            "planned": 9,
+            "attempted_cases": 9,
+            "unscored_request_budget_cases": 9,
+            "continuation_run_id": "u20261003-mistral35-retrieval-remaining-r1",
+            "requires_full_case_review": false,
+            "all_original_cases_reviewed": true
+          },
+          "humaneval": {
+            "status": "complete",
+            "completed": 164,
+            "passed": 151,
+            "planned": 164
+          }
+        },
+        "replay": {
+          "mini": {
+            "status": "complete",
+            "run_id": "u20261003-mistral35-aa-mini",
+            "turns": 6,
+            "served": 6,
+            "end_to_end_tok_s": 10.076815417394391,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "reported",
+              "observed_tokens": 262144,
+              "reduced": false,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 21.638997500005644,
+            "short_output_warnings": 6,
+            "server_output_tokens": 218,
+            "server_prompt_tokens": 4610,
+            "server_cached_prompt_tokens": 3171
+          },
+          "full": {
+            "status": "complete",
+            "run_id": "u20261003-mistral35-aa-full",
+            "turns": 168,
+            "served": 168,
+            "end_to_end_tok_s": 5.255937763284057,
+            "context_evidence": {
+              "full_benchmark_tokens": 65536,
+              "observed_reason": "reported",
+              "observed_tokens": 262144,
+              "reduced": false,
+              "requested_tokens": 65536
+            },
+            "output_policy": "recorded",
+            "measured_duration_s": 2719.3718050410093,
+            "short_output_warnings": 53,
+            "server_output_tokens": 14292,
+            "server_prompt_tokens": 2596099,
+            "server_cached_prompt_tokens": 2416273
+          }
+        },
+        "serving": {
+          "1": {
+            "aggregate_output_tok_s": 4.756472094383901,
+            "ttft_median_s": 33.16854412500106,
+            "ttft_p95_s": 34.081739046132135,
+            "latency_median_s": 53.513639374505146,
+            "latency_p95_s": 54.773582723199794,
+            "completed_requests": 60,
+            "wall_s": 3229.2841617079976,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "2": {
+            "aggregate_output_tok_s": 4.927818701353933,
+            "ttft_median_s": 42.4486527495028,
+            "ttft_p95_s": 43.69630767741474,
+            "latency_median_s": 103.79491052101366,
+            "latency_p95_s": 104.03178661905113,
+            "completed_requests": 60,
+            "wall_s": 3116.997789667017,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          },
+          "4": {
+            "aggregate_output_tok_s": 5.768061527328741,
+            "ttft_median_s": 51.583368395484285,
+            "ttft_p95_s": 52.98488447017292,
+            "latency_median_s": 177.53949689600267,
+            "latency_p95_s": 179.00280007111573,
+            "completed_requests": 60,
+            "wall_s": 2662.9396942500025,
+            "total_output_tokens": 15360,
+            "status": "complete"
+          }
+        },
+        "budget_limited_jobs": 9,
+        "resource_limited_jobs": 0,
+        "deferred_jobs": 0,
+        "omitted_jobs": 0,
+        "historical_comparison": false,
+        "sustained": {
+          "completed": 3,
+          "planned": 3,
+          "decode": {
+            "n": 3,
+            "median": 3.9595928941954477,
+            "mean": 3.9588658012170628,
+            "stdev": 0.010336277462763782,
+            "min": 3.948185175022943,
+            "max": 3.9688193344327978
+          },
+          "fill": {
+            "n": 3,
+            "median": 5011.770631042018,
+            "mean": 5011.270573278006,
+            "stdev": 18.42462007520271,
+            "min": 4992.601014499989,
+            "max": 5029.440074292012
+          },
+          "actual_input_tokens": [
+            200000,
+            200000,
+            200000
+          ],
+          "actual_output_tokens": [
+            2048,
+            2048,
+            2048
+          ]
+        }
+      }
+    ],
+    "jobs": [
+      {
+        "id": "u20261003-mistral35-structured",
+        "model_id": "mistral-medium35-q4",
+        "kind": "quality",
+        "suite": "structured",
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-200000-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-repo8-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 8,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo8-r1/completion-audit.json",
+        "disposition_reason": "Actually attempted first200K request exceeded the unchanged900s deadline before a completed response; unscored, failed original preserved, no retry. Other seeds remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actually attempted first200K request exceeded the unchanged900s deadline before a completed response; unscored, failed original preserved, no retry. Other seeds remain required."
+      },
+      {
+        "id": "u20261003-mistral35-aa-mini",
+        "model_id": "mistral-medium35-q4",
+        "kind": "replay",
+        "mini": true,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-200000-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-200000-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-200000-r4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-200000-r5",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-131072-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-131072-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-131072-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-131072-r4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-131072-r5",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 131072,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-32768-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-32768-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-32768-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-32768-r4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-32768-r5",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 32768,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-8192-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-8192-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-8192-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-8192-r4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 4,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-core-8192-r5",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 8192,
+        "output_tokens": 256,
+        "repeat": 5,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-repo8-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 8,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo8-r2/completion-audit.json",
+        "disposition_reason": "Actually attempted original seed1002 first200K request exceeded unchanged900s deadline; no completed reply/final usage/task score. Unscored, failure preserved, no retry. Other seeds remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actually attempted original seed1002 first200K request exceeded unchanged900s deadline; no completed reply/final usage/task score. Unscored, failure preserved, no retry. Other seeds remain required."
+      },
+      {
+        "id": "u20261003-mistral35-repo8-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 8,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo8-r3/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1003 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Unrun seeds remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1003 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Unrun seeds remain required."
+      },
+      {
+        "id": "u20261003-mistral35-repo8-r4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 4,
+        "max_turns": 8,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo8-r4/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1004 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Unrun seed1005 remains required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1004 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Unrun seed1005 remains required."
+      },
+      {
+        "id": "u20261003-mistral35-repo8-r5",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 5,
+        "max_turns": 8,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo8-r5/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1005 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Other declared groups remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1005 first200K request exceeded unchanged900s deadline before complete response; unscored, own failure preserved/no retry. Other declared groups remain required."
+      },
+      {
+        "id": "u20261003-mistral35-aa-full",
+        "model_id": "mistral-medium35-q4",
+        "kind": "replay",
+        "mini": false,
+        "requires": "u20261003-mistral35-aa-mini",
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-humaneval",
+        "model_id": "mistral-medium35-q4",
+        "kind": "quality",
+        "suite": "humaneval",
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-retrieval",
+        "model_id": "mistral-medium35-q4",
+        "kind": "quality",
+        "suite": "retrieval",
+        "case_continuation": "config/mistral-retrieval-continuation-20261004.json",
+        "result_run_id": "u20261003-mistral35-retrieval-remaining-r1",
+        "disposition": "unsupported_request_budget_cases",
+        "disposition_evidence": "results/mistral-retrieval-all-cases-audit-20261004/completion-audit.json",
+        "disposition_reason": "All nine original retrieval cases actually attempted and separately audited request-budget limited/unscored; zero complete responses/final usage, no retry, original failed run preserved.",
+        "status": "unsupported_request_budget_cases",
+        "reason": "All nine original retrieval cases actually attempted and separately audited request-budget limited/unscored; zero complete responses/final usage, no retry, original failed run preserved."
+      },
+      {
+        "id": "u20261003-mistral35-tail-200000-2048-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 1,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-repo20-r1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 1,
+        "max_turns": 20,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo20-r1/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1001 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. Original remaining seeds/groups remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1001 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. Original remaining seeds/groups remain required."
+      },
+      {
+        "id": "u20261003-mistral35-tail-200000-2048-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 2,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-repo20-r2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 2,
+        "max_turns": 20,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo20-r2/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1002 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. Original seed1003 and all other unrun groups remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1002 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. Original seed1003 and all other unrun groups remain required."
+      },
+      {
+        "id": "u20261003-mistral35-tail-200000-2048-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "speed",
+        "tokens": 200000,
+        "output_tokens": 2048,
+        "repeat": 3,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-repo20-r3",
+        "model_id": "mistral-medium35-q4",
+        "kind": "repo",
+        "attempt": 3,
+        "max_turns": 20,
+        "disposition": "unsupported_request_budget",
+        "disposition_evidence": "results/u20261003-mistral35-repo20-r3/completion-audit.json",
+        "disposition_reason": "Actual original fresh seed1003 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. All other unrun groups remain required.",
+        "status": "unsupported_request_budget",
+        "reason": "Actual original fresh seed1003 20-turn trial first200K request exceeded unchanged900s deadline before complete response; own failure preserved/unscored/no retry. All other unrun groups remain required."
+      },
+      {
+        "id": "u20261003-mistral35-serving-c1",
+        "model_id": "mistral-medium35-q4",
+        "kind": "serving",
+        "concurrency": 1,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-serving-c2",
+        "model_id": "mistral-medium35-q4",
+        "kind": "serving",
+        "concurrency": 2,
+        "requests": 60,
+        "status": "complete"
+      },
+      {
+        "id": "u20261003-mistral35-serving-c4",
+        "model_id": "mistral-medium35-q4",
+        "kind": "serving",
+        "concurrency": 4,
+        "requests": 60,
+        "status": "complete"
+      }
+    ],
+    "updated_at_utc": "2026-10-04T19:56:45.156075+00:00"
+  }
+}

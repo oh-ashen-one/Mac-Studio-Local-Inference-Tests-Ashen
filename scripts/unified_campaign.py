@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""No overall deadline: execute the complete frozen all-configuration matrix."""
+import argparse,datetime,fcntl,json,os,signal,subprocess,sys,time
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
+from first_test import safety,Telemetry,stop,write_json
+from models import digest
+from campaign_admission import pending_disposition, download_snapshot, extension_pending, OMITTED, RESOURCE, DEFERRED, BUDGET, BUDGET_CASES, reviewed_disposition, gpu_safety_failures
+
+def command_for(job,spec,model_lock='config/unified-models.lock.json',campaign_id='unified-overnight-20261002'):
+    if job.get('result_run_id') and not job.get('case_continuation'):raise RuntimeError('Output alias requires reviewed case continuation')
+    python=str(ROOT/('vendor/vlm-runtime/.venv/bin/python' if spec['runtime']=='mlx-vlm' else '.venv/bin/python'))
+    common=['--allow-inference','--model',job['model_id'],'--run-id',job.get('result_run_id',job['id'])]
+    if spec.get('extension'):
+        common+=['--lock',model_lock,'--campaign-id',campaign_id]
+    if job['kind']=='speed':
+        if spec['runtime']=='llama-cpp':entry=['scripts/llama_context.py',*common]
+        else:entry=['scripts/long_context.py',*common,'--lock',model_lock,'--campaign-id',campaign_id,'--backend',spec['runtime'] if spec['runtime'].startswith('mlx') else 'mlx-lm','--wired-policy','recommended' if spec['runtime'].startswith('mlx') else 'unchanged']
+        return [python,*entry,'--tokens',str(job['tokens']),'--output-tokens',str(job['output_tokens'])],7600
+    if job['kind']=='repo':return [python,'scripts/unified_repo.py',*common,'--attempt',str(job['attempt']),'--max-turns',str(job['max_turns'])],7800 if job['max_turns']==20 else 4200
+    if job['kind']=='replay':return [python,'scripts/unified_replay.py',*common]+(['--mini'] if job['mini'] else []),15000
+    if job['kind']=='quality':
+        command=[python,'scripts/unified_quality.py',*common,'--suite',job['suite']]
+        if job.get('case_continuation'):
+            if job['suite']!='retrieval':raise RuntimeError('Case continuation is retrieval-only')
+            from retrieval_continuation import validate
+            review=validate(ROOT,job['case_continuation'],job['model_id'],job['result_run_id'])
+            if job['id']!=review['parent_run_id']:raise RuntimeError('Continuation must belong to the original logical group')
+            if model_lock!=review['model_lock']:raise RuntimeError('Continuation must use the frozen model lock')
+            return [*command,'--retrieval-continuation',job['case_continuation']],review['remaining_job_budget_seconds']
+        return command,86400
+    if job['kind']=='serving':return [python,'scripts/unified_serving.py',*common,'--concurrency',str(job['concurrency']),'--requests',str(job['requests'])],7200
+    raise ValueError('Unknown frozen job type')
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--allow-inference',action='store_true');p.add_argument('--plan',default='config/unified-campaign.json');p.add_argument('--state',default='work/unified-campaign.json');a=p.parse_args()
+    if not a.allow_inference:p.error('Owner authorization required')
+    signal.signal(signal.SIGTERM,lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+    lock=(ROOT/'work/unified-campaign.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    plan=json.loads((ROOT/a.plan).read_text());specs={s['id']:s for s in json.loads((ROOT/plan['model_lock']).read_text())['models']}
+    if a.plan!='config/unified-campaign.json':
+        from extension_qualification import require_qualified
+        require_qualified(ROOT,plan,specs)
+        if a.state=='work/unified-campaign.json':p.error('Extension must use a separate ledger')
+    state={'campaign_id':plan['id'],'pid':os.getpid(),'status':'starting','overall_deadline':None,'plan_sha256':digest(ROOT/a.plan),'started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'jobs':[{**j,'status':'pending'} for j in plan['jobs']]}
+    def save():write_json(ROOT/a.state,state)
+    save();process=None
+    try:
+        import psutil
+        for j in state['jobs']:
+            if j.get('case_continuation') and j.get('disposition')!=BUDGET_CASES:
+                from retrieval_continuation import validate
+                review=validate(ROOT,j['case_continuation'],j['model_id'],j['result_run_id'])
+                if j['id']!=review['parent_run_id']:raise RuntimeError('Continuation must belong to the original logical group')
+            out=ROOT/'results'/j.get('result_run_id',j['id']);file=out/('run.json' if j['kind']=='replay' else 'result.json')
+            result=json.loads(file.read_text()) if file.exists() else None
+            reviewed=reviewed_disposition(ROOT,j,result)
+            if reviewed:
+                j.update(status=reviewed,reason=j['disposition_reason']);save();continue
+            if file.exists():
+                if j.get('case_continuation'):
+                    j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Case continuation requires explicit review of all nine original cases');save();return
+                if result.get('status')!='complete':j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Existing failed/incomplete cell requires explicit review');save();return
+                j['status']='complete';save();continue
+            disposition=pending_disposition(j, file.exists())
+            if disposition:
+                j.update(status=disposition,reason=j['disposition_reason']);save();continue
+            if j.get('requires'):
+                required=next(x for x in state['jobs'] if x['id']==j['requires'])
+                if required['status']!='complete':j.update(status='blocked',reason='Replay qualification has not passed');save();continue
+            # Require a stable, partial-free metadata interval before timed work.
+            previous=None;quiet_since=None
+            while True:
+                signature,blockers=download_snapshot([Path.home()/'.cache/huggingface',ROOT/'models'])
+                now=time.monotonic()
+                if blockers or signature!=previous:quiet_since=now
+                previous=signature
+                hold=(ROOT/'work/campaign-hold.json').exists()
+                if not blockers and not hold and quiet_since is not None and now-quiet_since>=60:break
+                state.update(status='waiting_for_download_quiescence',active=None,next_job=j['id'],admission={'partial_or_scan_blocker_count':len(blockers),'owner_hold':hold,'required_quiet_seconds':60});save();time.sleep(10)
+            for holder in (Path.home()/'.cache/gpu-slot/holders').glob('*.json'):
+                held=json.loads(holder.read_text())
+                if held.get('pid') and psutil.pid_exists(held['pid']):raise RuntimeError('Another GPU holder is active; preserve its work')
+            if gpu_safety_failures(ROOT)>=2:raise RuntimeError('Two GPU safety failures recorded; no automatic inference relaunch')
+            safety('studio-new')
+            command,budget=command_for(j,specs[j['model_id']],plan['model_lock'],plan['id']);j['status']='running';state.update(status='running',active=j['id']);save()
+            with (ROOT/'work'/f'{j.get("result_run_id",j["id"])}.log').open('w') as log:
+                process=subprocess.Popen(command,cwd=ROOT,env=dict(os.environ,HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1'),stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
+                start=time.monotonic()
+                try:
+                    with Telemetry(process.pid) as telemetry:
+                        while process.poll() is None:
+                            state['elapsed_s']=time.monotonic()-start;save()
+                            if gpu_safety_failures(ROOT)>=2:raise RuntimeError('Two GPU safety failures recorded; stop owned work and never automatically relaunch')
+                            if telemetry.rows and (telemetry.rows[-1]['available_bytes']<12*2**30 or telemetry.rows[-1]['swap_bytes']-telemetry.rows[0]['swap_bytes']>2*2**30):
+                                state['guard_sample']=telemetry.rows[-1];raise RuntimeError('Memory guard reached; no automatic retry')
+                            if state['elapsed_s']>budget:raise TimeoutError('Declared individual-job budget reached; overall campaign has no cutoff')
+                            if j.get('case_continuation') and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(review['original_job_deadline_utc']):raise TimeoutError('Original retrieval group job deadline reached; no extension')
+                            time.sleep(3)
+                finally:
+                    if out.exists():write_json(out/'campaign-telemetry.json',telemetry.rows)
+            if process.returncode:
+                j['status']='needs_review';raise RuntimeError('Cell failed and was preserved: '+j['id'])
+            if j.get('case_continuation'):
+                j['status']='needs_review';state.update(status='stopped',active=j['id'],error='Case continuation requires explicit review of all nine original cases');save();return
+            j['status']='complete';save();process=None
+        if any(j['status']==DEFERRED for j in state['jobs']):state.update(status='baseline_deferred_resource_review',active=None)
+        elif any(j['status'] not in ('complete',OMITTED,RESOURCE,BUDGET,BUDGET_CASES) for j in state['jobs']):state['status']='needs_review'
+        elif extension_pending(ROOT,plan):state.update(status='baseline_accounted_extension_pending',active=None)
+        else:state.update(status='complete',active=None,finished_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
+        save()
+    except BaseException as e:state.update(status='stopped',error=str(e));save();raise
+    finally:stop(process)
+
+if __name__=='__main__':main()
