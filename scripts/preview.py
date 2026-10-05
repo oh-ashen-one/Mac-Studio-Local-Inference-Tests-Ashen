@@ -4,7 +4,7 @@ import argparse
 import json
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -80,6 +80,19 @@ def state(comparison):
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
+ASSET_TYPES={'.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf',
+             '.json':'application/json','.zip':'application/zip','.txt':'text/plain; charset=utf-8'}
+
+
+def asset_file(request_path):
+    """Serve only published viewer assets; reject traversal and escaping symlinks."""
+    if not request_path.startswith('/assets/'):return None
+    base=(ROOT/'viewer/assets').resolve()
+    path=(base/unquote(request_path[len('/assets/'):])).resolve()
+    if not path.is_relative_to(base) or path.suffix not in ASSET_TYPES or not path.is_file():return None
+    return path
+
+
 def handler_for(comparison):
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
@@ -88,6 +101,10 @@ def handler_for(comparison):
             elif self.path=='/style.css':body=(ROOT/'viewer/style.css').read_bytes();mime='text/css; charset=utf-8'
             elif self.path=='/app.js':body=(ROOT/'viewer/app.js').read_bytes();mime='text/javascript; charset=utf-8'
             elif self.path=='/api/state':body=json.dumps(state(comparison)).encode();mime='application/json'
+            elif self.path.startswith('/assets/'):
+                asset=asset_file(self.path)
+                if asset is None:self.send_error(404);return
+                body=asset.read_bytes();mime=ASSET_TYPES[asset.suffix]
             else:self.send_error(404);return
             if self.path=='/':print(json.dumps({'event':'page_open','user_agent':self.headers.get('User-Agent','')}),flush=True)
             self.send_response(200);self.send_header('Content-Type',mime)

@@ -1,23 +1,18 @@
-# Visual comparison dashboard
+# Visual benchmark showcase
 
-![Actual dashboard served by the M5](../outputs/dashboard-overview.jpg)
+The landing page presents five image-generated benchmark infographics, with sourced company/model logos beside the relevant labels. A compact selector changes the main image; each figure can be expanded and downloaded, and the full image pack is available as a ZIP. Detailed methodology and raw results are linked on GitHub.
 
-The localhost viewer is read-only: it renders saved data, performs no model inference and has no test-start endpoint. On the M5 it runs at `http://127.0.0.1:18765`; controller review uses its own loopback SSH forward.
+The image set contains:
 
-The main view includes:
+- M5 versus published M3 at200K: +55.3% reported Qwen generation rate.
+- Both80-GPU configurations at128K: +42.1% reported Qwen generation rate.
+- M5, optimized M3, DGX Spark and RTX5090 configuration snapshots, with context/precision/acceleration labels.
+- Five-model200K generation medians on the M5.
+- Reported200K input-processing wait, retaining the different timer definitions.
 
-- Three measured-model selectors and a prominent reference selector.
-- Generation-rate difference against a selected published run, only when actual input length matches 200,000 tokens. Formula: `100 × (our rate / reference rate − 1)`.
-- Context-fill time reduction, only for a same-length reference with reported latency. Formula: `100 × (1 − our fill time / reference wait)`.
-- A hardware bar chart with generation, wait and prefill modes, plus a context-length filter. Single-stream reports only; multi-user aggregate throughput is not plotted on that axis. Precision, context and tuned variants remain visible.
-- An actual fill/generation time breakdown, the five repository outcomes, and the official replay counters.
-- Additional-model discovery status and the owner's explicit Darkbloom hold.
+These are reported configuration comparisons. The owner's own M3 has not supplied a matched measured cohort. External optimized results are retained and may exceed the M5 baseline. The source-bound values, image hashes, full generation prompts and logo sources are recorded in [visual release notes](VISUAL-SHOWCASE-20261004.md).
 
-A published-run gap is a **configuration comparison**, not an isolated hardware effect. Different model conversions, runtimes, software versions, sampling, cache state and workloads can change the result. The default Qwen reference is a **60-GPU-core** M3 Ultra, not the owner's 80-GPU-core original Studio. Tuned results can outperform the current M5 baseline and are shown. No claim to cover all hardware or the global fastest configuration is made.
-
-The owner's own M3/M5 percentage remains pending until matched runs exist. Historical Gemma April results retain their date and older runtime. For absent/different context lengths, the UI names the missing context and shows the raw tok/s gap without a hardware percentage. DeepSeek explicitly shows 38.20 vs 36.01 tok/s, a 2.19 tok/s reported gap, with the reference context marked unknown. Raw prompts and methodology are collapsed. Original sources are accessible by selecting a graph row.
-
-Assets are local HTML/CSS/JavaScript with SVG charts; no external font, chart service or analytics dependency. Model files, caches and private paths are not served. Narrow layouts keep the wide comparison graph in its own horizontal scroll area.
+The page serves local fonts and assets, respects reduced-motion preferences, and keeps the private laptop preview route. The read-only server has no inference-start endpoint. The completed study and paused follow-up are unchanged.
 
 ## Viewing from the laptop
 

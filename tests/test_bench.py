@@ -124,7 +124,7 @@ def test_preview_serves_only_saved_data_without_gpu(tmp_path):
         assert len([m for m in payload['models'] if not m.get('additional')])==3
         assert {m['id'] for m in payload['models'] if m.get('additional')}=={m['id'] for m in json.loads((ROOT/'config/additional-models.lock.json').read_text())['models']}
         assert payload['comparison'] is None
-        with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
+        with urllib.request.urlopen(base+'/') as response:assert b'M5 Ultra, Measured' in response.read()
         for asset,mime in [('/style.css','text/css'),('/app.js','text/javascript')]:
             with urllib.request.urlopen(base+asset) as response:
                 assert response.status==200 and response.headers['Content-Type'].startswith(mime)
