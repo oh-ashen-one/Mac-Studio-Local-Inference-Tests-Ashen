@@ -2,6 +2,18 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Full visual research landing restored — October 4, 2026
+
+Owner clarified that a few pictures were insufficient and requested a proper landing page covering the extensive study. The page now has a performance-led hero and full visual sections for Mac comparisons, market/acceleration, retained models/context curves, historical Qwen profiles, sustained ranges, coding/repair/recall/JSON, serving throughput/latency and recorded replay. Company/model logos remain adjacent. All consumer download/save/pack controls and the redundant image-pack ZIP are removed. Raw details remain linked on GitHub.
+
+Five validated image-generated comparison figures remain as anchors; native SVG/HTML charts derive exact axes/ranges/ring fractions/attempt counts from frozen data. Exploratory AI curve/range/dot-grid drafts were excluded after data-shape review. Derived study counts:5 retained models/100 cold-speed repetitions/15 sustained runs/820 coding cases/900 load requests/840 replay requests/120 structured cases/45 retrieval attempts. Unscored resource/request limits and owner omissions remain distinct from failed scored attempts.79 controller CPU checks pass. Controls, scores and no-overflow390px layout verified on the private preview.
+
+Current page is served directly by controller read-only PID31950 at loopback/private Tailscale18765. M5 checkout remains protected and unchanged; do not bypass its other owner's live GPU holder. Benchmark CLOSED, follow-up PAUSED, two-event inference stop intact. No new inference, main merge or personal-site deployment. Owner subjective design acceptance remains theirs.
+
+## Viewer focuses on comparisons — October 4, 2026
+
+Owner rejected image-pack/download promotion: the audience should see benchmark results directly. Removed all download/save/pack controls from the landing page and expanded image view. The heading is now “M5 Ultra vs the field.” The small graph toolbar identifies the comparison rather than an image catalog position. Sourced logos, five performance visuals, selector, expansion and GitHub evidence links remain. The controller's owned read-only preview31950 serves changed static files without a restart; benchmark scope/records, PAUSED follow-up and protected M5 work are untouched.
+
 ## Visual result-infographic redesign — October 4, 2026
 
 Owner rejected the text-heavy dashboard, rejected generic chart styling and hardware artwork, and explicitly directed image generation of the benchmark results themselves plus recognizable company/model logos. The candidate now uses five built-in-image-generated result infographics: +55.3% Qwen200K versus published M3 60-GPU; +42.1% Qwen128K versus published M3 80-GPU; labeled M5/M3/DGX/RTX snapshots; five-model200K rates; different-boundary input wait. All values/scales were reviewed; no matched chip-only or GPU-winner claim. Sourced Apple/NVIDIA/Qwen/DeepSeek/Gemma/MiMo/Mistral marks appear within figures and as exact SVG page labels. Rejected product artwork/old chart drafts are excluded from project assets.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind the image-generated infographics to frozen evidence and package the release.
+"""Bind the image-generated infographics to frozen evidence and record the release.
 
 This script copies no tensors, imports no inference libraries, and edits no pixels.
 Images are generated with the built-in image tool; labels/scales were reviewed.
@@ -7,7 +7,6 @@ Images are generated with the built-in image tool; labels/scales were reviewed.
 import hashlib
 import json
 import struct
-import zipfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -44,16 +43,24 @@ def build_data():
         file=DEST/('infographic-'+name+'.png');raw=file.read_bytes()
         width,height=struct.unpack('>II',raw[16:24]);assert raw.startswith(b'\x89PNG') and width>=1500 and abs(width/height-16/9)<.025
         cards.append({'id':name,'label':label,'title':title,'alt':alt,'png':'/assets/infographic-'+name+'.png','width':width,'height':height,'sha256':hashlib.sha256(raw).hexdigest(),'brands':(['mimo','deepseek','qwen','gemma','mistral'] if name=='models' else ['apple','nvidia','qwen'] if name=='market' else ['apple','qwen']),'sources':sources,'evidence':BRANCH+'docs/M5-RESEARCH-REPORT-20261004.md'})
-    return {'schema':2,'renderer':'Built-in image generation; exact visible values reviewed against source records','scope':{'completed':183,'unscored':11,'owner_omitted':1,'required_remaining':0},'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'pairs':pairs,'models':models,'cards':cards,'market_values':{'m5_8k_native_decode':q['speed']['8192']['decode']['median'],'optimized_m3_200k_reported':refs['m3-512-optimized-200k']['decode_tps'],'dgx_spark_short_serving':refs['spark-fp8-code']['decode_tps'],'rtx5090_8k_mtp3_reported':98.2}}
+    jobs=[j for cohort in frozen.values() for j in cohort['jobs'] if j['model_id'] in MODEL_IDS]
+    quality=[]
+    for m in models:
+        row={'id':m['id'],'human':m['quality']['humaneval'],'structured':m['quality']['structured']}
+        ret=m['quality']['retrieval'];row['retrieval']={'scored':ret['status']=='complete','passed':ret['passed'] if ret['status']=='complete' else None,'completed':ret['completed'],'attempted':ret.get('attempted_cases',ret['completed']),'planned':ret['planned']}
+        row['repo']={}
+        for turns in ['8','20']:
+            r=m['repo'][turns];own=[j for j in jobs if j['model_id']==m['id'] and j['kind']=='repo' and j['max_turns']==int(turns)]
+            row['repo'][turns]={'completed':r['completed'],'passed':r['passed'] if r['completed'] else None,'budget_limited':sum(j['status']=='unsupported_request_budget' for j in own),'resource_limited':sum(j['status']=='unsupported_resource' for j in own),'owner_omitted':sum(j['status']=='omitted_by_owner_scope' for j in own),'planned':len(own)}
+        quality.append(row)
+    counts={'models':len(models),'cold_speed_runs':sum(v['decode']['n'] for m in models for v in m['speed'].values()),'sustained_runs':sum(m['sustained']['completed'] for m in models),'coding_cases':sum(m['quality']['humaneval']['completed'] for m in models),'serving_requests':sum(v['completed_requests'] for m in models for v in m['serving'].values()),'replay_requests':sum(m['replay']['full']['served'] for m in models),'structured_cases':sum(m['quality']['structured']['completed'] for m in models),'retrieval_attempts':sum(r['retrieval']['attempted'] for r in quality)}
+    return {'schema':2,'renderer':'Built-in image generation; exact visible values reviewed against source records','scope':{'completed':183,'unscored':11,'owner_omitted':1,'required_remaining':0},'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'pairs':pairs,'models':models,'historical_models':[m for cohort in frozen.values() for m in cohort['models'] if m.get('historical_comparison')],'optimized_m3_reference':refs['m3-512-optimized-200k'],'study_counts':counts,'quality_results':quality,'cards':cards,'market_values':{'m5_8k_native_decode':q['speed']['8192']['decode']['median'],'optimized_m3_200k_reported':refs['m3-512-optimized-200k']['decode_tps'],'dgx_spark_short_serving':refs['spark-fp8-code']['decode_tps'],'rtx5090_8k_mtp3_reported':98.2}}
 
 
 def main():
     data=build_data();(DEST/'showcase-data.json').write_text(json.dumps(data,indent=2)+'\n')
     manifest={'source_summaries_sha256':data['source_sha256'],'renderer':data['renderer'],'prompt_set':'outputs/benchmark-infographic-prompts.md','source_review':'research/showcase-source-review-20261004.json','graphics':{c['id']:{'png':c['sha256'],'width':c['width'],'height':c['height'],'visible_labels_reviewed':True,'common_zero_origin_and_proportions_reviewed':c['id']!='wait'} for c in data['cards']}}
     (ROOT/'outputs/visual-showcase-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    with zipfile.ZipFile(DEST/'benchmark-image-pack.zip','w',zipfile.ZIP_DEFLATED) as z:
-        for c in data['cards']:z.write(DEST/Path(c['png']).name,Path(c['png']).name)
-        z.writestr('README.txt','ASHEN / BENCHMARK LAB\nFive image-generated benchmark results infographics.\n'+BRANCH+'docs/M5-RESEARCH-REPORT-20261004.md\n'+BRANCH+'outputs/benchmark-infographic-prompts.md\nValues and chart proportions were reviewed against frozen measurements and primary references. External configurations differ; no isolated hardware-only speedup is claimed.\n')
     print(json.dumps({'infographics':len(data['cards']),'primary_rate_increase_percent':data['pairs'][0]['reported_rate_increase_percent']}))
 
 

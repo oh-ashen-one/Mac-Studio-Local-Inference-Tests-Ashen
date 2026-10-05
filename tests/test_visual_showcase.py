@@ -49,3 +49,22 @@ def test_asset_route_cannot_read_private_files_or_escape_through_symlinks(tmp_pa
     for path in ['/assets/../../config/machines.local.json','/assets/%2e%2e/%2e%2e/config/machines.local.json',
                  '/assets/%2Fetc/passwd','/assets/escape.json','/config/machines.local.json','/assets/missing.png']:
         assert preview.asset_file(path) is None
+
+
+def test_full_research_page_preserves_retained_workload_counts():
+    d=build_visual_showcase.build_data()
+    assert d['study_counts']==dict(models=5,cold_speed_runs=100,sustained_runs=15,coding_cases=820,serving_requests=900,replay_requests=840,structured_cases=120,retrieval_attempts=45)
+    assert len(d['historical_models'])==2
+    assert all(m['historical_comparison'] for m in d['historical_models'])
+    assert all(m['completed_jobs']==30 and m['omitted_jobs']==9 for m in d['historical_models'])
+
+
+def test_full_research_quality_limits_are_not_zero_accuracy_scores():
+    d=build_visual_showcase.build_data();rows={q['id']:q for q in d['quality_results']}
+    m=rows['mistral-medium35-q4']
+    assert m['retrieval']['passed'] is None and not m['retrieval']['scored']
+    assert m['retrieval']['attempted']==9
+    assert m['repo']['8']['passed'] is None and m['repo']['8']['budget_limited']==5
+    assert m['repo']['20']['passed'] is None and m['repo']['20']['budget_limited']==3
+    mi=rows['mimo-v2.6-flash-mopd']['repo']['20']
+    assert mi['passed'] is None and mi['resource_limited']==2 and mi['owner_omitted']==1

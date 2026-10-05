@@ -1,18 +1,18 @@
-# Visual benchmark showcase
+# Full visual research landing page
 
-The landing page presents five image-generated benchmark infographics, with sourced company/model logos beside the relevant labels. A compact selector changes the main image; each figure can be expanded and downloaded, and the full image pack is available as a ZIP. Detailed methodology and raw results are linked on GitHub.
+The page represents the complete retained study as a visual research story, with speed comparisons leading the page. Fixed navigation jumps to the major sections. Sourced company and model logos remain beside the relevant configurations. No download, save or image-pack promotion is shown.
 
-The image set contains:
+The landing page includes:
 
-- M5 versus published M3 at200K: +55.3% reported Qwen generation rate.
-- Both80-GPU configurations at128K: +42.1% reported Qwen generation rate.
-- M5, optimized M3, DGX Spark and RTX5090 configuration snapshots, with context/precision/acceleration labels.
-- Five-model200K generation medians on the M5.
-- Reported200K input-processing wait, retaining the different timer definitions.
+- M5 versus published M3 configurations at200K/128K, with rate differences and reported input wait.
+- DGX Spark, RTX5090 and optimized M3 snapshots, keeping different prompt/precision/acceleration settings visible.
+- All five retained model rates, an interactive8K-to200K curve plot and preserved earlier Qwen profiles.
+- Sustained2048-output medians and observed ranges, including the slow DeepSeek repeat.
+- HumanEval pass-rate rings, repository8-/20-turn conditions,200K retrieval and structured JSON outcomes.
+- Serving concurrency1/2/4 with throughput/latency switching, plus the full168-request replay per configuration.
+- Study extent, explicit unscored/omitted outcomes, and GitHub links to the full report, methods and raw records.
 
-These are reported configuration comparisons. The owner's own M3 has not supplied a matched measured cohort. External optimized results are retained and may exceed the M5 baseline. The source-bound values, image hashes, full generation prompts and logo sources are recorded in [visual release notes](VISUAL-SHOWCASE-20261004.md).
-
-The page serves local fonts and assets, respects reduced-motion preferences, and keeps the private laptop preview route. The read-only server has no inference-start endpoint. The completed study and paused follow-up are unchanged.
+The five image-generated result figures are retained as comparison anchors. The remaining charts are native SVG/HTML graphics drawn from frozen numeric records, so axes, ring fractions, ranges and unscored statuses remain exact. Detailed source records stay in GitHub. The read-only controller preview imports no inference runtime; the closed study and PAUSED follow-up are unchanged.
 
 ## Viewing from the laptop
 
