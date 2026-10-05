@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Visual model library — October 4, 2026
+
+Owner approved the integrated M5 page and requested a cleaner showcase for the Benchmark index. The website branch now has a featured M5 study and a consistent provider-logo grid inside one glass panel, with search, categories and focused record dialogs. All12 original collections/37 records/9 top-level videos are unchanged under a canonical hash; verdicts, source links and the unconfirmed-run note remain intact. Record URLs support direct reload and Back; Escape restores tile focus.
+
+Website commit0541eab is pushed to codex/m5-benchmark-study-20261004 and [website PR3](https://github.com/oh-ashen-one/Ashen-Port-Site/pull/3) is updated. Type check, standard/private-prefix production builds and8 data/library checks pass. Actual1280px/390px browser verification covers logos, filters, search/reset, dialog navigation/focus, phone layout and the unchanged eight-section M5 study route. Screenshots are in outputs/benchmark-library-*.jpg; receipt research/benchmark-library-validation-20261004.json.
+
+The static portfolio copy is updated on the existing private18765 route; preview26511 was not restarted. No main merge, production deployment, inference, measurement change or follow-up change. The pushed clean source worktree was removed after remote verification; the copied preview is independent and remains available. Preserve the dirty primary website checkout and all protected M5 work.
+
 ## Portfolio card and full study integration — October 4, 2026
 
 Owner requested an M5 Ultra256GB card beside the portfolio's AI model cards, opening the full visual study. Implemented in the latest Ashen-Port-Site main baseline b54a574 on an isolated task branch codex/m5-benchmark-study-20261004; pushed9f2390c and created [website draft PR3](https://github.com/oh-ashen-one/Ashen-Port-Site/pull/3). The shared desktop/mobile model strip now has an Apple-logo M5 card with256GB/80GPU cores, opening /benchmark/mac-studio. All eight approved study sections and interactive source-bound plots use the portfolio navigation, sky background, footer and Sora/Inter/gold/glass design. The imported14 public assets match original bytes and HTTP SHA256. No private adapter, weights, inference code or measured-record change.
