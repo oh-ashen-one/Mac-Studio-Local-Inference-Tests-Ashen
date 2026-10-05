@@ -2,6 +2,12 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Owner-approved GitHub publication — October5, 2026
+
+The owner approved the finished UI and explicitly requested pushing the website for their redeploy and publishing the extensive benchmark results to GitHub. Website PR3 is merged into Ashen-Port-Site main at2501a48f5c0edfad293254e6671806c94fe4abdb; main includes the visual model library and complete M5 study. The owner handles website redeployment; no Replit deployment was initiated. The dirty local primary website checkout remains preserved.
+
+The benchmark repository's existing default branch is codex/setup-20260930, not main. The completed research release will be merged there through the existing results PR, with its README replaced by the final study overview; the previous planning README is archived verbatim. Raw results, closed scope, failures, omissions and model/runtime pins remain unchanged. No inference is authorized or started.
+
 ## Visual model library — October 4, 2026
 
 Owner approved the integrated M5 page and requested a cleaner showcase for the Benchmark index. The website branch now has a featured M5 study and a consistent provider-logo grid inside one glass panel, with search, categories and focused record dialogs. All12 original collections/37 records/9 top-level videos are unchanged under a canonical hash; verdicts, source links and the unconfirmed-run note remain intact. Record URLs support direct reload and Back; Escape restores tile focus.
