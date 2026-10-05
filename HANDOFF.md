@@ -2,6 +2,12 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Four speed graphics and Typefully draft — October5, 2026
+
+Owner requested four generated visual alternatives summarizing M5 advantages, older256/512GB Studios and NVIDIA setups, with model logos and a detailed Typefully draft caption. Four checked PNGs are saved under outputs/m5-social-20261005, with exact prompts, manifest and source math in research/m5-social-comparisons-20261005.json. New primary-source verification supports the historical Qwen3.6 comparison:78.7654 versus32.0tok/s at200K (+146.1%) and145.8938 versus92.4 at8K (+57.9%). These are reported configuration gaps, not matched hardware effects. Other models show their measured M5 rates; optimized512GB M3/DGX/RTX snapshots keep their differing conditions visible.
+
+One Typefully draft for @ashen_one contains all four ready media assets, the full per-model caption and source notes. Retrieved draft state verifies four attachments, exact caption, status draft and null scheduling/publication timestamps. Private receipt: work/m5-social-typefully-draft-20261005.json. No social post, schedule, inference, retry or GPU work occurred. The source assets are on task branch codex/m5-social-graphics-20261005; no default-branch publication of this promotional draft is implied.
+
 ## Owner-approved GitHub publication — October5, 2026
 
 The owner approved the finished UI and explicitly requested pushing the website for their redeploy and publishing the extensive benchmark results to GitHub. Website PR3 is merged into Ashen-Port-Site main at2501a48f5c0edfad293254e6671806c94fe4abdb; main includes the visual model library and complete M5 study. The owner handles website redeployment; no Replit deployment was initiated. The dirty local primary website checkout remains preserved.
