@@ -29,6 +29,8 @@ def run_native(args, model_spec, output):
     offsets=[0,4,7];counts=[4,3,3]
     if args.suite=='smoke':
         cases=[{'id':'setup-reply','input_tokens':None,'output_tokens':128,'repeat':0,'warmup':False,'prompt_seed':1729}]
+    elif args.suite=='firstlook':
+        cases=[{'id':'decode-512-256','input_tokens':512,'output_tokens':256,'repeat':i,'warmup':i<0,'prompt_seed':1729+i+1} for i in [-1,0,1,2]]
     elif args.suite=='pilot':
         cases=[{'id':'setup-speed','input_tokens':512,'output_tokens':32,'repeat':0,'warmup':False,'prompt_seed':1729}]
     else:
@@ -39,7 +41,7 @@ def run_native(args, model_spec, output):
             cases.extend({**cell,'repeat':-i-1,'warmup':True,'prompt_seed':100+i} for i in range(2))
             cases.extend({**cell,'repeat':offsets[args.session]+i,'warmup':False,'prompt_seed':1729+offsets[args.session]+i} for i in range(counts[args.session]))
     for case in cases:
-        record={'schema_version':1,'kind':'setup_smoke' if args.suite=='smoke' else ('setup_pilot' if args.suite=='pilot' else 'hardware_microbenchmark'),
+        record={'schema_version':1,'kind':'setup_smoke' if args.suite=='smoke' else ('initial_speed_test' if args.suite=='firstlook' else ('setup_pilot' if args.suite=='pilot' else 'hardware_microbenchmark')),
                 'machine_id':args.machine,'model_id':model_spec['id'],'model_revision':model_spec['revision'],
                 'backend':'dwarfstar-metal','started_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runtime_commit':actual,'runtime_lock_sha256':digest(ROOT/'config/dwarfstar.lock.json'),
                 'model_lock_sha256':digest(ROOT/'config/models.lock.json'),'campaign_sha256':digest(ROOT/'config/campaign.json'),

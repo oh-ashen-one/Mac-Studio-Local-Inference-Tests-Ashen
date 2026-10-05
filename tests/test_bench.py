@@ -121,8 +121,99 @@ def test_preview_serves_only_saved_data_without_gpu(tmp_path):
     try:
         base='http://127.0.0.1:'+str(server.server_address[1])
         with urllib.request.urlopen(base+'/api/state') as response:payload=json.load(response)
-        assert len(payload['models'])==3
+        assert len([m for m in payload['models'] if not m.get('additional')])==3
+        assert {m['id'] for m in payload['models'] if m.get('additional')}=={m['id'] for m in json.loads((ROOT/'config/additional-models.lock.json').read_text())['models']}
         assert payload['comparison'] is None
-        with urllib.request.urlopen(base+'/') as response:assert b'Mac Studio Local Inference Tests Ashen' in response.read()
+        with urllib.request.urlopen(base+'/') as response:assert b'M5 Ultra, Measured' in response.read()
+        for asset,mime in [('/style.css','text/css'),('/app.js','text/javascript')]:
+            with urllib.request.urlopen(base+asset) as response:
+                assert response.status==200 and response.headers['Content-Type'].startswith(mime)
+                assert len(response.read())>100
         with pytest.raises(urllib.error.HTTPError):urllib.request.urlopen(base+'/../README.md')
     finally:server.shutdown();server.server_close();thread.join()
+
+
+def test_ready_receipt_rejects_missing_native_runtime(tmp_path):
+    from finish_prepare import verify_runtime
+    (tmp_path/'requirements-macos-arm64.lock').write_text('')
+    with pytest.raises(RuntimeError,match='Missing native runtime binary'):
+        verify_runtime(tmp_path)
+
+
+def test_ready_receipt_rejects_dependency_drift(tmp_path,monkeypatch):
+    import finish_prepare
+    (tmp_path/'requirements-macos-arm64.lock').write_text('mlx==0.32.3\n')
+    monkeypatch.setattr(finish_prepare.importlib.metadata,'version',lambda _: 'different')
+    with pytest.raises(RuntimeError,match='Runtime version mismatch'):
+        finish_prepare.verify_runtime(tmp_path)
+
+
+def test_firstlook_summary_excludes_warmup_and_failed_runs():
+    from first_test import summarize
+    def row(rate,warmup=False,status='ok'):return {'kind':'initial_speed_test','cell':{'warmup':warmup},'status':status,'decode_tok_s':rate}
+    s=summarize([row(999,True),row(20),row(30),row(25),row(1000,status='error')])
+    assert s=={'measured_repeats':3,'fastest_decode_tok_s':30,'median_decode_tok_s':25}
+
+
+def test_mimo_base_loader_excludes_only_the_declared_draft():
+    from text_runtime import exclude_mimo_draft
+    weights={f'model.mtp.layers.{i//14}.tensor{i}':i for i in range(42)}
+    weights.update({'model.layers.0.weight':'keep','model.mtp_like.weight':'keep too'})
+    assert exclude_mimo_draft(weights)=={'model.layers.0.weight':'keep','model.mtp_like.weight':'keep too'}
+    weights.pop('model.mtp.layers.0.tensor0')
+    with pytest.raises(ValueError,match='exactly 42'):exclude_mimo_draft(weights)
+
+
+def test_explicit_mimo_xml_parser_keeps_files_unchanged_and_rejects_other_grammars(tmp_path):
+    from text_runtime import tokenizer_options
+    template=tmp_path/'chat_template.jinja'
+    text="{{ '<tool_call><function=' ~ tool_call.name }}<parameter=command>"
+    template.write_text(text)
+    config={'model_type':'mimo_v2'}
+    assert 'tool_parser_type' not in tokenizer_options(tmp_path,config)
+    assert tokenizer_options(tmp_path,config,True)['tool_parser_type']=='qwen3_coder'
+    assert template.read_text()==text
+    with pytest.raises(ValueError):tokenizer_options(tmp_path,{'model_type':'qwen3_5'},True)
+    template.write_text('{{ tool_call | tojson }}')
+    with pytest.raises(ValueError):tokenizer_options(tmp_path,config,True)
+
+
+def test_unified_exact_context_builder_never_returns_a_short_prompt(tmp_path,monkeypatch):
+    import unified_server
+    monkeypatch.setattr(unified_server,'count_chat',lambda spec,folder,messages,port:len(messages[1]['content'])//2+20)
+    messages,count=unified_server.fill_to_tokens({},tmp_path,'system','prefix','x'*10000,'suffix',1000)
+    assert 1000<=count<=1032
+    with pytest.raises(RuntimeError,match='exact declared input range'):
+        unified_server.fill_to_tokens({},tmp_path,'system','','x'*20,'',1000)
+
+
+def test_unified_evaluator_restricts_escape_routes_but_accepts_math():
+    from unified_quality import check_code,ARITHMETIC_EVAL
+    check_code('import hashlib\ndef f(x):\n return hashlib.md5(x.encode()).hexdigest()')
+    for code in ['import os','import random\nx=random._os','from random import _os','x=open("/tmp/x")','import operator\nx=operator.attrgetter("__globals__")']:
+        with pytest.raises(ValueError):check_code(code)
+    namespace={};exec(ARITHMETIC_EVAL,namespace)
+    assert namespace['eval']('2+3*4-5')==9
+    with pytest.raises(ValueError):namespace['eval']('__import__("os")')
+
+
+def test_unified_matrix_covers_each_downloaded_configuration_equally():
+    plan=json.loads((ROOT/'config/unified-campaign.json').read_text())
+    assert plan['overall_deadline'] is None
+    counts=[]
+    for model in plan['models']:
+        jobs=[j for j in plan['jobs'] if j['model_id']==model]
+        for size in [8192,32768,131072,200000]:
+            assert len([j for j in jobs if j['kind']=='speed' and j['tokens']==size and j['output_tokens']==256])==5
+        assert len([j for j in jobs if j['kind']=='repo' and j['max_turns']==8])==5
+        assert len([j for j in jobs if j['kind']=='repo' and j['max_turns']==20])==3
+        assert {j['suite'] for j in jobs if j['kind']=='quality'}=={'structured','retrieval','humaneval'}
+        counts.append(len(jobs))
+    assert len(plan['models'])==6 and len(set(counts))==1
+
+
+def test_native_metadata_counter_refuses_overlapping_loaded_server(tmp_path,monkeypatch):
+    import unified_server
+    monkeypatch.setattr(unified_server,'_native_server_active',True)
+    with pytest.raises(RuntimeError,match='before loading'):
+        unified_server.count_chat({'runtime':'dwarfstar'},tmp_path,[])

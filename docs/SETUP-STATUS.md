@@ -1,5 +1,7 @@
 # Setup status — existing M3 Ultra
 
+**October 1 update:** the M5 has also been fully prepared; see [the paired setup receipt](M5-READY.md). Both computers remain unloaded by this task. The earlier checks below are historical preparation evidence.
+
 **Current mode: preparation only. Downloads and file hashing are allowed; all inference is deferred.**
 
 **All three models are now downloaded and fully SHA256 verified. The installation is in `prepared_not_loaded` state.**

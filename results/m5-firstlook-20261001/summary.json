@@ -1,0 +1,203 @@
+{
+  "campaign": "m5-firstlook-20261001",
+  "machine": "M5 Ultra \u00b7 256 GB",
+  "status": "complete",
+  "started_at_utc": "2026-10-01T17:51:14.348295+00:00",
+  "background_note": "Initial interactive measurement; Photos/iCloud background work and the live browser may affect performance. Not an absolute maximum or an M3 comparison. Memory uses observed system-available RAM change; DeepSeek maps about 153 GiB even though its process RSS is small.",
+  "configuration": "Pinned artifacts; 512-input / 256-output speed probe; one warmup and three measured repeats; no speculation. Separate real streamed request capped at 512 tokens.",
+  "models": {
+    "qwen-27b": {
+      "status": "complete",
+      "quantization": "8bit",
+      "revision": "815b83c0df8ffd1d1b5244cf75fd6ef14fca9ef9",
+      "backend": "mlx",
+      "measured_repeats": 3,
+      "fastest_decode_tok_s": 32.0541583721198,
+      "median_decode_tok_s": 32.02190700282615,
+      "peak_process_rss_bytes": 29017096192,
+      "prefill_tok_s": null,
+      "transaction": {
+        "kind": "real_transaction",
+        "model_id": "qwen-27b",
+        "prompt": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words.",
+        "request": {
+          "model": "default_model",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words."
+            }
+          ],
+          "temperature": 0,
+          "max_tokens": 512,
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        },
+        "server_ready_s": 1.0411294160003308,
+        "ttft_stream_s": 1.6152007079999748,
+        "first_visible_output_s": 1.6152007079999748,
+        "response_wall_s": 18.731375874999685,
+        "end_to_end_output_tok_s": 27.333816982625073,
+        "completion_tokens": 512,
+        "prompt_tokens": 87,
+        "usage": {
+          "prompt_tokens": 87,
+          "completion_tokens": 512,
+          "total_tokens": 599,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "finish_reason": "length",
+        "output": "```python\ndef moving_average(values, window):\n    if window <= 0:\n        raise ValueError(\"Window size must be positive\")\n    if window > len(values):\n        return []\n    \n    result = []\n    current_sum = sum(values[:window])\n    result.append(current_sum / window)\n    \n    for i in range(window, len(values)):\n        current_sum += values[i] - values[i - window]\n        result.append(current_sum / window)\n    \n    return result\n\n# Example\nvalues = [2, 4, 6, 8, 10]\nwindow = 3\nprint(moving_average(values, window))\n# Expected: [4.0, 6.0, 8.0]\n```\n\n**Explanation:**\n\nThe function computes the simple moving average by sliding a window of fixed size across the input list. For each position, it calculates the mean of the elements within that window.\n\n**How it works:**\n1. Validate that `window` is positive; raise an error otherwise.\n2. If the window is larger than the list, return an empty list since no complete windows exist.\n3. Initialize the sum of the first window and append its average to the result.\n4. Slide the window one element at a time: add the new incoming element and subtract the outgoing element from the running sum, then compute and append the new average.\n\n**Example walkthrough:**\n- Input: `[2, 4, 6, 8, 10]`, window = 3\n- Window 1: `[2, 4, 6]` \u2192 (2+4+6)/3 = 4.0\n- Window 2: `[4, 6, 8]` \u2192 (4+6+8)/3 = 6.0\n- Window 3: `[6, 8, 10]` \u2192 (6+8+10)/3 = 8.0\n- Output: `[4.0, 6.0, 8.0]`\n\n**Time Complexity:**\n- **O(n)** where n is the length of `values`. The initial sum takes O(window) time, and each subsequent step takes O(1) time due to the sliding window technique (adding one element and subtracting one). Since there are n - window + 1 windows, the total time is O(n",
+        "reasoning": "",
+        "status": "ok",
+        "peak_server_rss_bytes": 29180035072
+      },
+      "observed_system_memory_delta_bytes": 30519328768,
+      "swap_increase_bytes": 0,
+      "peak_metal_bytes": 29701297236
+    },
+    "gemma-31b": {
+      "status": "complete",
+      "quantization": "8bit",
+      "revision": "9b06d48739ea5f39e5b66880a6e90405a2cb1751",
+      "backend": "mlx",
+      "measured_repeats": 3,
+      "fastest_decode_tok_s": 27.631834734321608,
+      "median_decode_tok_s": 27.586826154584777,
+      "peak_process_rss_bytes": 33131446272,
+      "prefill_tok_s": null,
+      "transaction": {
+        "kind": "real_transaction",
+        "model_id": "gemma-31b",
+        "prompt": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words.",
+        "request": {
+          "model": "default_model",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words."
+            }
+          ],
+          "temperature": 0,
+          "max_tokens": 512,
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        },
+        "server_ready_s": 1.0296237499997005,
+        "ttft_stream_s": 1.5506032080002115,
+        "first_visible_output_s": 1.5506032080002115,
+        "response_wall_s": 16.968977374999668,
+        "end_to_end_output_tok_s": 24.279600997464826,
+        "completion_tokens": 412,
+        "prompt_tokens": 90,
+        "usage": {
+          "prompt_tokens": 90,
+          "completion_tokens": 412,
+          "total_tokens": 502,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "finish_reason": "stop",
+        "output": "Here is the Python implementation:\n\n```python\ndef moving_average(values, window):\n    if window <= 0:\n        raise ValueError(\"Window size must be positive.\")\n    \n    averages = []\n    # Iterate only until the last complete window can be formed\n    for i in range(len(values) - window + 1):\n        current_window = values[i : i + window]\n        averages.append(sum(current_window) / window)\n        \n    return averages\n\n# Example usage\ndata = [2, 4, 6, 8, 10]\nwin_size = 3\nresult = moving_average(data, win_size)\nprint(f\"Values: {data}, Window: {win_size} -> Result: {result}\")\n# Expected Result: [4.0, 6.0, 8.0]\n```\n\n### Explanation\n**Example Walkthrough:**\nFor `[2, 4, 6, 8, 10]` with a window of `3`:\n1. First window: `(2 + 4 + 6) / 3 = 4.0`\n2. Second window: `(4 + 6 + 8) / 3 = 6.0`\n3. Third window: `(6 + 8 + 10) / 3 = 8.0`\n\n**Time Complexity:**\nThe time complexity is **$O(n \\cdot w)$**, where $n$ is the number of values and $w$ is the window size. This is because the function iterates through the list approximately $n$ times, and for each iteration, it sums $w$ elements. \n\n*(Note: This could be optimized to $O(n)$ using a sliding window sum approach, but the slicing method is used here for clarity and simplicity.)*",
+        "reasoning": "",
+        "status": "ok",
+        "peak_server_rss_bytes": 33109311488
+      },
+      "observed_system_memory_delta_bytes": 34368208896,
+      "swap_increase_bytes": 0,
+      "peak_metal_bytes": 33608231586
+    },
+    "deepseek-v4-flash": {
+      "status": "complete",
+      "quantization": "Q4_K experts, mixed higher precision",
+      "revision": "f71f23d552d664e523b422157b2befbf74040380",
+      "backend": "dwarfstar",
+      "measured_repeats": 3,
+      "fastest_decode_tok_s": 63.83,
+      "median_decode_tok_s": 63.71,
+      "peak_process_rss_bytes": 192856064,
+      "prefill_tok_s": 692.64,
+      "transaction": {
+        "kind": "real_transaction",
+        "model_id": "deepseek-v4-flash",
+        "prompt": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words.",
+        "request": {
+          "model": "antirez/deepseek-v4-gguf",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Write a Python function moving_average(values, window) that returns the simple moving average for every complete window. Reject nonpositive window sizes. Include an example with values [2, 4, 6, 8, 10] and window 3, show the expected result, and explain the time complexity. Keep the whole answer under 350 words."
+            }
+          ],
+          "temperature": 0,
+          "max_tokens": 512,
+          "stream": true,
+          "stream_options": {
+            "include_usage": true
+          },
+          "thinking": {
+            "type": "disabled"
+          }
+        },
+        "server_ready_s": 1.0203141659994799,
+        "ttft_stream_s": 0.6710032920000231,
+        "first_visible_output_s": 0.6710032920000231,
+        "response_wall_s": 5.085758125000211,
+        "end_to_end_output_tok_s": 55.44896022753506,
+        "completion_tokens": 282,
+        "prompt_tokens": 78,
+        "usage": {
+          "prompt_tokens": 78,
+          "completion_tokens": 282,
+          "total_tokens": 360,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 78
+          }
+        },
+        "finish_reason": "stop",
+        "output": "```python\ndef moving_average(values, window):\n    if window <= 0:\n        raise ValueError(\"Window size must be positive\")\n    if len(values) < window:\n        return []\n    \n    result = []\n    window_sum = sum(values[:window])\n    result.append(window_sum / window)\n    \n    for i in range(window, len(values)):\n        window_sum += values[i] - values[i - window]\n        result.append(window_sum / window)\n    \n    return result\n\n# Example\nvalues = [2, 4, 6, 8, 10]\nwindow = 3\nprint(moving_average(values, window))  # Output: [4.0, 6.0, 8.0]\n```\n\n**Expected result explanation:**  \nFor window=3, the averages are:  \n- (2+4+6)/3 = 4.0  \n- (4+6+8)/3 = 6.0  \n- (6+8+10)/3 = 8.0  \n\n**Time complexity:** O(n), where n = len(values).  \nWe compute the first sum in O(window), then each subsequent average uses a constant-time update (add new, subtract old). No nested loops, so linear time overall. Space is O(n) for the output list (or O(1) extra if we ignore output).",
+        "reasoning": "",
+        "status": "ok",
+        "peak_server_rss_bytes": 93847552
+      },
+      "observed_system_memory_delta_bytes": 166093570048,
+      "swap_increase_bytes": 0,
+      "native_planned_memory_gib": 153.41
+    }
+  },
+  "active": null,
+  "slot": {
+    "directory": "~/.cache/gpu-slot",
+    "slot": "0",
+    "mode": "shared capture slot; not quiet-exclusive performance"
+  },
+  "preflight": {
+    "chip": "Apple M5 Ultra",
+    "available_memory_bytes": 243103268864,
+    "swap_used_bytes": 0,
+    "load_average": [
+      6.5908203125,
+      9.02294921875,
+      10.78076171875
+    ]
+  },
+  "model_lock_sha256": "a6e9edca4f32454f9030b4eb4d20d6fda362ac978591914fc552db066cb6f71d",
+  "finished_at_utc": "2026-10-01T17:55:08.009928+00:00",
+  "harness_commit": "a69a3a9",
+  "driver_sha256": "c284e55661a8f0cbc26dab5b23d2309b091b95ba31fce74e36ef1471a4442edb",
+  "memory_method": "Baseline system-available bytes minus minimum available bytes during each speed probe. Includes other system activity; process RSS retained separately. Native mapped model memory is not represented by RSS."
+}

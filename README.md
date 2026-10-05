@@ -1,137 +1,88 @@
-# Mac Studio Local Inference Tests Ashen
+# M5 Ultra local AI benchmarks — Ashen
 
-## Start here — preparation only
+An independent local-inference study on an **M5 Ultra, 80 GPU cores, 256 GB unified memory**, covering speed, long context, sustained generation, coding, repository repair, retrieval and serving load.
 
-**The owner is using the GPU for other work. Do not load any model or start inference.** Reading this README is a handoff to prepare files and tools only. Wait for the owner to explicitly say **“start the tests”** before GPU work. Follow [AGENTS.md](AGENTS.md).
+**Study closed October 4, 2026; published October 5.** All **194 final required groups** are accounted: **183 completed and 11 actually attempted but unscored**. One additional trial from the original195-group scope was explicitly omitted by the owner. Coverage is not a task-success rate; functional failures and all resource/request limits remain in the evidence.
 
-On the new Studio, after connecting to the internet, an agent can prepare the identical installation with:
+**[Read the full research report](docs/M5-RESEARCH-REPORT-20261004.md)** · **[Browse the raw results](results/)** · **[Methods and locked budgets](docs/UNIFIED-OVERNIGHT-PROTOCOL.md)** · **[Final scope and closeout](results/study-closeout-20261004/completion-audit.json)**
 
-```sh
-git clone --branch codex/setup-20260930 https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen.git
-cd Mac-Studio-Local-Inference-Tests-Ashen
-bash scripts/prepare.sh
-```
+## The study at a glance
 
-This installs the pinned runtime, downloads the three exact artifacts, verifies every file, writes a `work/READY.json` receipt, and **stops without loading models**. Apple's command-line developer tools must be installed; if macOS needs its one-time installer dialog, complete that and rerun. Model transfers from the old Studio can replace downloading; see [the arrival guide](docs/ARRIVAL.md).
+| Retained study coverage | Count |
+|---|---:|
+| Model configurations | 5 |
+| Cold-speed measurements, five repeats at8K/32K/128K/200K | 100 |
+| Sustained200K-input /2048-output runs | 15 |
+| Restricted chat-adapted HumanEval cases | 820 |
+| Measured serving requests across concurrency1/2/4 | 900 |
+| Recorded agent-replay requests served | 840 |
+| Structured-output cases | 120 |
+| Retrieval cases actually attempted | 45 |
 
-For this already-prepared Studio, return to this chat and say **“start the tests”** when the GPU is available. Results will be reviewed on **localhost before any website publication**. [Current preparation status](docs/SETUP-STATUS.md).
+The retained configurations are **Qwen3.8 27B8-bit MLX, Gemma4 31B8-bit MLX, DeepSeek V4 Flash mixedQ4, MiMo V2.6 Flash MXFP4, and Mistral Medium3.5 128B Q4_K_M**. Model sizes, quantization, runtimes and tokenizers differ. Historical Qwen3.6 and QwenQ4 results remain available separately; they are not pooled into the five-configuration totals above.
 
-An open, reproducible record of my personal local-AI tests: my existing Mac Studio versus my incoming 256 GB / 2 TB Mac Studio, followed by experiments using both machines together.
+## Long-context generation
 
-**Status: all three models downloaded and SHA256 verified on the existing M3 Ultra; preparation only, no inference running from this task. No controlled comparison results yet.** The existing machine was inspected directly on September 29, 2026. The owner has confirmed the incoming M5 Ultra order (36-core CPU, 80-core GPU, 32-core Neural Engine, 256 GB / 2 TB). Its physical device and OS will be inspected on arrival. This is an independent personal experiment with one machine of each configuration, not a claim about every Mac or every model.
+![Five retained configurations at200K input](viewer/assets/infographic-models.png)
 
-## What I want to find out
+Five-run medians of backend-reported generation speed, in tokens per second:
 
-1. How much faster is the new Studio on exactly the same model and settings?
-2. Which local models give the best useful answers per second, per watt, and per task?
-3. How do context length, quantization, thinking, and concurrency change the answer?
-4. Can both Studios run a model that is impractical on either alone? At what latency?
-5. Is one distributed big model more useful than two independent local agents?
-6. Finally: can these machines build a complete game in a controlled local-model loop, documented for YouTube?
+| Configuration |8K input|32K input|128K input|200K input|
+|---|---:|---:|---:|---:|
+|Qwen3.8 27B ·8-bit MLX|30.58|28.93|24.45|21.43|
+|Gemma4 31B ·8-bit MLX|25.85|24.17|19.15|15.25|
+|DeepSeek V4 Flash ·mixedQ4|55.35|51.82|41.57|37.61|
+|MiMo V2.6 Flash ·MXFP4|65.70|59.43|44.49|37.68|
+|Mistral Medium3.5 128B ·Q4_K_M|12.56|9.98|5.35|4.04|
 
-The results will be linked from **[Ashen Benchmark](https://ashenoneport.com/benchmark)**. The website entry starts as “planned”; charts and conclusions follow verified runs. The game-building video comes last.
+These are post-fill generation rates with256 output tokens, not time-to-first-token or task-success scores. The report includes input-processing time, all repetitions, observed ranges, native usage/cache counters, memory/swap and failures. Mistral's median200K input fill took about82 minutes; completing that speed test does not establish successful200K requests under the900-second useful-work budget.
 
-## The machines
+## Published Mac and GPU comparisons
 
-| Field | Existing Studio: directly observed | Incoming Studio: owner-confirmed order |
-|---|---|---|
-| Chip | Apple M3 Ultra | Apple M5 Ultra; device inspection pending |
-| CPU | 32 cores: 24 performance + 8 efficiency | 36 cores |
-| GPU | 80 cores | 80 cores |
-| Unified memory | 256 GB; `hw.memsize` = 274,877,906,944 bytes | 256 GB, owner-confirmed |
-| SSD | 2.0 TB; 2,001,111,162,880 bytes | 2 TB, owner-confirmed |
-| Model identifier | Mac15,14 | Pending |
-| OS at inventory | macOS 27.0, build 26A428 | Pending; match OS/build for controlled tests where supported |
-| Memory bandwidth | 819 GB/s, Apple specification | 1.2 TB/s, current Apple top-chip specification; pending machine confirmation |
-| Interconnect | Thunderbolt 5 and 10Gb Ethernet per Apple specification | Thunderbolt 5 and 10Gb Ethernet per current Apple specification; pending inspection |
+![Qwen200K M5 versus published M3 configuration](viewer/assets/infographic-200k.png)
 
-**The 80-core number is the GPU, not the CPU. Both machines have 256 GB memory.** More RAM is therefore not the proposed upgrade's advantage; chip architecture, memory bandwidth, supported kernels and practical workload performance are what we need to measure. GPU core counts alone cannot predict speed.
+At200K input, our five-run Qwen8-bit median was21.4262tok/s versus the published M3 60-GPU configuration's13.8tok/s: a **55.3% reported rate difference**. At131072 input,24.4479 versus the published M3 80-GPU configuration's17.2tok/s gives **42.1%**. Software and corpus differ. **These comparisons do not isolate a chip-only speedup, and there is no matched M3 inference cohort in this study.**
 
-The incoming configuration is now explicitly confirmed by the owner and matches [Apple's current specifications](https://www.apple.com/mac-studio/specs/). Direct inventory of the delivered unit remains pending. “Top-chip, 256 GB / 2 TB” is more precise than “fully maxed out”: Apple's current specifications also list larger memory and storage configurations. Historical M3 figures come from [Apple's 2025 specifications](https://support.apple.com/en-us/122211).
+The [source review](research/showcase-source-review-20261004.json) records the primary references. The [market comparison](viewer/assets/infographic-market.png) includes optimized M3, DGX Spark and RTX5090 reports with their different prompts, precisions, acceleration and timing boundaries. It assigns no matched hardware-winner claim.
 
-A theoretical bandwidth ratio is not a tokens-per-second prediction. We will publish measured ratios only after matched runs.
+## Useful work and limits
 
-## Three comparisons, kept separate
+| Configuration |HumanEval passed /164|8-turn repair|20-turn repair|
+|---|---:|---|---|
+|Qwen3.8|158|4/5 completed trials|3/3 completed trials|
+|Gemma4|159|5/5 completed trials|3/3 completed trials|
+|DeepSeek V4 Flash|148|5/5 completed trials|3/3 completed trials|
+|MiMo V2.6 Flash|154|1/5 completed trials|2 resource-limited attempts;1 owner omission|
+|Mistral Medium3.5|151|5 request-budget-limited attempts|3 request-budget-limited attempts|
 
-| Track | What stays fixed | What it tells us |
-|---|---|---|
-| Hardware parity | Exact weights, tokenizer, quantization, runtime revision, prompts and sampling | Speed difference attributable to the machine under that software stack |
-| Best practical setup | Published optimization budget and quality floor; each machine may use its best supported setup | What an owner can actually get from each computer |
-| Quality frontier | Explicit model, quantization, thinking, time and context budgets | Which configuration solves the most tasks within a useful latency budget |
+HumanEval is a restricted chat adaptation with one greedy sample per problem and CPU-qualified sandbox evaluation, not an official leaderboard submission. Unscored limits and unrun omissions are not zero accuracy scores. The report also preserves all nine Mistral retrieval timeouts, both actual MiMo Metal allocation failures, the slow DeepSeek sustained repetition and replay warnings. Served replay requests are not tasks solved.
 
-Faster hardware does not inherently make the same weights more intelligent. It may allow more attempts or more reasoning in a fixed time. Equal-token quality and equal-time usefulness are separate results.
+## Evidence and reproducibility
 
-## Benchmark coverage
+- [Final report and interpretation](docs/M5-RESEARCH-REPORT-20261004.md)
+- [Frozen source summaries and report receipt](results/research-report-20261004/)
+- [Baseline aggregate and per-run links](results/unified-overnight-20261002/README.md)
+- [Separate Mistral results and coverage](results/mistral-extension-20261003/README.md)
+- [Full Mistral completion audit](results/mistral-campaign-completion-20261004/)
+- [Locked baseline model configurations](config/unified-models.lock.json) and [Mistral lock](config/mistral-models.lock.json)
+- [Protocol, request/job budgets and guards](docs/UNIFIED-OVERNIGHT-PROTOCOL.md)
+- [Owner-approved final scope](docs/OWNER-FINAL-MIMO-OMISSION-20261004.md) and [owned inference-exit proof](hardware/owned-inference-exit-closeout-20261004.json)
+- [Visualization sources, image prompts and validation](docs/VISUAL-SHOWCASE-20261004.md)
 
-| Suite | Workloads | Primary outputs |
-|---|---|---|
-| Single request | Short chat, code, long documents; fresh and reused prefixes | Time to first token, prompt tok/s, decode tok/s, total latency |
-| Load and concurrency | 1, 2, 4, 8 requests; closed-loop and fixed arrival-rate runs | Per-user latency, aggregate tok/s, requests/minute, errors |
-| Context and memory | 512, 2K, 8K, 32K, 64K, 128K input tokens where supported | Usable context, resident memory, swap delta, latency and retrieval accuracy |
-| Quantization | 4-bit, supported 6-bit, 8-bit; BF16 reference for fitting smaller models | Speed/memory/quality trade-off, exact artifact sizes |
-| Quality | Coding, reasoning, instruction following, tool calls, long-context retrieval | Exact task scores, success rate, confidence intervals, correct tasks/hour |
-| Sustained work | 30-minute screening; two-hour finalist runs; optional eight-hour run | Drift, throttling, crashes, memory growth, energy/task |
-| Two-machine cluster | Independent servers, pipeline sharding, supported tensor sharding | Latency, throughput, capacity, network cost, reliability |
-| Final game loop | Same frozen brief and checks; equal-time and equal-token lanes | Time to playable build, accepted features, failures, owner review |
+Weights, credentials, private machine adapters and runtime environments are excluded from Git. Model references, revisions, hashes, sanitized records and intentional result releases are versioned. Project-owned code and documentation are MIT licensed; model artifacts, datasets and third-party marks retain their own licenses.
 
-For every suite, failures, unsupported configurations, timeouts and out-of-memory outcomes are published. No cherry-picked best runs.
+## View the visual research
 
-## Selected arrival-day models
+The integrated portfolio pages are in [Ashen-Port-Site](https://github.com/oh-ashen-one/Ashen-Port-Site), with the benchmark library at `/benchmark` and the full study at `/benchmark/mac-studio`. The approved website code is merged into its main branch; the owner handles redeployment.
 
-The initial three are **Qwen 3.8 27B (8-bit MLX), Gemma 4 31B IT (8-bit MLX), and DeepSeek V4 Flash 0731 (calibrated mixed Q4, DwarfStar/Metal)**. They are standard checkpoints/conversions, not abliterated variants. Mistral and the initially considered R1 distill are excluded.
-
-The exact files total about 228 GB. Immutable revisions and SHA256 hashes live in [the model lock](config/models.lock.json); downloaded weights remain outside Git. Hugging Face popularity was checked live, but downloads/likes are not intelligence scores. Each model is run one at a time and compared against the identical model/engine on the other Mac.
-
-**[Arrival-day setup and test commands](docs/ARRIVAL.md)** explain the selection, pinned software, transfer/SSH preparation, resource gates, and the implemented first campaign. Larger models and distributed capacity tests remain later stages in [the broader model plan](docs/MODELS.md).
-
-## Runtime strategy
-
-The implemented arrival cohort uses **MLX / MLX-LM** for Qwen/Gemma and **DwarfStar / Metal** for DeepSeek V4 Flash. **llama.cpp / Metal** remains a planned independent baseline. Match model and settings *within* each backend first. MLX 4-bit and GGUF Q4 variants are not numerically identical formats; do not attribute their difference to hardware alone.
-
-LM Studio and Ollama can be added as user-experience tracks after the underlying engines are measured; record the actual bundled backend and loaded model. Test speculative decoding, prompt caching, quantized KV cache, batching and new-chip-specific acceleration as separate ablations. Keep these off in the basic comparison where possible. New hardware features count only when the selected runtime actually uses them.
-
-For clustering, start with **MLX distributed / JACCL over a direct Thunderbolt 5 link**, then evaluate **EXO** as an orchestration layer. Validate mixed M3/M5 support before downloading giant models. See [the cluster plan](docs/CLUSTER.md).
-
-## Execution order
-
-1. **Inventory and freeze:** inspect both machines, lock software/model revisions and prompt IDs, reserve quiet test windows and disk budgets.
-2. **Pilot:** run one small and one 27–32B model on both machines; validate token counts, clocks, outputs and telemetry.
-3. **Core speed:** complete the small fixed matrix, then expand only the dimensions needed to explain observed differences.
-4. **Quality and capacity:** test the shortlist with full declared task sets, quantization comparisons and longer contexts.
-5. **Sustained and concurrent work:** measure finalists under realistic service load and long runs.
-6. **Cluster:** establish network baselines, prove a small distributed model, then attempt large models.
-7. **Publish:** produce reproducible raw records, plots and an Ashen Benchmark summary.
-8. **YouTube/game finale:** use the proven models and frozen loop protocol; preserve the full run before editing the story.
-
-Planning allowance after both machines are ready: roughly 1 day of setup/pilots, 2–4 days of core and quality work, 1–3 days of cluster/reliability work, then reporting. This is an estimate, not a promised runtime: pilot measurements determine a logged run budget. A deliberately bounded release is more reproducible than an endlessly expanding matrix.
-
-## Detailed plans and current artifacts
-
-- [Measurement protocol and publication rules](docs/PROTOCOL.md)
-- [Two-Mac clustering and memory fit](docs/CLUSTER.md)
-- [Model selection and provenance](docs/MODELS.md)
-- [Website and final YouTube/game phase](docs/PUBLISHING.md)
-- [Sanitized existing-machine inventory](hardware/existing-studio.json)
-- [Incoming-machine placeholder](hardware/incoming-studio.json)
-- [Result record template](results/run-template.json)
-- [Reproducible, allowlisted hardware collector](scripts/collect_inventory.py)
-
-The arrival preparation implements pinned downloads, an inventory collector, smoke checks, fixed-token speed runners, a matched-results comparer and local diagnostic tools. Standardized quality suites, concurrency/power/cluster automation and website charts remain later work. See [ARRIVAL.md](docs/ARRIVAL.md) and [the setup status](docs/SETUP-STATUS.md) for exactly what has been validated. Setup smoke checks are not controlled benchmark results.
-
-To collect a privacy-conscious inventory without running a benchmark:
+To inspect the saved standalone results locally, use the prepared environment:
 
 ```sh
-python3 scripts/collect_inventory.py --machine-id studio-new > hardware/incoming-studio.json
+.venv/bin/python scripts/preview.py --port18765
 ```
 
-Review the JSON before committing. The collector excludes serial numbers, UUIDs, hostnames, account names and network addresses. It does not install software, start engines or download models.
+Open `http://127.0.0.1:18765/` on that machine. This read-only viewer cannot start inference. See [dashboard and private-preview instructions](docs/DASHBOARD.md). The [earlier README and preparation plan](docs/archive/README-BEFORE-RESULTS-PUBLICATION-20261005.md) are retained as history.
 
-## Open-source and contribution policy
-
-Project-owned code and documentation are **MIT licensed**. Model weights and benchmark datasets keep their original licenses; open weights do not automatically mean unrestricted open source. We distribute model references and hashes, not weights or private datasets.
-
-Please include machine specs, exact revisions, full settings, raw measurements and all failure records when contributing. Community submissions are separate from the two-machine personal comparison. Work on a branch, push it, and open a PR. Merging into `main` requires the owner's approval. The published preparation branch is `codex/setup-20260930`. No merge into `main` is required to read or use this kit; future work must use its own branch.
-
-Before publishing, remove credentials, personal filesystem paths, IP addresses, private prompts, serial numbers and UUIDs. Keep needed sanitized evidence in Git or a named release; discard task-owned temporary captures/builds after verification and publication. Never remove shared model caches or another session's work.
+**Automatic inference remains stopped after two actual GPU safety events.** Reading or cloning this published record does not authorize model loading, qualification, retries or further tests. Follow [AGENTS.md](AGENTS.md) and the current [handoff](HANDOFF.md).
 
 By [Ashen](https://x.com/ashen_one).
