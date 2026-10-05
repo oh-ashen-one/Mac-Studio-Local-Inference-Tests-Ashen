@@ -93,7 +93,26 @@ def asset_file(request_path):
     return path
 
 
-def handler_for(comparison):
+SITE_TYPES={**ASSET_TYPES,'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8',
+            '.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.gif':'image/gif',
+            '.ico':'image/x-icon','.mp4':'video/mp4','.webm':'video/webm',
+            '.woff':'font/woff','.woff2':'font/woff2'}
+
+
+def site_file(request_path,site_preview):
+    """Optional portfolio build preview, confined to its published static directory."""
+    if site_preview is None or not request_path.startswith('/portfolio/'):return None
+    relative=Path(unquote(request_path[len('/portfolio/'):]))
+    if relative.is_absolute() or any(part.startswith('.') for part in relative.parts):return None
+    base=site_preview.resolve()
+    path=(base/relative).resolve()
+    if not path.is_relative_to(base):return None
+    if not path.is_file() and not path.suffix:path=base/'index.html'
+    if path.suffix not in SITE_TYPES or not path.is_file():return None
+    return path
+
+
+def handler_for(comparison,site_preview=None):
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
             self.path=urlsplit(self.path).path
@@ -105,6 +124,10 @@ def handler_for(comparison):
                 asset=asset_file(self.path)
                 if asset is None:self.send_error(404);return
                 body=asset.read_bytes();mime=ASSET_TYPES[asset.suffix]
+            elif self.path.startswith('/portfolio/'):
+                asset=site_file(self.path,site_preview)
+                if asset is None:self.send_error(404);return
+                body=asset.read_bytes();mime=SITE_TYPES[asset.suffix]
             else:self.send_error(404);return
             if self.path=='/':print(json.dumps({'event':'page_open','user_agent':self.headers.get('User-Agent','')}),flush=True)
             self.send_response(200);self.send_header('Content-Type',mime)
@@ -116,8 +139,9 @@ def handler_for(comparison):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--port',type=int,default=18765)
-    p.add_argument('--comparison',type=Path,default=ROOT/'work/comparison.json');a=p.parse_args()
-    server=ThreadingHTTPServer(('127.0.0.1',a.port),handler_for(a.comparison))
+    p.add_argument('--comparison',type=Path,default=ROOT/'work/comparison.json')
+    p.add_argument('--site-preview',type=Path,help='Optional built portfolio public directory');a=p.parse_args()
+    server=ThreadingHTTPServer(('127.0.0.1',a.port),handler_for(a.comparison,a.site_preview))
     print(f'Local saved-results preview: http://127.0.0.1:{a.port} — no inference',flush=True)
     try:server.serve_forever()
     except KeyboardInterrupt:pass

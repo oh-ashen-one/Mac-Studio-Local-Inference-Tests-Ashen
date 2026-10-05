@@ -23,3 +23,9 @@ The controller now exposes the existing read-only preview on TCP port18765 throu
 The Studio-side endpoint and closed-study API were verified. The laptop showed offline at setup, so end-to-end laptop access requires its Tailscale connection and has not yet been observed from the laptop. The route now forwards to the controller’s own read-only showcase service on loopback18765; `work/visual-showcase-preview.pid` identifies it. The previous owned SSH forward was retired; the M5 service is preserved. This access change does not restart the M5 preview, run inference or resume the paused benchmark follow-up.
 
 To remove only this task's private preview route when requested: `tailscale serve --tcp=18765 off`. Do not use a global Serve reset, which would remove other owners' routes.
+
+## Integrated portfolio preview
+
+The existing read-only preview can also serve a separately built public portfolio directory under /portfolio/ using --site-preview. This option is disabled by default, confines file access to that static directory, rejects traversal/hidden paths/escaping symlinks and supports client routes through index.html. It imports no inference runtime. The current task-owned copied build includes /portfolio/benchmark (the M5 card beside model cards) and /portfolio/benchmark/mac-studio (the full study). The private laptop route stays on the same18765 endpoint; no new public exposure or network settings are needed.
+
+The source integration is in [Ashen-Port-Site PR3](https://github.com/oh-ashen-one/Ashen-Port-Site/pull/3). No main merge or production deployment has happened. [Validation](../research/portfolio-integration-validation-20261004.json) and screenshots in outputs/ record the actual preview.

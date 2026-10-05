@@ -59,6 +59,21 @@ def test_full_research_page_preserves_retained_workload_counts():
     assert all(m['completed_jobs']==30 and m['omitted_jobs']==9 for m in d['historical_models'])
 
 
+def test_optional_portfolio_build_preview_stays_inside_public_directory(tmp_path):
+    public=tmp_path/'public';public.mkdir()
+    (public/'index.html').write_text('study')
+    (public/'chart.js').write_text('public chart')
+    private=tmp_path/'private.json';private.write_text('private')
+    (public/'escape.json').symlink_to(private)
+    assert preview.site_file('/portfolio/benchmark/mac-studio',public)==public/'index.html'
+    assert preview.site_file('/portfolio/chart.js',public)==public/'chart.js'
+    assert preview.site_file('/portfolio/benchmark',None) is None
+    for path in ['/portfolio/../private.json','/portfolio/%2e%2e/private.json',
+                 '/portfolio/%2Fetc/passwd','/portfolio/.env','/portfolio/escape.json',
+                 '/portfolio/missing.js','/private.json']:
+        assert preview.site_file(path,public) is None
+
+
 def test_full_research_quality_limits_are_not_zero_accuracy_scores():
     d=build_visual_showcase.build_data();rows={q['id']:q for q in d['quality_results']}
     m=rows['mistral-medium35-q4']
