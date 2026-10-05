@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+import {unlink} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const file=new URL('../.timing-test.mjs',import.meta.url);
+await build({entryPoints:[fileURLToPath(new URL('../HeroComparison.tsx',import.meta.url))],bundle:true,platform:'node',format:'esm',external:['react','remotion'],outfile:fileURLToPath(file)});
+const {progressAtFrame}=await import(file.href);
+await unlink(file);
+test('every row starts at zero and finishes exactly at its measured rate',()=>{for(let row=0;row<5;row++){assert.equal(progressAtFrame(-100,row),0);assert.equal(progressAtFrame(119,row),1);assert.equal(progressAtFrame(1000,row),1);}});
+test('animation never overshoots or moves backwards',()=>{for(let row=0;row<5;row++){let previous=0;for(let frame=0;frame<120;frame++){const p=progressAtFrame(frame,row);assert.ok(p>=0&&p<=1&&p>=previous);previous=p;}}});
+test('reduced motion displays final source values immediately',()=>{for(let row=0;row<5;row++)for(const frame of [0,30,119])assert.equal(progressAtFrame(frame,row,true),1);});

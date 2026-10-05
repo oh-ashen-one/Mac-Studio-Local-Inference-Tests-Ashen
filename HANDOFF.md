@@ -2,6 +2,14 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Interactive Remotion hero graph — October 4, 2026
+
+Owner requested an actual comparison graph in the hero and suggested Remotion. The hero now uses a pinned Remotion4.0.532 browser Player: bars and rate labels animate from zero, stay at the exact saved final values and replay on demand. Controls switch between M5/M3, GPU-field snapshots and all five retained configurations. Qwen8-bit Mac comparisons toggle200K (+55.3%) and131072 input (+42.1%); published M3 software/corpus differences remain explicit. The market mode assigns no matched speedup percentage across differing workloads/precision/acceleration/timers. Company/model marks stay beside each bar. All eight existing full-page sections remain.
+
+The Player uses frame-driven animation, a compact phone composition, a common zero scale, no overshoot and final-value rendering for reduced-motion preference.79 controller Python checks and3 animation timing checks pass. Actual browser verification observed replay at frame11, final frame119/source-exact rates, all three modes, Mac context controls,1280px and389px layouts without horizontal overflow; phone graph text stays inside its SVG. Browser screenshot capture is unavailable. Validation: research/remotion-hero-validation-20261004.json. Browser checks run on the Studio; no independent physical-laptop visibility claim.
+
+Only the verified owned controller read-only preview was restarted for the new JavaScript asset route: old31950 exited, current91555 from work/visual-showcase-preview.pid. Loopback and existing private laptop route serve byte-identical bundle/assets. M5 remains protected/unchanged; no inference or offline video render, no main merge or personal-site deployment. Benchmark remains CLOSED, follow-up PAUSED and two-event inference stop intact. Build source/locked dependencies: viewer/remotion; checked-in bundle: viewer/assets/hero-remotion.js.
+
 ## Full visual research landing restored — October 4, 2026
 
 Owner clarified that a few pictures were insufficient and requested a proper landing page covering the extensive study. The page now has a performance-led hero and full visual sections for Mac comparisons, market/acceleration, retained models/context curves, historical Qwen profiles, sustained ranges, coding/repair/recall/JSON, serving throughput/latency and recorded replay. Company/model logos remain adjacent. All consumer download/save/pack controls and the redundant image-pack ZIP are removed. Raw details remain linked on GitHub.

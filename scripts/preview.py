@@ -80,7 +80,7 @@ def state(comparison):
             'models':models,'live':json.loads((ROOT/'work/live-results.json').read_text()) if (ROOT/'work/live-results.json').exists() else None,'comparison':json.loads(comparison.read_text()) if comparison.exists() else None}
 
 
-ASSET_TYPES={'.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf',
+ASSET_TYPES={'.js':'text/javascript; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf',
              '.json':'application/json','.zip':'application/zip','.txt':'text/plain; charset=utf-8'}
 
 
