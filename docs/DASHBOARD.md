@@ -18,3 +18,13 @@ A published-run gap is a **configuration comparison**, not an isolated hardware 
 The owner's own M3/M5 percentage remains pending until matched runs exist. Historical Gemma April results retain their date and older runtime. For absent/different context lengths, the UI names the missing context and shows the raw tok/s gap without a hardware percentage. DeepSeek explicitly shows 38.20 vs 36.01 tok/s, a 2.19 tok/s reported gap, with the reference context marked unknown. Raw prompts and methodology are collapsed. Original sources are accessible by selecting a graph row.
 
 Assets are local HTML/CSS/JavaScript with SVG charts; no external font, chart service or analytics dependency. Model files, caches and private paths are not served. Narrow layouts keep the wide comparison graph in its own horizontal scroll area.
+
+## Viewing from the laptop
+
+The benchmark preview runs on the Studios. `localhost` in a laptop browser refers to the laptop itself, so the Studio loopback URL does not provide cross-machine access.
+
+The controller now exposes the existing read-only preview on TCP port18765 through **Tailscale Serve, privately within the existing tailnet**. Connect Tailscale on the laptop, then open `http://<Studio-Tailscale-IP>:18765/`; discover the current Studio address with `tailscale status`. No public Funnel or website deployment is enabled. Existing Tailscale Serve ports are preserved. The private address and exact previous Serve configuration are retained only in ignored task-local `work/` receipts.
+
+The Studio-side endpoint and closed-study API were verified. The laptop showed offline at setup, so end-to-end laptop access requires its Tailscale connection and has not yet been observed from the laptop. The service forwards to the existing controller loopback SSH connection; `work/preview-forward.pid` identifies that owned forward. This access change does not restart the M5 preview, run inference or resume the paused benchmark follow-up.
+
+To remove only this task's private preview route when requested: `tailscale serve --tcp=18765 off`. Do not use a global Serve reset, which would remove other owners' routes.

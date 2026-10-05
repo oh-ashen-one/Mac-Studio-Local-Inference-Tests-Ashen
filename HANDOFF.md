@@ -2,6 +2,12 @@
 
 Updated 2026-10-04. Controller: verified original M3 Studio after owner-reported crash/reboot. Branch: `codex/long-context-dashboard-20261001`. Public repository: `oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen`. Review: [draft PR #3](https://github.com/oh-ashen-one/Mac-Studio-Local-Inference-Tests-Ashen/pull/3), based on the initial M5-test branch. No merge or personal-site deployment authorized/performed.
 
+## Laptop preview access — October 4, 2026, 20:15 EDT
+
+The owner is viewing from their laptop and reported that localhost would not open. The executor/browser tools run on the M3 controller; earlier browser verification did not establish laptop visibility. Actual Tailscale status showed the Studio online and the known laptop offline. Added ONLY the private Tailscale Serve TCP18765 route to the existing controller loopback preview, preserving existing8793/8895 routes and saving exact previous Serve config in ignored work/. Public Funnel is not enabled. The private endpoint returns the completed-study API from the Studio; the laptop must connect Tailscale before accessing it. No end-to-end laptop claim until user confirmation or direct laptop evidence. See docs/DASHBOARD.md.
+
+The benchmark remains CLOSED and the follow-up PAUSED. No inference, preview restart, report/data change, account/ACL change or personal-site deployment occurred. M5 preview74829 and controller forward54772 remain the existing chain; read their current PID receipts. Private endpoint/receipt details are machine-local and excluded from publication.
+
 ## FINAL owner-approved scope closed — October 4, 2026
 
 The owner explicitly instructed: “That's the last one. Fuck it, just leave it. Let's finish up”. This omits ONLY original `u20261002-mimo-repo20-r3`, seed1003, and authorizes reduced-scope closeout. It was never started and has no score; do not classify it as a resource failure or successful attempt. Exact prior plan/report/source-summary/aggregate bytes are archived. All IDs/order/measurement parameters, raw ledgers/results and the two actual GPU safety events are preserved.
